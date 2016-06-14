@@ -1,7 +1,7 @@
 # TryTLS
 
 ## Why?
-* Many popular libraries have broken certificate checks -> large vulnerability
+* Potentially overlooked issue: many popular libraries may have broken certificate checks -> large vulnerability
 
 ## Who?
 * Mauri Miettinen
@@ -12,7 +12,7 @@
 * People who write checks and want to contribute
 
 ## What
-* Check the language behaviour of a library
+* Check the language behaviour of a software library - does it properly check the certificates?
 
 ## How
 * Open public project created with scalability in mind, with ease of access provided by per-case documentation
