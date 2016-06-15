@@ -12,6 +12,6 @@ To run for example the https localhost servers:
 
 You can test that the set up is correct for example with some of the following tests
 
-curl https://localhost:100     -> ok(valid cert) - connected
-curl https://localhost:101     -> hostname doesn't match target host name 'local host'
-curl https://localhost:101 -k  -> fail(hostname): hostname did not match target host name - connected, ignores the problems == doesn't check
+  *curl https://localhost:100     -> ok(valid cert) - connected
+  *curl https://localhost:101     -> hostname doesn't match target host name 'local host' 
+  *curl https://localhost:101 -k  -> fail(hostname): hostname did not match target host name - connected, ignores the problems == doesn't check
