@@ -1,0 +1,12 @@
+version: '2'
+services:
+  ok:
+    build: ok
+    container_name: https_localhost_ok
+    ports: 
+    - 100:100
+  hostname:
+    build: hostname
+    container_name: https_localhost_hostname
+    ports:
+    - 101:101
