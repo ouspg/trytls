@@ -1,3 +1,7 @@
+HOX!
+
+for now you will have to create 'manually' your own keys and certs, that will be changed in the future 
+
 # Get started
 To run for example the https localhost servers:
   * go to the folder ssltest/https/localhost/
