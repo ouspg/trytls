@@ -7,7 +7,7 @@ To run for example the https localhost servers:
 
 INFO:
   *port: 100: valid cert
-  *port: 101: wrond hostname
+  *port: 101: wrong hostname
 
 
 #you can test that the set up is correct for example with some of the following tests
