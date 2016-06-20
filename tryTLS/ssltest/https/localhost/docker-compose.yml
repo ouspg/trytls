@@ -1,8 +1,0 @@
-version: '2'
-services:
-  cert:
-    build: cert
-    container_name: http_localhost_cert
-    ports: 
-    - "100-101:100-101"
-  

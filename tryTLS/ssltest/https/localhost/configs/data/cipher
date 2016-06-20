@@ -1,0 +1,43 @@
+------------------------------------------------------------------
+CREATE SERVERS
+------------------------------------------------------------------
+
+........................................................
+CHANGE CIPHER
+........................................................
+
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+SET PROTOCOLS AND CERTS
+------------------------------
+set_crt & ok
+ssl_protocols & SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+
+server & all_complementofall
+ssl_ciphers & ALL:COMPLEMENTOFALL;
+msg & supports at ssl in at least some level
+push & no_change
+
+server & high
+ssl_ciphers & HIGH;
+msg & supports high(>128 bit) 'secure' ciphers  
+push & no_change
+
+server & medium
+ssl_ciphers & MEDIUM;
+msg & supports medium(~128 bit) 'secure' ciphers
+push & no_change
+
+server & insecure
+ssl_ciphers & aNULL:eNULL:MD5;
+msg & supports 'insecure' ciphers
+push & no_change
+
+
+
+
+------------------------------------------------------------------
+
+TODO: different ciphers, there are a lot of them ...
+

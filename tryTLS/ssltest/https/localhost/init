@@ -1,0 +1,59 @@
+#!/bin/bash
+
+#argumentteina service namet, eli esim. cert
+#yhdessä servicessä voi olla monta serveriä
+
+if [ "$#" -lt 2 ]; then
+	#do nothing
+	echo "wrong number of arguments (" "$#" "given), at least 2 needed"
+	echo "port = port of the first server, service = name of the service in the data/ directory"
+	echo "..."
+	echo "correct would be: init port service1 service2 ... serviceN"	
+	echo "..."	
+	exit 1
+fi
+
+exit_safe()
+{
+	#rm tmp -R
+	exit $1
+}
+
+begin_init()
+{
+	rm tmp -R >> /dev/null 2>&1
+	port=$1
+	mkdir -p tmp/certs >> /dev/null 2>&1
+
+	sudo touch tmp/port
+	sudo openssl genrsa -out tmp/server.key 2048
+}
+
+begin_init 100
+
+port=$1
+
+shift
+
+while [ $# -gt 0 ]; do
+
+	service=$1
+
+	#delete old files
+
+	rm $service -R >> /dev/null 2>&1
+
+	#create new files
+	
+	sudo bash configs/create "$service" "$port" || exit_safe $?
+
+	port=`sudo cat tmp/port`
+
+	shift	
+
+done
+
+exit_safe 0
+	
+#TODO: exits, etc..
+

@@ -1,0 +1,26 @@
+------------------------------------------------------------------
+what: CREATE CERTIFICATES TO BE USED
+------------------------------------------------------------------
+........................................................
+how: CREATE DIFFERENT CERTIFICATES BASED ON DIFFERENT PARAMETER VALUES
+........................................................
+
+
+
+#create normal working cert
+cn & localhost
+days & 365
+create_crt & ok
+
+#create cert which has wrong common name and no intermidiate certs
+cn & wrongname
+create_crt & wrong_cn
+
+#create cert which has smaller validation ending day than starting day
+cn & small_ending_day
+days & -365
+create_crt & small_ending_day
+
+------------------------------------------------------------------
+
+TODO: more different certs and maybe a little bit different way of creating them

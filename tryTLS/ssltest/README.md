@@ -1,21 +1,13 @@
-HOX!
-
-for now you will have to create 'manually' your own keys and certs, that will be changed in the future 
-
 # Get started
 To run for example the https localhost servers:
   * go to the folder ssltest/https/localhost/
-  * build the docker-compose: docker-compose build
-  * run it: docker-compose run
-
-# Ports
-  * port: 100: valid cert
-  * port: 101: wrong hostname
+  * run init script with correct parameters and set up the servers using docker-compose.yml file
+  * read the readMe(ssltest/https/localhost) for more details
 
 # Test your setup
 
 You can test that the set up is correct for example with some of the following tests
 
-  *curl https://localhost:100     -> ok(valid cert) - connected
-  *curl https://localhost:101     -> hostname doesn't match target host name 'local host' 
-  *curl https://localhost:101 -k  -> fail(hostname): hostname did not match target host name - connected, ignores the problems == doesn't check
+  *curl https://localhost:100
+  *curl https://localhost:101
+  *curl https://localhost:101 -k
