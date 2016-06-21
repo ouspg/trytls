@@ -30,22 +30,3 @@ or
 
 or any other way you want to do
 
-#DO NOT DO THE FOLLOWING IF YOU HAVEN'T CREATED THE CERTS YOU ARE ABOUT TO USE UNLESS YOU KNOW WHAT YOUR DOING
--if you no not share your private key, you should be safe to do the following
--but if you want to be more sure: please do not connect to any of the networks when testing and remove the certs after testing
--or dockerize the code you are about to run and do 'the same'(or similar) only in the container 
-
-
-i.e at your own risk ... but should be safe(-ish)
-
-#move certificates into this folder to make the certificates accepted:
-/etc/ssl/certs
-
-#you can copy those certificates into the /etc/ssl/certs folder by using for example this command:
-cp localhost/certs/. /etc/ssl/certs/ -R
-
-#you can find those sertificates using for example this command:
-find /etc/ssl/certs/ -type f -name trytls_\*
-
-#you can delete those sertificates using for example this command
-find /etc/ssl/certs/ -type f -name trytls_\* -exec rm {} \;
