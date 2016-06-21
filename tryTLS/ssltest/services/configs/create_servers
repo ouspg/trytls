@@ -35,7 +35,9 @@ while read -r inst value; do
 				openssl req -new -key tmp/server.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
 				#create certificate
 				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/server.key -out tmp/certs/trytls_$crt.crt
-				#while true; do sleep 2; done
+				
+				chmod 755 tmp/certs/trytls_$crt.crt
+				
 				;;
 			"ssl_protocols")
 				#set $proto
@@ -68,7 +70,7 @@ while read -r inst value; do
 				
 				echo $msg > $service/server/$server/index.html
 
-				echo "$port & $msg" >> tmp/messages
+				echo "$port & $msg & $crt.crt & $hostname" >> tmp/messages
 
 				#cp CERT AND KEY
 

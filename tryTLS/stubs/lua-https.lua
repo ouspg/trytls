@@ -9,7 +9,7 @@ function DoThings()
       sink = ltn12.sink.table({}),
       protocol = "tlsv1",
       mode = "client",
-      cafile = "/etc/ssl/certs/Sonera_Class_1_Root_CA.pem",
+      cafile = "/etc/ssl/certs/",
       verify = "peer",
       options = "all"
     }
