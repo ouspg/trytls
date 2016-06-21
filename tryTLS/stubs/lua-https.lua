@@ -7,7 +7,7 @@ function DoThings()
   else
     local r, c, h, s = https.request{
       url = tostring(arg[1]),
-      sink = ltn12.sink.table({}}),
+      sink = ltn12.sink.table({}),
       protocol = "tlsv1"
     }
     print(r,c,h,s)
