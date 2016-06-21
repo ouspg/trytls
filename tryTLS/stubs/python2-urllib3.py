@@ -42,6 +42,6 @@ for t in test:
     try:
         r = http.request('GET', "https://%s.badssl.com" % t)
     except Exception as e:
-        print "%s failed" % t, e
+        print ("%s failed, %s" % (t, e))
     else:
-        print "%s pass" % t
+        print ("%s pass" % t)
