@@ -53,7 +53,15 @@ while [ $# -gt 0 ]; do
 
 done
 
+#write all certs into tmp/certs/certs.info
+
+for f in tmp/certs/*; do
+	echo ${f##*/} >> tmp/certs/certs.info
+done
+
+
+
+
 exit_safe 0
 	
 #TODO: exits, etc..
-
