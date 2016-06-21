@@ -1,6 +1,5 @@
 from __future__ import print_function
 
-import sys
 import subprocess
 
 
@@ -45,9 +44,24 @@ def run(args, tests):
 
 
 def main():
+    import argparse
     from .testenv import badssl
 
-    run(sys.argv[1:], [
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "command",
+        metavar="COMMAND",
+        help="the command to run"
+    )
+    parser.add_argument(
+        "args",
+        metavar="ARG",
+        nargs="*",
+        help="additional argument for the command"
+    )
+    args = parser.parse_args()
+
+    run([args.command] + args.args, [
         badssl(True, "sha1-2016"),
         badssl(False, "expired")
     ])
