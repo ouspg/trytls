@@ -3,7 +3,8 @@
 service=$1
 port=$2
 first_port=$port
-filepath=$3
+hostname=$3
+filepath=$4
 
 FIS=$IFS
 IFS=$' & '
@@ -50,7 +51,11 @@ while read -r inst value; do
 				;;
 			"cn")
 				#set common name
-				cn=$value
+				if [[ "$value" != "hostname" ]]; then
+					cn=$value
+				else
+					cn=$hostname
+				fi
 				;;
 			"push")
 

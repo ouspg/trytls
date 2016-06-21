@@ -1,8 +1,8 @@
 #Get Started
 
--to create services and servers run the following command
+-to create services and servers(on localhost) run the following command
 
-bash init 100 initialize cert protocol cipher
+bash init 100 localhost initialize cert protocol cipher
 
 -to start the servers, you can use the docker-compose file
 
@@ -19,8 +19,5 @@ docker-compose up
 	* *.crt	    = cert created (and usually also used in some of your servers)
 	*server_info   = a little bit of info about servers and the messages you should be able to see if you were able to connect
 		*ie. the configuration was supported
-	*messges = "port & msg" = includes the ports listened and the corresponding message that should be returned if connection succeeded
-
-#Test
-
+	*messages = "port & msg" = includes the ports listened and the corresponding message that should be returned if connection succeeded
 

@@ -1,8 +1,8 @@
 # Get started
 To run for example the https localhost servers:
-  * go to the folder ssltest/https/localhost/
+  * go to the folder ssltest/services/
   * run init script with correct parameters and set up the servers using docker-compose.yml file
-  * read the readMe(ssltest/https/localhost) for more details
+  * read the readMe(ssltest/services) for more details
 
 # Test your setup
 

@@ -1,17 +1,19 @@
 #!/bin/bash
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
 	#do nothing
 	echo "wrong number of arguments (" "$#" "given)"
-	echo "name = service name, port = port for the first server"
+	echo "name = service name, port = port for the first server, hostname ≃ CN"
 	echo "..."
-	echo "correct would be: create name port"	
+	echo "correct would be: create name port hostname"	
 	echo "..."	
 	exit 1
 fi
 
 service=$1
 port=$2
+hostname=$3
+
 
 if [[ $service != "initialize" ]]; then
 
@@ -33,7 +35,7 @@ else
 fi
 
 #create other files, servers, certs, osv.., jne.., etc..
-sudo bash configs/create_servers "$service" "$port" "configs/data/$service"
+sudo bash configs/create_servers "$service" "$port" "$hostname" "configs/data/$service"
 
 exit 0
 

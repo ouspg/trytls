@@ -8,7 +8,7 @@ how: CREATE DIFFERENT CERTIFICATES BASED ON DIFFERENT PARAMETER VALUES
 
 
 #create normal working cert
-cn & localhost
+cn & hostname
 days & 365
 create_crt & ok
 
@@ -17,7 +17,7 @@ cn & wrongname
 create_crt & wrong_cn
 
 #create cert which has smaller validation ending day than starting day
-cn & small_ending_day
+cn & hostname
 days & -365
 create_crt & small_ending_day
 

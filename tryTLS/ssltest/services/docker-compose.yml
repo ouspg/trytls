@@ -1,0 +1,17 @@
+version: '2'
+services:
+ cert:
+  build: cert
+  container_name: cert
+  ports:
+  - "100-102:100-102"
+ protocol:
+  build: protocol
+  container_name: protocol
+  ports:
+  - "103-107:103-107"
+ cipher:
+  build: cipher
+  container_name: cipher
+  ports:
+  - "108-111:108-111"
