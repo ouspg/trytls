@@ -79,7 +79,7 @@ while read -r inst value; do
 
 				{ echo "" ; echo "# $server "; } >> $service/Dockerfile || exit 1 
 
-				{ echo "ADD server/$server/index.html /usr/share/nginx/server/$server/index.html"; \
+				{ echo "ADD server/$server/index.html /usr/share/nginx/server/$server/html/index.html"; \
 				echo "ADD server/$crt/ssl/server.crt /etc/nginx/server/$crt/ssl/server.crt"; } \
 				>> $service/Dockerfile || exit 1
 				
@@ -95,7 +95,12 @@ while read -r inst value; do
 				echo "	ssl_certificate server/$crt/ssl/server.crt; " ; \
 				echo '	ssl_certificate_key server/server.key;' ;\
 
-				echo "	root /usr/share/nginx/server/$server/;" ;\
+				echo '	location /server/ { ' ;\
+				echo '	  deny all; ' ;\
+				echo '	  return 403; ' ;\
+				echo '	} ' ;\
+
+				echo "	root /usr/share/nginx/server/$server/html/;" ;\
 				echo '	index index.html;' ;\
 
 				echo "	ssl_protocols       $proto" ;\

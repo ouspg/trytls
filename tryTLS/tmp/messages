@@ -1,0 +1,12 @@
+100 & correct common name, no intermidiate hostnames
+101 & wrong common name, no intermidiate hostnames
+102 & small validation ending day
+103 & sslv2 supported
+104 & sslv3 supported
+105 & tlsv1 supported
+106 & tlsv1.1 supported
+107 & tlsv1.2 supported
+108 & supports at ssl in at least some level
+109 & supports high(>128 bit) 'secure' ciphers
+110 & supports medium(~128 bit) 'secure' ciphers
+111 & supports 'insecure' ciphers

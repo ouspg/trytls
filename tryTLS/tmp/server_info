@@ -1,0 +1,36 @@
+server: cert/ok
+	port: 100 using ok.crt
+	protocols: TLSv1 TLSv1.1 TLSv1.2; ciphers: HIGH:!aNULL:!MD5;
+server: cert/wrong_cn
+	port: 101 using wrong_cn.crt
+	protocols: TLSv1 TLSv1.1 TLSv1.2; ciphers: HIGH:!aNULL:!MD5;
+server: cert/small_ending_day
+	port: 102 using small_ending_day.crt
+	protocols: TLSv1 TLSv1.1 TLSv1.2; ciphers: HIGH:!aNULL:!MD5;
+server: protocol/sslv2
+	port: 103 using ok.crt
+	protocols: SSLv2; ciphers: ALL:COMPLEMENTOFALL;
+server: protocol/sslv3
+	port: 104 using ok.crt
+	protocols: SSLv3; ciphers: ALL:COMPLEMENTOFALL;
+server: protocol/tlsv1
+	port: 105 using ok.crt
+	protocols: TLSv1; ciphers: ALL:COMPLEMENTOFALL;
+server: protocol/tlsv1.1
+	port: 106 using ok.crt
+	protocols: TLSv1.1; ciphers: ALL:COMPLEMENTOFALL;
+server: protocol/tlsv1.2
+	port: 107 using ok.crt
+	protocols: TLSv1.2; ciphers: ALL:COMPLEMENTOFALL;
+server: cipher/all_complementofall
+	port: 108 using ok.crt
+	protocols: SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2; ciphers: ALL:COMPLEMENTOFALL;
+server: cipher/high
+	port: 109 using ok.crt
+	protocols: SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2; ciphers: HIGH;
+server: cipher/medium
+	port: 110 using ok.crt
+	protocols: SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2; ciphers: MEDIUM;
+server: cipher/insecure
+	port: 111 using ok.crt
+	protocols: SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2; ciphers: aNULL:eNULL:MD5;
