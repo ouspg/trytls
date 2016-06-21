@@ -11,6 +11,8 @@ test = [
     "expired",
     "wrong.host",
     "self-signed",
+    "sha1-2016",
+    "sha1-2017",
     "sha256",
     "1000-sans",
     "10000-sans",
