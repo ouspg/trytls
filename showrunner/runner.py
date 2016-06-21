@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import textwrap
 import subprocess
 
 
@@ -24,23 +25,31 @@ def run_one(args, host, port, ca_cert=None):
     stdout, _ = process.communicate()
 
     if process.returncode != 0:
-        raise ProcessFailed()
+        raise ProcessFailed(process.returncode)
 
-    if stdout.strip() == "OK":
+    output = stdout.strip()
+    if output == b"OK":
         return True
-    if stdout.strip() == "FAIL":
+    if output == b"FAIL":
         return False
-    raise UnexpectedOutput()
+    raise UnexpectedOutput(output)
 
 
 def run(args, tests):
     for test in tests:
         with test() as (ok_expected, host, port, ca_cert):
-            ok = run_one(list(args), host, port, ca_cert)
-            if bool(ok) == bool(ok_expected):
-                print("PASS", test)
+            try:
+                ok = run_one(list(args), host, port, ca_cert)
+            except UnexpectedOutput as uo:
+                output = uo.args[0].decode("ascii", "backslashreplace")
+                print("ERROR unexpected output:\n{}".format(textwrap.indent(output, " " * 4)))
+            except ProcessFailed as pf:
+                print("ERROR process exited with return code {}".format(pf.args[0]))
             else:
-                print("ERROR", test)
+                if bool(ok) == bool(ok_expected):
+                    print("PASS", test)
+                else:
+                    print("FAIL", test)
 
 
 def main():
