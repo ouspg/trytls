@@ -15,8 +15,6 @@ certinfo = path + "certs/certs.info"
 https = []
 certnames = []
 
-urllib3.disable_warnings()	#complains about deprecated use of CN at the moment 
-
 with open(certinfo) as f:
 	for line in f:	
 		line = line.rstrip('\n')
