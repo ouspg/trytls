@@ -27,8 +27,8 @@ begin_init()
 	rm tmp -R >> /dev/null 2>&1
 	mkdir -p tmp/certs >> /dev/null 2>&1
 
-	sudo touch tmp/port
-	sudo openssl genrsa -out tmp/server.key 2048
+	touch tmp/port
+	openssl genrsa -out tmp/server.key 2048
 }
 
 begin_init
@@ -45,9 +45,9 @@ while [ $# -gt 0 ]; do
 
 	#create new files
 	
-	sudo bash configs/create "$service" "$port" "$hostname" || exit_safe $?
+	bash configs/create "$service" "$port" "$hostname" || exit_safe $?
 
-	port=`sudo cat tmp/port`
+	port=`cat tmp/port`
 
 	shift	
 
