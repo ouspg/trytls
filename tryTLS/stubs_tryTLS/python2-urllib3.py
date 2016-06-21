@@ -1,7 +1,7 @@
 import urllib3
 import sys
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 3:
 	print ("Usage: %s <hostname> <../tmp/>" % sys.argv[0])
 	exit("for example: python %s localhost ../tryTLS/ssltest/services/tmp/" % sys.argv[0])	
 
