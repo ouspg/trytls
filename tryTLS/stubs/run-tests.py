@@ -35,11 +35,9 @@ test = [
 for t in test:
     url = "https://%s.badssl.com/" % t
     try:
-        subprocess.check_output(["/usr/bin/python","python-urllib3.py",url], stderr=subprocess.STDOUT)
+        subprocess.check_output(["/usr/bin/python", "python-urllib3.py", url],
+                                stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError as e:
-        print("FAIL: %s (%s)" % (url,e.output))
+        print("FAIL: %s (%s)" % (url, e.output))
     else:
         print("PASS: %s" % url)
-        
-
-
