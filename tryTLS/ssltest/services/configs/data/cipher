@@ -16,7 +16,7 @@ ssl_protocols & SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2;
 
 server & all_complementofall
 ssl_ciphers & ALL:COMPLEMENTOFALL;
-msg & supports at ssl in at least some level
+msg & supports ssl in at least some level
 push & no_change
 
 server & high

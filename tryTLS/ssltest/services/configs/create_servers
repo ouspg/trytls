@@ -32,10 +32,13 @@ while read -r inst value; do
 				if [ "$value" ]; then		#voidaan asettaa crt samalla kun se tehdään
 					crt=$value
 				fi
-				openssl req -new -key tmp/server.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
+			
+				#create extensions file (could be done with .cnf as well), this can be moved to it's own ext) if seen better so
+				echo "subjectAltName = DNS:*.$host, DNS:$host" > tmp/server.ext
+
+				openssl req -new -key tmp/server.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$host"
 				#create certificate
-				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/server.key -out tmp/certs/trytls_$crt.crt
-				
+				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/server.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
 				chmod 755 tmp/certs/trytls_$crt.crt
 				
 				;;
@@ -51,12 +54,12 @@ while read -r inst value; do
 				#set days, if days = 0, use firstday, lastday
 				days=$value
 				;;
-			"cn")
+			"host")
 				#set common name
 				if [[ "$value" != "hostname" ]]; then
-					cn=$value
+					host=$value
 				else
-					cn=$hostname
+					host=$hostname
 				fi
 				;;
 			"push")
