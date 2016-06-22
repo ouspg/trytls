@@ -14,7 +14,9 @@ RUN apt-get -y update && \
     apt-get -y install \
         cabal-install-${CABAL_VERSION} \
         ghc-${GHC_VERSION} \
-        libz-dev
+        ca-certificates \
+        libz-dev \
+        netbase
 
 ENV PATH /opt/ghc/${GHC_VERSION}/bin/:/opt/cabal/${CABAL_VERSION}/bin/:${PATH}
 
