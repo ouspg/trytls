@@ -24,8 +24,9 @@ main = do
   r <- catch (get $ "https://" ++ host ++ ":" ++ port)
     (\exception -> do
         let _ = exception :: SomeException
-        putStrLn "OK"
-        exitSuccess
+        putStrLn "FAIL"
+        exitFailure
         )
 
-  putStrLn "FAIL"
+  putStrLn "OK"
+  exitSuccess
