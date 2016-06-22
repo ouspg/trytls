@@ -20,7 +20,7 @@ RUN apt-get -y update && \
 
 ENV PATH /opt/ghc/${GHC_VERSION}/bin/:/opt/cabal/${CABAL_VERSION}/bin/:${PATH}
 
-# Install `wreq` so code changes don't trigger the full rebuild of all
+# Install `wreq` so changes don't trigger the full rebuild of all
 # dependencies
 RUN cabal update && cabal install wreq
 
