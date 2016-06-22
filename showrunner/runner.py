@@ -1,7 +1,6 @@
 from __future__ import print_function
 
 import argparse
-import textwrap
 import importlib
 import subprocess
 
@@ -14,6 +13,16 @@ class ProcessFailed(Exception):
 
 class UnexpectedOutput(Exception):
     pass
+
+
+def indent(text, indent):
+    r"""
+    >>> indent("a\nb\nc", indent="    ")
+    '    a\n    b\n    c'
+    """
+
+    lines = text.splitlines(True)
+    return "".join(indent + line for line in lines)
 
 
 def run_one(args, host, port, cafile=None):
@@ -46,7 +55,7 @@ def run(args, tests):
                 ok = run_one(list(args), host, port, cafile)
             except UnexpectedOutput as uo:
                 output = uo.args[0].decode("ascii", "backslashreplace")
-                print("ERROR unexpected output:\n{}".format(textwrap.indent(output, " " * 4)))
+                print("ERROR unexpected output:\n{}".format(indent(output, " " * 4)))
             except ProcessFailed as pf:
                 print("ERROR process exited with return code {}".format(pf.args[0]))
             else:
@@ -59,7 +68,7 @@ def run(args, tests):
 def module_path(string):
     string = string.strip()
     if string.startswith("."):
-        string = bundles.__package__ + string
+        string = bundles.__name__ + string
 
     pieces = string.split(".")
     name = pieces.pop()
@@ -99,3 +108,7 @@ def main():
     args = parser.parse_args()
 
     run([args.command] + args.args, args.test_bundle)
+
+
+if __name__ == "__main__":
+    main()
