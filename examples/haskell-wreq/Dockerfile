@@ -26,4 +26,4 @@ WORKDIR /haskell
 COPY . /haskell/
 RUN cabal install
 
-ENTRYPOINT /root/.cabal/bin/test-wreq
+ENTRYPOINT ["/root/.cabal/bin/test-wreq"]
