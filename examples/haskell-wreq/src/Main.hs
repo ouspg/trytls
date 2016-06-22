@@ -23,8 +23,7 @@ main = do
 
   r <- catch (get $ "https://" ++ host ++ ":" ++ port)
     (\exception -> do
-        let e = show (exception :: SomeException)
-        putStrLn $ "Got exception: " ++ e
+        let _ = exception :: SomeException
         putStrLn "OK"
         exitSuccess
         )
