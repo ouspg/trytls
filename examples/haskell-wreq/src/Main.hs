@@ -22,11 +22,11 @@ main = do
       port = args !! 1
 
   r <- catch (get $ "https://" ++ host ++ ":" ++ port)
-    (\exception -> do
-        let _ = exception :: SomeException
-        putStrLn "FAIL"
-        exitFailure
-        )
+             (\exception -> do
+                 let _ = exception :: SomeException
+                 putStrLn "FAIL"
+                 exitSuccess
+             )
 
   putStrLn "OK"
   exitSuccess
