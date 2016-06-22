@@ -28,7 +28,14 @@ begin_init()
 	mkdir -p tmp/certs >> /dev/null 2>&1
 
 	touch tmp/port
+	echo $port > tmp/port_first
+
+	#create privatekey
+
 	openssl genrsa -out tmp/server.key 2048
+	
+	
+
 }
 
 begin_init

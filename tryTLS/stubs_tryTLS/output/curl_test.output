@@ -1,0 +1,20 @@
+tlsv1 supported
+tlsv1.1 supported
+tlsv1.2 supported
+supports ssl in at least some level
+supports high(>128 bit) 'secure' ciphers
+supports 'RSA'
+supports 'AES256'
+supports 'SHA384'
+supports 'AES'
+supports 'DH'
+supports 'SHA'
+supports 'CAMELLIA256'
+supports 'AES128'
+supports 'CAMELLIA128'
+supports 'SHA256'
+supports 'EDH'
+supports 'ECDH'
+supports '3DES'
+
+#same than python with urllib3 does

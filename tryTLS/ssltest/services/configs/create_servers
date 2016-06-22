@@ -33,7 +33,7 @@ while read -r inst value; do
 					crt=$value
 				fi
 			
-				#create extensions file (could be done with .cnf as well), this can be moved to it's own ext) if seen better so
+				#create extensions file (could be done with .cnf as well), this can be moved to it's own ext) if seen better
 				echo "subjectAltName = DNS:*.$host, DNS:$host" > tmp/server.ext
 
 				openssl req -new -key tmp/server.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$host"
@@ -89,8 +89,6 @@ while read -r inst value; do
 				>> $service/Dockerfile || exit 1
 				
 				#DEFAULT CONF
-				
-				#wrong hostname
 
 				{ echo "" ; echo "# $server " ; \
 				echo 'server {' ; \

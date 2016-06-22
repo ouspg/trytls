@@ -127,11 +127,6 @@ ssl_ciphers & SHA256;
 msg & supports 'SHA256'
 push & no_change
 
-server & AES128
-ssl_ciphers & AES128;
-msg & supports 'AES128'
-push & no_change
-
 server & RC4
 ssl_ciphers & RC4;
 msg & supports 'RC4'
