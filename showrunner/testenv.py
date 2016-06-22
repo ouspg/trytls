@@ -45,17 +45,12 @@ def badssl(ok_expected, name):
     yield ok_expected, name + ".badssl.com", 443, None
 
 
-def raw_callback(conn, certfile, keyfile):
+def handshake_callback(conn, certfile, keyfile):
     ssl.wrap_socket(conn, server_side=True, certfile=certfile, keyfile=keyfile)
 
 
-def https_callback(conn, certfile, keyfile):
-    s = ssl.wrap_socket(conn, server_side=True, certfile=certfile, keyfile=keyfile)
-    s.sendall(b"HTTP/1.0 200 OK\r\nContent-Length: 0\r\n\r\n")
-
-
 @contextlib.contextmanager
-def mock_server(certdata, keydata, host="localhost", port=0, callback=raw_callback):
+def mock_server(certdata, keydata, host="localhost", port=0, callback=handshake_callback):
     def serve(connection, certdata, keydata, host, port, callback):
         sock = socket.socket()
         try:
@@ -90,7 +85,7 @@ def mock_server(certdata, keydata, host="localhost", port=0, callback=raw_callba
 
 
 @testenv
-def local(ok_expected, cn, callback=https_callback):
+def local(ok_expected, cn, callback=handshake_callback):
     certdata, keydata, cadata = gencert(cn)
 
     with mock_server(certdata, keydata, callback=callback) as (host, port):

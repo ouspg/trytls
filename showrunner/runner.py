@@ -1,7 +1,11 @@
 from __future__ import print_function
 
+import argparse
 import textwrap
+import importlib
 import subprocess
+
+from . import bundles
 
 
 class ProcessFailed(Exception):
@@ -52,10 +56,26 @@ def run(args, tests):
                     print("FAIL", test)
 
 
-def main():
-    import argparse
-    from .testenv import badssl, local
+def module_path(string):
+    string = string.strip()
+    if string.startswith("."):
+        string = bundles.__package__ + string
 
+    pieces = string.split(".")
+    name = pieces.pop()
+    path = ".".join(pieces)
+    try:
+        module = importlib.import_module(path, package=__package__)
+    except ImportError as err:
+        raise argparse.ArgumentTypeError(str(err))
+
+    try:
+        return getattr(module, name)
+    except AttributeError as err:
+        raise argparse.ArgumentTypeError(str(err))
+
+
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "command",
@@ -68,11 +88,14 @@ def main():
         nargs="*",
         help="additional argument for the command"
     )
+    parser.add_argument(
+        "-t",
+        "--test-bundle",
+        metavar="BUNDLE",
+        default=".handshake.all_tests",
+        type=module_path,
+        help="path to the bundle of tests to run"
+    )
     args = parser.parse_args()
 
-    run([args.command] + args.args, [
-        badssl(True, "sha1-2016"),
-        badssl(False, "expired"),
-        local(True, "localhost"),
-        local(False, "nothing")
-    ])
+    run([args.command] + args.args, args.test_bundle)
