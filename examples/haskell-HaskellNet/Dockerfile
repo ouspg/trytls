@@ -20,12 +20,18 @@ RUN apt-get -y update && \
 
 ENV PATH /opt/ghc/${GHC_VERSION}/bin/:/opt/cabal/${CABAL_VERSION}/bin/:${PATH}
 
+RUN useradd -c "Curry Monad" -m haskell
+USER haskell
+ENV HOME /home/haskell
+
 # Install `HaskellNet` and `HaskellNet-SSL` so code changes don't
 # trigger the full rebuild of all dependencies
 RUN cabal update && cabal install HaskellNet HaskellNet-SSL
 
-WORKDIR /haskell
-COPY . /haskell/
+WORKDIR ${HOME}
+COPY . ${HOME}
 RUN cabal install
 
-ENTRYPOINT ["/root/.cabal/bin/test-HaskellNet"]
+ENV PATH ${HOME}/.cabal/bin:${PATH}
+
+ENTRYPOINT ["test-HaskellNet"]
