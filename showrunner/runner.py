@@ -12,10 +12,10 @@ class UnexpectedOutput(Exception):
     pass
 
 
-def run_one(args, host, port, ca_cert=None):
+def run_one(args, host, port, cafile=None):
     args = args + [host, str(port)]
-    if ca_cert is not None:
-        args.append(ca_cert)
+    if cafile is not None:
+        args.append(cafile)
 
     process = subprocess.Popen(
         args,
@@ -37,9 +37,9 @@ def run_one(args, host, port, ca_cert=None):
 
 def run(args, tests):
     for test in tests:
-        with test() as (ok_expected, host, port, ca_cert):
+        with test() as (ok_expected, host, port, cafile):
             try:
-                ok = run_one(list(args), host, port, ca_cert)
+                ok = run_one(list(args), host, port, cafile)
             except UnexpectedOutput as uo:
                 output = uo.args[0].decode("ascii", "backslashreplace")
                 print("ERROR unexpected output:\n{}".format(textwrap.indent(output, " " * 4)))
@@ -54,7 +54,7 @@ def run(args, tests):
 
 def main():
     import argparse
-    from .testenv import badssl
+    from .testenv import badssl, local
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -72,5 +72,7 @@ def main():
 
     run([args.command] + args.args, [
         badssl(True, "sha1-2016"),
-        badssl(False, "expired")
+        badssl(False, "expired"),
+        local(True, "localhost"),
+        local(False, "nothing")
     ])
