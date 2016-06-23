@@ -34,9 +34,9 @@ while read -r inst value; do
 				fi
 			
 				#create extensions file (could be done with .cnf as well), this can be moved to it's own ext) if seen better
-				echo "subjectAltName = DNS:*.$host, DNS:$host" > tmp/server.ext
-
-				openssl req -new -key tmp/server.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$host"
+				echo "subjectAltName = DNS:*.$san, DNS:$san" > tmp/server.ext
+				#IdenTrust
+				openssl req -new -key tmp/server.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
 				#create certificate
 				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/server.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
 				chmod 755 tmp/certs/trytls_$crt.crt
@@ -56,11 +56,19 @@ while read -r inst value; do
 				;;
 			"host")
 				#set common name
-				if [[ "$value" != "hostname" ]]; then
-					host=$value
+				if [[ "$value" == "hostname" ]]; then
+					san=$hostname
+					cn=$hostname			
 				else
-					host=$hostname
+					san=$value
+					cn=$value
 				fi
+				;;
+			"san")
+				san=$value
+				;;
+			"cn")
+				cn=$value
 				;;
 			"push")
 

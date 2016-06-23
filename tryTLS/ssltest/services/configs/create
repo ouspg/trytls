@@ -23,8 +23,9 @@ if [[ $service != "initialize" ]]; then
 
 
 	#initialize Docker-file
-
+				
 	{ echo 'FROM nginx:1.9.7'; \
+
 	echo 'ADD default.conf /etc/nginx/conf.d/'; \
 	echo 'ADD server/server.key /etc/nginx/server/server.key'; } > $service/Dockerfile || exit 1
 

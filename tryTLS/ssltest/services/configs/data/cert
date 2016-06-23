@@ -15,16 +15,20 @@ ssl_ciphers & HIGH:!aNULL:!MD5;
 
 
 server & ok
-msg & correct common name, no intermidiate hostnames
+msg & correct cert
 push & ok
 
-server & wrong_cn
-msg & wrong common name, no intermidiate hostnames
-push & wrong_cn
+server & wrong_host
+msg & wrong hostname
+push & wrong_host
 
-server & small_ending_day
-msg & small validation ending day
-push & small_ending_day
+server & wrong_san
+msg & correct cn, wrong san
+push & wrong_san
+
+server & expired
+msg & expired cert
+push & expired
 
 ------------------------------------------------------------------
 

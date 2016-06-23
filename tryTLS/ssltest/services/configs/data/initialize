@@ -6,19 +6,23 @@ how: CREATE DIFFERENT CERTIFICATES BASED ON DIFFERENT PARAMETER VALUES
 ........................................................
 
 
-#create normal working cert
+#correct cert
 host & hostname
 days & 365
 create_crt & ok
 
-#create cert which has wrong common name and no intermidiate certs
+#correct common name, correct san
 host & wrongname
-create_crt & wrong_cn
+create_crt & wrong_host
 
-#create cert which has smaller validation ending day than starting day
+#wrong san, correct cn
+cn & hostname
+create_crt & wrong_san
+
+#expired
 host & hostname
 days & -365
-create_crt & small_ending_day
+create_crt & expired
 
 ------------------------------------------------------------------
 
