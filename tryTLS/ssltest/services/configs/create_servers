@@ -65,11 +65,19 @@ while read -r inst value; do
 				fi
 				;;
 			"san")
-				san=$value
+				if [[ "$value" == "hostname" ]]; then
+					san=$hostname
+				else
+					san=$value
+				fi
 				;;
 			"cn")
-				cn=$value
-				;;
+				if [[ "$value" == "hostname" ]]; then
+					cn=$hostname
+				else
+					cn=$value
+				fi
+				;;	
 			"push")
 
 				if [[ "$value" && "$value" != "no_change" ]]; then		#voidaan asettaa crt samalla kun se tehdään
@@ -81,7 +89,7 @@ while read -r inst value; do
 				
 				echo $msg > $service/server/$server/index.html
 
-				echo "$port & $msg & $crt.crt & $hostname" >> tmp/messages
+				echo "$port & $msg & trytls_$crt.crt & $hostname" >> tmp/messages
 
 				#cp CERT AND KEY
 
