@@ -1,5 +1,7 @@
 # TryTLS
 
+TryTLS aims to verify the certificate verification behaviour from as many programming languages and libraries possible. It provides some examples and resuls and tries to make it as easy as possible for community to improve the coverage.
+
 ## Why?
 * Potentially overlooked issue: many popular libraries may have broken certificate checks -> large vulnerability
 
