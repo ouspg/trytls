@@ -1,16 +1,16 @@
-
  True <-> connected, not True <-> did not connect 
 
 
-    True: correct common name, no intermidiate hostnames
-not True: wrong common name, no intermidiate hostnames
-not True: small validation ending day
+    True: correct cert
+not True: wrong hostname
+not True: correct cn, wrong san
+not True: expired cert
 not True: sslv2 supported
 not True: sslv3 supported
     True: tlsv1 supported
     True: tlsv1.1 supported
     True: tlsv1.2 supported
-    True: supports at ssl in at least some level
+    True: supports ssl in at least some level
     True: supports high(>128 bit) 'secure' ciphers
 not True: supports medium(~128 bit) 'secure' ciphers
 not True: supports 'insecure' ciphers
@@ -40,4 +40,3 @@ not True: supports 'DES'
 not True: supports 'ECDSA'
     True: supports '3DES'
 not True: supports 'NULL'
-
