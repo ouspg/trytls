@@ -1,9 +1,12 @@
+-all the following certs are created with same private key
+-only one of the certs is in cacerts file(client) at a time
+-server certs are as message says
 
-python with the same certs on client side and server side:
-
- True <-> connected, not True <-> did not connect 
+the following may be all wrong, but at least it is the result i got..
 
 
+client cert(cacert) expired
+--------------------------------
     True: correct cert
 not True: wrong hostname
 not True: correct cn, wrong san
@@ -43,12 +46,53 @@ not True: supports 'DES'
 not True: supports 'ECDSA'
     True: supports '3DES'
 not True: supports 'NULL'
+---------------------------------------
 
+client cert(cacert) not expired, correct cert
+--------------------------------
+    True: correct cert
+not True: wrong hostname
+not True: correct cn, wrong san
+    True: expired cert						---HOX(server cert is expired but client cert is not)
+not True: sslv2 supported
+not True: sslv3 supported
+    True: tlsv1 supported
+    True: tlsv1.1 supported
+    True: tlsv1.2 supported
+    True: supports ssl in at least some level
+    True: supports high(>128 bit) 'secure' ciphers
+not True: supports medium(~128 bit) 'secure' ciphers
+not True: supports 'insecure' ciphers
+    True: supports 'RSA'
+    True: supports 'AES256'
+    True: supports 'SHA384'
+not True: supports 'ECDSA'
+not True: supports 'SRP'
+    True: supports 'AES'
+    True: supports 'DH'
+    True: supports 'SHA'
+not True: supports 'DSS'
+    True: supports 'CAMELLIA256'
+not True: supports 'AECDH'
+not True: supports 'PSK'
+    True: supports 'AES128'
+not True: supports 'SEED'
+    True: supports 'CAMELLIA128'
+not True: supports 'AECDH'
+not True: supports 'ADH'
+    True: supports 'SHA256'
+not True: supports 'RC4'
+not True: supports 'MD5'
+not True: supports 'DES'
+    True: supports 'EDH'
+    True: supports 'ECDH'
+not True: supports 'ECDSA'
+    True: supports '3DES'
+not True: supports 'NULL'
+---------------------------------------
 
-------------------------------------------------
-
-python with correct certs on server side, but expired cert on client side:
-
+wrong hostname (i.e. wrong cn and san)
+----------------------------------------
 not True: correct cert
 not True: wrong hostname
 not True: correct cn, wrong san
@@ -89,15 +133,14 @@ not True: supports 'ECDSA'
 not True: supports '3DES'
 not True: supports 'NULL'
 
+--------------------------------------------
 
-------------------------------------------------
-
-python using only the correct cert on client side, but using all the certs on the server side:
-
+wrong san (i.e. only CN is correct)
+-------------------------------------------
     True: correct cert
 not True: wrong hostname
 not True: correct cn, wrong san
-not True: expired cert						--HOX! this was different with java
+    True: expired cert					--the cert in cacerts is not expired, but the one from server is
 not True: sslv2 supported
 not True: sslv3 supported
     True: tlsv1 supported
@@ -116,12 +159,12 @@ not True: supports 'SRP'
     True: supports 'DH'
     True: supports 'SHA'
 not True: supports 'DSS'
-    True: supports 'CAMELLIA256'
+not True: supports 'CAMELLIA256'
 not True: supports 'AECDH'
 not True: supports 'PSK'
     True: supports 'AES128'
 not True: supports 'SEED'
-    True: supports 'CAMELLIA128'
+not True: supports 'CAMELLIA128'
 not True: supports 'AECDH'
 not True: supports 'ADH'
     True: supports 'SHA256'
@@ -134,8 +177,11 @@ not True: supports 'ECDSA'
     True: supports '3DES'
 not True: supports 'NULL'
 
+--------------------------------------
 
 
+i.e. i may be wrong but it seems that as long as the certs are signed with the same private key, java only checks the information on client side cert(the cacert)
+	*intresting.. (python does not do the same (at least what i know of))
 
 
 

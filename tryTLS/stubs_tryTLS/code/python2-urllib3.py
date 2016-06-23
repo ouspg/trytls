@@ -15,9 +15,7 @@ https = []
 certnames = []
 
 with open(certinfo) as f:
-	print "ok" + certinfo
 	for line in f:	
-		print "line: " + line
 		line = line.rstrip('\n')
 		certnames.append(line)
 		https.append(urllib3.PoolManager(cert_reqs='CERT_REQUIRED', ca_certs=('%s%s' % (certpath,line))))
