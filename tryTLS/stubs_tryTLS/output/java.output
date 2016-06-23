@@ -180,7 +180,8 @@ not True: supports 'NULL'
 --------------------------------------
 
 
-i.e. i may be wrong but it seems that as long as the certs are signed with the same private key, java only checks the information on client side cert(the cacert)
+i.e. i may be wrong but it seems that as long as the certs are signed with the same private key, 
+java only checks the information on client side cert(the cacert) or at least differently than for example python urllib3 does
 	*intresting.. (python does not do the same (at least what i know of))
 
 
