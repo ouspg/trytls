@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if [ "$#" -ne 3 ]; then
+if [ "$#" -ne 4 ]; then
 	#do nothing
 	echo "wrong number of arguments (" "$#" "given)"
-	echo "name = service name, port = port for the first server, hostname ≃ CN"
+	echo "name = service name, port = port for the first server, hostname ≃ CN, protocol(e.g. https)"
 	echo "..."
 	echo "correct would be: create name port hostname"	
 	echo "..."	
@@ -13,30 +13,43 @@ fi
 service=$1
 port=$2
 hostname=$3
+protocol=$4
 
 
-if [[ $service != "initialize" ]]; then
+if [[ "$service" != "initialize" && "$service" != "exit" ]]; then
 
 	#make directories
 	mkdir $service
 	mkdir $service/server
 
 
-	#initialize Docker-file
+	#initialize Docker-file if needed (i.e. e.g. https needs, ftps doesn't neseccarily(in here))
+
+	if [[ "$protocol" == "https" ]]; then
 				
-	{ echo 'FROM nginx:1.9.7'; \
+		{ echo 'FROM nginx:1.9.7'; \
 
-	echo 'ADD default.conf /etc/nginx/conf.d/'; \
-	echo 'ADD server/server.key /etc/nginx/server/server.key'; } > $service/Dockerfile || exit 1
-
+		echo 'ADD default.conf /etc/nginx/conf.d/'; \
+		echo 'ADD server/server.key /etc/nginx/server/server.key'; } > $service/Dockerfile || exit 1
+	fi
 else
-	#initialize docker-compose	
-
-	{ echo "version: '2'"; echo 'services:'; } > docker-compose.yml || exit 2
+	if [[ "$service" == "initialize" ]]; then
+		{ echo "version: '2'"; echo 'services:'; } > docker-compose.yml || exit 2
+	elif [[ "$service" == "exit" ]]; then
+		{ echo "networks:" ; \
+		echo " trytls_net:" ; \
+		echo "  driver: bridge" ; \
+		echo "  ipam:" ; \
+		echo "   driver: default" ; \
+		echo "   config:" ; \
+		echo "   - subnet: 222.222.222.0/24" ; \
+		echo "     gateway: 222.222.222.1" ; } >> docker-compose.yml || exit 2
+	fi
 fi
 
 #create other files, servers, certs, osv.., jne.., etc..
-sudo bash configs/create_servers "$service" "$port" "$hostname" "configs/data/$service"
+sudo bash configs/create_servers "$service" "$port" "$hostname" "$protocol" "configs/data/$protocol/$service"
+
 
 exit 0
 

@@ -2,17 +2,18 @@
 
 port=$1
 hostname=$2
+protocol=$3
 
 echo "port: $port"
 echo -e "hostname: $hostname\n"
 
-if [ "$#" -lt 3 ]; then
+if [ "$#" -lt 4 ]; then
 	#do nothing
 	echo "wrong number of arguments (" "$#" "given), at least 3 needed"
-	echo "port = port of the first server, service = name of the service in the data/ directory"
+	echo "port = port of the first server, service = name of the service in the data/ directory, protocol = data/dir name"
 	echo "..."
-	echo "correct would be: init port hostname service1 service2 ... serviceN"	
-	echo "..."	
+	echo "correct would be: init port hostname https service1 service2 ... serviceN"	
+	echo "..."
 	exit 1
 fi
 
@@ -40,7 +41,7 @@ begin_init()
 
 begin_init
 
-shift 2		# port + hostname
+shift 3		# port + hostname + protocol
 
 while [ $# -gt 0 ]; do
 
@@ -52,7 +53,7 @@ while [ $# -gt 0 ]; do
 
 	#create new files
 	
-	bash configs/create "$service" "$port" "$hostname" || exit_safe $?
+	bash configs/create "$service" "$port" "$hostname" "$protocol" || exit_safe $?
 
 	port=`cat tmp/port`
 
