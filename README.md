@@ -3,20 +3,25 @@
 TryTLS verifies the certificate verification behaviour of programming languages and libraries. It provides some examples and resuls and tries to make it as easy as possible for community to improve the coverage.
 
 ## Why?
+
 * Potentially overlooked issue: many popular libraries may have broken certificate checks -> large vulnerability
 
 ## Who?
-* Mauri Miettinen
-* Aleksi Klasila
+
+* Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
+* Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
 
 ## To whom?
+
 * Software and library developers
 * People who write checks and want to contribute
 
 ## What
+
 * Check the language behaviour of a software library - does it properly check the certificates?
 
 ## How
+
 * Open public project created with scalability in mind, with ease of access provided by per-case documentation
 * Utilize Docker to create a virtual environment -> anyone can contribute
 * "Checking of checks" -> how libraries handle signatures, domain names, time, SNI etc.
@@ -68,18 +73,20 @@ and the dependancies needed to run the example.
 
 We currently have one [python based test runner](showrunner/) implemented.
 
+Installation:
+
+```console
+$ python setup.py install --user
+```
+
 Example usage:
 
-````sh
-python setup.py install --user
-
-cd examples/python3-urllib/
-
-~/.local/bin/trytls python3 ./run.py
+```console
+$ ~/.local/bin/trytls python3 examples/python3-urllib/run.py
 PASS badssl(True, 'sha1-2016')
 PASS badssl(False, 'expired')
 ...
-````
+```
 
 ## Backends
 
@@ -88,6 +95,6 @@ We currently are working to support following backends implementing the tests:
  * Local backend in the test driver itself (aka `localhost` backend) [WIP]
  * TryTLS backend both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
- * (BadSSL)[https://badssl.com]
+ * [BadSSL](https://badssl.com)
 
 Test drivers should should allow user to test against all or any of these backends.
