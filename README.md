@@ -8,8 +8,8 @@ TryTLS verifies the certificate verification behaviour of programming languages 
 
 ## Who?
 
-* Mauri Miettinen (@Mamietti)
-* Aleksi Klasila (@aleksiklasila)
+* Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
+* Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
 
 ## To whom?
 
