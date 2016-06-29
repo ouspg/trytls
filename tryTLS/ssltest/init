@@ -1,6 +1,7 @@
 #!/bin/bash
 
 port=$1
+first_port=$port
 hostname=$2
 protocol=$3
 
@@ -31,13 +32,43 @@ begin_init()
 	touch tmp/port
 	echo $port > tmp/port_first
 
+	rm servers -R >> /dev/null 2>&1
+
+	mkdir -p servers/server/key
+	mkdir -p servers/server/crt
+	mkdir -p servers/server/data
+
+
+	#touch servers/Dockerfile
+	#touch servers/default.conf
+
+
 	#create privatekey
 
 	openssl genrsa -out tmp/server.key 2048
-	
+
+	#copy private key ready to be used
+	cp tmp/server.key servers/server/key/server.key
 	
 
+	#init docker-compose
+
+	{ echo "version: '2'"; echo 'services:'; } > docker-compose.yml || exit 2
+
+	#init Dockerfile
+
+	if [[ "$protocol" == "https" ]]; then
+
+		#echo 'ADD server/server.key /etc/nginx/server/server.key';
+		{ echo 'FROM nginx:1.9.7' ; \
+		echo 'ADD default.conf /etc/nginx/conf.d/' ; \ 
+		echo 'COPY server /etc/nginx/servers/server' ; } > servers/Dockerfile || exit 1
+		
+	fi
+
 }
+
+##MAIN##
 
 begin_init
 
@@ -46,10 +77,6 @@ shift 3		# port + hostname + protocol
 while [ $# -gt 0 ]; do
 
 	service=$1
-
-	#delete old files
-
-	rm $service -R >> /dev/null 2>&1
 
 	#create new files
 	
@@ -61,14 +88,24 @@ while [ $# -gt 0 ]; do
 
 done
 
+##
+
+##END##
+
+(( last_port = port - 1 ))
+
+{ echo " services:" ;\
+echo "  build: servers" ;\
+echo "  container_name: servers"  ;\
+echo '  ports:' ;\
+echo '  - "'"$first_port-$last_port:$first_port-$last_port"'"' ; }\
+>> docker-compose.yml || exit 4
+
 #write all certs into tmp/certs/certs.info
 
 for f in tmp/certs/*; do
 	echo ${f##*/} >> tmp/certs/certs.info
 done
-
-
-
 
 exit_safe 0
 	
