@@ -4,30 +4,33 @@ TryTLS verifies the certificate verification behaviour of programming languages 
 
 ## Why?
 
-* Potentially overlooked issue: many popular libraries may have broken certificate checks -> large vulnerability
+ * Potentially overlooked issue: many popular libraries may have broken certificate checks -> large vulnerability
 
 ## Who?
 
-* Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
-* Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
+ * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
+ * Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
 
 ## To whom?
 
-* Software and library developers
-* People who write checks and want to contribute
+ * Software and library developers
+ * People who write checks and want to contribute
 
 ## What
 
-* Check the language behaviour of a software library - does it properly check the certificates?
+ * Check the behavior of a software library - does it properly check the certificates?
+ * Test the TLS client code, do not address possible client certificate check problems
+ * Test against specialized backends, do not require a man in the middle setup
 
 ## How
 
-* Open public project created with scalability in mind, with ease of access provided by per-case documentation
-* Utilize Docker to create a virtual environment -> anyone can contribute
-* "Checking of checks" -> how libraries handle signatures, domain names, time, SNI etc.
-* Ease of testing via options -> Run own server on the host or run the same container in the cloud
-* Provide both end results and the source material used to get those results, enabling reproduction
-* Use ports and virtual hosts to provide falsified/broken certificate checks
+ * "Checking of checks" -> how libraries handle signatures, domain names, time, SNI etc.
+ * Use ports and virtual hosts to provide falsified/broken certificate checks
+ * Provide both end results and the source material used to get those results -> enable reproduction
+ * Open public project created with scalability in mind -> anyone can contibute
+ * Document use cases -> ease of access
+ * Utilize docker -> encapsulate dependencies for the examples and the backends
+ * Support multiple backends -> use hosted backends or run your own on the host or in the cloud
 
 ## Examples
 
@@ -50,11 +53,11 @@ line arguments (`<host> <port> [ca-bundle]`):
 ### Return values
 
 Examples should attempt to establish a **secure** connection to the given
-service and catch possible errors and exception to determine if it was successful.
+service and catch possible errors and exceptions to determine if it was successful.
 
 All examples should return one of the following strings to the standard output:
 
- * `OK` when connection was establish in a secure way
+ * `OK` when connection was established in a secure way
  * `FAIL` when connection failed to establish in a secure way
  * `NOPE` if the example has not implemented the requested behaviour (e.g. setting
    CA certificate bundle)
