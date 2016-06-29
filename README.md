@@ -1,6 +1,6 @@
 # TryTLS
 
-TryTLS verifies the certificate verification behavior of programming languages and libraries. It provides examples and results and tries to make it as easy for the community to improve the coverage.
+TryTLS verifies the certificate verification behavior of programming languages and libraries. It provides examples and results and tries to make it easy for the community to improve the coverage.
 
 Broken certificate checks is a potentially overlooked issue.
 
@@ -9,8 +9,9 @@ TryTLS is a tool for the software and library developers. We invite people to co
 ## What
 
  * Check the behavior of a software library - does it properly check the certificates?
- * Test the TLS client code, do not address possible client certificate check problems
+ * Test the TLS client code, do not address possible client certificate check problems in server code
  * Test against specialized backends, do not require a man in the middle setup
+ * Drive the tests with code, do not worry about smart TVs, IoT toasters and other such devices
 
 ## How
 
@@ -25,7 +26,7 @@ TryTLS is a tool for the software and library developers. We invite people to co
 ## Examples
 
 Example code using TLS in different languages and libraries live in
-the [examples/](examples/) directory.
+the [examples/](examples/) directory. You can contribute your example here or just BYOR (Bring Your Own Repository).
 
 These examples should attempt to use the chosen language and library
 properly to establish a secure TLS connection to the given destination.
@@ -47,22 +48,26 @@ service and catch possible errors and exceptions to determine if it was successf
 
 All examples should return one of the following strings to the standard output:
 
- * `OK` when connection was established in a secure way
- * `FAIL` when connection failed to establish in a secure way
- * `NOPE` if the example has not implemented the requested behaviour (e.g. setting
+ * `VERIFY SUCCESS` when connection was established in a secure way
+ * `VERIFY FAILURE` when connection failed to establish in a secure way
+ * `UNSUPPORTED` if the example has not implemented the requested behaviour (e.g. setting
    CA certificate bundle)
+
+If anything else is returned, then the test has erred.
+
+Unless a fatal error occurs, examples should always return with process exit value 0.
 
 ### Packaging
 
 An example should be confined to a directory named in a way that describes the
 chosen target language and library or service.
 
-An example should have a top level `README.md` that describes how to run the example.
+An example should have a top level `README.md` that describes how to run the example. The examples should have a `run` command.
 
 Optionally an example can have a `Dockerfile` that encapsulates the environment
 and the dependancies needed to run the example.
 
-## Test drivers
+## Test runners
 
 We currently have one [python based test runner](showrunner/) implemented.
 
@@ -85,12 +90,12 @@ PASS badssl(False, 'expired')
 
 We currently are working to support following backends implementing the tests:
 
- * Local backend in the test driver itself (aka `localhost` backend) [WIP]
+ * Local backend in the test runner itself (aka `localhost` backend) [WIP]
  * TryTLS backend both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
  * [BadSSL](https://badssl.com)
 
-Test drivers should should allow user to test against all or any of these backends.
+Test runners should should allow user to test against all or any of these backends.
 
 ## TryTLS Team
 
