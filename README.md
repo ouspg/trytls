@@ -68,18 +68,20 @@ and the dependancies needed to run the example.
 
 We currently have one [python based test runner](showrunner/) implemented.
 
+Installation:
+
+```console
+$ python setup.py install --user
+```
+
 Example usage:
 
-````sh
-python setup.py install --user
-
-cd examples/python3-urllib/
-
-~/.local/bin/trytls python3 ./run.py
+```console
+$ ~/.local/bin/trytls python3 examples/python3-urllib/run.py
 PASS badssl(True, 'sha1-2016')
 PASS badssl(False, 'expired')
 ...
-````
+```
 
 ## Backends
 
