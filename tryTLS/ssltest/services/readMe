@@ -3,7 +3,7 @@
 -to create services and servers(on localhost) run the following command
 
 bash init 100 localhost https initialize cert protocol cipher
-sudo bash init 100 172.24.0.0. ftps initialize cert exit
+bash init 100 172.24.0. ftps initialize cert exit
 
 
 -to start the servers, you can use the docker-compose file

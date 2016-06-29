@@ -33,6 +33,8 @@ if [[ "$service" != "initialize" && "$service" != "exit" ]]; then
 		echo 'ADD server/server.key /etc/nginx/server/server.key'; } > $service/Dockerfile || exit 1
 	fi
 else
+	echo "$hostname""0"
+
 	if [[ "$service" == "initialize" ]]; then
 		{ echo "version: '2'"; echo 'services:'; } > docker-compose.yml || exit 2
 	elif [[ "$service" == "exit" ]]; then
@@ -42,8 +44,8 @@ else
 		echo "  ipam:" ; \
 		echo "   driver: default" ; \
 		echo "   config:" ; \
-		echo "   - subnet: 222.222.222.0/24" ; \
-		echo "     gateway: 222.222.222.1" ; } >> docker-compose.yml || exit 2
+		echo "   - subnet: $hostname""0/24" ; \
+		echo "     gateway: $hostname""1" ; } >> docker-compose.yml || exit 2
 	fi
 fi
 
