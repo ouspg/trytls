@@ -3,20 +3,25 @@
 TryTLS verifies the certificate verification behaviour of programming languages and libraries. It provides some examples and resuls and tries to make it as easy as possible for community to improve the coverage.
 
 ## Why?
+
 * Potentially overlooked issue: many popular libraries may have broken certificate checks -> large vulnerability
 
 ## Who?
-* Mauri Miettinen
-* Aleksi Klasila
+
+* Mauri Miettinen (@Mamietti)
+* Aleksi Klasila (@aleksiklasila)
 
 ## To whom?
+
 * Software and library developers
 * People who write checks and want to contribute
 
 ## What
+
 * Check the language behaviour of a software library - does it properly check the certificates?
 
 ## How
+
 * Open public project created with scalability in mind, with ease of access provided by per-case documentation
 * Utilize Docker to create a virtual environment -> anyone can contribute
 * "Checking of checks" -> how libraries handle signatures, domain names, time, SNI etc.
