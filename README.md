@@ -1,20 +1,10 @@
 # TryTLS
 
-TryTLS verifies the certificate verification behaviour of programming languages and libraries. It provides some examples and resuls and tries to make it as easy as possible for community to improve the coverage.
+TryTLS verifies the certificate verification behavior of programming languages and libraries. It provides examples and results and tries to make it as easy for the community to improve the coverage.
 
-## Why?
+Broken certificate checks is a potentially overlooked issue.
 
- * Potentially overlooked issue: many popular libraries may have broken certificate checks -> large vulnerability
-
-## Who?
-
- * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
- * Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
-
-## To whom?
-
- * Software and library developers
- * People who write checks and want to contribute
+TryTLS is a tool for the software and library developers. We invite people to contribute.
 
 ## What
 
@@ -101,3 +91,8 @@ We currently are working to support following backends implementing the tests:
  * [BadSSL](https://badssl.com)
 
 Test drivers should should allow user to test against all or any of these backends.
+
+## TryTLS Team
+
+ * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
+ * Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
