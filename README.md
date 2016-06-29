@@ -88,6 +88,6 @@ We currently are working to support following backends implementing the tests:
  * Local backend in the test driver itself (aka `localhost` backend) [WIP]
  * TryTLS backend both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
- * (BadSSL)[https://badssl.com]
+ * [BadSSL](https://badssl.com)
 
 Test drivers should should allow user to test against all or any of these backends.
