@@ -51,7 +51,7 @@ All examples should return one of the following strings to the standard output:
 
  * `OK` when connection was establish in a secure way
  * `FAIL` when connection failed to establish in a secure way
- * `NOPE` if the example has not implmented the requested behaviour (e.g. setting
+ * `NOPE` if the example has not implemented the requested behaviour (e.g. setting
    CA certificate bundle)
 
 ### Packaging
