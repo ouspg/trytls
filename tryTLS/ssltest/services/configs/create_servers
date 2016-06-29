@@ -209,7 +209,7 @@ while read -r inst value; do
 					echo "RUN adduser user" ; \
 					echo "RUN echo 'user:passwd' | chpasswd" ; \
 
-					echo "EXPOSE 800" ; \
+					echo "EXPOSE 990" ; \
 					echo "EXPOSE 21" ; \
 
 					echo "CMD  vsftpd;" ; } > $service/$current_hostname/Dockerfile

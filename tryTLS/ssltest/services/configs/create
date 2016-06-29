@@ -33,7 +33,6 @@ if [[ "$service" != "initialize" && "$service" != "exit" ]]; then
 		echo 'ADD server/server.key /etc/nginx/server/server.key'; } > $service/Dockerfile || exit 1
 	fi
 else
-	echo "$hostname""0"
 
 	if [[ "$service" == "initialize" ]]; then
 		{ echo "version: '2'"; echo 'services:'; } > docker-compose.yml || exit 2
