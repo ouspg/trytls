@@ -14,8 +14,8 @@ public class Main{
 		String port = args[1];
 		String ca_bundle = "";
 		
-		if (args.length > 3) {
-			ca_bundle = args[3]; 
+		if (args.length > 2) {
+			ca_bundle = args[2]; 
 			System.out.println("UNSUPPORTED");	//for now
 			System.exit(2);
 		}
