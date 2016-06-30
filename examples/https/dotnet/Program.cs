@@ -8,13 +8,13 @@ class Program
 	{
 		try {
 			GetURL(args[0]).Wait();
-			Console.WriteLine("PASS");
+			Console.WriteLine("VERIFY SUCCESS");
 		} catch (AggregateException ae) {
 			ae.Handle((x) =>
 			{
 			if (x is HttpRequestException) 
 			{
-				Console.WriteLine("FAIL {0}",x.Message);
+				Console.WriteLine("VERIFY FAIL");
 				return true;
 			}
 			else {
@@ -24,7 +24,7 @@ class Program
 		} catch (System.IndexOutOfRangeException) {
 			Console.WriteLine("Usage: dotnettest <URL>");
 		} catch (Exception e) {
-			Console.WriteLine("MEGAFAIL {0} {1}",e.Message,e);
+			Console.WriteLine("Unhandled exception: {0} {1}",e.Message,e);
 		} 
 	}
 	
