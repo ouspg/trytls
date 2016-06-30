@@ -37,7 +37,8 @@ def run_one(args, host, port, cafile=None):
     process = subprocess.Popen(
         args,
         stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
     stdout, stderr = process.communicate()
 
@@ -68,7 +69,7 @@ def run(args, tests):
                 print("ERROR process exited with return code {}".format(pf.args[0]))
                 stderr = pf.args[1]
                 if stderr:
-                    print(indent(stderr, " " * 4).decode("ascii", "replace"))
+                    print(indent(stderr, " " * 4).rstrip().decode("ascii", "replace"))
             else:
                 if bool(ok) == bool(ok_expected):
                     print("PASS", test)
