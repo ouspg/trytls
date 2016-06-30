@@ -22,4 +22,4 @@
    * `*.crt` = cert created (and usually also used in some of your servers)
    * `server_info` = a little bit of info about servers and the messages you should be able to see if you were able to connect
      * ie. the configuration was supported
- * `messages` = "port & msg" = includes the ports listened and the corresponding message that should be returned if connection succeeded
+   * `messages` = "port & msg" = includes the ports listened and the corresponding message that should be returned if connection succeeded
