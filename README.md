@@ -23,6 +23,10 @@ TryTLS is a tool for the software and library developers. We invite people to co
  * Utilize docker -> encapsulate dependencies for the examples and the backends
  * Support multiple backends -> use hosted backends or run your own on the host or in the cloud
 
+## Architecture
+
+![Architecture](doc/architecture.jpg)
+
 ## Stubs
 
 Example code (stubs) using TLS in different languages and libraries live in
