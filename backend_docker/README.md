@@ -2,16 +2,16 @@
 
  * to create services and servers(on localhost) run the following command
 
-````bash
+```bash
 bash init 20000 localhost https initialize cert protocol cipher
-````
+```
 
  * to start the servers, you can use the docker-compose file
 
-````
+```
 docker-compose build
 docker-compose up
-````
+```
 
  * now the servers should be listening on ports `100 ... n`
 	 * `n` is the next port of the next port to ne opened if you are to start more
