@@ -7,6 +7,10 @@ import subprocess
 from . import bundles
 
 
+class Unsupported(Exception):
+    pass
+
+
 class ProcessFailed(Exception):
     pass
 
@@ -35,16 +39,18 @@ def run_one(args, host, port, cafile=None):
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE
     )
-    stdout, _ = process.communicate()
+    stdout, stderr = process.communicate()
 
     if process.returncode != 0:
-        raise ProcessFailed(process.returncode)
+        raise ProcessFailed(process.returncode, stderr)
 
     output = stdout.strip()
-    if output == b"OK":
+    if output == b"VERIFY SUCCESS":
         return True
-    if output == b"FAIL":
+    if output == b"VERIFY FAILURE":
         return False
+    if output == b"UNSUPPORTED":
+        raise Unsupported()
     raise UnexpectedOutput(output)
 
 
@@ -53,11 +59,16 @@ def run(args, tests):
         with test() as (ok_expected, host, port, cafile):
             try:
                 ok = run_one(list(args), host, port, cafile)
+            except Unsupported:
+                print("SKIP", test)
             except UnexpectedOutput as uo:
-                output = uo.args[0].decode("ascii", "backslashreplace")
+                output = uo.args[0].decode("ascii", "replace")
                 print("ERROR unexpected output:\n{}".format(indent(output, " " * 4)))
             except ProcessFailed as pf:
                 print("ERROR process exited with return code {}".format(pf.args[0]))
+                stderr = pf.args[1]
+                if stderr:
+                    print(indent(stderr, " " * 4).decode("ascii", "replace"))
             else:
                 if bool(ok) == bool(ok_expected):
                     print("PASS", test)
