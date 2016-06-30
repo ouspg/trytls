@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ "$#" -ne 4 ]; then
+	#do nothing
+	echo "wrong number of arguments (" "$#" "given)"
+	echo "name = service name, port = port for the first server, hostname ≃ CN, protocol(e.g. https)"
+	echo "..."
+	echo "correct would be: create name port hostname"	
+	echo "..."	
+	exit 1
+fi
+
+service=$1
+port=$2
+hostname=$3
+protocol=$4
+
+#create other files, servers, certs, osv.., jne.., etc..
+sudo bash configs/create_servers "$service" "$port" "$hostname" "$protocol" "configs/data/$protocol/$service"
+
+exit 0
+
+#TODO: more clear + exits ok
