@@ -1,6 +1,7 @@
 import java.net.URL;
 import java.io.*;
 import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLPeerUnverifiedException;
 
 public class Main{
 	
@@ -25,11 +26,9 @@ public class Main{
 		try {
 			url = new URL(https_url);
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-			
-			if (con.getResponseCode() == 200)
-				System.out.println("VERIFY SUCCESS");
-			else
-				System.out.println("VERIFY FAILURE");
+			System.out.println("VERIFY SUCCESS");
+		} catch (SSLPeerUnverifiedException e) {
+			System.out.println("VERIFY FAILURE");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			System.exit(3);
