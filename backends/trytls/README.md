@@ -8,7 +8,7 @@ bash init 20000 localhost https initialize cert protocol cipher
 
  * to start the servers, you can use the docker-compose file
 
-```
+```bash
 docker-compose build
 docker-compose up
 ```
