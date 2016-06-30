@@ -1,0 +1,52 @@
+#!/bin/sh
+
+cd $(dirname $0) || exit 1
+MYPKI=$(pwd)
+MYDOM="localhost"
+
+MYCERTS=${MYPKI}/certs
+MYPRIV=${MYPKI}/private
+
+MYCACERT=${MYCERTS}/ca.${MYDOM}
+MYSERIAL=${MYCERTS}/ca.srl
+
+umask 077
+mkdir -p ${MYPRIV}
+umask 022
+mkdir -p ${MYCERTS}
+
+for i in ca.${MYDOM} "$@"; do
+
+   MYSUBJECT="/C=FI/ST=Oulu/L=Oulu/O=OUSPG/CN=${i}/"
+
+  cd ${MYPRIV}
+  umask 077
+
+  if [ ! -f ${i}.key ]; then
+    echo "Generating ${i}.key"
+    openssl genrsa -out ${i}.key 4096
+    chmod 600 ${i}.key
+  fi
+
+  if [ ! -f ${i}.csr ]; then
+    echo "Generating ${i}.csr"
+    openssl req -new -subj "${MYSUBJECT}" -key ${i}.key -out ${i}.csr
+    chmod 600 ${i}.csr
+  fi
+
+  cd ${MYCERTS}
+  umask 022
+
+  if [ ! -f ${i}.crt ]; then
+    echo "Generating ${i}.crt"
+    if [ "${i}" = "ca.${MYDOM}" ]; then
+      openssl req -new -key ../private/${i}.key -x509 -days 3650 \
+        -subj "${MYSUBJECT}" -out ${i}.crt
+      echo "01" > ${MYSERIAL}
+    else
+      openssl x509 -req -days 3650 -in ../private/${i}.csr \
+	-CA ca.${MYDOM}.crt -CAkey ../private/ca.${MYDOM}.key \
+	-CAserial ${MYSERIAL} -out ${i}.crt
+    fi
+  fi
+done
