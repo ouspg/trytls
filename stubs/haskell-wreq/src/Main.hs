@@ -21,6 +21,10 @@ main = do
   let host = args !! 0
       port = args !! 1
 
+  when (argc == 3) $ do
+    putStrLn "UNSUPPORTED"
+    exitSuccess
+
   r <- catch (get $ "https://" ++ host ++ ":" ++ port)
              (\exception -> do
                  let _ = exception :: SomeException
