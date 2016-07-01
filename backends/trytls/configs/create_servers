@@ -19,11 +19,11 @@ keypath="servers/server/key"
 #inst = instruction, value = value
 while read -r inst value; do
 	if [ "$value" ]; then
-		case $inst in 
+		case $inst in
 			"value")
 				if [[ "$value" == "inc" ]]; then
 					temp=`cat tmp/value`
-					(( temp++ )) 
+					(( temp++ ))
 					echo $temp > tmp/value || exit 1
 				else
 					echo $value > tmp/value
@@ -61,9 +61,9 @@ while read -r inst value; do
 				#create certificate
 				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/server.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
 				chmod 755 tmp/certs/trytls_$crt.crt
-				
+
 				#copy crt into mkdir "$crtpath/"$crt
-				
+
 				mkdir -p "$crtpath/"$crt
 				cp tmp/certs/trytls_$crt.crt "$crtpath/"$crt/server.crt
 
@@ -80,24 +80,24 @@ while read -r inst value; do
 				#set days, if days = 0, use firstday, lastday
 				days=$value
 				;;
-			"set_current_hostname_cat") 
+			"set_current_hostname_cat")
 				if [[ "$value" == "hostname" ]]; then
 					value=$hostname
 				fi
-				current_hostname="$value`cat tmp/value`"	#e.g: 222.222.222. + 2				
+				current_hostname="$value`cat tmp/value`"	#e.g: 222.222.222. + 2
 				;;
 			"set_current_hostname")
 				if [[ "$value" == "hostname" ]]; then
 					current_hostname=$hostname
 				else
 					current_hostname=$value
-				fi				
+				fi
 				;;
 			"host")
 				#set common name
 				if [[ "$value" == "hostname" ]]; then
 					san=$current_hostname
-					cn=$current_hostname	
+					cn=$current_hostname
 				else
 					san=$value
 					cn=$value
@@ -116,7 +116,7 @@ while read -r inst value; do
 				else
 					cn=$value
 				fi
-				;;	
+				;;
 			"push")
 
 				if [[ "$value" && "$value" != "no_change" ]]; then		#voidaan asettaa crt samalla kun se tehdään
@@ -129,14 +129,14 @@ while read -r inst value; do
 
 				{ echo -e "server: servers/$server\n\tport: $port using $crt.crt" ;
 				  echo -e "\tprotocols: $proto ciphers: $ciph" ; } | tee -a tmp/server_info
-				
+
 				mkdir -p "$datapath/"$server
 				echo $msg > "$datapath/"$server/index.html
 
 				echo "$port & $msg & trytls_$crt.crt & $current_hostname" >> tmp/messages	|| exit 3
 
 				if [[ "$protocol" == "https" ]]; then
-				
+
 					#DEFAULT CONF
 
 					{ echo "" ; echo "# $server " ; \
@@ -147,7 +147,7 @@ while read -r inst value; do
 					echo "	ssl_certificate $crtpath/$crt/server.crt; " ; \
 					echo "	ssl_certificate_key $keypath/server.key;" ;\
 
-					echo '	location /$keypath/ { ' ;\
+					echo '	location $keypath/ { ' ;\
 					echo '	  deny all; ' ;\
 					echo '	  return 403; ' ;\
 					echo '	} ' ;\
@@ -177,4 +177,3 @@ done <"$filepath"
 IFS=$FIS
 
 echo $port > tmp/port || exit 4
-
