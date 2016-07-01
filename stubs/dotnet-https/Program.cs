@@ -7,14 +7,15 @@ class Program
 	static void Main(string[] args)
 	{
 		try {
-			GetURL(args[0]).Wait();
+			string url = "https://"+args[0]+":"+args[1];
+			GetURL(url).Wait();
 			Console.WriteLine("VERIFY SUCCESS");
 		} catch (AggregateException ae) {
 			ae.Handle((x) =>
 			{
 			if (x is HttpRequestException) 
 			{
-				Console.WriteLine("VERIFY FAIL");
+				Console.WriteLine("VERIFY FAILURE");
 				return true;
 			}
 			else {
