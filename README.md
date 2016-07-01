@@ -111,6 +111,4 @@ Test runners should should allow user to test against all or any of these backen
  * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
  * Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
 
-# References
 
- * https://cwe.mitre.org/data/definitions/295.html -  For observing different ways to fail certificate checks.
