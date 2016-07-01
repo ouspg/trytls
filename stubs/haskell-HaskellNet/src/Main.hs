@@ -28,9 +28,9 @@ main = do
   c <- catch (connectIMAPSSLWithSettings host settings)
              (\exception -> do
                  let _ = exception :: SomeException
-                 putStrLn "FAIL"
+                 putStrLn "VERIFY FAILURE"
                  exitSuccess
              )
 
-  putStrLn "OK"
+  putStrLn "VERIFY SUCCESS"
   exitSuccess
