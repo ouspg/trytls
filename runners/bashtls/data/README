@@ -1,14 +1,3 @@
+certs - these will be used in a way or another during the testing
 
-##shared
-
-conf: (volume)
-	line:
-		port & message & crt & hostname
-
-certs: (volume)
-	all certs ready to be used in servers
-
-
-language:
-	used to create the Dockerfiles for different servers based on need
-
+conf - the bash script running inside containers will feed the stubs using this file
