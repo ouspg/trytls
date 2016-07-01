@@ -1,0 +1,11 @@
+##initial plan
+
+
+
+init:
+	*creates docker-compose.yml and Dockerfiles wanted/needed
+
+
+docker-compose build
+docker-compose up
+

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+host=$1		#e.g. localhost
+port=$2
+ca_bundle=$3
+
+if [ "$#" -lt 2 ]; then
+	echo "UNSUPPORTED"
+	exit 1
+fi
+
+if [[ "$ca_bundle" ]]; then
+	if [[ "$ca_bundle" == "-k" ]]; then
+		curl https://$host:$port -k
+	else
+		curl --cacert $ca_bundle https://$host:$port
+	fi
+else
+	curl https://$host:$port
+fi
+
+exit 0

@@ -1,0 +1,3 @@
+certs - these will be used in a way or another during the testing
+
+conf - the bash script running inside containers will feed the stubs using this file

@@ -23,17 +23,21 @@ TryTLS is a tool for the software and library developers. We invite people to co
  * Utilize docker -> encapsulate dependencies for the examples and the backends
  * Support multiple backends -> use hosted backends or run your own on the host or in the cloud
 
-## Examples
+## Architecture
 
-Example code using TLS in different languages and libraries live in
-the [examples/](examples/) directory. You can contribute your example here or just BYOR (Bring Your Own Repository).
+![Architecture](doc/architecture.jpg)
 
-These examples should attempt to use the chosen language and library
+## Stubs
+
+Example code (stubs) using TLS in different languages and libraries live in
+the [stubs/](stubs/) directory. You can contribute your stub here or just BYOR (Bring Your Own Repository).
+
+These stubs should attempt to use the chosen language and library
 properly to establish a secure TLS connection to the given destination.
 
 ### Calling convention
 
-All examples should have a standalone program that takes up to three command
+All stubs should have a standalone program that takes up to three command
 line arguments (`<host> <port> [ca-bundle]`):
 
  * `<host>` is the DNS name or IP-address of the service to connect to
@@ -43,10 +47,10 @@ line arguments (`<host> <port> [ca-bundle]`):
 
 ### Return values
 
-Examples should attempt to establish a **secure** connection to the given
+Stubs should attempt to establish a **secure** connection to the given
 service and catch possible errors and exceptions to determine if it was successful.
 
-All examples should return one of the following strings to the standard output:
+All stubs should return one of the following strings to the standard output:
 
  * `VERIFY SUCCESS` when connection was established in a secure way
  * `VERIFY FAILURE` when connection failed to establish in a secure way
@@ -59,12 +63,12 @@ Unless a fatal error occurs, examples should always return with process exit val
 
 ### Packaging
 
-An example should be confined to a directory named in a way that describes the
+A stub should be confined to a directory named in a way that describes the
 chosen target language and library or service.
 
-An example should have a top level `README.md` that describes how to run the example. The examples should have a `run` command.
+A stub should have a top level `README.md` that describes how to run the example. The stubs should have a `run` command.
 
-Optionally an example can have a `Dockerfile` that encapsulates the environment
+Optionally a stub can have a `Dockerfile` that encapsulates the environment
 and the dependancies needed to run the example.
 
 ## Test runners
