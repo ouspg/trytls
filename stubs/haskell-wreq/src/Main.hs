@@ -18,12 +18,12 @@ main = do
     putStrLn $ prog ++ " <host> <port> [ca-bundle]"
     exitFailure
 
-  let host = args !! 0
-      port = args !! 1
-
   when (argc == 3) $ do
     putStrLn "UNSUPPORTED"
     exitSuccess
+
+  let host = args !! 0
+      port = args !! 1
 
   r <- catch (get $ "https://" ++ host ++ ":" ++ port)
              (\exception -> do
