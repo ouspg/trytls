@@ -3,7 +3,7 @@ import java.io.*;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLPeerUnverifiedException;
 
-public class Main{
+public class Run{
 	
 	public static void main(String[] args)
 	{

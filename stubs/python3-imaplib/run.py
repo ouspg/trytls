@@ -14,6 +14,6 @@ else:
 try:
     imaplib.IMAP4_SSL(host, port, ssl_context=ssl_context)
 except (ssl.SSLError, ssl.CertificateError):
-    print("FAIL")
+    print("VERIFY FAILURE")
 else:
-    print("OK")
+    print("VERIFY SUCCESS")
