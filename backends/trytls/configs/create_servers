@@ -133,7 +133,7 @@ while read -r inst value; do
 				mkdir -p "$datapath/"$server
 				echo $msg > "$datapath/"$server/index.html
 
-				echo "$port & $msg & trytls_$crt.crt & $current_hostname" >> tmp/messages	|| exit 3
+				echo "$port & $msg & trytls_$crt.crt & $current_hostname" >> tmp/conf	|| exit 3
 
 				if [[ "$protocol" == "https" ]]; then
 
