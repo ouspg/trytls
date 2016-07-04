@@ -89,7 +89,7 @@ $ python setup.py install --user
 Example usage:
 
 ```console
-$ ~/.local/bin/trytls python3 examples/python3-urllib/run.py
+$ ~/.local/bin/trytls python3 stubs/python3-urllib/run.py
 PASS badssl(True, 'sha1-2016')
 PASS badssl(False, 'expired')
 ...
