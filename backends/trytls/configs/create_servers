@@ -79,10 +79,8 @@ while read -r inst value; do
 				openssl x509 -req -days $days -in tmp/server.csr -signkey servers/server/key/$privatekey.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
 				chmod 755 tmp/certs/trytls_$crt.crt
 
-				#copy crt into mkdir "$crtpath/"$crt
-
-				mkdir -p "$crtpath/"$crt
-				cp tmp/certs/trytls_$crt.crt "$crtpath/"$crt/server.crt
+				#mkdir -p "$crtpath/"$crt
+				cp tmp/certs/trytls_$crt.crt "$crtpath"/"$crt".crt
 
 				;;
 			"ssl_protocols")
@@ -164,7 +162,7 @@ while read -r inst value; do
 					echo "	listen $port;" ; \
 
 					echo '	ssl on; ' ; \
-					echo "	ssl_certificate $crtpath/$crt/server.crt; " ; \
+					echo "	ssl_certificate $crtpath/$crt.crt; " ; \
 					echo "	ssl_certificate_key $keypath/$privatekey.key;" ;\
 
 					echo '	location $keypath/ { ' ;\
