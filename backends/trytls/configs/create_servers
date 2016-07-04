@@ -19,6 +19,7 @@ privatekey_percert=`grep privatekey:percert info`
 privatekey_copy=`grep privatekey:copy info`
 privatekey="server"
 
+permissions=444
 
 #inst = instruction, value = value
 while read -r inst value; do
@@ -61,9 +62,11 @@ while read -r inst value; do
 						privatekey=$crt
 						if [[ "$privatekey_copy" ]]; then
 							openssl genrsa -out tmp/key/$privatekey.key 2048
+							chmod $permissions tmp/key/$privatekey.key
 							cp tmp/key/$privatekey.key $keypath/$privatekey.key
 						else
 							openssl genrsa -out $keypath/$privatekey.key 2048
+							chmod $permissions $keypath/$privatekey.key
 						fi
 					fi
 				fi
@@ -75,9 +78,10 @@ while read -r inst value; do
 				echo "subjectAltName = DNS:*.$san, DNS:$san" > tmp/server.ext
 				#IdenTrust
 				openssl req -new -key $keypath/$privatekey.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
+				chmod $permissions tmp/server.csr
 				#create certificate
 				openssl x509 -req -days $days -in tmp/server.csr -signkey $keypath/$privatekey.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
-				chmod 755 tmp/certs/trytls_$crt.crt
+				chmod $permissions tmp/certs/trytls_$crt.crt
 
 				#mkdir -p "$crtpath/"$crt
 				cp tmp/certs/trytls_$crt.crt "$crtpath"/"$crt".crt
