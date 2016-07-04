@@ -131,6 +131,11 @@ def main():
     args = parser.parse_args()
 
     if not run([args.command] + args.args, args.test_bundle):
+        # Return with a non-zero exit code if all tests were not successful. The
+        # CPython interpreter exits with 1 when an unhandled exception occurs,
+        # and with 2 when there is a problem with a command line parameter. The
+        # argparse module also uses the code 2 for the same purpose. Therefore
+        # the chosen return value here is 3.
         return 3
     return 0
 
