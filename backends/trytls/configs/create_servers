@@ -15,6 +15,9 @@ crtpath="servers/server/crt"
 datapath="servers/server/data"
 keypath="servers/server/key"
 
+privatekey_percert=`grep privatekey:percert info`
+privatekey="server"
+
 
 #inst = instruction, value = value
 while read -r inst value; do
@@ -40,6 +43,9 @@ while read -r inst value; do
 			"set_crt")
 				#set cert (name)
 				crt=$value
+				if [[ privatekey_percert ]]; then
+					privatekey=$crt
+				fi
 				;;
 			"create_crt")
 
@@ -50,6 +56,11 @@ while read -r inst value; do
 					else
 						crt=$value
 					fi
+					if [[ privatekey_percert ]]; then
+						privatekey=$crt
+						openssl genrsa -out tmp/$privatekey.key 2048
+						cp tmp/$privatekey.key servers/server/key/$privatekey.key
+					fi
 				fi
 
 
@@ -57,9 +68,9 @@ while read -r inst value; do
 
 				echo "subjectAltName = DNS:*.$san, DNS:$san" > tmp/server.ext
 				#IdenTrust
-				openssl req -new -key tmp/server.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
+				openssl req -new -key tmp/$privatekey.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
 				#create certificate
-				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/server.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
+				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/$privatekey.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
 				chmod 755 tmp/certs/trytls_$crt.crt
 
 				#copy crt into mkdir "$crtpath/"$crt
@@ -125,6 +136,9 @@ while read -r inst value; do
 					else
 						crt=$value
 					fi
+					if [[ "$privatekey_percert" ]]; then
+						privatekey=$crt
+					fi
 				fi
 
 				{ echo -e "server: servers/$server\n\tport: $port using $crt.crt" ;
@@ -145,7 +159,7 @@ while read -r inst value; do
 
 					echo '	ssl on; ' ; \
 					echo "	ssl_certificate $crtpath/$crt/server.crt; " ; \
-					echo "	ssl_certificate_key $keypath/server.key;" ;\
+					echo "	ssl_certificate_key $keypath/$privatekey.key;" ;\
 
 					echo '	location $keypath/ { ' ;\
 					echo '	  deny all; ' ;\
