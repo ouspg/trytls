@@ -11,12 +11,16 @@ TryTLS is a tool for the:
  
 We invite people to contribute.
 
+---
+
 ## What
 
  * Check the behavior of a software library - does it properly check the certificates?
  * Test the TLS client code, do not address possible client certificate check problems in server code
  * Test against specialized backends, do not require a man in the middle setup
  * Drive the tests with code, do not worry about smart TVs, IoT toasters and other such devices
+
+---
 
 ## How
 
@@ -28,9 +32,13 @@ We invite people to contribute.
  * Utilize docker -> encapsulate dependencies for the examples and the backends
  * Support multiple backends -> use hosted backends or run your own on the host or in the cloud
 
+---
+
 ## Architecture
 
 ![Architecture](doc/architecture.jpg)
+
+---
 
 ## Stubs
 
@@ -76,6 +84,8 @@ A stub should have a top level `README.md` that describes how to run the example
 Optionally a stub can have a `Dockerfile` that encapsulates the environment
 and the dependancies needed to run the example.
 
+---
+
 ## Test runners
 
 We currently have one [python based test runner](showrunner/) implemented.
@@ -94,6 +104,8 @@ PASS badssl(True, 'sha1-2016')
 PASS badssl(False, 'expired')
 ...
 ```
+
+---
 
 ## Backends
 
