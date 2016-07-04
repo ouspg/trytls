@@ -48,6 +48,8 @@ the [stubs/](stubs/) directory. You can contribute your stub here or just BYOR (
 These stubs should attempt to use the chosen language and library
 properly to establish a secure TLS connection to the given destination.
 
+---
+
 ### Calling convention
 
 All stubs should have a standalone program that takes up to three command
@@ -57,6 +59,8 @@ line arguments (`<host> <port> [ca-bundle]`):
  * `<port>` is the port to connect to
  * `[ca-bundle]` is optional location of the CA certificate bundle to be used
  instead of the built-in default
+
+---
 
 ### Return values
 
@@ -73,6 +77,8 @@ All stubs should return one of the following strings to the standard output:
 If anything else is returned, then the test has erred.
 
 Unless a fatal error occurs, examples should always return with process exit value 0.
+
+---
 
 ### Packaging
 
