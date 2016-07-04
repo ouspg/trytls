@@ -4,7 +4,12 @@ TryTLS verifies the certificate verification behavior of programming languages a
 
 Broken certificate checks is a potentially overlooked issue.
 
-TryTLS is a tool for the software and library developers. We invite people to contribute.
+TryTLS is a tool for the: 
+ * software and library developers,
+ * vulnerability researchers, and
+ * software end-users, who are interested about the security of the implementation.
+ 
+We invite people to contribute.
 
 ## What
 
@@ -106,6 +111,4 @@ Test runners should should allow user to test against all or any of these backen
  * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
  * Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
 
-# References
 
- * https://cwe.mitre.org/data/definitions/295.html -  For observing different ways to fail certificate checks.
