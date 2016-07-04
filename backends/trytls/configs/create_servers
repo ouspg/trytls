@@ -58,8 +58,8 @@ while read -r inst value; do
 					fi
 					if [[ privatekey_percert ]]; then
 						privatekey=$crt
-						openssl genrsa -out tmp/$privatekey.key 2048
-						cp tmp/$privatekey.key servers/server/key/$privatekey.key
+						openssl genrsa -out tmp/key/$privatekey.key 2048
+						cp tmp/key/$privatekey.key servers/server/key/$privatekey.key
 					fi
 				fi
 
@@ -68,9 +68,9 @@ while read -r inst value; do
 
 				echo "subjectAltName = DNS:*.$san, DNS:$san" > tmp/server.ext
 				#IdenTrust
-				openssl req -new -key tmp/$privatekey.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
+				openssl req -new -key tmp/key/$privatekey.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
 				#create certificate
-				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/$privatekey.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
+				openssl x509 -req -days $days -in tmp/server.csr -signkey tmp/key/$privatekey.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
 				chmod 755 tmp/certs/trytls_$crt.crt
 
 				#copy crt into mkdir "$crtpath/"$crt

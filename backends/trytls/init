@@ -29,6 +29,7 @@ begin_init()
 
 	rm tmp -R >> /dev/null 2>&1
 	mkdir -p tmp/certs >> /dev/null 2>&1
+	mkdir -p tmp/key >> /dev/null 2>&1
 
 	touch tmp/port
 	echo $port > tmp/port_first
