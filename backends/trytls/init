@@ -47,7 +47,7 @@ begin_init()
 	if [[ ! `grep privatekey:percert info` ]]; then
 
 		#create privatekey
-		permissions=444
+		permissions=700
 		openssl genrsa -out tmp/server.key 2048
 		chmod permissions tmp/server.key
 

@@ -19,7 +19,7 @@ privatekey_percert=`grep privatekey:percert info`
 privatekey_copy=`grep privatekey:copy info`
 privatekey="server"
 
-permissions=444
+permissions=700
 
 #inst = instruction, value = value
 while read -r inst value; do
