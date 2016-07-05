@@ -35,10 +35,12 @@ while read -r port msg crt hostname; do
 
   #response
 
-  if [[ "$response" == "VERIFY FAILURE" || "$response" == "VERIFY SUCCESS" ]]; then
-    echo "$response":"$msg"
+  if [[ "$response" == "VERIFY SUCCESS" ]]; then
+    echo -e "\e[0;32m$response":"$msg\e[0m"
+  elif [[ "$response" == "VERIFY FAILURE" ]]; then
+    echo -e "\e[0;36m$response":"$msg\e[0m"
   else
-    echo "error: " $response
+    echo -e "\e[0;31merror:  $response\e[0m"
   fi
 
 done < "$confpath"
