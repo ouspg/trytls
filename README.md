@@ -84,7 +84,7 @@ Unless a fatal error occurs, examples should always return with process exit val
 
 A stub should be confined to a directory named in a way that describes the
 chosen target language and library or service: in stubs/language-library/,  
-named as `run` with the appropriate file extension (run.lua, run.py etc.)
+named as `run` / `Run` with the appropriate file extension (run.lua, run.py etc.)
 
 A stub should have a top level `README.md` that describes how to run the example. The stubs should have a `run` command.
 
