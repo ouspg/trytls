@@ -119,7 +119,7 @@ PASS badssl(False, 'expired')
 We currently are working to support following backends implementing the tests:
 
  * Local backend in the test runner itself (aka `localhost` backend) [WIP]
- * TryTLS backend both as docker based "run-it-yourself" packaging and as a
+ * [Trytls backend](backends/trytls) both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
  * [BadSSL](https://badssl.com)
 
