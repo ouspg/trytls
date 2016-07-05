@@ -13,7 +13,8 @@ http = urllib3.PoolManager(
 
 try:
     r = http.request('GET', "https://{}:{}".format(sys.argv[1], sys.argv[2]))
-except Exception as e:
+    print("VERIFY SUCCESS")
+except (urllib3.exceptions.SSLError, urllib3.exceptions.SubjectAltNameWarning):
     print("VERIFY FAILURE")
 else:
-    print("VERIFY SUCCESS")
+    pass
