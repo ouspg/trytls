@@ -18,10 +18,10 @@ PASS badssl(False, 'expired')
 ## Running manually.
 
 ```
-% python run.py sha1-2016.badssl.com 443
+% python python-urllib2/run.py sha1-2016.badssl.com 443
 VERIFY SUCCESS
 
-% python run.py expired.badssl.com 443
+% python python-urllib2/run.py expired.badssl.com 443
 VERIFY FAILURE
 ```
 
@@ -31,7 +31,7 @@ This stub tries to avoid a situation where traceback gets hidden on unexpected b
 
 Manual / example test, connecting to non-existent domain.
 ```
-python run.py https://www.nosuch.example.local/ 443 || echo "$?"
+python python-urllib2/run.py https://www.nosuch.example.local/ 443 || echo "$?"
 Traceback (most recent call last):
   File "run.py", line 11, in <module>
     urllib2.urlopen("https://" + host + ":" + port, cafile=cafile)
@@ -95,4 +95,4 @@ ERROR process exited with return code 1
 
 # Credits
 
-Based on python3-urllib-stub.
+Based on python3-urllib -stub.
