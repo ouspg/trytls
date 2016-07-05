@@ -29,7 +29,12 @@ while read -r port msg status crt hostname; do
 
   if [[ "$certspath" ]]; then
     #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
-    response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+    if [[ "$crt" != "_" ]]; then
+      response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+    else
+      response=`exec $command $filename $hostname $port "$certspath"`
+    fi
+
   else
     #echo "test: " $command $filename $hostname $port
     response=`exec $command $filename $hostname $port`
