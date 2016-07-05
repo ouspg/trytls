@@ -31,5 +31,5 @@ docker-compose up
 	* `server_info` = a little bit of info about servers and the messages you
 	should be able to see if you were able to connect
 		* ie. the configuration was supported
-	* `conf` = file that includes the port(s), message(s), certificates(s) and hostname(s) used.
+	* `conf` = file that includes the port(s), message(s), status(es), certificates(s) and hostname(s) used.
 		* This can be created for any of the backends, not only for trytls backend 
