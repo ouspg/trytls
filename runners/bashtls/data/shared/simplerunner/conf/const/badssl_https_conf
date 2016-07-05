@@ -1,0 +1,11 @@
+443 & expired & _ & expired.badssl.com
+443 & wrong host & _ & wrong.host.badssl.com
+443 & self-signed & _ & self-signed.badssl.com
+443 & sha-256 & _ & sha256.badssl.com
+443 & 1000-sans & _ & 1000-sans.badssl.com
+443 & 10000-sans & _ & 10000-sans.badssl.com
+443 & incomplete-chain & _ & incomplete-chain.badssl.com
+443 & pinning-test & _ & pinning-test.badssl.com
+443 & superfish & _ & superfish.badssl.com
+443 & edellroot & _ & edellroot.badssl.com
+443 & dsdtestprovider & _ & dsdtestprovider.badssl.com

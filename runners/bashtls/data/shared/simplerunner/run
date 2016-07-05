@@ -1,0 +1,48 @@
+#!/bin/bash
+
+command=$1
+filename=$2
+confpath=$3
+certspath=$4
+if [[ "$certspath" ]]; then
+  certspath=${certspath//[[:blank:]]/}
+fi
+
+FIS=$IFS
+IFS=$'&'
+
+while read -r port msg crt hostname; do
+
+  port=${port//[[:blank:]]/}
+  #msg=${msg//[[:blank:]]/}
+  crt=${crt//[[:blank:]]/}
+  hostname=${hostname//[[:blank:]]/}
+
+  #echo "port: " .$port.
+  #echo "msg: " .$msg.
+  #echo "crt: " .$crt.
+  #echo "hostname: " .$hostname.
+
+  #try to connect
+
+  if [[ "$certspath" ]]; then
+    #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
+    response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+  else
+    #echo "test: " $command $filename $hostname $port
+    response=`exec $command $filename $hostname $port`
+  fi
+
+  #response
+
+  if [[ "$response" == "VERIFY SUCCESS" ]]; then
+    echo -e "\e[0;32m$response":"$msg\e[0m"
+  elif [[ "$response" == "VERIFY FAILURE" ]]; then
+    echo -e "\e[0;36m$response":"$msg\e[0m"
+  else
+    echo -e "\e[0;31merror:  $response\e[0m"
+  fi
+
+done < "$confpath"
+
+IFS=$FIS
