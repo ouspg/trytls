@@ -36,7 +36,9 @@ We invite people to contribute.
 
 ## Architecture
 
-![Architecture](doc/architecture.jpg)
+![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/architecture.jpg)
+
+---
 
 ---
 

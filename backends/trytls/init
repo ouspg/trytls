@@ -47,7 +47,9 @@ begin_init()
 	if [[ ! `grep privatekey:percert info` ]]; then
 
 		#create privatekey
+		permissions=400
 		openssl genrsa -out tmp/server.key 2048
+		chmod permissions tmp/server.key
 
 		#copy private key ready to be used
 		cp tmp/server.key servers/server/key/server.key
