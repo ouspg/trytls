@@ -1,0 +1,37 @@
+#!/bin/bash
+
+command=$1
+filename=$2
+confpath=$3
+certspath=$4
+certspath=${certspath//[[:blank:]]/}
+
+FIS=$IFS
+IFS=$'&'
+
+while read -r port msg crt hostname; do
+
+  port=${port//[[:blank:]]/}
+  #msg=${msg//[[:blank:]]/}
+  crt=${crt//[[:blank:]]/}
+  hostname=${hostname//[[:blank:]]/}
+
+  #echo "port: " .$port.
+  #echo "msg: " .$msg.
+  #echo "crt: " .$crt.
+  #echo "hostname: " .$hostname.
+
+
+  #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
+
+  response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+
+  if [[ "$response" == "VERIFY FAILURE" || "$response" == "VERIFY SUCCESS" ]]; then
+    echo "$response":"$msg"
+  else
+    echo "error: " $response
+  fi
+
+done < "$confpath"
+
+IFS=$FIS
