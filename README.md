@@ -40,8 +40,6 @@ We invite people to contribute.
 
 ---
 
----
-
 ## Stubs
 
 Example code (stubs) using TLS in different languages and libraries live in
