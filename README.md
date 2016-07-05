@@ -112,6 +112,8 @@ PASS badssl(False, 'expired')
 ...
 ```
 
+We have also one [bash based test runner](runners/bashtls/data/shared/simplerunner) [WIP]
+
 ---
 
 ## Backends
