@@ -4,7 +4,9 @@ command=$1
 filename=$2
 confpath=$3
 certspath=$4
-certspath=${certspath//[[:blank:]]/}
+if [[ "$certspath" ]]; then
+  certspath=${certspath//[[:blank:]]/}
+fi
 
 FIS=$IFS
 IFS=$'&'
@@ -21,10 +23,17 @@ while read -r port msg crt hostname; do
   #echo "crt: " .$crt.
   #echo "hostname: " .$hostname.
 
+  #try to connect
 
-  #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
+  if [[ "$certspath" ]]; then
+    #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
+    response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+  else
+    #echo "test: " $command $filename $hostname $port
+    response=`exec $command $filename $hostname $port`
+  fi
 
-  response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+  #response
 
   if [[ "$response" == "VERIFY FAILURE" || "$response" == "VERIFY SUCCESS" ]]; then
     echo "$response":"$msg"
