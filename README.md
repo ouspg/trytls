@@ -4,7 +4,14 @@ TryTLS verifies the certificate verification behavior of programming languages a
 
 Broken certificate checks is a potentially overlooked issue.
 
-TryTLS is a tool for the software and library developers. We invite people to contribute.
+TryTLS is a tool for the:
+ * software and library developers,
+ * vulnerability researchers, and
+ * software end-users, who are interested about the security of the implementation.
+
+We invite people to contribute.
+
+---
 
 ## What
 
@@ -12,6 +19,8 @@ TryTLS is a tool for the software and library developers. We invite people to co
  * Test the TLS client code, do not address possible client certificate check problems in server code
  * Test against specialized backends, do not require a man in the middle setup
  * Drive the tests with code, do not worry about smart TVs, IoT toasters and other such devices
+
+---
 
 ## How
 
@@ -23,9 +32,13 @@ TryTLS is a tool for the software and library developers. We invite people to co
  * Utilize docker -> encapsulate dependencies for the examples and the backends
  * Support multiple backends -> use hosted backends or run your own on the host or in the cloud
 
+---
+
 ## Architecture
 
-![Architecture](doc/architecture.jpg)
+![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/architecture-scaled.jpg)
+
+---
 
 ## Stubs
 
@@ -34,6 +47,8 @@ the [stubs/](stubs/) directory. You can contribute your stub here or just BYOR (
 
 These stubs should attempt to use the chosen language and library
 properly to establish a secure TLS connection to the given destination.
+
+---
 
 ### Calling convention
 
@@ -44,6 +59,8 @@ line arguments (`<host> <port> [ca-bundle]`):
  * `<port>` is the port to connect to
  * `[ca-bundle]` is optional location of the CA certificate bundle to be used
  instead of the built-in default
+
+---
 
 ### Return values
 
@@ -61,6 +78,8 @@ If anything else is returned, then the test has erred.
 
 Unless a fatal error occurs, examples should always return with process exit value 0.
 
+---
+
 ### Packaging
 
 A stub should be confined to a directory named in a way that describes the
@@ -70,6 +89,8 @@ A stub should have a top level `README.md` that describes how to run the example
 
 Optionally a stub can have a `Dockerfile` that encapsulates the environment
 and the dependancies needed to run the example.
+
+---
 
 ## Test runners
 
@@ -84,11 +105,13 @@ $ python setup.py install --user
 Example usage:
 
 ```console
-$ ~/.local/bin/trytls python3 examples/python3-urllib/run.py
+$ ~/.local/bin/trytls python3 stubs/python3-urllib/run.py
 PASS badssl(True, 'sha1-2016')
 PASS badssl(False, 'expired')
 ...
 ```
+
+---
 
 ## Backends
 
@@ -105,7 +128,3 @@ Test runners should should allow user to test against all or any of these backen
 
  * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
  * Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
-
-# References
-
- * https://cwe.mitre.org/data/definitions/295.html -  For observing different ways to fail certificate checks.
