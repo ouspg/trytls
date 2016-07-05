@@ -35,7 +35,7 @@ function DoOtherThings()
         if not arg[3]==nil then
             cert = arg[3]
         end
-        print(arg[1], arg[2], arg[3])
+        --print(arg[1], arg[2], arg[3])
         print(cert)
         local params = {
             mode = "client",
@@ -46,7 +46,6 @@ function DoOtherThings()
         }
 
         local conn = socket.tcp()
-        conn=net.createConnection(net.TCP, false)
         conn:connect(tostring(arg[1]), arg[2])
 
         conn = ssl.wrap(conn, params)
@@ -59,5 +58,5 @@ function DoOtherThings()
     end
 end
 
-DoOtherThings()
---DoThings()
+--DoOtherThings()
+DoThings()
