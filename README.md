@@ -83,7 +83,8 @@ Unless a fatal error occurs, examples should always return with process exit val
 ### Packaging
 
 A stub should be confined to a directory named in a way that describes the
-chosen target language and library or service.
+chosen target language and library or service: in stubs/language-library/,  
+named as `run` / `Run` with the appropriate file extension (run.lua, run.py etc.)
 
 A stub should have a top level `README.md` that describes how to run the example. The stubs should have a `run` command.
 
@@ -111,6 +112,8 @@ PASS badssl(False, 'expired')
 ...
 ```
 
+We have also one [bash based test runner](runners/bashtls/data/shared/simplerunner) [WIP]
+
 ---
 
 ## Backends
@@ -118,7 +121,7 @@ PASS badssl(False, 'expired')
 We currently are working to support following backends implementing the tests:
 
  * Local backend in the test runner itself (aka `localhost` backend) [WIP]
- * TryTLS backend both as docker based "run-it-yourself" packaging and as a
+ * [Trytls backend](backends/trytls) both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
  * [BadSSL](https://badssl.com)
 

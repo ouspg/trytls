@@ -42,6 +42,9 @@ while read -r inst value; do
 				#set message
 				msg=$value
 				;;
+			"status")				#if connected, is it good?, bad?, what?
+				status=$value
+				;;
 			"set_crt")
 				#set cert (name)
 				crt=$value
@@ -155,7 +158,7 @@ while read -r inst value; do
 				mkdir -p "$datapath/"$server
 				echo $msg > "$datapath/"$server/index.html
 
-				echo "$port & $msg & trytls_$crt.crt & $current_hostname" >> tmp/conf	|| exit 3
+				echo "$port & $msg & $status & trytls_$crt.crt & $current_hostname" >> tmp/conf	|| exit 3
 
 				if [[ "$protocol" == "https" ]]; then
 
