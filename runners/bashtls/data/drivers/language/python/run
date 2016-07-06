@@ -1,0 +1,17 @@
+#this script will be called once for every valid data line in conf file..
+
+main()
+{
+	port=$1
+	host=$2
+	ca_bundle=$3
+
+	#language spesific command to call the stub
+	#the data printed in called stub will also be printed in here
+
+	command stub port host ca_bundle
+
+}
+
+
+main $1 $2 $3

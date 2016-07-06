@@ -1,0 +1,14 @@
+
+##shared
+
+conf: (volume)
+	line:
+		port & message & crt & hostname
+
+certs: (volume)
+	all certs ready to be used in servers
+
+
+language:
+	used to create the Dockerfiles for different servers based on need
+

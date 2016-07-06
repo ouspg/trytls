@@ -1,11 +1,15 @@
-##initial plan
+#Get started
+
+be ready for everything:
+*sudo bash init stubspath `ls ~/Työpöytä/git-repos/trytls/stubs  | tr '\n' ' '`
+
+example:
+bash init trytls/stubs `ls trytls/stubs  | tr '\n' ' '`
 
 
 
 init:
-	*creates docker-compose.yml and Dockerfiles wanted/needed
 
 
 docker-compose build
 docker-compose up
-
