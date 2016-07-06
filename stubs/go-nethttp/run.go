@@ -8,12 +8,12 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 2 {
+	if len(os.Args) != 3 {
 		fmt.Println("UNSUPPORTED")
 		os.Exit(1)
 	}
 
-	url := "https://" + os.Args[1]
+	url := "https://" + os.Args[1] + ":" + os.Args[2]
 
 	// Perform a HTTP(s) Request
 	_, err := http.Get(url)
@@ -21,9 +21,9 @@ func main() {
 		sslError := strings.Contains(err.Error(), "certificate") || strings.Contains(err.Error(), "handshake")
 		if sslError {
 			fmt.Println("VERIFY FAILURE")
-		} else {
-			fmt.Println(err)
-		}
+			os.Exit(0)
+		} 
+		fmt.Println(err)
 		os.Exit(1)
 	}
 	fmt.Println("VERIFY SUCCESS")
