@@ -27,6 +27,7 @@ while read -r port msg status crt hostname; do
 
   #try to connect
 
+
   if [[ "$certspath" ]]; then
     #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
     if [[ "$crt" != "_" && "$certspath" != "-k" ]]; then
@@ -49,32 +50,33 @@ while read -r port msg status crt hostname; do
 
   #choose color
 
-  if [[ "$status" == "BAD" ]]; then
+  if [[ "$response" == "UNSUPPORTED" ]]; then
+    #color='\e[0;43m'
+    response='UNSUPPORTED [the stub does not support given commandline arguments]\n'
+    msg=$filename
+  elif [[ "$status" == "BAD" ]]; then
 
     if [[ "$response" == "VERIFY FAILURE" ]]; then
       color='\e[0;32m'    #green, success
+      response='[SUCCESS] '$response
     else
       color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+      response='[FAILURE] '$response
     fi
 
   elif [[ "$status" == "GOOD" ]]; then
 
     if [[ "$response" == "VERIFY SUCCESS" ]]; then
       color='\e[0;36m'    #green, success
+      response='[SUCCESS] '$response
     else
+      response='[FAILURE] '$response
       color='\e[0;41m'    #red, failure(either error or verify did not succeed)
     fi
   else
+    response='[  OK?  ] '$response
     color='\e[0;37m'    #allright
   fi
-
-  #if [[ "$response" == "VERIFY SUCCESS" ]]; then
-  #  echo -e "\e[0;32m$response":"$msg\e[0m"
-  #elif [[ "$response" == "VERIFY FAILURE" ]]; then
-  #  echo -e "\e[0;36m$response":"$msg\e[0m"
-  #else
-  #  echo -e "\e[0;31merror:  $response\e[0m"
-  #fi
 
   echo -e "$color""$response":"$msg\e[0m"
 
