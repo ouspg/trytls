@@ -4,24 +4,28 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 )
-
-func usage() {
-	fmt.Printf("Usage: %v <URL>", os.Args[0])
-}
 
 func main() {
 	if len(os.Args) != 2 {
-		usage()
-		return
-	}
-	url := os.Args[1]
-
-	// Perform a HTTP Request
-	_, err := http.Get(url)
-	if err != nil {
-		fmt.Println(err)
+		fmt.Println("UNSUPPORTED")
 		os.Exit(1)
 	}
-	fmt.Println("TLS verification OK")
+
+	url := "https://" + os.Args[1]
+
+	// Perform a HTTP(s) Request
+	_, err := http.Get(url)
+	if err != nil {
+		sslError := strings.Contains(err.Error(), "certificate") || strings.Contains(err.Error(), "handshake")
+		if sslError {
+			fmt.Println("VERIFY FAILURE")
+		} else {
+			fmt.Println(err)
+		}
+		os.Exit(1)
+	}
+	fmt.Println("VERIFY SUCCESS")
+	os.Exit(0)
 }
