@@ -132,6 +132,7 @@ Test runners should should allow user to test against all or any of these backen
 ## Found issues
 
  * [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq GitHub](https://github.com/bos/wreq/issues/84)
+  * See also [Is Wreq suitable for HTTPS applications? · Issue #82 · bos/wreq · GitHub](https://github.com/bos/wreq/issues/82)
 
 ## TryTLS Team
 
