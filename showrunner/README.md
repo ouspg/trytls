@@ -64,7 +64,7 @@ The `showrunner.testenv` module contains helpers for writing local test servers.
 
   * The optional `callback` argument can be passed in to modify how a created connection socket is used after a socket connection has been established. The default callback just does the TLS handshake, but is also used by the HTTPS bundle (described later) to imitate a webserver. For an example see bundles/https.py
 
-## On-the-fly Certificate Generation
+### On-the-fly Certificate Generation
 
 Function `showrunner.gencert.gencert(cn="...")` can be used for generating a PEM encoded server certificate + private key pair and a PEM ca bundle against which the server certificate verifies. The function basically just wraps the `openssl` command and generates a server certificate for the given Common Name. To save time the private server key and the private CA key are generated once per process.
 
