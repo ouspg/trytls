@@ -19,6 +19,10 @@ main = do
     putStrLn $ prog ++ " <host> <port> [ca-bundle]"
     exitFailure
 
+  when (argc == 3) $ do
+    putStrLn "UNSUPPORTED"
+    exitSuccess
+
   let host = args !! 0
       port = args !! 1
       settings = defaultSettingsIMAPSSL {

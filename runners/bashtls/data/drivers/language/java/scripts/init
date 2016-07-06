@@ -1,0 +1,7 @@
+for all lines in java.stubs
+  javac stub.java
+
+rm java/cabundle
+
+for all files in certs/
+  add into java/ca_bundle

@@ -1,16 +1,20 @@
 import urllib3
 import sys
 
+if len(sys.argv) < 3:
+    exit("Usage: %s <URL> <PORT> [CA_FILE]" % sys.argv[0])
+
+cert = sys.argv[3] if len(sys.argv) > 3 else None
+
 http = urllib3.PoolManager(
     cert_reqs='CERT_REQUIRED',  # Force certificate check.
-    ca_certs='/etc/ssl/certs/ca-bundle.crt'
+    ca_certs=cert
 )
 
-if len(sys.argv) < 2:
-    exit("Usage: %s <URL>" % sys.argv[0])
 try:
-    r = http.request('GET', sys.argv[1])
-except Exception as e:
-    exit("%s" % e)
+    r = http.request('GET', "https://{}:{}".format(sys.argv[1], sys.argv[2]))
+    print("VERIFY SUCCESS")
+except (urllib3.exceptions.SSLError, urllib3.exceptions.SubjectAltNameWarning):
+    print("VERIFY FAILURE")
 else:
-    exit(0)
+    pass
