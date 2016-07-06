@@ -91,3 +91,10 @@ def local(ok_expected, cn, callback=handshake_callback):
     with mock_server(certdata, keydata, callback=callback) as (host, port):
         with tmpfiles(cadata) as cafile:
             yield ok_expected, host, port, cafile
+
+
+@testenv
+def badssl_onlymyca(ok_expected, name):
+    _, _, cadata = gencert("localhost")
+    with tmpfiles(cadata) as cafile:
+        yield ok_expected, name + ".badssl.com", 443, cafile
