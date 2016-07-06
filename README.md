@@ -127,6 +127,12 @@ We currently are working to support following backends implementing the tests:
 
 Test runners should should allow user to test against all or any of these backends.
 
+---
+
+## Found issues
+
+ * [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq GitHub](https://github.com/bos/wreq/issues/84)
+
 ## TryTLS Team
 
  * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
