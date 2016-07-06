@@ -6,6 +6,10 @@ class Program
 {
 	static void Main(string[] args)
 	{
+		if (args.Length > 2) {
+		   Console.WriteLine("UNSUPPORTED");
+		   System.Environment.Exit(0);
+		}
 		try {
 			string url = "https://"+args[0]+":"+args[1];
 			GetURL(url).Wait();
@@ -23,9 +27,10 @@ class Program
 			}
 			});
 		} catch (System.IndexOutOfRangeException) {
-			Console.WriteLine("Usage: dotnettest <URL>");
+			Console.WriteLine("Usage: dotnettest <HOST> <PORT>");
 		} catch (Exception e) {
 			Console.WriteLine("Unhandled exception: {0} {1}",e.Message,e);
+			System.Environment.Exit(1);
 		} 
 	}
 	

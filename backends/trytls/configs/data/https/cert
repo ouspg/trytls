@@ -16,23 +16,24 @@ ssl_ciphers & HIGH:!aNULL:!MD5;
 
 server & ok
 msg & correct cert
+status & tjaa
 push & ok
 
 server & wrong_host
 msg & wrong hostname
+status & tjaa
 push & wrong_host
 
 server & wrong_san
 msg & correct cn, wrong san
+status & tjaa
 push & wrong_san
 
 server & expired
 msg & expired cert
+status & tjaa
 push & expired
 
 ------------------------------------------------------------------
 
 TODO: when more certs created, create a server also
-
-
-

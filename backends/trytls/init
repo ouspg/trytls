@@ -13,7 +13,7 @@ if [ "$#" -lt 4 ]; then
 	echo "wrong number of arguments (" "$#" "given), at least 3 needed"
 	echo "port = port of the first server, service = name of the service in the data/ directory, protocol = data/dir name"
 	echo "..."
-	echo "correct would be: init port hostname https service1 service2 ... serviceN"	
+	echo "correct would be: init port hostname https service1 service2 ... serviceN"
 	echo "..."
 	exit 1
 fi
@@ -26,9 +26,12 @@ exit_safe()
 
 begin_init()
 {
+
 	rm tmp -R >> /dev/null 2>&1
 	mkdir -p tmp/certs >> /dev/null 2>&1
-
+	if [[ `grep privatekey:copy info` ]]; then
+		mkdir -p tmp/key >> /dev/null 2>&1
+	fi
 	touch tmp/port
 	echo $port > tmp/port_first
 
@@ -38,18 +41,20 @@ begin_init()
 	mkdir -p servers/server/crt
 	mkdir -p servers/server/data
 
-
 	#touch servers/Dockerfile
 	#touch servers/default.conf
 
+	if [[ ! `grep privatekey:percert info` ]]; then
 
-	#create privatekey
+		#create privatekey
+		permissions=400
+		openssl genrsa -out tmp/server.key 2048
+		chmod permissions tmp/server.key
 
-	openssl genrsa -out tmp/server.key 2048
+		#copy private key ready to be used
+		cp tmp/server.key servers/server/key/server.key
 
-	#copy private key ready to be used
-	cp tmp/server.key servers/server/key/server.key
-	
+	fi
 
 	#init docker-compose
 
@@ -61,30 +66,29 @@ begin_init()
 
 		#echo 'ADD server/server.key /etc/nginx/server/server.key';
 		{ echo 'FROM nginx:1.9.7' ; \
-		echo 'ADD default.conf /etc/nginx/conf.d/' ; \ 
+		echo 'ADD default.conf /etc/nginx/conf.d/' ; \
 		echo 'COPY server /etc/nginx/servers/server' ; } > servers/Dockerfile || exit 1
-		
-	fi
 
+	fi
 }
 
 ##MAIN##
 
-begin_init
-
 shift 3		# port + hostname + protocol
+
+begin_init
 
 while [ $# -gt 0 ]; do
 
 	service=$1
 
 	#create new files
-	
+
 	bash configs/create "$service" "$port" "$hostname" "$protocol" || exit_safe $?
 
 	port=`cat tmp/port`
 
-	shift	
+	shift
 
 done
 
@@ -108,5 +112,5 @@ for f in tmp/certs/*; do
 done
 
 exit_safe 0
-	
+
 #TODO: exits, etc..
