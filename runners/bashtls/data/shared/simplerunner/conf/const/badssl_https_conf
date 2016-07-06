@@ -9,3 +9,4 @@
 443 & superfish & BAD & _ & superfish.badssl.com
 443 & edellroot & BAD & _ & edellroot.badssl.com
 443 & dsdtestprovider & BAD & _ & dsdtestprovider.badssl.com
+443 & disable ca-bundles & BAD & certs/test.crt & google.com
