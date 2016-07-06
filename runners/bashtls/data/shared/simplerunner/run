@@ -1,0 +1,78 @@
+#!/bin/bash
+
+command=$1
+filename=$2
+confpath=$3
+certspath=$4
+if [[ "$certspath" ]]; then
+  certspath=${certspath//[[:blank:]]/}
+fi
+
+FIS=$IFS
+IFS='&'
+
+while read -r port msg status crt hostname; do
+
+  port=${port//[[:blank:]]/}
+  #msg=${msg//[[:blank:]]/}
+  status=${status//[[:blank:]]/}
+  crt=${crt//[[:blank:]]/}
+  hostname=${hostname//[[:blank:]]/}
+
+  #echo "port: " .$port.
+  #echo "msg: " .$msg.
+  #echo "crt: " .$crt.
+  #echo "status: " .$status.
+  #echo "hostname: " .$hostname.
+
+  #try to connect
+
+  if [[ "$certspath" ]]; then
+    #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
+    if [[ "$crt" != "_" ]]; then
+      response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+    else
+      response=`exec $command $filename $hostname $port "$certspath"`
+    fi
+
+  else
+    #echo "test: " $command $filename $hostname $port
+    response=`exec $command $filename $hostname $port`
+  fi
+
+  #response
+
+  #choose color
+
+  if [[ "$status" == "BAD" ]]; then
+
+    if [[ "$response" == "VERIFY FAILURE" ]]; then
+      color='\e[0;32m'    #green, success
+    else
+      color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+    fi
+
+  elif [[ "$status" == "GOOD" ]]; then
+
+    if [[ "$response" == "VERIFY SUCCESS" ]]; then
+      color='\e[0;36m'    #green, success
+    else
+      color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+    fi
+  else
+    color='\e[0;37m'    #allright
+  fi
+
+  #if [[ "$response" == "VERIFY SUCCESS" ]]; then
+  #  echo -e "\e[0;32m$response":"$msg\e[0m"
+  #elif [[ "$response" == "VERIFY FAILURE" ]]; then
+  #  echo -e "\e[0;36m$response":"$msg\e[0m"
+  #else
+  #  echo -e "\e[0;31merror:  $response\e[0m"
+  #fi
+
+  echo -e "$color""$response":"$msg\e[0m"
+
+done < "$confpath"
+
+IFS=$FIS

@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import sys
 import argparse
 import importlib
 import subprocess
@@ -56,6 +57,9 @@ def run_one(args, host, port, cafile=None):
 
 
 def run(args, tests):
+    fail_count = 0
+    error_count = 0
+
     for test in tests:
         with test() as (ok_expected, host, port, cafile):
             try:
@@ -63,9 +67,13 @@ def run(args, tests):
             except Unsupported:
                 print("SKIP", test)
             except UnexpectedOutput as uo:
+                error_count += 1
+
                 output = uo.args[0].decode("ascii", "replace")
                 print("ERROR unexpected output:\n{}".format(indent(output, " " * 4)))
             except ProcessFailed as pf:
+                error_count += 1
+
                 print("ERROR process exited with return code {}".format(pf.args[0]))
                 stderr = pf.args[1]
                 if stderr:
@@ -74,7 +82,10 @@ def run(args, tests):
                 if bool(ok) == bool(ok_expected):
                     print("PASS", test)
                 else:
+                    fail_count += 1
                     print("FAIL", test)
+
+    return fail_count == 0 and error_count == 0
 
 
 def module_path(string):
@@ -119,8 +130,15 @@ def main():
     )
     args = parser.parse_args()
 
-    run([args.command] + args.args, args.test_bundle)
+    if not run([args.command] + args.args, args.test_bundle):
+        # Return with a non-zero exit code if all tests were not successful. The
+        # CPython interpreter exits with 1 when an unhandled exception occurs,
+        # and with 2 when there is a problem with a command line parameter. The
+        # argparse module also uses the code 2 for the same purpose. Therefore
+        # the chosen return value here is 3.
+        return 3
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
