@@ -29,5 +29,8 @@ setup(
             "https=showrunner.bundles.https:all_tests",
             "imap=showrunner.bundles.imap:all_tests"
         ]
-    }
+    },
+    install_requires=[
+        "colorama"
+    ]
 )

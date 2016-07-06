@@ -1,9 +1,10 @@
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import sys
 import argparse
 import subprocess
 import pkg_resources
+from colorama import Fore, Back, Style
 
 
 class Unsupported(Exception):
@@ -26,6 +27,12 @@ def indent(text, indent):
 
     lines = text.splitlines(True)
     return "".join(indent + line for line in lines)
+
+
+def output(format_string, **kwargs):
+    keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
+    keys.update(kwargs)
+    print(format_string.format(**keys) + Style.RESET_ALL)
 
 
 def run_one(args, host, port, cafile=None):
@@ -63,25 +70,31 @@ def run(args, tests):
             try:
                 ok = run_one(list(args), host, port, cafile)
             except Unsupported:
-                print("SKIP", test)
+                output("  {Style.DIM}SKIP {test}", test=test)
             except UnexpectedOutput as uo:
                 error_count += 1
-
-                output = uo.args[0].decode("ascii", "replace")
-                print("ERROR unexpected output:\n{}".format(indent(output, " " * 4)))
+                output(
+                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} unexpected output:\n{Fore.DIM}{error}",
+                    error=indent(uo.args[0].decode("ascii", "replace"), " " * 4)
+                )
             except ProcessFailed as pf:
                 error_count += 1
 
-                print("ERROR process exited with return code {}".format(pf.args[0]))
-                stderr = pf.args[1]
-                if stderr:
-                    print(indent(stderr, " " * 4).rstrip().decode("ascii", "replace"))
+                output(
+                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} process exited with return code {code}",
+                    code=pf.args[0]
+                )
+                if pf.args[1]:
+                    output(
+                        "{Fore.RED}{Style.DIM}{error}",
+                        error=indent(pf.args[1], " " * 4).rstrip().decode("ascii", "replace")
+                    )
             else:
                 if bool(ok) == bool(ok_expected):
-                    print("PASS", test)
+                    output("  {Fore.GREEN}PASS{RESET} {test}", test=test)
                 else:
                     fail_count += 1
-                    print("FAIL", test)
+                    output("{Fore.RED}\u2717 FAIL {test}", test=test)
 
     return fail_count == 0 and error_count == 0
 
