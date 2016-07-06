@@ -2,18 +2,21 @@
 
 ##Used
 
-* expired: obsolete cert should not be valid
-* wrong.host: wrong host should not be valid
-* self-signed: who knows who signed? should not be valid
-* sha256: should be valid to future proof
-* 1000-sans: massive alternative names should be valid
-* incomplete-chain: cert should have full proof of chain to trusted CA and hence this should not be valid
-* superfish: super fishy CA should not be valid
-* edellroot: rotten roots CA should not be valid
-* dsdtestprovider: unproviding CA should not be valid
+* `expired`: Obsolete cert should not be valid
+* `wrong.host`: Wrong host should not be valid
+* `self-signed`: Who knows who signed? Should not be valid
+* `sha256`: Should be valid to future proof
+* `1000-sans`: Massive amount of alternative names should be valid
+* `incomplete-chain`: Cert should have full proof of chain to trusted CA and hence this should not be valid
+* `superfish`: Super fishy CA should not be valid
+* `edellroot`: Rotten roots CA should not be valid
+* `dsdtestprovider`: Unproviding CA should not be valid
 
 ##Unused
 
-* 10000-sans: massive-er alternative names, useful only for possible futureproofing
-* pinning-test: only for Chrome
-* rest of tests: out of scope (???)
+* `sha1-2016`: Maybe invalid after 2016
+* `sha1-2017`: Maybe invalid after 2017
+* `10000-sans`: Gargantuan amount of alternative names, it is useful only for possible futureproofing if valid
+* `rsa8192`: Not compulsory, but if one wants to future proof, make valid
+* `pinning-test`: Should be invalid, but only used for Chrome
+* **other tests**: Out of scope
