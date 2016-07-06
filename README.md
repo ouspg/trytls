@@ -11,7 +11,7 @@ TryTLS is a tool for the:
  * vulnerability researchers, and
  * software end-users, who are interested about the security of the implementation.
 
-We invite people to contribute. Right now we are working hard to make it as simple as possible for you, see our work-in-progress [HOWTO](doc/CONTRIBUTING.md).
+We invite people to contribute. Right now we are working hard to make it as simple as possible for you, see our work-in-progress [HOWTO](CONTRIBUTING.md).
 
 ---
 
