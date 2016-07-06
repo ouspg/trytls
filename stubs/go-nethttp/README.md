@@ -18,8 +18,8 @@
 
 | TLS verification result     | Exit code |
 | ----------------------------| --------- |
-| Success                     | 0         |
-| Failed (e.g. bad cert)      | 1         |
+| SUCCESS/FAILURE             | 0         |
+| ERROR                       | 1         |
 
 More information about error may be available on standard output.
 
@@ -33,10 +33,9 @@ Example:
 
 ```shell
 $ go run run.go https://badssl.com/
-TLS verification OK
+VERIFY SUCCESS
 $ go run run.go https://untrusted-root.badssl.com/
-Get https://untrusted-root.badssl.com/: x509: certificate signed by unknown authority
-exit status 1
+VERIFY FAILURE
 ```
 
 # Dependencies:
