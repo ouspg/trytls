@@ -2,10 +2,8 @@ from __future__ import print_function
 
 import sys
 import argparse
-import importlib
 import subprocess
-
-from . import bundles
+import pkg_resources
 
 
 class Unsupported(Exception):
@@ -88,31 +86,32 @@ def run(args, tests):
     return fail_count == 0 and error_count == 0
 
 
-def module_path(string):
-    string = string.strip()
-    if string.startswith("."):
-        string = bundles.__name__ + string
-
-    pieces = string.split(".")
-    name = pieces.pop()
-    path = ".".join(pieces)
-    try:
-        module = importlib.import_module(path, package=__package__)
-    except ImportError as err:
-        raise argparse.ArgumentTypeError(str(err))
-
-    try:
-        return getattr(module, name)
-    except AttributeError as err:
-        raise argparse.ArgumentTypeError(str(err))
-
-
 def main():
-    parser = argparse.ArgumentParser()
+    def iter_bundles():
+        for entry in pkg_resources.iter_entry_points("trytls.bundles"):
+            yield entry.name
+
+    def load_bundle(name):
+        for entry in pkg_resources.iter_entry_points("trytls.bundles", name):
+            return entry.load()
+        return None
+
+    parser = argparse.ArgumentParser(
+        usage="%(prog)s BUNDLE COMMAND [ARG ...]"
+    )
+    parser.add_argument(
+        "bundle",
+        metavar="BUNDLE",
+        default=None,
+        nargs="?",
+        type=load_bundle
+    )
     parser.add_argument(
         "command",
         metavar="COMMAND",
-        help="the command to run"
+        help="the command to run",
+        default=None,
+        nargs="?"
     )
     parser.add_argument(
         "args",
@@ -120,17 +119,18 @@ def main():
         nargs="*",
         help="additional argument for the command"
     )
-    parser.add_argument(
-        "-t",
-        "--test-bundle",
-        metavar="BUNDLE",
-        default=".handshake.all_tests",
-        type=module_path,
-        help="path to the bundle of tests to run"
-    )
-    args = parser.parse_args()
 
-    if not run([args.command] + args.args, args.test_bundle):
+    args = parser.parse_args()
+    if args.bundle is None:
+        bundles = []
+        for entry in pkg_resources.iter_entry_points("trytls.bundles"):
+            bundles.append(entry.name)
+        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), " " * 2))
+
+    if args.command is None:
+        parser.error("too few arguments, missing command")
+
+    if not run([args.command] + args.args, args.bundle):
         # Return with a non-zero exit code if all tests were not successful. The
         # CPython interpreter exits with 1 when an unhandled exception occurs,
         # and with 2 when there is a problem with a command line parameter. The
