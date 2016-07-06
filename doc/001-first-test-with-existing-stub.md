@@ -1,4 +1,4 @@
-# Testing trytls with an existing stub.
+# Testing TryTLS with an existing stub.
 
 First thing we recommend you to do is to test one of the existing stubs.
 Directory ```stubs/```, shows us all the stubs that community has done already
@@ -22,9 +22,8 @@ Resolving deltas: 100% (482/482), done.
 Checking connectivity... done.
 ```
 
-## Install trytls
+## Install TryTLS
 
-Then I'm going to install trytls libs.
 
 ```
 $ cd trytls
@@ -39,7 +38,7 @@ Installing trytls script to /Users/user/Library/Python/2.7/bin
 ```
 
 Now, pay attention to where the trytls script was installed. You will need that
-information soon. You can see the install path from the "Installing trytls script..."
+information soon. You can see the install path from the ```Installing trytls script```...
 -line.
 
 ## Give it a go.
