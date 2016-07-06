@@ -1,0 +1,39 @@
+#!/bin/bash
+
+stubspath=$1
+
+shift 1 #stubspath
+
+#create stubs file(s)
+
+echo $stubspath
+
+#remove old files
+rm data/shared/simplerunner/stubs/* >> /dev/null 2>&1
+
+#init docker-compose
+{ echo "version: '2'"; echo 'services:'; } > docker-compose.yml || exit 2
+
+while [ $# -gt 0 ]; do
+
+  language=$1
+
+  #get stubs
+  echo `find $stubspath/  -type d -name "$language"-* -printf "%f\n" >> data/shared/simplerunner/stubs/$language.stubs`
+
+  #edit docker-compose ( ''' add new service -> container ''' )
+
+  { echo " $language:" ;\
+  echo "  build: data/$language" ;\
+  echo "  container_name: bashtls_$language" ;
+  echo "  volumes: "
+  echo "  - ./data/shared:/etc/shared" ;\
+  echo "  - $stubspath:/etc/shared/stubs" ; }\
+  >> docker-compose.yml || exit 4
+
+
+  #edit docker-compose.yml
+
+  shift 1
+
+done
