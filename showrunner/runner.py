@@ -4,7 +4,18 @@ import sys
 import argparse
 import subprocess
 import pkg_resources
-from colorama import Fore, Back, Style
+from colorama import Fore, Back, Style, init, AnsiToWin32
+
+
+# Initialize colorama without wrapping sys.stdout globally
+init(wrap=False)
+wrapped_stdout = AnsiToWin32(sys.stdout, autoreset=True).stream
+
+
+def output(format_string, **kwargs):
+    keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
+    keys.update(kwargs)
+    print(format_string.format(**keys), file=wrapped_stdout)
 
 
 class Unsupported(Exception):
@@ -27,12 +38,6 @@ def indent(text, indent):
 
     lines = text.splitlines(True)
     return "".join(indent + line for line in lines)
-
-
-def output(format_string, **kwargs):
-    keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
-    keys.update(kwargs)
-    print(format_string.format(**keys) + Style.RESET_ALL)
 
 
 def run_one(args, host, port, cafile=None):
