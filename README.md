@@ -37,7 +37,7 @@ $ cd trytls
 $ pip install .
 ```
 
-In case you don't have [`pip`](https://pip.pypa.io/) install, please refert to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
+In case you don't have [`pip`](https://pip.pypa.io/) install, please refer to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
 
 ### Usage
 
@@ -62,13 +62,13 @@ PASS local(False, 'nothing', callback=<function https_callback at 0x108efe050>)
 
 ## Stubs
 
-Stubs and their documentation can be from from the [stubs/](stubs/) directory.
+Stubs and their documentation can be found from the [stubs/](stubs/) directory.
 
 ---
 
 ## Backends
 
-We currently are working to support following backends implementing the tests:
+We currently are working to support following backends:
 
  * [BadSSL](https://badssl.com), we have cherry picked the [relevant tests](backends/badssl/README.md)
  * Local backend in the test runner itself (aka `localhost` backend) [WIP]
