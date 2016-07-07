@@ -50,27 +50,31 @@ First, I'll use the trytls runner to run a bundle of tests.
 
 ```
 $ cd stubs
-$ /Users/user/Library/Python/2.7/bin/trytls -t
-```
+$ /Users/user/Library/Python/2.7/bin/trytls
+usage: trytls BUNDLE COMMAND [ARG ...]
+trytls: error: missing the bundle argument
 
-Next, I will select the bundle. I'm going to test https-connectivity, so
-I'm picking https-bundle with the -t. The available bundles are listed in
-[showrunner's README.md](https://github.com/ouspg/trytls/blob/master/showrunner/README.md#built-in-bundles)
-
-```
-$ /Users/user/Library/Python/2.7/bin/trytls -t .https.all_tests
-```
-
-Finally, pick the command and stub which will execute the tests, as instructed
-by trytls. I'm testing python's urllib2, so my command is ```python``` and my stub is ```python-urllib2/run.py```
+Valid bundle options:
+  handshake
+  https
+  imap
 
 ```
-$ /Users/user/Library/Python/2.7/bin/trytls -t .https.all_tests python python-urllib2/run.py
+
+Next, select the test bundle you wish to run. I'm going to test https-connectivity, so I'll instruct trytls to use https-bundle.
+
+```
+$ /Users/user/Library/Python/2.7/bin/trytls https
+```
+
+Finally, pick the command and stub for executing the tests, as instructed by trytls. I'm testing python's urllib2, so my command is ```python``` and my stub is ```python-urllib2/run.py```
+
+```
+$ /Users/user/Library/Python/2.7/bin/trytls https python python-urllib2/run.py
 PASS badssl(False, 'expired')
 PASS badssl(False, 'wrong.host')
 PASS badssl(False, 'self-signed')
 ...
 ```
 
-There you go! Now you have experience from running a working stub and you are
-prepared to write your own stub!
+There you go! Now you have experience from running a working stub and you are prepared to write your own stub!
