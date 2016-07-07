@@ -37,7 +37,7 @@ $ cd trytls
 $ pip install .
 ```
 
-In case you don't have [`pip`](https://pip.pypa.io/) install, please refert to[these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
+In case you don't have [`pip`](https://pip.pypa.io/) install, please refert to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
 
 ### Usage
 
