@@ -18,9 +18,19 @@ if sys.version_info < py_required:
 
 setup(
     name="trytls",
-    version="0.0.3",
+    version="0.0.4",
     packages=find_packages(),
     entry_points={
-        "console_scripts": ["trytls=showrunner.runner:main"]
-    }
+        "console_scripts": [
+            "trytls=showrunner.runner:main"
+        ],
+        "trytls.bundles": [
+            "handshake=showrunner.bundles.handshake:all_tests",
+            "https=showrunner.bundles.https:all_tests",
+            "imap=showrunner.bundles.imap:all_tests"
+        ]
+    },
+    install_requires=[
+        "colorama"
+    ]
 )

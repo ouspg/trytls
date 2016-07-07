@@ -1,11 +1,21 @@
-from __future__ import print_function
+from __future__ import print_function, unicode_literals
 
 import sys
 import argparse
-import importlib
 import subprocess
+import pkg_resources
+from colorama import Fore, Back, Style, init, AnsiToWin32
 
-from . import bundles
+
+# Initialize colorama without wrapping sys.stdout globally
+init(wrap=False)
+wrapped_stdout = AnsiToWin32(sys.stdout, autoreset=True).stream
+
+
+def output(format_string, **kwargs):
+    keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
+    keys.update(kwargs)
+    print(format_string.format(**keys), file=wrapped_stdout)
 
 
 class Unsupported(Exception):
@@ -65,54 +75,61 @@ def run(args, tests):
             try:
                 ok = run_one(list(args), host, port, cafile)
             except Unsupported:
-                print("SKIP", test)
+                output("  {Style.DIM}SKIP {test}", test=test)
             except UnexpectedOutput as uo:
                 error_count += 1
-
-                output = uo.args[0].decode("ascii", "replace")
-                print("ERROR unexpected output:\n{}".format(indent(output, " " * 4)))
+                output(
+                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} unexpected output:\n{Fore.DIM}{error}",
+                    error=indent(uo.args[0].decode("ascii", "replace"), " " * 4)
+                )
             except ProcessFailed as pf:
                 error_count += 1
 
-                print("ERROR process exited with return code {}".format(pf.args[0]))
-                stderr = pf.args[1]
-                if stderr:
-                    print(indent(stderr, " " * 4).rstrip().decode("ascii", "replace"))
+                output(
+                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} process exited with return code {code}",
+                    code=pf.args[0]
+                )
+                if pf.args[1]:
+                    output(
+                        "{Fore.RED}{Style.DIM}{error}",
+                        error=indent(pf.args[1], " " * 4).rstrip().decode("ascii", "replace")
+                    )
             else:
                 if bool(ok) == bool(ok_expected):
-                    print("PASS", test)
+                    output("  {Fore.GREEN}PASS{RESET} {test}", test=test)
                 else:
                     fail_count += 1
-                    print("FAIL", test)
+                    output("{Fore.RED}x FAIL {test}", test=test)
 
     return fail_count == 0 and error_count == 0
 
 
-def module_path(string):
-    string = string.strip()
-    if string.startswith("."):
-        string = bundles.__name__ + string
-
-    pieces = string.split(".")
-    name = pieces.pop()
-    path = ".".join(pieces)
-    try:
-        module = importlib.import_module(path, package=__package__)
-    except ImportError as err:
-        raise argparse.ArgumentTypeError(str(err))
-
-    try:
-        return getattr(module, name)
-    except AttributeError as err:
-        raise argparse.ArgumentTypeError(str(err))
-
-
 def main():
-    parser = argparse.ArgumentParser()
+    def iter_bundles():
+        for entry in pkg_resources.iter_entry_points("trytls.bundles"):
+            yield entry.name
+
+    def load_bundle(name):
+        for entry in pkg_resources.iter_entry_points("trytls.bundles", name):
+            return entry.load()
+        return None
+
+    parser = argparse.ArgumentParser(
+        usage="%(prog)s BUNDLE COMMAND [ARG ...]"
+    )
+    parser.add_argument(
+        "bundle",
+        metavar="BUNDLE",
+        default=None,
+        nargs="?",
+        type=load_bundle
+    )
     parser.add_argument(
         "command",
         metavar="COMMAND",
-        help="the command to run"
+        help="the command to run",
+        default=None,
+        nargs="?"
     )
     parser.add_argument(
         "args",
@@ -120,17 +137,16 @@ def main():
         nargs="*",
         help="additional argument for the command"
     )
-    parser.add_argument(
-        "-t",
-        "--test-bundle",
-        metavar="BUNDLE",
-        default=".handshake.all_tests",
-        type=module_path,
-        help="path to the bundle of tests to run"
-    )
-    args = parser.parse_args()
 
-    if not run([args.command] + args.args, args.test_bundle):
+    args = parser.parse_args()
+    if args.bundle is None:
+        bundles = sorted(iter_bundles())
+        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), " " * 2))
+
+    if args.command is None:
+        parser.error("too few arguments, missing command")
+
+    if not run([args.command] + args.args, args.bundle):
         # Return with a non-zero exit code if all tests were not successful. The
         # CPython interpreter exits with 1 when an unhandled exception occurs,
         # and with 2 when there is a problem with a command line parameter. The
