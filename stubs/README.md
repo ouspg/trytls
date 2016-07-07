@@ -1,6 +1,6 @@
 ## Stubs
 
-Example code (stubs) using TLS in different languages and libraries live in here. 
+Example code (stubs) using TLS in different languages and libraries live in here.
 You can contribute your stub here or just BYOR (Bring Your Own Repository).
 
 These stubs should attempt to use the chosen language and library
@@ -40,11 +40,13 @@ Unless a fatal error occurs, examples should always return with process exit val
 
 ### Packaging
 
-Create new directory: lanugage-library
-Name the file that's to be executed as run.x or Run.x.
-* x is the normal filename extensions for the chosen language
+A stub should be confined to a directory named in a way that describes the
+chosen target language and library or service, e.g. `<language>-<library>`.
 
-A stub should have a top level `README.md` that describes how to run the stub. The stubs should have a `run` command.
+A stub should have a top level `README.md` that describes how to run the stub.
+
+The stubs should have a `run` command with optional and approriate file
+extension for the language in question.
 
 Optionally a stub can have a `Dockerfile` that encapsulates the environment
 and the dependancies needed to run the example.
