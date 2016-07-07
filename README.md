@@ -11,8 +11,6 @@ We hope to help you to test certificate handling easily. We support
 systematic and readily planned tests and try make integrating your
 favorite language or library easy.
 
----
-
 ## How it works?
 
 ![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/architecture-scaled.jpg)
@@ -21,8 +19,6 @@ favorite language or library easy.
  * *Stubs* are written for the target languages and libraries to attempt the TLS connection
  * *Runners* "check the checks" by calling the stubs systematically to find out
  how libraries handle signatures, domain names, time, SNI etc. against the backends
-
----
 
 ## Runners
 
@@ -58,13 +54,9 @@ PASS local(True, 'localhost', callback=<function https_callback at 0x108efe050>)
 PASS local(False, 'nothing', callback=<function https_callback at 0x108efe050>)
 ```
 
----
-
 ## Stubs
 
 Stubs and their documentation can be found from the [stubs/](stubs/) directory.
-
----
 
 ## Backends
 
@@ -77,23 +69,17 @@ We currently are working to support following backends:
 
 Test runners allow user to test against all or any of these backends.
 
----
-
 ## What not
 
  * We do not address possible client certificate check problems in server code
  * We do not do or require a man-in-the-middle tools
  * We do not support smart TVs, IoT toasters and other such devices that can't run the test driver
 
----
-
 ## Found issues
 
   * [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq GitHub](https://github.com/bos/wreq/issues/84)
    * See also [Is Wreq suitable for HTTPS applications? · Issue #82 · bos/wreq · GitHub](https://github.com/bos/wreq/issues/82)
    * Related [http-client-tls connection to HTTPS site with invalid hostname · Issue #212 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/212)
-
----
 
 ## Contributors
 
