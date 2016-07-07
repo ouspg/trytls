@@ -135,10 +135,7 @@ def main():
 
     args = parser.parse_args()
     if args.bundle is None:
-        bundles = []
-        for entry in pkg_resources.iter_entry_points("trytls.bundles"):
-            bundles.append(entry.name)
-        bundles.sort()
+        bundles = sorted(iter_bundles())
         parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), " " * 2))
 
     if args.command is None:
