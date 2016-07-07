@@ -79,7 +79,7 @@ def run(args, tests):
             except UnexpectedOutput as uo:
                 error_count += 1
                 output(
-                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} unexpected output:\n{Fore.DIM}{error}",
+                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} unexpected output:\n{Style.DIM}{error}",
                     error=indent(uo.args[0].decode("ascii", "replace"), " " * 4)
                 )
             except ProcessFailed as pf:
