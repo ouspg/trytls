@@ -9,7 +9,7 @@ researchers, and end-users, who want to use TLS safely.
 
 We hope to help you to test certificate handling easily. We support
 systematic and readily planned tests and try make integrating your
-favority language or library easy.
+favorite language or library easy.
 
 ---
 
