@@ -8,7 +8,7 @@ TryTLS is a tool for the:
  * vulnerability researchers, and
  * software end-users, who are interested about the security of the implementation.
 
- They use it  makes systematic testing of certificate handling easy:
+They use TryTLS as it makes systematic testing of certificate handling easy:
 
   * TryTLS ships with bundle of readily planned tests, and
   * integrating your favorite language/library is easy
