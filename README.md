@@ -8,10 +8,16 @@ TryTLS is a tool for the:
  * vulnerability researchers, and
  * software end-users, who are interested about the security of the implementation.
 
- They use it  makes systematic testing of certificate handling easy:
+ They use TryTLS because it handles solves the following problems for them:
 
-  * TryTLS ships with bundle of readily planned tests, and
-  * integrating your favorite language/library is easy
+  * *What should be tested?*
+    * TryTLS ships with bundle of readily planned tests
+    * Ofcourse we are always interested in feedback/contributions <fixme link> in that front as well!
+  * *Against what I will run the tests?*
+    * Backends come and go. For example BadSSL is great today, it may disappear any given day
+  * *How do I set up my tests?*
+   * TryTLS runner just requires you to write a stub to run the test. Everything else is handled by TryTLS.
+   
 
 We invite people to contribute. Right now we are working hard to make it as simple as possible for you, see our work-in-progress [HOWTO](CONTRIBUTING.md).
 
