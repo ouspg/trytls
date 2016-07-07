@@ -7,7 +7,7 @@ there are just few.
 The tests in *test bundles* ask *stub* to connect to a *backend*
 and tell ow it when.
 
-![Concept picture](doc/concept-pic.png)
+![Concept picture](concept-pic.png)
 
 *Runner* has the following expectations to towards the *stubs*:
  * *Stubs* take certain command line parameters
