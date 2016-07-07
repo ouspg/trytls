@@ -94,7 +94,7 @@ def run(args, tests):
                     output("  {Fore.GREEN}PASS{RESET} {test}", test=test)
                 else:
                     fail_count += 1
-                    output("{Fore.RED}\u2717 FAIL {test}", test=test)
+                    output("{Fore.RED}x FAIL {test}", test=test)
 
     return fail_count == 0 and error_count == 0
 
