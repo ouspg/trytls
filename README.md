@@ -20,7 +20,7 @@ favority language or library easy.
  * *Backends* use ports and virtual hosts to provide falsified/broken certificate checks
  * *Stubs* are written for the target languages and libraries to attempt the TLS connection
  * *Runners* "check the checks" by calling the stubs systematically to find out
- how libraries handle signatures, domain names, time, SNI etc. against the back
+ how libraries handle signatures, domain names, time, SNI etc. against the backends
 
 ---
 
