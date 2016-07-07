@@ -13,7 +13,7 @@ favorite language and library easy.
 
 ## How Does It Work?
 
-![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/architecture-scaled.jpg)
+![Architecture](doc/concept-pic.png)
 
  * **Backends** use ports and virtual hosts to provide falsified/broken certificate checks
  * **Stubs** are written for the target languages and libraries to attempt the TLS connection
