@@ -16,22 +16,22 @@ ssl_ciphers & HIGH:!aNULL:!MD5;
 
 server & ok
 msg & correct cert
-status & tjaa
+status & GOOD
 push & ok
 
 server & wrong_host
 msg & wrong hostname
-status & tjaa
+status & BAD
 push & wrong_host
 
 server & wrong_san
 msg & correct cn, wrong san
-status & tjaa
+status & BAD
 push & wrong_san
 
 server & expired
 msg & expired cert
-status & tjaa
+status & BAD
 push & expired
 
 ------------------------------------------------------------------
