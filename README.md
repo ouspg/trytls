@@ -1,6 +1,6 @@
 # TryTLS
 
-Does ​*your*​ library check TLS certificates properly?
+Does *your* library check TLS certificates properly?
 Broken certificate checks seems to be an overlooked issue.
 Handling certificates is surprisingly complex, and calls for extra attention.
 
@@ -9,23 +9,23 @@ researchers, and end-users, who want to use TLS safely.
 
 We hope to help you to test certificate handling easily. We support
 systematic and readily planned tests and try make integrating your
-favorite language or library easy.
+favorite language and library easy.
 
-## How it works?
+## How Does It Work?
 
 ![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/architecture-scaled.jpg)
 
- * *Backends* use ports and virtual hosts to provide falsified/broken certificate checks
- * *Stubs* are written for the target languages and libraries to attempt the TLS connection
- * *Runners* "check the checks" by calling the stubs systematically to find out
+ * **Backends** use ports and virtual hosts to provide falsified/broken certificate checks
+ * **Stubs** are written for the target languages and libraries to attempt the TLS connection
+ * **Runners** "check the checks" by calling the stubs systematically to find out
  how libraries handle signatures, domain names, time, SNI etc. against the backends
 
 ## Runners
 
-We have a [Python based test runner](showrunner/). and a work-in-progress
+We have a [Python based test runner](showrunner/) and a work-in-progress
 [bash based test runner](runners/bashtls/data/shared/simplerunner).
 
-### Installing
+### Installation
 
 ```sh
 $ git clone https://github.com/ouspg/trytls.git
@@ -33,25 +33,25 @@ $ cd trytls
 $ pip install .
 ```
 
-In case you don't have [`pip`](https://pip.pypa.io/) install, please refer to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
+In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
 
 ### Usage
 
 ```sh
 $ trytls https python stubs/python-urllib2/run.py
-PASS badssl(False, 'expired')
-PASS badssl(False, 'wrong.host')
-PASS badssl(False, 'self-signed')
-PASS badssl(True, 'sha256')
-PASS badssl(True, '1000-sans')
+  PASS badssl(False, 'expired')
+  PASS badssl(False, 'wrong.host')
+  PASS badssl(False, 'self-signed')
+  PASS badssl(True, 'sha256')
+  PASS badssl(True, '1000-sans')
 x FAIL badssl(True, '10000-sans')
 x FAIL badssl(False, 'incomplete-chain')
-PASS badssl(False, 'superfish')
-PASS badssl(False, 'edellroot')
-PASS badssl(False, 'dsdtestprovider')
+  PASS badssl(False, 'superfish')
+  PASS badssl(False, 'edellroot')
+  PASS badssl(False, 'dsdtestprovider')
 x FAIL badssl_onlymyca(False, 'sha256')
-PASS local(True, 'localhost', callback=<function https_callback at 0x108efe050>)
-PASS local(False, 'nothing', callback=<function https_callback at 0x108efe050>)
+  PASS local(True, 'localhost', callback=<function https_callback at 0x108efe050>)
+  PASS local(False, 'nothing', callback=<function https_callback at 0x108efe050>)
 ```
 
 ## Stubs
@@ -62,14 +62,14 @@ Stubs and their documentation can be found from the [stubs/](stubs/) directory.
 
 We currently are working to support following backends:
 
- * [BadSSL](https://badssl.com), we have cherry picked the [relevant tests](backends/badssl/README.md)
+ * [BadSSL](https://badssl.com) - we have cherry picked the [relevant tests](backends/badssl/README.md)
  * Local backend in the test runner itself (aka `localhost` backend) [WIP]
  * [Trytls backend](backends/trytls) both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
 
 Test runners allow user to test against all or any of these backends.
 
-## What not
+## What TryTLS Is Not
 
  * We do not address possible client certificate check problems in server code
  * We do not do or require a man-in-the-middle tools
