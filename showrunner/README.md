@@ -29,7 +29,7 @@ Valid bundle options:
 
 For example, when testing a HTTP(S) library you'd want to use the `https` bundle. That specific bundle knows to answer to the library's requests with proper HTTP responses, making testing easier.
 
-The parameters following the bundle are `COMMAND` and 0-n `ARG` arguments for the command. These describe how the *stub* - a piece of code for testing some library - should be launched. The [`stubs/`](../stubs) directory in this repository several example stubs. For example the included stub for testing Python's `urllib2` library can be run with:
+The parameters following the bundle are `COMMAND` and 0-n `ARG` arguments for the command. These describe how the *stub* - a piece of code for testing some library - should be launched. The [`stubs/`](../stubs) directory in this repository contains multiple example stubs. As an example the included stub for testing Python's `urllib2` library can be run with:
 
 ```
 $ trytls https python stubs/python-urllib2/run.py
