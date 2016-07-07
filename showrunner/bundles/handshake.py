@@ -9,7 +9,6 @@ badssl_tests = [
     badssl(True, "1000-sans"),  # massive alternative names
     badssl(True, "10000-sans"),  # massive alternative names
     badssl(False, "incomplete-chain"),  # should have full proof of chain to trusted CA
-    badssl(False, "pinning-test"),  # why???
     badssl(False, "superfish"),  # super fishy CA
     badssl(False, "edellroot"),  # rotten roots CA
     badssl(False, "dsdtestprovider")  # unproviding CA
