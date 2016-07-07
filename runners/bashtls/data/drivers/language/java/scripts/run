@@ -1,4 +1,0 @@
-
-for all lines in java.stubs file
-  for all lines in conf file
-    java stub host port ca_bundle

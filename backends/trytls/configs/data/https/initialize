@@ -11,7 +11,7 @@ host & hostname
 days & 365
 create_crt & ok
 
-#correct common name, correct san
+#wrong common name, wrong san
 host & wrongname
 create_crt & wrong_host
 
@@ -25,13 +25,3 @@ days & -365
 create_crt & expired
 
 ------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-

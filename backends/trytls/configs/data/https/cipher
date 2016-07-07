@@ -17,25 +17,25 @@ ssl_protocols & SSLv2 SSLv3 TLSv1 TLSv1.1 TLSv1.2;
 server & all_complementofall
 ssl_ciphers & ALL:COMPLEMENTOFALL;
 msg & supports ssl in at least some level
-status & tjaa
+status & GOOD
 push & no_change
 
 server & high
 ssl_ciphers & HIGH;
 msg & supports high(>128 bit) 'secure' ciphers
-status & tjaa
+status & GOOD
 push & no_change
 
 server & medium
 ssl_ciphers & MEDIUM;
 msg & supports medium(~128 bit) 'secure' ciphers
-status & tjaa
+status & OK?
 push & no_change
 
 server & insecure
 ssl_ciphers & aNULL:eNULL:MD5;
 msg & supports 'insecure' ciphers
-status & tjaa
+status & BAD
 push & no_change
 
 
@@ -44,160 +44,160 @@ push & no_change
 server & RSA
 ssl_ciphers & RSA;
 msg & supports 'RSA'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & AES256
 ssl_ciphers & AES256;
 msg & supports 'AES256'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & SHA384
 ssl_ciphers & SHA384;
 msg & supports 'SHA384'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & ECDSA
 ssl_ciphers & ECDSA;
 msg & supports 'ECDSA'
-status & tjaa
+status & ok?
 push & no_change
 
 server & SRP
 ssl_ciphers & SRP;
 msg & supports 'SRP'
-status & tjaa
+status & OK?
 push & no_change
 
 server & AES
 ssl_ciphers & AES;
 msg & supports 'AES'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & DH
 ssl_ciphers & DH;
 msg & supports 'DH'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & SHA
 ssl_ciphers & SHA;
 msg & supports 'SHA'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & DSS
 ssl_ciphers & DSS;
 msg & supports 'DSS'
-status & tjaa
+status & OK?
 push & no_change
 
 server & CAMELLIA256
 ssl_ciphers & CAMELLIA256;
 msg & supports 'CAMELLIA256'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & AECDH
 ssl_ciphers & AECDH;
 msg & supports 'AECDH'
-status & tjaa
+status & BAD
 push & no_change
 
 server & PSK
 ssl_ciphers & PSK;
 msg & supports 'PSK'
-status & tjaa
+status & OK?
 push & no_change
 
 server & AES128
 ssl_ciphers & AES128;
 msg & supports 'AES128'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & SEED
 ssl_ciphers & SEED;
 msg & supports 'SEED'
-status & tjaa
+status & OK?
 push & no_change
 
 server & CAMELLIA128
 ssl_ciphers & CAMELLIA128;
 msg & supports 'CAMELLIA128'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & AECDH
 ssl_ciphers & AECDH;
 msg & supports 'AECDH'
-status & tjaa
+status & BAD
 push & no_change
 
 server & ADH
 ssl_ciphers & ADH;
 msg & supports 'ADH'
-status & tjaa
+status & BAD
 push & no_change
 
 server & SHA256
 ssl_ciphers & SHA256;
 msg & supports 'SHA256'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & RC4
 ssl_ciphers & RC4;
 msg & supports 'RC4'
-status & tjaa
+status & BAD
 push & no_change
 
 server & MD5
 ssl_ciphers & MD5;
 msg & supports 'MD5'
-status & tjaa
+status & BAD
 push & no_change
 
 server & DES
 ssl_ciphers & DES;
 msg & supports 'DES'
-status & tjaa
+status & BAD
 push & no_change
 
 server & EDH
 ssl_ciphers & EDH;
 msg & supports 'EDH'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & ECDH
 ssl_ciphers & ECDH;
 msg & supports 'ECDH'
-status & tjaa
+status & GOOD
 push & no_change
 
 server & ECDSA
 ssl_ciphers & ECDSA;
 msg & supports 'ECDSA'
-status & tjaa
+status & BAD
 push & no_change
 
 server & 3DES
 ssl_ciphers & 3DES;
 msg & supports '3DES'
-status & tjaa
+status & GOOD
 push & no_change
 
 
 server & NULL
 ssl_ciphers & NULL;
 msg & supports 'NULL'
-status & tjaa
+status & BAD
 push & no_change
- 
+
 
 
 

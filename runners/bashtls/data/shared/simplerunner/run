@@ -4,9 +4,20 @@ command=$1
 filename=$2
 confpath=$3
 certspath=$4
+curpath=`pwd`
 if [[ "$certspath" ]]; then
-  certspath=${certspath//[[:blank:]]/}
+  if [[ "$certspath" != "_" ]]; then
+    certspath=${certspath//[[:blank:]]/}
+  else
+    certspath=""
+  fi
+  if [[ "$5" ]]; then
+    curpath=$5
+  fi
 fi
+
+
+
 
 FIS=$IFS
 IFS='&'
@@ -41,8 +52,8 @@ while read -r port msg status crt hostname; do
     if [[ "$crt" == "_" ]]; then
       response=`exec $command $filename $hostname $port`
     else
-      certpath=`pwd`
-      response=`exec $command $filename $hostname $port "$certpath"/"$crt"`
+      response=`exec $command $filename $hostname $port "$curpath"/"$crt"`
+      echo sadasdasd: $curpath
     fi
   fi
 
