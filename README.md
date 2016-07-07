@@ -105,24 +105,24 @@ and the dependancies needed to run the example.
 
 ## Test runners
 
-We currently have one [python based test runner](showrunner/) implemented.
+We currently have one [Python based test runner](showrunner/) implemented. The recommended way to install it is using [`pip`](https://pip.pypa.io/):
 
-Installation:
-
-```console
-$ python setup.py install --user
+```sh
+$ pip install .
 ```
+
+In case you don't have `pip` set up, please refer to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/) to get started.
 
 Example usage:
 
-```console
-$ ~/.local/bin/trytls python3 stubs/python3-urllib/run.py
-PASS badssl(True, 'sha1-2016')
-PASS badssl(False, 'expired')
-...
+```sh
+$ trytls https python stubs/python-urllib2/run.py
+  PASS badssl(True, 'sha1-2016')
+  PASS badssl(False, 'expired')
+  ...
 ```
 
-We have also one [bash based test runner](runners/bashtls/data/shared/simplerunner) [WIP]
+We have also a work-in-progress [bash based test runner](runners/bashtls/data/shared/simplerunner).
 
 ---
 
@@ -143,6 +143,7 @@ Test runners should should allow user to test against all or any of these backen
 
  * [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq GitHub](https://github.com/bos/wreq/issues/84)
   * See also [Is Wreq suitable for HTTPS applications? · Issue #82 · bos/wreq · GitHub](https://github.com/bos/wreq/issues/82)
+ * [http-client-tls connection to HTTPS site with invalid hostname · Issue #212 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/212)
 
 ## TryTLS Team
 
