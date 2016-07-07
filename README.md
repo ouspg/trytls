@@ -1,15 +1,17 @@
 # TryTLS
 
-TryTLS verifies the certificate verification behavior of programming languages
-and libraries. It provides examples and results and tries to make it easy for
-the community to improve the coverage.
-
-Broken certificate checks is a potentially overlooked issue.
+TryTLS verifies the certificate verification behavior of programming languages and libraries. TryTLS exists because
+broken certificate checks seems to be an overlooked issue. Handling certificates is surprisingly complex, and calls for extra attention. Few basic tests are just not enough.
 
 TryTLS is a tool for the:
  * software and library developers,
  * vulnerability researchers, and
  * software end-users, who are interested about the security of the implementation.
+
+ They use it  makes systematic testing of certificate handling easy:
+
+  * TryTLS ships with bundle of readily planned tests, and
+  * integrating your favorite language/library is easy
 
 We invite people to contribute. Right now we are working hard to make it as simple as possible for you, see our work-in-progress [HOWTO](CONTRIBUTING.md).
 
