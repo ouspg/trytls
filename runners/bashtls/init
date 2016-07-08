@@ -2,7 +2,19 @@
 
 stubspath=$1
 
-shift 1 #stubspath
+#create conf-default file concatting the files wanted
+
+FIS=$IFS
+IFS=':'
+
+#create default conf (" conf1 conf2"), Hox the spaces, currently backends
+rm data/shared/simplerunner/conf/default >> /dev/null 2>&1
+echo $2 | sed -e 's/ / data\/shared\/simplerunner\/conf\//g' | xargs cat \
+  >>data/shared/simplerunner/conf/default
+
+IFS=FIS
+
+shift 2 #stubspath + confs
 
 #create stubs file(s)
 
@@ -28,7 +40,8 @@ while [ $# -gt 0 ]; do
   echo "  container_name: bashtls_$language" ;
   echo "  volumes: "
   echo "  - ./data/shared:/etc/shared" ;\
-  echo "  - $stubspath:/etc/shared/stubs" ; }\
+  echo "  - $stubspath:/etc/shared/stubs" ;
+  echo '  network_mode: "host" ' ; }\
   >> docker-compose.yml || exit 4
 
 

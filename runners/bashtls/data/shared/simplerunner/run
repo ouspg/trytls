@@ -4,6 +4,7 @@ command=$1
 filename=$2
 confpath=$3
 certspath=$4
+
 curpath=`pwd`
 if [[ "$certspath" ]]; then
   if [[ "$certspath" != "_" ]]; then
@@ -12,52 +13,65 @@ if [[ "$certspath" ]]; then
     certspath=""
   fi
   if [[ "$5" ]]; then
-    curpath=$5
+    if [[ $5 != "_" ]]; then
+      curpath=$5
+    fi
   fi
 fi
+stub=$6
 
+timeout=7
 
+curprocess=0
 
+handleresponse()
+{
+  #echo "hello world"
+  start=0
+  process=$1
+  while [[ $process ]]; do
+    curprocess=$process
+    (( start++ ))
 
-FIS=$IFS
-IFS='&'
-
-while read -r port msg status crt hostname; do
-
-  port=${port//[[:blank:]]/}
-  #msg=${msg//[[:blank:]]/}
-  status=${status//[[:blank:]]/}
-  crt=${crt//[[:blank:]]/}
-  hostname=${hostname//[[:blank:]]/}
-
-  #echo "port: " .$port.
-  #echo "msg: " .$msg.
-  #echo "crt: " .$crt.
-  #echo "status: " .$status.
-  #echo "hostname: " .$hostname.
-
-  #try to connect
-
-
-  if [[ "$certspath" ]]; then
-    #echo "test: " $command $filename $hostname $port "$certspath"/"$crt"
-    if [[ "$crt" != "_" && "$certspath" != "-k" ]]; then
-      response=`exec $command $filename $hostname $port "$certspath"/"$crt"`
+    if ps -p $process >> /dev/null 2>&1
+    then
+      sleep 1
+      if [[  $start > $timeout ]]; then
+        kill $process >> /dev/null 2>&1
+        echo "[TIMED OUT   ]"
+        return
+      fi
     else
-      response=`exec $command $filename $hostname $port "$certspath"`
+      return
     fi
+  done
 
-  else
-    #echo "test: " $command $filename $hostname $port
-    if [[ "$crt" == "_" ]]; then
-      response=`exec $command $filename $hostname $port`
+}
+
+connect()
+{
+  port=$1
+  status=$2
+  crt=$3
+  hostname=$4
+
+
+  if [[ "$crt" == "certs/test.crt" ]]; then
+    response=`exec $command $filename $hostname $port "$curpath"/"$crt" & handleresponse $!`
+    #status="OK?"
+  elif [[ "$crt" == "_" ]]; then
+    response=`exec $command $filename $hostname "$port" & handleresponse $!`
+  elif [[ "$certspath" ]]; then
+    if [[ "$certspath" != "-k" ]]; then
+      #echo $command $filename $hostname $port "$certspath"/"$crt"
+      response=`exec $command $filename $hostname $port "$certspath"/"$crt" & handleresponse $!`
+      #status="OK?"
     else
-      response=`exec $command $filename $hostname $port "$curpath"/"$crt"`
-      echo sadasdasd: $curpath
+      response=`exec $command $filename $hostname $port "$certspath" & handleresponse $!`
+      #kill $!
+      #status="OK?"
     fi
   fi
-
-  #response
 
   #choose color
 
@@ -65,6 +79,8 @@ while read -r port msg status crt hostname; do
     #color='\e[0;43m'
     response='UNSUPPORTED [the stub does not support given commandline arguments]\n'
     msg=$filename
+  elif [[ "$response" == "[TIMED OUT   ]" ]]; then
+    color='\e[0;40m'      #most likely the connection was succesfull, but can be sure
   elif [[ "$status" == "BAD" ]]; then
 
     if [[ "$response" == "VERIFY FAILURE" ]]; then
@@ -89,8 +105,35 @@ while read -r port msg status crt hostname; do
     color='\e[0;37m'    #allright
   fi
 
-  echo -e "$color""$response":"$msg\e[0m"
+  echo -e "$color[$stub]$response":"$msg\e[0m[$hostname]"
+
+}
+
+FIS=$IFS
+IFS='&'
+
+while read -r port msg status crt hostname; do
+
+  port=${port//[[:blank:]]/}
+  #msg=${msg//[[:blank:]]/}
+  status=${status//[[:blank:]]/}
+  crt=${crt//[[:blank:]]/}
+  hostname=${hostname//[[:blank:]]/}
+
+  #echo "port: " .$port.
+  #echo "msg: " .$msg.
+  #echo "crt: " .$crt.
+  #echo "status: " .$status.
+  #echo "hostname: " .$hostname.
+  #echo $filename
+  #echo $confpath
+  #echo $certspath
+
+  #try to connect
+
+  connect $port $status $crt $hostname &
 
 done < "$confpath"
+
 
 IFS=$FIS

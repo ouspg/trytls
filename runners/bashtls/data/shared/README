@@ -1,3 +1,11 @@
-certs - these will be used in a way or another during the testing
 
-conf - the bash script running inside containers will feed the stubs using this file
+
+#Intro
+
+* scripts: scripts used by drivers that the bashtls runner uses to run the tls tests
+* simplerunner: runner that the drivers use to run the tls tests
+
+##So?
+
+bashtls -> driver -> simplerunner ( -> stub -> backend -> result )
+ 

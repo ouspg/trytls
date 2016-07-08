@@ -1,11 +1,27 @@
-##initial plan
+
+#Get started
+
+##default settings
+
+* language = python3
+* backends = badssl, trytls-localhost
+
+##To run the bashtls runner against default settings using default languages:
+* docker-compose build
+* docker-compose up
 
 
+##Currently to change either the languages or backends use the following command:
 
-init:
-	*creates docker-compose.yml and Dockerfiles wanted/needed
+bash init <stubspath> <" backend1 backed2 ... backend4"> \ 	#the spaces are of importance
+	[language1] [language2] [langugage3]
 
+for example (change the trytls/stubs path to match the correct one):
+bash init ../trytls/stubs " badssl" python3
 
-docker-compose build
-docker-compose up
+If you want to run against the trytls backend also, you will have to do the following
 
+* bash ../trytls/stubs init " badssl trytls-localhost" python3
+* start trytls backend as instructed in the backends/trytls folder
+* copy the certificates created to data/shared/simplerunner/certs
+* run the bashtls runner as instructed above

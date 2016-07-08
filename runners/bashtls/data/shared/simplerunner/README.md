@@ -13,8 +13,15 @@ You can't run stubs for which you do not have the needed dependencies installed 
 ```
 usage:
 ```console
-$ bash run <language> <stub> <conf> [certs]
+$ bash run <language> <stub> <conf> [certs] [curpath] [stubname]
 ```
+example:
+* language = python3
+* stub = ../run.py
+* conf = badssl
+* certs = ../certs
+* curpath = ../simplerunner
+* stubname = python3-urllib
 
 
 ##Example usage:
@@ -22,12 +29,14 @@ $ bash run <language> <stub> <conf> [certs]
 against badssl (run the code on your computer and you will see the colorcoded version)
 * Green/Blue = Good
 * Red = Bad
-* White = Middle
+* White = Middle/OK?
+* Others = Can't say (but not bad, either good or middle)
+
 ```console
 $ bash run python3 '../trytls/stubs/python3-urllib/run.py' 'conf/const/badssl_https_conf' | sort
-VERIFY FAILURE: dsdtestprovider 
-VERIFY FAILURE: edellroot 
-VERIFY FAILURE: expired 
+python3_1  | [python3-urllib][SUCCESS] VERIFY FAILURE: wrong host [wrong.host.badssl.com]
+python3_1  | [python3-urllib][SUCCESS] VERIFY FAILURE: edellroot [edellroot.badssl.com]
+
 ...
 ```
 
@@ -36,7 +45,3 @@ agains trytls backend
 $ bash run python3 '../trytls/stubs/python3-urllib/run.py' '../trytls/backends/trytls/tmp/conf' ../trytls/backends/trytls/tmp/certs
 ...
 ```
-
-
-
-

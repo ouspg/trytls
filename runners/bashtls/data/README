@@ -1,14 +1,9 @@
 
-##shared
 
-conf: (volume)
-	line:
-		port & message & crt & hostname
+##Intro
 
-certs: (volume)
-	all certs ready to be used in servers
+This folder includes both drivers and shared folder
 
-
-language:
-	used to create the Dockerfiles for different servers based on need
-
+* The drivers are simply dockerfiles (and maybe a little something)
+	that the bashtls runner uses to run different stubs agains backends
+* In the shared folder you can find the files used when running bashtls runner
