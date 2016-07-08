@@ -14,6 +14,10 @@ while read -r stub; do  #read next stub
   bash /etc/shared/simplerunner/run "$language" "/etc/shared/stubs/$stub/$run" \
     "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub &
 
+  while [[ `exec ps -A --no-headers | wc -l` -gt 300 ]]; do
+    sleep 1
+  done
+
 done <"$stubs"
 
 while true; do

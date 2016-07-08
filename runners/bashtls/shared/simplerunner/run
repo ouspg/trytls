@@ -20,9 +20,7 @@ if [[ "$certspath" ]]; then
 fi
 stub=$6
 
-timeout=7
-
-curprocess=0
+timeout=10
 
 handleresponse()
 {
@@ -30,13 +28,12 @@ handleresponse()
   start=0
   process=$1
   while [[ $process ]]; do
-    curprocess=$process
-    (( start++ ))
 
     if ps -p $process >> /dev/null 2>&1
     then
+      (( start++ ))
       sleep 1
-      if [[  $start > $timeout ]]; then
+      if [[  $start -gt $timeout ]]; then
         kill $process >> /dev/null 2>&1
         echo "[TIMED OUT   ]"
         return

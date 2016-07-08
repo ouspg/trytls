@@ -1,9 +1,0 @@
-
-
-##Intro
-
-This folder includes both drivers and shared folder
-
-* The drivers are simply dockerfiles (and maybe a little something)
-	that the bashtls runner uses to run different stubs agains backends
-* In the shared folder you can find the files used when running bashtls runner

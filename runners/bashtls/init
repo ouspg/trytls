@@ -4,13 +4,15 @@ stubspath=$1
 
 #create conf-default file concatting the files wanted
 
-FIS=$IFS
-IFS=':'
 
 #create default conf (" conf1 conf2"), Hox the spaces, currently backends
-rm data/shared/simplerunner/conf/default >> /dev/null 2>&1
-echo $2 | sed -e 's/ / data\/shared\/simplerunner\/conf\//g' | xargs cat \
-  >>data/shared/simplerunner/conf/default
+
+FIS=$IFS
+IFS=':'       #'anything' but ' '
+
+rm shared/simplerunner/conf/default >> /dev/null 2>&1
+echo $2 | sed -e 's/ / shared\/simplerunner\/conf\//g' | xargs cat \
+  >>shared/simplerunner/conf/default
 
 IFS=FIS
 
@@ -21,7 +23,7 @@ shift 2 #stubspath + confs
 echo $stubspath
 
 #remove old files
-rm data/shared/simplerunner/stubs/* >> /dev/null 2>&1
+rm shared/simplerunner/stubs/* >> /dev/null 2>&1
 
 #init docker-compose
 { echo "version: '2'"; echo 'services:'; } > docker-compose.yml || exit 2
@@ -30,23 +32,42 @@ while [ $# -gt 0 ]; do
 
   language=$1
 
-  #get stubs
-  echo `find $stubspath/  -type d -name "$language"-* -printf "%f\n" >> data/shared/simplerunner/stubs/$language.stubs`
+  FIS=$IFS
+  IFS='&'
 
-  #edit docker-compose ( ''' add new service -> container ''' )
+  read -a drivers <<< "${language}"
+  size="${#drivers[@]}"
 
-  { echo " $language:" ;\
-  echo "  build: data/$language" ;\
-  echo "  container_name: bashtls_$language" ;
-  echo "  volumes: "
-  echo "  - ./data/shared:/etc/shared" ;\
-  echo "  - $stubspath:/etc/shared/stubs" ;
-  echo '  network_mode: "host" ' ; }\
-  >> docker-compose.yml || exit 4
+  for i in "${!drivers[@]}"
+  do driver="${drivers[$i]}"
 
+    if [[ $i == 0 ]]; then
+      #get stubs (first driver is the "language")
+      echo `find $stubspath/  -type d -name "$driver"-* -printf "%f\n" >> shared/simplerunner/stubs/$driver.stubs`
+      if [[ $size != 1 ]]; then
+        continue
+      fi
+    fi
+
+    echo $driver
+
+    { echo " $driver:" ;\
+    echo "  build: drivers/$driver" ;\
+    echo "  container_name: bashtls_$driver" ; \
+    echo "  volumes: " ; \
+    echo "  - ./shared:/etc/shared" ;\
+    echo "  - $stubspath:/etc/shared/stubs" ;
+    echo '  network_mode: "host" ' ; }\
+    >> docker-compose.yml || exit 4
+
+  done
+
+  IFS=FIS
 
   #edit docker-compose.yml
 
   shift 1
 
 done
+
+#Todo: add better support for running only wanted stubs + more drivers
