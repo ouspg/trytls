@@ -32,8 +32,8 @@ class UnexpectedOutput(Exception):
 
 def indent(text, indent):
     r"""
-    >>> indent("a\nb\nc", indent="    ")
-    '    a\n    b\n    c'
+    >>> indent("a\nb\nc", indent=" ") == ' a\n b\n c'
+    True
     """
 
     lines = text.splitlines(True)
