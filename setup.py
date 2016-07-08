@@ -22,12 +22,12 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "trytls=showrunner.runner:main"
+            "trytls=trytls.runner:main"
         ],
         "trytls.bundles": [
-            "handshake=showrunner.bundles.handshake:all_tests",
-            "https=showrunner.bundles.https:all_tests",
-            "imap=showrunner.bundles.imap:all_tests"
+            "handshake=trytls.bundles.handshake:all_tests",
+            "https=trytls.bundles.https:all_tests",
+            "imap=trytls.bundles.imap:all_tests"
         ]
     },
     install_requires=[
