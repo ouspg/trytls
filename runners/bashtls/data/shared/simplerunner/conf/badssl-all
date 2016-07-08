@@ -1,0 +1,33 @@
+443 & expired & BAD & _ & expired.badssl.com
+443 & wrong host & BAD & _ & wrong.host.badssl.com
+443 & self-signed & BAD & _ & self-signed.badssl.com
+443 & untrusted-root & BAD & _ & untrusted-root.badssl.com
+443 & sha1-2016 & OK? & _ & sha1-2016.badssl.com
+443 & sha1-2017 & OK? & _ & sha1-2017.badssl.com
+443 & sha-256 & GOOD & _ & sha256.badssl.com
+443 & 1000-sans & GOOD & _ & 1000-sans.badssl.com
+443 & 10000-sans (Bad in ten years) & GOOD & _ & 10000-sans.badssl.com
+443 & incomplete-chain & OK? & _ & incomplete-chain.badssl.com
+443 & rsa8192 & OK? & _ & rsa8192.badssl.com
+443 & mixed-script & BAD & _ & mixed-script.badssl.com
+443 & very & BAD & _ & very.badssl.com
+443 & mixed & OK? & _ & mixed.badssl.com
+443 & mixed-favicon & OK? & _ & mixed-favicon.badssl.com
+443 & cbc & OK? & _ & cbc.badssl.com
+443 & rc4 & OK? & _ & rc4.badssl.com
+443 & mozilla-old & OK? & _ & mozilla-old.badssl.com
+443 & mozilla-intermediate & OK? & _ & mozilla-intermidiate.badssl.com
+443 & mozilla-modern & OK? & _ & mozilla-modern.badssl.com
+443 & dh480 & BAD & _ & dh480.badssl.com
+443 & dh1024 & OK? & _ & dh1024.badssl.com
+443 & dh2048 & GOOD & _ & dh2048.badssl.com
+443 & dh-small-subgroup & BAD & _ & dh-small-subgroup.badssl.com
+443 & hsts & BAD & _ & hsts.badssl.com
+443 & upgrade & OK? & _ & upgrade.badssl.com
+443 & preloaded-hsts & OK? & _ & preloaded-hsts.badssl.com
+443 & subdomain.preloaded-hsts & OK? & _ & subdomain.preloaded-hsts.badssl.com
+443 & pinning-test & OK? & _ & pinning-test.badssl.com
+443 & superfish & BAD & _ & superfish.badssl.com
+443 & edellroot & BAD & _ & edellroot.badssl.com
+443 & dsdtestprovider & BAD & _ & dsdtestprovider.badssl.com
+443 & disable ca-bundles & BAD & certs/test.crt & badssl.com
