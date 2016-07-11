@@ -60,5 +60,5 @@ def gencert(cn):
 
 
 def openssl_version():
-    ver = openssl(["version", "-v"]).strip()
-    return " ".join(ver.split(None, 2)[:2])
+    ver = openssl(["version", "-v"]).strip().decode("ascii", "replace")
+    return " ".join(ver.split()[:2])
