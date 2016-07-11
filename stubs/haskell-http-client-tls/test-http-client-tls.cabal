@@ -1,0 +1,26 @@
+name:                test-http-client-tls
+version:             0.1.0.0
+synopsis:            Simple project template from stack
+description:         Please see README.md
+homepage:            https://github.com/ouspg/trytls#readme
+license:             MIT
+license-file:        LICENSE
+author:              Ossi Herrala
+maintainer:          oherrala@gmail.com
+copyright:           2016 Ossi Herrala
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+
+executable test-http-client-tls
+  hs-source-dirs:      src
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  ghc-options:         -Wall -O2
+  build-depends:       base >= 4.7 && < 5
+                     , connection
+                     , http-client
+                     , http-client-tls
+                     , tls
+                     , x509-store
+                     , x509-system

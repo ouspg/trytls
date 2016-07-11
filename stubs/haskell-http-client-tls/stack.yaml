@@ -1,0 +1,12 @@
+# resolver: lts-6.6
+resolver: nightly-2016-07-07
+packages:
+  - '.'
+  - location:
+      git: https://github.com/oherrala/hs-certificate
+      commit: fccd483710e5a4f37368f03d839eca120523e324
+    subdirs:
+      - x509-store
+extra-deps: []
+flags: {}
+extra-package-dbs: []
