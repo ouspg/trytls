@@ -18,7 +18,7 @@ if sys.version_info < py_required:
 
 setup(
     name="trytls",
-    version="0.0.5",
+    version="0.0.6",
     package_dir={"": "./runners"},
     packages=find_packages("./runners"),
     entry_points={
