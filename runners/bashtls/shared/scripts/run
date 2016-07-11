@@ -5,14 +5,26 @@ language=$2     #for example python3
 run=$3        #what file to run inside the stub folder (e.g. run.py)
 backend_conf=$4    #what backend to test to (e.g. badssl_https_conf)
 certs=$5           #if no certs, then "_"
+move=$6
+timeout=$7
+if [[ ! $timeout ]]; then
+  timeout=15
+fi
 
 processes_min=`exec ps -A --no-headers | wc -l`
 stubcount=0
 
 while read -r stub; do  #read next stub
 
-  bash /etc/shared/simplerunner/run "$language" "/etc/shared/stubs/$stub/$run" \
-    "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub &
+  if [[ $move ]]; then
+    cd "/etc/shared/stubs/$stub/"
+    bash /etc/shared/simplerunner/run "$language" "$run" \
+      "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub $timeout&
+    cd --
+  else
+    bash /etc/shared/simplerunner/run "$language" "/etc/shared/stubs/$stub/$run" \
+      "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub $timeout&
+  fi
 
   while [[ `exec ps -A --no-headers | wc -l` -gt 300 ]]; do
     sleep 1

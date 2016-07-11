@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#create cacerts
+
+cacerts="/etc/ssl/certs/java/cacerts"
+#rm $cacerts remove old cacerts store file
+
+for f in /etc/shared/simplerunner/certs/*; do
+	crt=$f
+  #if [[ $crt =~ ".crt" ]]; then
+    #echo "cert: $crt"
+    keytool -import -storepass changeit -noprompt -alias $crt -file $crt -keystore $cacerts >> /dev/null 2>&1
+  #fi
+done
+
+#compile java program
+#compiledpath="/etc/compiled"
+#mkdir $compiledpath
+#stubsfile="/etc/shared/simplerunner/stubs/java.stubs"
+#stubspath="/etc/shared/stubs"
+
+#while read -r stub; do
+#  javac $stubspath/stub/Run.java
+#  mv $stubspath/stub/Run.class $compiledpath/Run.class
+#done <"$stubsfile"

@@ -20,7 +20,12 @@ if [[ "$certspath" ]]; then
 fi
 stub=$6
 
-timeout=10
+timeout=$7
+if [[ ! $timeout ]]; then
+  timeout=15
+fi
+
+#echo timeout: $timeout
 
 handleresponse()
 {
@@ -53,7 +58,7 @@ connect()
   hostname=$4
 
 
-  if [[ "$crt" == "certs/test.crt" ]]; then
+  if [[ "$crt" == "certs/test.crt" && $certspath ]]; then
     response=`exec $command $filename $hostname $port "$curpath"/"$crt" & handleresponse $!`
     #status="OK?"
   elif [[ "$crt" == "_" ]]; then
@@ -68,6 +73,8 @@ connect()
       #kill $!
       #status="OK?"
     fi
+  else
+    response=`exec $command $filename $hostname "$port" & handleresponse $!`
   fi
 
   #choose color
