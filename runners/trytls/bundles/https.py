@@ -1,6 +1,6 @@
 import ssl
 import functools
-from ..testenv import badssl, badssl_onlymyca, local as _local
+from ..testenv import constant, badssl, badssl_onlymyca, local as _local
 
 
 def https_callback(conn, certfile, keyfile):
@@ -25,12 +25,22 @@ badssl_tests = [
 ]
 
 
+ssllabs_tests = [
+    constant(False, "www.ssllabs.com", 10443),
+    constant(False, "www.ssllabs.com", 10444),
+    constant(False, "www.ssllabs.com", 10445)
+]
+
+
 local_tests = [
     local(True, "localhost"),
     local(False, "nothing")
 ]
 
+
 badssl_only_my_ca = [
     badssl_onlymyca(False, "sha256")
 ]
-all_tests = badssl_tests + badssl_only_my_ca + local_tests
+
+
+all_tests = badssl_tests + badssl_only_my_ca + ssllabs_tests + local_tests
