@@ -1,22 +1,12 @@
 from __future__ import print_function, unicode_literals
 
 import sys
-import gencert
-import platform
 import argparse
 import subprocess
 import pkg_resources
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
-try:
-    from shlex import quote as shlex_quote
-except ImportError:
-    def shlex_quote(string):
-        if string.isalnum():
-            return string
-        return "'" + string.replace("'", "\\'") + "'"
-
-from . import __version__
+from . import __version__, gencert, utils
 
 
 # Initialize colorama without wrapping sys.stdout globally
@@ -53,45 +43,21 @@ def indent(text, by=4):
     return "".join(spaces + line for line in lines)
 
 
-def python_info():
-    return platform.python_implementation() + " " + platform.python_version()
-
-
-def platform_info():
-    if sys.platform == "linux2":
-        distname, version, _ = platform.linux_distribution()
-        if not distname:
-            return "Linux"
-        if not version:
-            return "Linux ({})".format(distname)
-        return "Linux ({} {})".format(distname, version)
-    elif sys.platform == "darwin":
-        version, _, _ = platform.mac_ver()
-        if version.startswith("10."):
-            return "OS X {}".format(version)
-        return "Darwin"
-    return platform.system()
-
-
-def format_command(args):
-    return " ".join(map(shlex_quote, args))
-
-
 def output_info(args, openssl_version, runner_name="trytls"):
     output(
         "{Style.BRIGHT}platform:{RESET} {platform}",
-        platform=platform_info()
+        platform=utils.platform_info()
     )
     output(
         "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python}, {openssl})",
         runner=runner_name,
         version=__version__,
-        python=python_info(),
+        python=utils.python_info(),
         openssl=openssl_version
     )
     output(
         "{Style.BRIGHT}stub:{RESET} {command}",
-        command=format_command(args)
+        command=utils.format_command(args)
     )
 
 
