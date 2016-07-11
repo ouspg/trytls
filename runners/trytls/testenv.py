@@ -41,8 +41,12 @@ def testenv(func):
 
 
 @testenv
+def constant(ok_expected, host, port, cafile=None):
+    yield ok_expected, host, port, cafile
+
+
 def badssl(ok_expected, name):
-    yield ok_expected, name + ".badssl.com", 443, None
+    return constant(ok_expected, name + ".badssl.com", 443)
 
 
 def handshake_callback(conn, certfile, keyfile):
