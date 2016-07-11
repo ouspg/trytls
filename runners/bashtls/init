@@ -42,14 +42,30 @@ while [ $# -gt 0 ]; do
   do driver="${drivers[$i]}"
 
     if [[ $i == 0 ]]; then
-      #get stubs (first driver is the "language")
-      echo `find $stubspath/  -type d -name "$driver"-* -printf "%f\n" >> shared/simplerunner/stubs/$driver.stubs`
+      #language[:stub1:stub2:...:stubn][&driver&driver&driver]
+      if [[ $driver =~ ":" ]]; then
+        FIS2=$IFS
+        IFS=':'
+        for stub in $driver
+        do
+          if [[ $stub =~ "-" ]]; then
+            echo $stub >> shared/simplerunner/stubs/$language.stubs
+          else
+            language=$stub    #set language first
+          fi
+        done
+        IFS=$FIS2
+      else
+        language=$driver
+        echo `find $stubspath/  -type d -name "$driver"-* -printf "%f\n" >> "shared/simplerunner/stubs/$language.stubs"`
+      fi
+
       if [[ $size != 1 ]]; then
         continue
       fi
     fi
 
-    echo $driver
+    #echo $driver
 
     { echo " $driver:" ;\
     echo "  build: drivers/$driver" ;\
