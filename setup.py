@@ -26,7 +26,6 @@ setup(
             "trytls=trytls.runner:main"
         ],
         "trytls.bundles": [
-            "handshake=trytls.bundles.handshake:all_tests",
             "https=trytls.bundles.https:all_tests",
             "imap=trytls.bundles.imap:all_tests"
         ]
