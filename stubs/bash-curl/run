@@ -9,14 +9,35 @@ if [ "$#" -lt 2 ]; then
 	exit 1
 fi
 
+status=0
+
 if [[ "$ca_bundle" ]]; then
 	if [[ "$ca_bundle" == "-k" ]]; then
-		curl https://$host:$port -k
+		curl https://$host:$port -k >> /dev/null 2>&1 || status=$?
 	else
-		curl --cacert $ca_bundle https://$host:$port
+		curl --cacert $ca_bundle https://$host:$port >> /dev/null 2>&1 || status=$?
 	fi
 else
-	curl https://$host:$port
+	curl https://$host:$port >> /dev/null 2>&1 || status=$?
 fi
 
-exit 0
+if [[ "$status" -eq 0 ]]; then
+	echo "VERIFY SUCCESS"
+	exit 0
+else
+	#CURLE_UNSUPPORTED_PROTOCOL=1		#if some of these not needed -> can be removed
+	#CURLE_SSL_CONNECT_ERROR=35
+	#CURLE_PEER_FAILED_VERIFICATION=51
+	#CURLE_SSL_CERTPROBLEM=58
+	#CURLE_SSL_CIPHER=59
+	#CURLE_SSL_CACERT=60
+	error="1 35 51 58 59 60"
+	for i in $error; do
+		if [[ $status -eq $i ]]; then
+			echo "VERIFY FAILURE"
+			exit 0
+		fi
+	done
+fi
+echo "Error code: $status, for more info: https://curl.haxx.se/libcurl/c/libcurl-errors.html"
+exit $status
