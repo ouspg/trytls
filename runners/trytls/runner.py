@@ -1,6 +1,7 @@
 from __future__ import print_function, unicode_literals
 
 import sys
+import gencert
 import platform
 import argparse
 import subprocess
@@ -76,16 +77,17 @@ def format_command(args):
     return " ".join(map(shlex_quote, args))
 
 
-def output_info(args, runner_name="trytls"):
+def output_info(args, openssl_version, runner_name="trytls"):
     output(
         "{Style.BRIGHT}platform:{RESET} {platform}",
         platform=platform_info()
     )
     output(
-        "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python})",
+        "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python}, {openssl})",
         runner=runner_name,
         version=__version__,
-        python=python_info()
+        python=python_info(),
+        openssl=openssl_version
     )
     output(
         "{Style.BRIGHT}stub:{RESET} {command}",
@@ -167,6 +169,12 @@ def main():
             return entry.load()
         return None
 
+    try:
+        openssl_version = gencert.openssl_version()
+    except gencert.OpenSSLNotFound as err:
+        output("{Back.RED}{Fore.WHITE}ERROR:{RESET} {error}", error=err)
+        return 1
+
     parser = argparse.ArgumentParser(
         usage="%(prog)s BUNDLE COMMAND [ARG ...]"
     )
@@ -199,8 +207,7 @@ def main():
     if args.command is None:
         parser.error("too few arguments, missing command")
 
-    output_info([args.command] + args.args)
-
+    output_info([args.command] + args.args, openssl_version=openssl_version)
     if not run([args.command] + args.args, args.bundle):
         # Return with a non-zero exit code if all tests were not successful. The
         # CPython interpreter exits with 1 when an unhandled exception occurs,

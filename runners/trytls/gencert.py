@@ -1,14 +1,25 @@
+import errno
 import subprocess
 from .utils import tmpfiles, memoized
 
 
+class OpenSSLNotFound(Exception):
+    pass
+
+
 def openssl(args, input=None):
-    process = subprocess.Popen(
-        ["openssl"] + list(args),
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
+    try:
+        process = subprocess.Popen(
+            ["openssl"] + list(args),
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+    except OSError as ose:
+        if ose.errno == errno.ENOENT:
+            raise OpenSSLNotFound("openssl command not found in the search path")
+        raise
+
     stdout, _ = process.communicate(input)
     if process.returncode != 0:
         raise RuntimeError()
@@ -46,3 +57,8 @@ def gencert(cn):
         )
 
     return cert_data, cert_key, ca_data
+
+
+def openssl_version():
+    ver = openssl(["version", "-v"]).strip()
+    return " ".join(ver.split(None, 2)[:2])
