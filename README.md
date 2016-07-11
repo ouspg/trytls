@@ -23,7 +23,7 @@ favorite language and library easy.
 ## Runners
 
 We have a [Python based test runner](runners/trytls/) and a work-in-progress
-[bash based test runner](runners/bashtls/data/shared/simplerunner).
+[bash based test runner](runners/bashtls/).
 
 ### Installation
 
