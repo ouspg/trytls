@@ -18,7 +18,7 @@ if sys.version_info < py_required:
 
 setup(
     name="trytls",
-    version="0.0.5",
+    version="0.0.6",
     package_dir={"": "./runners"},
     packages=find_packages("./runners"),
     entry_points={
@@ -26,7 +26,6 @@ setup(
             "trytls=trytls.runner:main"
         ],
         "trytls.bundles": [
-            "handshake=trytls.bundles.handshake:all_tests",
             "https=trytls.bundles.https:all_tests",
             "imap=trytls.bundles.imap:all_tests"
         ]
