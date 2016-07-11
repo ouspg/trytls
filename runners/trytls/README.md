@@ -22,7 +22,6 @@ usage: trytls BUNDLE COMMAND [ARG ...]
 trytls: error: missing the bundle argument
 
 Valid bundle options:
-  handshake
   https
   imap
 ```
@@ -48,7 +47,7 @@ The specific exit code in such situations is 3, to distinguish it from other com
 
 ## Bundles
 
-A test bundle is a collection of tests specialized for some protocol/situation ("just a plain TLS handshake", "an HTTPS server", ...). In practice a test bundle is just a named list of tests to be run. As an example see [`bundles/handshake.py`](./bundles/handshake.py).
+A test bundle is a collection of tests specialized for some protocol/situation ("an HTTPS server", "an IMAP server", ...). In practice a test bundle is just a named list of tests to be run. As an example see [`bundles/https.py`](./bundles/https.py).
 
 The bundles are registered as `setuptools` entrypoints.
 
