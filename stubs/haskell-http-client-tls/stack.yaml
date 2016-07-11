@@ -1,5 +1,4 @@
-# resolver: lts-6.6
-resolver: nightly-2016-07-07
+resolver: lts-6.7
 packages:
   - '.'
   - location:
