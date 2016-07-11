@@ -36,6 +36,11 @@ def _cert_key():
     return openssl(["genrsa", "4096"])
 
 
+_EXT_FILE_DATA = b"""
+basicConstraints = CA:FALSE
+"""
+
+
 def gencert(cn):
     subj = "/CN=" + cn
     ca_key = _ca_key()
@@ -50,9 +55,9 @@ def gencert(cn):
         cert_csr = openssl(["req", "-new", "-subj", subj, "-key", cert_keyfile])
 
     # Sign the certificate with the CA
-    with tmpfiles(ca_key, ca_data) as (ca_keyfile, ca_file):
+    with tmpfiles(ca_key, ca_data, _EXT_FILE_DATA) as (ca_keyfile, ca_file, ext_file):
         cert_data = openssl(
-            ["x509", "-req", "-CA", ca_file, "-CAkey", ca_keyfile, "-set_serial", "01"],
+            ["x509", "-req", "-extfile", ext_file, "-CA", ca_file, "-CAkey", ca_keyfile, "-set_serial", "01"],
             input=cert_csr
         )
 
