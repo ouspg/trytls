@@ -1,10 +1,21 @@
 from __future__ import print_function, unicode_literals
 
 import sys
+import platform
 import argparse
 import subprocess
 import pkg_resources
 from colorama import Fore, Back, Style, init, AnsiToWin32
+
+try:
+    from shlex import quote as shlex_quote
+except ImportError:
+    def shlex_quote(string):
+        if string.isalnum():
+            return string
+        return "'" + string.replace("'", "\\'") + "'"
+
+from . import __version__
 
 
 # Initialize colorama without wrapping sys.stdout globally
@@ -12,7 +23,7 @@ init(wrap=False)
 wrapped_stdout = AnsiToWin32(sys.stdout, autoreset=True).stream
 
 
-def output(format_string, **kwargs):
+def output(format_string="", **kwargs):
     keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
     keys.update(kwargs)
     print(format_string.format(**keys), file=wrapped_stdout)
@@ -30,14 +41,56 @@ class UnexpectedOutput(Exception):
     pass
 
 
-def indent(text, indent):
+def indent(text, by=4):
     r"""
-    >>> indent("a\nb\nc", indent=" ") == ' a\n b\n c'
+    >>> indent("a\nb\nc", by=1) == ' a\n b\n c'
     True
     """
 
+    spaces = " " * by
     lines = text.splitlines(True)
-    return "".join(indent + line for line in lines)
+    return "".join(spaces + line for line in lines)
+
+
+def python_info():
+    return platform.python_implementation() + " " + platform.python_version()
+
+
+def platform_info():
+    if sys.platform == "linux2":
+        distname, version, _ = platform.linux_distribution()
+        if not distname:
+            return "Linux"
+        if not version:
+            return "Linux ({})".format(distname)
+        return "Linux ({} {})".format(distname, version)
+    elif sys.platform == "darwin":
+        version, _, _ = platform.mac_ver()
+        if version.startswith("10."):
+            return "OS X {}".format(version)
+        return "Darwin"
+    return platform.system()
+
+
+def format_command(args):
+    return " ".join(map(shlex_quote, args))
+
+
+def output_info(args, runner_name="trytls"):
+    output(
+        "{Style.BRIGHT}platform:{RESET} {platform}",
+        platform=platform_info()
+    )
+    output(
+        "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python})",
+        runner=runner_name,
+        version=__version__,
+        python=python_info()
+    )
+    output(
+        "{Style.BRIGHT}stub:{RESET} {command}",
+        command=format_command(args)
+    )
 
 
 def run_one(args, host, port, cafile=None):
@@ -80,7 +133,7 @@ def run(args, tests):
                 error_count += 1
                 output(
                     "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} unexpected output:\n{Style.DIM}{error}",
-                    error=indent(uo.args[0].decode("ascii", "replace"), " " * 4)
+                    error=indent(uo.args[0].decode("ascii", "replace"))
                 )
             except ProcessFailed as pf:
                 error_count += 1
@@ -92,7 +145,7 @@ def run(args, tests):
                 if pf.args[1]:
                     output(
                         "{Fore.RED}{Style.DIM}{error}",
-                        error=indent(pf.args[1], " " * 4).rstrip().decode("ascii", "replace")
+                        error=indent(pf.args[1]).rstrip().decode("ascii", "replace")
                     )
             else:
                 if bool(ok) == bool(ok_expected):
@@ -141,10 +194,12 @@ def main():
     args = parser.parse_args()
     if args.bundle is None:
         bundles = sorted(iter_bundles())
-        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), " " * 2))
+        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), 2))
 
     if args.command is None:
         parser.error("too few arguments, missing command")
+
+    output_info([args.command] + args.args)
 
     if not run([args.command] + args.args, args.bundle):
         # Return with a non-zero exit code if all tests were not successful. The
