@@ -48,7 +48,7 @@ def gencert(cn):
 
     # Generate the CA
     with tmpfiles(ca_key) as ca_keyfile:
-        ca_data = openssl(["req", "-new", "-key", ca_keyfile, "-x509", "-subj", "/"])
+        ca_data = openssl(["req", "-new", "-key", ca_keyfile, "-x509", "-subj", "/O=Fake Certificate Authority"])
 
     # Generate a certificate signing request
     with tmpfiles(cert_key) as cert_keyfile:
