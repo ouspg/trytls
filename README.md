@@ -39,19 +39,13 @@ In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to 
 
 ```sh
 $ trytls https -- python stubs/python-urllib2/run.py
-  PASS badssl(False, 'expired')
-  PASS badssl(False, 'wrong.host')
-  PASS badssl(False, 'self-signed')
-  PASS badssl(True, 'sha256')
-  PASS badssl(True, '1000-sans')
-x FAIL badssl(True, '10000-sans')
-x FAIL badssl(False, 'incomplete-chain')
-  PASS badssl(False, 'superfish')
-  PASS badssl(False, 'edellroot')
-  PASS badssl(False, 'dsdtestprovider')
-x FAIL badssl_onlymyca(False, 'sha256')
-  PASS local(True, 'localhost', callback=<function https_callback at 0x108efe050>)
-  PASS local(False, 'nothing', callback=<function https_callback at 0x108efe050>)
+platform: Linux (Ubuntu 16.04)
+runner: trytls 0.0.7 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
+stub: python 'stubs/python-urllib2/run.py'
+  PASS constant(False, 'expired.badssl.com', 443)
+  PASS constant(False, 'wrong.host.badssl.com', 443)
+  PASS constant(False, 'self-signed.badssl.com', 443)
+  ...
 ```
 
 ## Stubs
