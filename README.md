@@ -38,7 +38,7 @@ In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to 
 ### Usage
 
 ```sh
-$ trytls https python stubs/python-urllib2/run.py
+$ trytls https -- python stubs/python-urllib2/run.py
   PASS badssl(False, 'expired')
   PASS badssl(False, 'wrong.host')
   PASS badssl(False, 'self-signed')
