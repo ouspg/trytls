@@ -33,8 +33,3 @@ def testenv(func):
     def _testenv(*args, **keys):
         return _TestEnv(func, args, keys)
     return _testenv
-
-
-@testenv
-def constant(ok_expected, host, port, cafile=None):
-    yield ok_expected, host, port, cafile
