@@ -39,6 +39,52 @@ Klasila Aleksi (2016) TryTLS backend. Oulun yliopisto, tietotekniikan tutkinto-o
 **Avainsanat: TLS/SSL, Työkalut, Tietoturva**
 
 
+---
+
+
+## TABLE OF CONTENTS
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Abbreviations](#abbreviations)
+- [1. Introduction](#1-introduction)
+  - [1.1. Related research](#11-related-research)
+  - [1.2. Aims](#12-aims)
+  - [1.3. Description of the TryTLS backend approach](#13-description-of-the-trytls-backend-approach)
+- [2. TLS/SSL IN ACTION](#2-tlsssl-in-action)
+  - [2.1. The handshake protocol](#21-the-handshake-protocol)
+  - [2.2. Motivation for the use of SSL](#22-motivation-for-the-use-of-ssl)
+  - [2.3. Motivation for the use of SSL testing](#23-motivation-for-the-use-of-ssl-testing)
+  - [2.4. Popular known vulnerabilities](#24-popular-known-vulnerabilities)
+  - [2.5. SSL testing](#25-ssl-testing)
+    - [2.5.1. Different approaches for testing the behavior of SSL libraries and clients during the SSL handshake](#251-different-approaches-for-testing-the-behavior-of-ssl-libraries-and-clients-during-the-ssl-handshake)
+  - [2.6. Current testing approaches / State of the art](#26-current-testing-approaches--state-of-the-art)
+    - [2.6.1 Overview](#261-overview)
+    - [2.6.2 Tools and backends in more detail](#262-tools-and-backends-in-more-detail)
+  - [2.7. Problems with the current testing approaches](#27-problems-with-the-current-testing-approaches)
+- [3. trytls backend](#3-trytls-backend)
+  - [3.1. Terminology](#31-terminology)
+  - [3.2. Tools used](#32-tools-used)
+  - [3.3. Setting up servers](#33-setting-up-servers)
+  - [3.4. Testing ssl testing behavior of clients using trytls backend](#34-testing-ssl-testing-behavior-of-clients-using-trytls-backend)
+- [4. Testing](#4-testing)
+  - [4.1. Generally](#41-generally)
+  - [4.2. TryTLS backend configuration](#42-trytls-backend-configuration)
+    - [4.2.1. Editing configuration](#421-editing-configuration)
+  - [4.3. Output samples and conclusions](#43-output-samples-and-conclusions)
+    - [4.3.1. Performance testing](#431-performance-testing)
+    - [4.3.2. TryTLS backend example test run](#432-trytls-backend-example-test-run)
+- [5. FUTURE RESEARCH](#5-future-research)
+  - [5.1. Generally](#51-generally)
+  - [5.2. Trytls backend](#52-trytls-backend)
+  - [5.3. Application Possibilities](#53-application-possibilities)
+- [6. Conclusions](#6-conclusions)
+- [7. References](#7-references)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ##Foreword
 
 It was a part of my job during the summer 2016 to create a backend of a kind for testing SSL behavior of different programming languages and their libraries. The backend is a group of servers to which the potential client can try to connect. The backend was to be used mostly on our server to which everyone could try their codes against. This backend I created can be set up very easily to either private use or to be shared with the public. And all that with very little change in the way of setting the backend up.
@@ -178,13 +224,13 @@ By server side testing I mean that the information is processed on the server si
 The server can reason out what client supports and what it does not by observing both the connections established and the packets received. If a connection is not established, the client either does not support the used configurations on the servers or the client does not want to connect to the server which is using broken or otherwise unsupported or unavailable 
 certificates. If the connection does not get established the server cannot necessarily always be sure why the client was unable to connect. That is because the server does not always know whether if the client for example lost internet connection or if the client could not support the proposed cipher suites or terminated the connection for any other reason without even telling why.
 
-The results get either sent back to the client or saved on the server after and during the connection. For example QUALYS SSL LABS [14] offers free of charge tests for browsers. The result is sent back to the client after the tests and most likely also saved on the server side as well.
+The results get either sent back to the client or saved on the server after and during the connection. For example QUALYS SSL LABS [15] offers free of charge tests for browsers. The result is sent back to the client after the tests and most likely also saved on the server side as well.
 
 **Client side testing**
 
 By client side testing I mean that the information is processed at least on the client side.  The client knows in most cases what is on the server side behind certain ports or hosts. The client tries to connect to the server side as it did when doing the server side testing. If and when the connection gets established the client knows what it(the client) supports and does not support. The configuration can of course be either a secure or insecure one. The result is also saved at least on the client side.
 
-There are tools that by using them the client can check whether if it is vulnerable to certain attacks. There are also tools that let browsers to know what SSL protocol versions and cipher suites the used user agent supports. For example QUALYS SSL LABS [14]. 
+There are tools that by using them the client can check whether if it is vulnerable to certain attacks. There are also tools that let browsers to know what SSL protocol versions and cipher suites the used user agent supports. For example QUALYS SSL LABS [15]. 
 
 This thesis will mostly concentrate on the tools that check whether the client code supports only secure connections or if it also does support the less secure or insecure ones. The TryTLS backend provides one tool to be used to do just that. The backend can also be used to reason out and save the results on the server side if wanted.
 
@@ -197,19 +243,55 @@ The server and the client exchange cipher suites, SSL version number and certifi
 Figure 2. Main ways for testing SSL in action.
 ![ways_to_test_ssl](pictures/ways_to_test_ssl.png)
 
-### 2.6. Current testing approaches / State of the art [WIP]
+### 2.6. Current testing approaches / State of the art
+
+#### 2.6.1 Overview
 
 **Server**
 
-There are many tools for testing if a server is doing SSL securely. Using for example Wormly Web Server Tester one can get a good overview about the security of a URL. There are also tools for checking the certificate signing request like Symantec SSL Toolbox or OpenSSL provided tools. This is useful to do before asking CA to sign a certificate [3]. There are many more tools but they are mostly outside of the main scope of this thesis. 
+There are many tools for testing if a server is doing SSL securely. Using for example Wormly Web Server Tester one can get a good overview about the security of a URL. There are also tools for checking the certificate signing request like Symantec SSL Toolbox or OpenSSL provided tools. This is useful to do before asking CA to sign a certificate [3]. There are many more tools but they are mostly outside of the main scope of this thesis or at least out side of this overview. 
 
 **Client**
 
 There are not so many tools for testing SSL support of different clients. There are of course some. For example BADSSL is a service by using of which one can manually test whether if a client code, library or a program performs SSL as wanted. QUALYS SSL LABS provides also some manual tests for the client. TryTLS backend is also for client side testing but can be used on the server side as well.
 
+#### 2.6.2 Tools and backends in more detail
+
+**BADSSL**
+
+Badssl [4] is one of the sites to which you can try to connect and manually figure out whether if something goes wrong when using the code at hand or not. The badssl-servers can also be downloaded onto a computer but the servers can not be shared with public easily. Badssl is meant for manual testing of security UI(user interface) in web clients [17] and is an unofficial Google product. 
+
+**QUALYS SSL LABS**
+
+QUALYS SSL LABS [15] offers free of charge tests for browsers. They have many more projects going on. They also offer deep analysis of the configuration of any SSL web server on the public Internet and have documents, surveys and many different analysis tools for TLS/SSL testing [25].
+
+
+**WORMLY - FREE DIAGNOSTIC TOOLS**
+
+Tests and diagnostic tools for different kind of servers that support SSL. There are tools for i.a. HTTPS, FTPS, POP3 and HTTP and FTP servers [26]. Wormly also offers services for monitoring app stack and sites.
+
+**SYMANTEC**
+
+Tools for creating certificate signing requests and cheking that they are formatted properly. They also sell certificates and other Cyber security related services and protection [27].
+
+**Others - Not all but many**
+
+* SSL Shopper: Quick tool for checking SSL servers [3].
+* GlobalSign SSL Check: Detailed tool for checking SSL servers [3].
+* COMODO SSL Analyzer: Quick scan for https url [3].
+* SSL Checker: SSL checker that can be set to remind 30 days before a certificate expires [3].
+* HowsMySSL: Tool for testing browsers TLS/SSL support/compatibility [3].
+* DigiCert: SSL certificate installation diagnostics tool and certificate management services among others[29].
+* SSLSmart: tool aimed at improving efficiency and reducing false positives during SSL testing [28].
+* SSL Checker: Tool for showing SSL certificate details [30]
+* CSR Decoder: Tool for verifying the details of a certificate [30]
+* SSL Finder: Tool for finding best match SSL product [30]
+
+
+
 ### 2.7. Problems with the current testing approaches
 
-The current tools that check whether if the client supports insecure configurations need at least mostly internet connection to work properly. The tools I am talking about are mostly internet sites. For example badssl [4] is one of these sites to which you can try to connect and manually figure out whether if something goes wrong when using the code at hand or not. The badssl-servers can also be downloaded onto a computer but the servers can not be shared with public easily. Badssl is meant for manual testing of security UI(user interface) in web clients [17] and is an unofficial Google product. There are also tools for checking Certificates. But most of the tools are not for checking whether if the client checks the certificates correctly or not [3]. With badssl and TryTLS one can of course do just that.
+The current tools that check whether if the client supports insecure configurations need at least mostly internet connection to work properly. The tools I am talking about are mostly internet sites. There are also tools for checking Certificates. But most of the tools are not for checking whether if the client checks the certificates correctly or not [3]. With badssl and TryTLS one can of course do just that.
 
 Most of the current approaches are also in a way more difficult to reconfigure for the needs of individuals. TryTLS tries to make the process on reconfiguration as easy as possible. Obviously as seen there are already tools that provide at least some sort of testing environment for SSL clients to test on but they are in one way or another different from the TryTLS backend and as it often times is with testing tools – There are newer too many of them.
 
@@ -425,9 +507,9 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 
 [1] some book [WIP]
 
-[2] "RFC 5246 - The Transport Layer Security (TLS) Protocol Version 1.2". Tools.ietf.org. N.p., 2016. Web. 11 July 2016. Available: https://tools.ietf.org/html/rfc5246 pp. 32-33
+[2] T. Dierks. E. Rescorla. RTFM, Inc. (2008). RFC 5246. - The Transport Layer Security (TLS) Protocol Version 1.2". Tools.ietf.org. N.p., 2016. Web. 11 July 2016. Available: https://tools.ietf.org/html/rfc5246 pp. 32-33
 
-[3] Infrastructure, Web et al. "10 Online Tool To Test SSL, TLS & Latest Vulnerability". Geek Flare. N.p., 2015. Web. 11 July 2016. Available:  https://geekflare.com/ssl-test-certificate/
+[3] C. Kumar. (2016). Infrastructure, Web et al. "10 Online Tool To Test SSL, TLS & Latest Vulnerability". Geek Flare. N.p., 2015. Web. 11 July 2016. Available:  https://geekflare.com/ssl-test-certificate/
 
 [4] "Badssl.Com". Badssl.com. N.p., 2016. Web. 11 July 2016. Available:  https://badssl.com/
 
@@ -445,15 +527,15 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 
 [11] "Testing For Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection (OTG-CRYPST-001) - OWASP". Owasp.org. N.p., 2016. Web. 11 July 2016. Available:   https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_(OTG-CRYPST-001)
 
-[12]  N.p., 2016. Web. 11 July 2016. Available: https://www.globalsign.com/en/resources/white-paper-ssl-secure-server-certificates.pdf
+[12]  GMO GlobalSign Inc. N.p., 2016. Web. 11 July 2016. Available: https://www.globalsign.com/en/resources/white-paper-ssl-secure-server-certificates.pdf
 
 [13] "Why SSL? The Purpose Of Using SSL Certificates". Sslshopper.com. N.p., 2016. Web. 11 July 2016. Available: https://www.sslshopper.com/why-ssl-the-purpose-of-using-ssl-certificates.html
 
-[14] "Introducing Universal SSL". CloudFlare. N.p., 2014. Web. 11 July 2016. Available: https://blog.cloudflare.com/introducing-universal-ssl/
+[14] Matthew Prince. (2014). "Introducing Universal SSL". CloudFlare. N.p., 2014. Web. 11 July 2016. Available: https://blog.cloudflare.com/introducing-universal-ssl/
 
 [15] "Qualys SSL Labs". Ssllabs.com. N.p., 2016. Web. 11 July 2016. Available: https://www.ssllabs.com
 
-[16] "Understanding SSL Handshake Protocol". slashroot.in. N.p., 2016. Web. 11 July 2016. Available: http://www.slashroot.in/understanding-ssl-handshake-protocol
+[16] Sarath Pillai. (2013). "Understanding SSL Handshake Protocol". slashroot.in. N.p., 2016. Web. 11 July 2016. Available: http://www.slashroot.in/understanding-ssl-handshake-protocol
 
 [17] "Docker/Docker". GitHub. N.p., 2016. Web. 11 July 2016. Available:  https://github.com/docker/docker
 
@@ -461,12 +543,24 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 
 [19] "Ssllabs/Research". GitHub. N.p., 2016. Web. 11 July 2016. Available:  https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
 
-[20] "DROWN Attack". Drownattack.com. N.p., 2016. Web. 11 July 2016. Available: https://drownattack.com/
+[20] Sarah Madden. Christian Dresen. (2016). "DROWN Attack". Drownattack.com. N.p., 2016. Web. 11 July 2016. Available: https://drownattack.com/
 
-[21] "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. N.p., 2016. Web. 11 July 2016. Available: https://www.us-cert.gov/ncas/alerts/TA14-290A
+[21] (2014). "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. N.p., 2016. Web. 11 July 2016. Available: https://www.us-cert.gov/ncas/alerts/TA14-290A
 
-[22] Duong, Thai. "Thái: BEAST". Vnhacker.blogspot.fi. N.p., 2011. Web. 11 July 2016. Available: https://vnhacker.blogspot.fi/2011/09/beast.html
+[22] Duong, Thai. (2011). "Thái: BEAST". Vnhacker.blogspot.fi. N.p., 2011. Web. 11 July 2016. Available: https://vnhacker.blogspot.fi/2011/09/beast.html
 
 [23] OpenSSL Foundation, Inc. "Openssl". Openssl.org. N.p., 2016. Web. 11 July 2016. URL: https://www.openssl.org/news/vulnerabilities.html
 
-[24] "SSL Cipher Suites Supported By Your Browser". Cc.dcsec.uni-hannover.de. N.p., 2016. Web. 11 July 2016. Available: https://cc.dcsec.uni-hannover.de/
+[24]  DCSEC research group at Leibniz University Hannover. "SSL Cipher Suites Supported By Your Browser". Cc.dcsec.uni-hannover.de. N.p., 2016. Web. 11 July 2016. Available: https://cc.dcsec.uni-hannover.de/
+
+[25] Qualys, Inc. "Qualys SSL Labs - Projects". Ssllabs.com. N.p., 2016. Web. 12 July 2016. Available: https://www.ssllabs.com/projects/index.html
+
+[26] "Server Monitoring, Web Site Monitoring And Uptime Monitoring - Wormly". Wormly.com. N.p., 2016. Web. 12 July 2016. Available: https://www.wormly.com/
+
+[27]  Symantec Corporation. "Symantec - Global Leader In Next-Generation Cyber Security | Symantec". Symantec.com. N.p., 2016. Web. 12 July 2016. Available: https://www.symantec.com/
+
+[28] "Sslsmart | Mcafee Free Tools". Mcafee.com. N.p., 2016. Web. 12 July 2016. Available: http://www.mcafee.com/us/downloads/free-tools/sslsmart.aspx
+
+[29] "SSL Digital Certificate Authority - Encryption & Authentication". Digicert.com. N.p., 2016. Web. 12 July 2016. Available: https://www.digicert.com/
+
+[30] ClickSSL. "SSL Tools". SSL Certificates by ClickSSL - Cheap Price, Best Quality & Support. N.p., 2013. Web. 12 July 2016. Available: https://www.clickssl.net/ssl-tools
