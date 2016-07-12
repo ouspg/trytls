@@ -9,7 +9,7 @@ user of OpenSSL gets more CA's than she bargained for. If certificate check fail
 This issue has been
 [reported](https://hynek.me/articles/apple-openssl-verification-surprises/)
 already 2014-03-03 by [Hynek Schlawack](https://hynek.me/).
-(CVE-2014-2234)[https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2234]
+[CVE-2014-2234](https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-2234)
 describes the vulnerability exists on *A certain Apple patch for OpenSSL in Apple OS X 10.9.2*.
 However, we have reproduced it in OS X 10.11.5 (15F34) 2016-06-12.
 
