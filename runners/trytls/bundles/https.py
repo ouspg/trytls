@@ -5,7 +5,7 @@ import contextlib
 import multiprocessing
 from ..utils import tmpfiles
 from ..gencert import gencert
-from ..testenv import testenv, constant
+from ..testenv import testenv
 
 try:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
@@ -13,8 +13,9 @@ except ImportError:
     from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
+@testenv
 def badssl(ok_expected, name):
-    return constant(ok_expected, name + ".badssl.com", 443)
+    yield ok_expected, name + ".badssl.com", 443, None
 
 
 @testenv
@@ -22,6 +23,11 @@ def badssl_onlymyca(ok_expected, name):
     _, _, cadata = gencert("localhost")
     with tmpfiles(cadata) as cafile:
         yield ok_expected, name + ".badssl.com", 443, cafile
+
+
+@testenv
+def ssllabs(ok_expected, port, host="www.ssllabs.com"):
+    yield ok_expected, host, port, None
 
 
 @contextlib.contextmanager
@@ -97,9 +103,9 @@ badssl_tests = [
 
 
 ssllabs_tests = [
-    constant(False, "www.ssllabs.com", 10443),
-    constant(False, "www.ssllabs.com", 10444),
-    constant(False, "www.ssllabs.com", 10445)
+    ssllabs(False, port=10443),
+    ssllabs(False, port=10444),
+    ssllabs(False, port=10445)
 ]
 
 
