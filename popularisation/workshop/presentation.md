@@ -28,7 +28,7 @@ $ cd trytls
 $ pip install .
 ```
 
-In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
+In case you don't have `pip` (https://pip.pypa.io/) installed, please refer to these instructions: http://docs.python-guide.org/en/latest/starting/installation/
 
 ---
 
@@ -52,6 +52,8 @@ x FAIL badssl_onlymyca(False, 'sha256')
   PASS local(True, 'localhost', callback=<function https_callback at 0x108efe050>)
   PASS local(False, 'nothing', callback=<function https_callback at 0x108efe050>)
 ```
+
+---
 
 # HOW?
 
@@ -89,8 +91,6 @@ All stubs should return one of the following strings to the standard output:
 If anything else is returned, then the test has erred.
 
 Unless a fatal error occurs, examples should always return with process exit value 0.
-
-<show commented example of a stub>
 
 ---
 

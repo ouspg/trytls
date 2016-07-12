@@ -6,6 +6,8 @@ You can contribute your stub here or just BYOR (Bring Your Own Repository).
 These stubs should attempt to use the chosen language and library
 properly to establish a secure TLS connection to the given destination.
 
+"Have you heard of the TryTLS tester who lost his hands? He only had stubs left."
+
 ---
 
 ### Calling convention
