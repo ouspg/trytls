@@ -142,7 +142,7 @@ def main():
         return 1
 
     parser = argparse.ArgumentParser(
-        usage="%(prog)s BUNDLE COMMAND [ARG ...]"
+        usage="%(prog)s BUNDLE -- COMMAND [ARG ...]"
     )
     parser.add_argument(
         "bundle",
