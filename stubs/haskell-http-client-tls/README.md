@@ -25,7 +25,7 @@ $ trytls https -- stack exec test-http-client-tls
 You can use Docker to build the stub:
 
 ```sh
-$ docker build -t test-haskell-client-tls --rm .
+$ docker build -t test-http-client-tls --rm .
 ```
 
 and then run it with TryTLS runner:
