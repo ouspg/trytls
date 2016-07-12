@@ -6,28 +6,23 @@ ca_bundle=$3
 
 if [ "$#" -lt 2 ]; then
 	echo "UNSUPPORTED"
-	exit 1
+	exit 2
 fi
 
-status=0
-
 if [[ "$ca_bundle" ]]; then
-	#-servername chrismeller.com
 	resp=`echo "Q" | openssl s_client -CAfile $ca_bundle -servername $host -connect $host:$port 2>&1`
 else
 	resp=`echo "Q" | openssl s_client -servername $host -connect $host:$port 2>&1`
 fi
 
-#echo $resp
+grepped=`echo "$resp" | grep "Verify return code:"`
 
-if echo "$resp" | grep -q "Verify return code:"; then
-	if echo "$resp" | grep -q "Verify return code: 0 (ok)"; then
+if [[ "$grepped" =~ " 0 " ]]; then
 		echo "VERIFY SUCCESS"
-	else
+elif [[ $grepped ]]; then
 		echo "VERIFY FAILURE"
-	fi
-	exit 0
+else
+	echo $resp
+	exit 1
 fi
-
-echo $resp
-exit 1
+exit 0
