@@ -12,4 +12,4 @@ RUN apt-get -y update && \
 #confs = python3_1 = driver
 
 CMD bash '/etc/shared/scripts/run' '/etc/shared/simplerunner/stubs/python3.stubs' \
-  'python3.5' 'run.py' 'default' '/etc/shared/simplerunner/certs'
+  'python3.5' 'run.py' 'default' '/etc/shared/simplerunner/certs' 30

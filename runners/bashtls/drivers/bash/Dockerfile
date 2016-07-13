@@ -11,4 +11,4 @@ RUN apt-get -y update && \
 #confs = bash = driver
 
 CMD bash '/etc/shared/scripts/run' '/etc/shared/simplerunner/stubs/bash.stubs' \
-  'bash' 'run' 'default' '/etc/shared/simplerunner/certs'
+  'bash' 'run' 'default' '/etc/shared/simplerunner/certs' 30
