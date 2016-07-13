@@ -7,5 +7,5 @@ To run the stub you need to have the following installed on the testing environm
 
 to tun the stub you need to do the following once you have java installed on your computer:
 ```
-..# python3 Run [host] [port] <ca-bundle>
+..# python3 run.py [host] [port] <ca-bundle>
 ```
