@@ -8,5 +8,5 @@ To run the stub you need to have the following installed on the testing environm
 to tun the stub you need to do the following once you have java installed on your computer:
 ```
 ..# javac Run.java
-..# java Run
+..# java Run [host] [port]
 ```
