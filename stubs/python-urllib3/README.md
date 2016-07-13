@@ -1,6 +1,8 @@
 # How to run:
 
-python run.py (url) (port) (ca_file)
+```
+python run.py <url> <port> [ca_file]
+```
 
 For example:
 
