@@ -28,7 +28,7 @@ $ cd trytls
 $ pip install .
 ```
 
-In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
+In case you don't have `pip` (https://pip.pypa.io/) installed, please refer to these instructions: http://docs.python-guide.org/en/latest/starting/installation/
 
 ---
 
@@ -37,7 +37,7 @@ In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to 
 Run a stub yourself:
 
 ```
-$ trytls https python stubs/python-urllib2/run.py
+$ trytls https -- python stubs/python-urllib2/run.py
   PASS badssl(False, 'expired')
   PASS badssl(False, 'wrong.host')
   PASS badssl(False, 'self-signed')
@@ -52,6 +52,8 @@ x FAIL badssl_onlymyca(False, 'sha256')
   PASS local(True, 'localhost', callback=<function https_callback at 0x108efe050>)
   PASS local(False, 'nothing', callback=<function https_callback at 0x108efe050>)
 ```
+
+---
 
 # HOW?
 
@@ -90,8 +92,6 @@ If anything else is returned, then the test has erred.
 
 Unless a fatal error occurs, examples should always return with process exit value 0.
 
-<show commented example of a stub>
-
 ---
 
 # Time to get stubbing!
@@ -99,7 +99,7 @@ Unless a fatal error occurs, examples should always return with process exit val
 If you need a quick recap of the calling convention,
 go to `stubs/` folder in our GitHub repo https://github.com/ouspg/trytls.git
 
-$ trytls https python stubs/python-urllib2/run.py
+$ trytls https -- python stubs/python-urllib2/run.py
 
 ---
 

@@ -1,9 +1,4 @@
-import ssl
-import socket
 import contextlib
-import multiprocessing
-from .utils import tmpfiles
-from .gencert import gencert
 
 
 class _TestEnv(object):
@@ -38,67 +33,3 @@ def testenv(func):
     def _testenv(*args, **keys):
         return _TestEnv(func, args, keys)
     return _testenv
-
-
-@testenv
-def constant(ok_expected, host, port, cafile=None):
-    yield ok_expected, host, port, cafile
-
-
-def badssl(ok_expected, name):
-    return constant(ok_expected, name + ".badssl.com", 443)
-
-
-def handshake_callback(conn, certfile, keyfile):
-    ssl.wrap_socket(conn, server_side=True, certfile=certfile, keyfile=keyfile)
-
-
-@contextlib.contextmanager
-def mock_server(certdata, keydata, host="localhost", port=0, callback=handshake_callback):
-    def serve(connection, certdata, keydata, host, port, callback):
-        sock = socket.socket()
-        try:
-            sock.bind((host, port))
-            sock.listen(1)
-
-            _, port = sock.getsockname()
-            connection.send((host, port))
-
-            conn, addr = sock.accept()
-        finally:
-            sock.close()
-
-        try:
-            with tmpfiles(certdata, keydata) as (certfile, keyfile):
-                callback(conn, certfile, keyfile)
-        finally:
-            conn.close()
-
-    reader, writer = multiprocessing.Pipe(duplex=False)
-    process = multiprocessing.Process(
-        target=serve,
-        args=[writer, certdata, keydata, host, port, callback]
-    )
-    process.start()
-    try:
-        host, port = reader.recv()
-        yield host, port
-    finally:
-        process.terminate()
-        process.join()
-
-
-@testenv
-def local(ok_expected, cn, callback=handshake_callback):
-    certdata, keydata, cadata = gencert(cn)
-
-    with mock_server(certdata, keydata, callback=callback) as (host, port):
-        with tmpfiles(cadata) as cafile:
-            yield ok_expected, host, port, cafile
-
-
-@testenv
-def badssl_onlymyca(ok_expected, name):
-    _, _, cadata = gencert("localhost")
-    with tmpfiles(cadata) as cafile:
-        yield ok_expected, name + ".badssl.com", 443, cafile

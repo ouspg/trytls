@@ -6,13 +6,15 @@ import subprocess
 import pkg_resources
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
+from . import __version__, gencert, utils
+
 
 # Initialize colorama without wrapping sys.stdout globally
 init(wrap=False)
 wrapped_stdout = AnsiToWin32(sys.stdout, autoreset=True).stream
 
 
-def output(format_string, **kwargs):
+def output(format_string="", **kwargs):
     keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
     keys.update(kwargs)
     print(format_string.format(**keys), file=wrapped_stdout)
@@ -30,14 +32,33 @@ class UnexpectedOutput(Exception):
     pass
 
 
-def indent(text, indent):
+def indent(text, by=4):
     r"""
-    >>> indent("a\nb\nc", indent=" ") == ' a\n b\n c'
+    >>> indent("a\nb\nc", by=1) == ' a\n b\n c'
     True
     """
 
+    spaces = " " * by
     lines = text.splitlines(True)
-    return "".join(indent + line for line in lines)
+    return "".join(spaces + line for line in lines)
+
+
+def output_info(args, openssl_version, runner_name="trytls"):
+    output(
+        "{Style.BRIGHT}platform:{RESET} {platform}",
+        platform=utils.platform_info()
+    )
+    output(
+        "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python}, {openssl})",
+        runner=runner_name,
+        version=__version__,
+        python=utils.python_info(),
+        openssl=openssl_version
+    )
+    output(
+        "{Style.BRIGHT}stub:{RESET} {command}",
+        command=utils.format_command(args)
+    )
 
 
 def run_one(args, host, port, cafile=None):
@@ -80,7 +101,7 @@ def run(args, tests):
                 error_count += 1
                 output(
                     "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} unexpected output:\n{Style.DIM}{error}",
-                    error=indent(uo.args[0].decode("ascii", "replace"), " " * 4)
+                    error=indent(uo.args[0].decode("ascii", "replace"))
                 )
             except ProcessFailed as pf:
                 error_count += 1
@@ -92,7 +113,7 @@ def run(args, tests):
                 if pf.args[1]:
                     output(
                         "{Fore.RED}{Style.DIM}{error}",
-                        error=indent(pf.args[1], " " * 4).rstrip().decode("ascii", "replace")
+                        error=indent(pf.args[1]).rstrip().decode("ascii", "replace")
                     )
             else:
                 if bool(ok) == bool(ok_expected):
@@ -114,8 +135,14 @@ def main():
             return entry.load()
         return None
 
+    try:
+        openssl_version = gencert.openssl_version()
+    except gencert.OpenSSLNotFound as err:
+        output("{Back.RED}{Fore.WHITE}ERROR:{RESET} {error}", error=err)
+        return 1
+
     parser = argparse.ArgumentParser(
-        usage="%(prog)s BUNDLE COMMAND [ARG ...]"
+        usage="%(prog)s BUNDLE -- COMMAND [ARG ...]"
     )
     parser.add_argument(
         "bundle",
@@ -141,11 +168,12 @@ def main():
     args = parser.parse_args()
     if args.bundle is None:
         bundles = sorted(iter_bundles())
-        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), " " * 2))
+        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), 2))
 
     if args.command is None:
         parser.error("too few arguments, missing command")
 
+    output_info([args.command] + args.args, openssl_version=openssl_version)
     if not run([args.command] + args.args, args.bundle):
         # Return with a non-zero exit code if all tests were not successful. The
         # CPython interpreter exits with 1 when an unhandled exception occurs,

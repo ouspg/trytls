@@ -1,0 +1,28 @@
+#!/bin/bash
+
+host=$1		#e.g. localhost
+port=$2
+ca_bundle=$3
+
+if [ "$#" -lt 2 ]; then
+	echo "UNSUPPORTED"
+	exit 2
+fi
+
+if [[ "$ca_bundle" ]]; then
+	resp=`echo "Q" | openssl s_client -CAfile $ca_bundle -servername $host -connect $host:$port 2>&1`
+else
+	resp=`echo "Q" | openssl s_client -servername $host -connect $host:$port 2>&1`
+fi
+
+grepped=`echo "$resp" | grep "Verify return code:"`
+
+if [[ "$grepped" =~ " 0 " ]]; then
+		echo "VERIFY SUCCESS"
+elif [[ $grepped ]]; then
+		echo "VERIFY FAILURE"
+else
+	echo $resp
+	exit 1
+fi
+exit 0

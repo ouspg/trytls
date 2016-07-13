@@ -3,7 +3,7 @@
 ## Quick Start
 
 ```
-$ trytls https python stubs/python-urllib2/run.py
+$ trytls https -- python stubs/python-urllib2/run.py
 ```
 
 ## Detailed Usage
@@ -11,14 +11,14 @@ $ trytls https python stubs/python-urllib2/run.py
 The `trytls` tool is a *runner*, meant for testing how well different libraries implement their TLS certificate verification. This is done by feeding the libraries collections of pre-canned certificates and observing their output. The basic usage pattern of the tool is the following:
 
 ```
-trytls BUNDLE COMMAND [ARG ...]
+trytls BUNDLE -- COMMAND [ARG ...]
 ```
 
 The first command line parameter `BUNDLE` is used to tell which test *bundle* should be run. A bundle is a collection of TLS tests specialized for some protocol/situation. Launching the runner without any arguments lists the available bundles:
 
 ```
 $ trytls
-usage: trytls BUNDLE COMMAND [ARG ...]
+usage: trytls BUNDLE -- COMMAND [ARG ...]
 trytls: error: missing the bundle argument
 
 Valid bundle options:
@@ -31,13 +31,13 @@ For example, when testing a HTTP(S) library you'd want to use the `https` bundle
 The parameters following the bundle are `COMMAND` and 0-n `ARG` arguments for the command. These describe how the *stub* - a piece of code for testing some library - should be launched. The [`stubs/`](../stubs) directory in this repository contains multiple example stubs. As an example the included stub for testing Python's `urllib2` library can be run with:
 
 ```
-$ trytls https python stubs/python-urllib2/run.py
+$ trytls https -- python stubs/python-urllib2/run.py
   PASS badssl(False, 'expired')
   PASS badssl(False, 'wrong.host')
   ...
 ```
 
-That runs the command `python stubs/python-urllib2/run.py HOST PORT [CAFILE]` several times with different `HOST`, `PORT` and optional `CAFILE` arguments to test out various aspects of `urllib2`'s TLS certificate verification. For more information on writing stubs please refer to the relevant documentation.
+That runs the command `python stubs/python-urllib2/run.py HOST PORT [CAFILE]` several times with different `HOST`, `PORT` and optional `CAFILE` arguments to test out various aspects of `urllib2`'s TLS certificate verification. For more information on writing stubs please refer to the relevant documentation. Bundle and command should be separated with `--` so that any following parameters are passed to *stub* itself and not handled by `trytls` command.
 
 ## Exit codes
 
