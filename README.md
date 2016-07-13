@@ -79,9 +79,11 @@ Test runners allow user to test against all or any of these backends.
 
  * Mauri Miettinen ([@Mamietti](https://github.com/Mamietti))
  * Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))
+ * Jani Kenttälä ([@evilon](https://github.com/evilon))
  * Ossi Herrala ([@oherrala](https://github.com/oherrala)
  * Joachim Viide ([@jviide](https://github.com/jviide)
  * Marko Laakso ([@ikisusi](https://github.com/ikisusi)
  * Pekka Pietikäinen ([@ppietikainen](https://github.com/ppietikainen)
+ * Joonas Kuorilehto ([@joneskoo](https://github.com/joneskoo)
 
 We invite people to [contribute](CONTRIBUTING.md).
