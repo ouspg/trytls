@@ -2,8 +2,16 @@
 
 python run.py (url) (port) (ca_file)
 
+For example:
+
+```
+$ python stubs/python-urllib3/run.py sha256.badssl.com 443
+VERIFY FAILURE
+```
+
 # Dependencies:
 
+Python
 urllib3 installed (`pip install urllib3` to command line)
 
 Tested on Ubuntu 16.04
