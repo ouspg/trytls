@@ -1,9 +1,14 @@
 #!/bin/bash
 
 command=$1
+if [[ $command == "_" ]]; then
+  command=""
+fi
 filename=$2
 confpath=$3
 certspath=$4
+
+
 
 curpath=`pwd`
 if [[ "$certspath" ]]; then
@@ -57,12 +62,15 @@ connect()
   crt=$3
   hostname=$4
 
-
   if [[ "$crt" == "certs/test.crt" && $certspath ]]; then
     response=`exec $command $filename $hostname $port "$curpath"/"$crt" & handleresponse $!`
     #status="OK?"
   elif [[ "$crt" == "_" ]]; then
-    response=`exec $command $filename $hostname "$port" & handleresponse $!`
+    if [[ "$certspath" =~ "." ]]; then
+      response=`exec $command $filename $hostname $port "$certspath" & handleresponse $!`
+    else
+      response=`exec $command $filename $hostname "$port" & handleresponse $!`
+    fi
   elif [[ "$certspath" ]]; then
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
