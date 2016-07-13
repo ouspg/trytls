@@ -58,6 +58,7 @@ We currently are working to support following backends:
 
  * [BadSSL](https://badssl.com) - we have cherry picked the [relevant tests](backends/badssl/README.md)
  * Local backend in the test runner itself (aka `localhost` backend) [WIP]
+ * [SSLLabs](https://ssllabs.com) - protection against [certain attacks](backends/ssllabs/README.md)
  * [Trytls backend](backends/trytls) both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
 
