@@ -11,7 +11,7 @@ function main()
     if tablelength(arg)<4 then
         print(string.format( "Usage: %s <URL> <PORT> (<CA-BUNDLE>)", arg[0] ))
     else
-        local cert = nil
+        local cert = "/etc/ssl/certs/ca-certificates.crt"
         if not arg[3]==nil then
             cert = arg[3]
         end
@@ -29,13 +29,10 @@ function main()
 
         conn = ssl.wrap(conn, params)
         conn:sni(arg[1])
-        conn:dohandshake()
-
-        conn:send("GET / HTTP/1.1\n\n")
-        local line, err = conn:receive("*l")
+        local err = conn:dohandshake()
         conn:close()
 
-        if err==nil then
+        if err then
             print("VERIFY SUCCESS")
         else
             print("VERIFY FAILURE")

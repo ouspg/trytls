@@ -1,10 +1,11 @@
 import urllib3
 import sys
+import certifi
 
 if len(sys.argv) < 3:
     exit("Usage: %s <URL> <PORT> [CA_FILE]" % sys.argv[0])
 
-cert = sys.argv[3] if len(sys.argv) > 3 else None
+cert = sys.argv[3] if len(sys.argv) > 3 else certifi.where()
 
 http = urllib3.PoolManager(
     cert_reqs='CERT_REQUIRED',  # Force certificate check.

@@ -1,6 +1,6 @@
 # How to run:
 
-lua5.1 run.lua (url) (port) (ca_file)
+lua5.1 run.lua <url> <port> [ca_file]
 
 For example:
 
@@ -17,3 +17,7 @@ Luarocks installed and used to install
 * luasocket (`luarocks install luasocket` to command line)
 
 Tested on Ubuntu 16.04
+
+# Credits
+
+http://notebook.kulchenko.com/programming/https-ssl-calls-with-lua-and-luasec
