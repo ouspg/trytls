@@ -188,17 +188,65 @@ All the security used today is going to be outdated sometime in the future. New 
 
 ### 2.4. Popular known vulnerabilities
 
-**DROWN**
+**DROWN [20]**
 
-Drown stands for Decrypting RSA with Obsolete and Weakened eNcryption. “It allows an attacker to decrypt intercepted TLS connections by making specially crafted connections to an SSLv2 server that uses the same private key”. Many of the servers vulnerable to DROWN are also affected by Openssl bug that results in a significantly cheaper version of the attack and a larger attack surface. [20]
+Drown stands for Decrypting RSA with Obsolete and Weakened eNcryption. “It allows an attacker to decrypt intercepted TLS connections by making specially crafted connections to an SSLv2 server that uses the same private key”. Many of the servers vulnerable to DROWN are also affected by Openssl bug that results in a significantly cheaper version of the attack and a larger attack surface.
 
-**POODLE**
+**POODLE [21]**
 
-POODLE stands for Padding Oracle On Downgraded Legacy Encryption. Any SSLv3.0 with CBC(Cipher Block Chaining) can be vulnerable to POODLE attack. POODLE allows attacker to decrypt selected content within the SSL session. POODLE attack can be performed in some cases even if the server and the client both support upper TLS versions by downgrading the connection during protocol version negotiation between the client and the server. [21]
+POODLE stands for Padding Oracle On Downgraded Legacy Encryption. Any SSLv3.0 with CBC(Cipher Block Chaining) can be vulnerable to POODLE attack. POODLE allows attacker to decrypt selected content within the SSL session. POODLE attack can be performed in some cases even if the server and the client both support upper TLS versions by downgrading the connection during protocol version negotiation between the client and the server.
 
-**BEAST**
+**BEAST [22]**
 
-BEAST stands for Browser Exploit Against SSL/TLS. TLSv1.0 and earlier protocols allow attacker to guess what the plain text of the data looks like. With enough guesses the attacker can get enough information out of the encrypted data to decrypt cookies flowing by. The attack has been batched but the batch is not on by default. The attack was found by Juliano Rizzo and Thai Duong [22]. 
+BEAST stands for Browser Exploit Against SSL/TLS. TLSv1.0 and earlier protocols allow attacker to guess what the plain text of the data looks like. With enough guesses the attacker can get enough information out of the encrypted data to decrypt cookies flowing by. The attack has been batched but the batch is not on by default. The attack was found by Juliano Rizzo and Thai Duong. 
+
+**SLOTH [31]**
+
+Security Losses from Obsolete and Truncated Transcript Hashes. Usage of RSA-MD5 in TLSv1.2 leads client authentication to be broken and server authentication to possibly be breakable by a powerful adversary. “Partly as a consequence of this work, the TLS working group has decided to remove RSA-MD5 signatures and truncated handshake hashes from TLS 1.3“. MD5 signatures are still used in TLS today even though it has been known to be cryptographically broken since at least 2005.  Using MD5 means that the security of server signatures is 128 bits but using a transcript collision attack by Karthikeyan Bhargavan and Gaetan Leuren the effective security can be halved to about 64 bits and for other mechanisms such as TLS/SSL client authentication the security losses are even more dramatic.
+
+Before TLSv1.2 the SSL client authentication signing hash function was always a concatenation of MD5  and RSA. TLSv1.2 allowed clients and servers negotiate algorithms they support and hence both the use of weaker and stronger algorithms. Many libraries and implementations allow the use of RSA-MD5 signatures. Can be used in Man-in-the-middle client impersonation attack using collisions in the use of weak RSA-MD5 signatures. The attack takes up to several hours on Amazon EC2 instances. Attack can also Man-in-the-Middle Credential Forwarding Attack colliding two ClientFinished messages which are 96 bit HMAC hashes. This takes only up to 2^42 HMAC computations to calculate. This attack is important because about [31% of HTTPS servers are currently(2015) willing to send RSA-MD5 server signatures](https://securitypitfalls.wordpress.com/2015/12/07/november-2015-scan-results/). 
+
+For more detailed information: [Transcript Collision Attacks: Breaking Authentication in TLS, IKE, and SSH] (http://www.mitls.org/downloads/transcript-collisions.pdf) by Karthikeyan Bhargavan and Gaetan Leuren.
+
+**Pandora’s box – KCI [32]**
+
+KCI (Key Compromise Impersonation) vulnerability is a weakness of an authenticated key exchange protocol that allows attacker who has compromised the secret client credentials(e.q. client certificate and corresponding secret key) of a victim to impersonate any server to the compromised client. If an attacker gets to install a client certificate in victims computer the certificate can be used to also authenticate servers by leveraging the KCI vulnerability of certain cipher suites in TLS. Because the attacker can use client servers to impersonate a server there will be no warning displayed for the user when installing the certificates. All TLS fixed (EC)DH (Elliptic curve Diffie-Hellman) handshakes are vulnerable to KCI.
+
+For more detailed information: [Prying open Pandora's box - KCI attacks agains TLS] (https://www.usenix.org/system/files/conference/woot15/woot15-paper-hlauschek.pdf) by Clemens Hlauschek, Markus Gruber, Florian Fankhauser and Christian Schanes.
+
+**Logjam [33]**
+
+“The Logjam attack allows a man-in-the-middle attacker to downgrade vulnerable TLS connections to 512-bit export-grade cryptography.” The attack is reminiscent of the Freak attack but is due to a flaw in TLS protocol and attacks DH(Diffie-Hellman) key exchange. 8.4% of the 1 million domains were initially vulnerable. The attack allows man-in-the-middle attacker to downgrade connections towards the server from client and take over the connection towards the client by impersonating the server. With 768 bit, 1024 bit or bigger keys much more time would be needed to implement the attack and thus the attack is not really valid with the current computers. It’s recommended to use primes of 2048 bits or larger because it would take far too many years to calculate the attack.
+
+For more detailed information: [Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice] (https://weakdh.org/imperfect-forward-secrecy-ccs15.pdf) by David Adrian , Karthikeyan Bhargavan, Zakir Durumeric, Pierrick Gaudry, Matthew Green, J. Alex Halderman, Nadia Heninger, Drew Springall, Emmanuel Thomé, Luke Valenta, Benjamin VanderSloot, Eric Wustrow, Santiago Zanella-Béguelin and Paul Zimmermann
+
+**Bar Mizvah - Breaking SSL with a 13-year old RC4 Weakness [34]**
+
+“RC4(Rivest Cipher 4) is the most popular cipher in the world even though it suffers a critical – and long known – weakness known as Invariance Weakness.”. RC4 is not secure. RC4 is one of the simplest cryptographic algorithms. The data encrypted using RC4 is encrypted from the plaintext using pseudo random generated bytes that get XOR-ed with the plaintext bytes. 
+
+This attack can be used to mount partial plaintext recovery attacks on SSL-protected data. Using it one can recover up to 100 bytes of encrypted data. The usage of RC4 is distinguishable from random. During the attack the attacker first sniffs a large number of SSL connections encrypted with RC4, waiting for a arrival of a weak key. Attacker can then use statistical biases to aggregate tiny pieces of plaintext information using LSBs(least significant bits) of up to a hundred secret bytes. The attack can also be used to brute force attack cookies.
+
+For more detailed information: [Bar Mizvah - Breaking SSL with a 13-year old RC4 Weakness] (https://www.blackhat.com/docs/asia-15/materials/asia-15-Mantin-Bar-Mitzvah-Attack-Breaking-SSL-With-13-Year-Old-RC4-Weakness-wp.pdf)
+
+**Freak [35]**
+
+Freak(Factoring RSA Export Keys) attack targets a class of deliberately weak export cipher suites. These weak algorithms were introduced under pressure of US governments agencies while stronger algorithms were banned from export. By design an export cipher suite must be less than 512 bits long. It is very easy for an attacker to factore the modulus required to impersonate a server to vulnerable clients.
+
+For more detailed information and links: [Freak: Factoring RSA Export Keys] (https://mitls.org/pages/attacks/SMACK#freak)
+
+**Poodle bites again [36]**
+
+TLS’s padding is a subset of SSLv3 so SSLv3 decoding could be used in TLS and it would not cause any problems in normal operation. However it SSLv3 decoding would not check the padding bytes which would make the POODLE attack to work against TLS connections. There are sites that are affected by this.
+
+For more detailed information: [The 	POODLE bites again] (https://www.imperialviolet.org/2014/12/08/poodleagain.html)
+
+**Heartbleed Bug [37]**
+
+"The (1) TLS and (2) DTLS implementations in OpenSSL 1.0.1 before 1.0.1g do not properly handle Heartbeat Extension packets, which allows remote attackers to obtain sensitive information from process memory via crafted packets that trigger a buffer over-read, as demonstrated by reading private keys, related to d1_both.c and t1_lib.c, aka the Heartbleed bug."
+
+**Crime [38]**
+
+The CRIME(compression Ratio Info-leak Made Easy) exploit was created by the security researchers Juliano Rizzo and Thai Duong, who also created the Beast exploit. The CRIME exploit allows attacker to perform session hijacking on authenticated web session over connections using HTTPS and SPDY(SPeeDY) protocols that also use data compression. The exploit against HTTPS and SPDY is mostly mitigated but against HTTP not so much.
 
 **Others**
 
@@ -564,3 +612,19 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 [29] "SSL Digital Certificate Authority - Encryption & Authentication". Digicert.com. N.p., 2016. Web. 12 July 2016. Available: https://www.digicert.com/
 
 [30] ClickSSL. "SSL Tools". SSL Certificates by ClickSSL - Cheap Price, Best Quality & Support. N.p., 2013. Web. 12 July 2016. Available: https://www.clickssl.net/ssl-tools
+
+[31] INRIA Paris. INRIA Paris. (2015). "Mitls, Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. N.p., 2016. Web. 13 July 2016.
+
+[32] Clemens Hlauschek, Markus Gruber, Florian Fankhauser and Christian Schanes. (2015) Prying open Pandora’s box: KCI attacks against TLS. Available: https://www.usenix.org/system/files/conference/woot15/woot15-paper-hlauschek.pdf
+
+[33] David Adrian , Karthikeyan Bhargavan, Zakir Durumeric, Pierrick Gaudry, Matthew Green, J. Alex Halderman, Nadia Heninger, Drew Springall, Emmanuel Thomé, Luke Valenta, Benjamin VanderSloot, Eric Wustrow, Santiago Zanella-Béguelin and Paul Zimmermann. (2015). "Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice". Available: https://weakdh.org/imperfect-forward-secrecy-ccs15.pdf and https://weakdh.org/
+
+[34] Blackhat asia-15. (2015). Bar Mizvah - Breaking SSL with a 13-year old RC4 Weakness. Available: https://www.blackhat.com/docs/asia-15/materials/asia-15-Mantin-Bar-Mitzvah-Attack-Breaking-SSL-With-13-Year-Old-RC4-Weakness-wp.pdf
+
+[35] "Mitls, (2015), Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. N.p., 2016. Web. 13 July 2016. https://mitls.org/pages/attacks/SMACK#freak
+
+[36] Langley, Adam. (2014) "Imperialviolet - The POODLE Bites Again". Imperialviolet.org. N.p., 2016. Web. 13 July 2016.
+
+[37] "CVE -CVE-2014-0160". Cve.mitre.org. N.p., 2016. Web. 13 July 2016.
+
+[38] Kelsey, John. (2016) "Compression And Information Leakage Of Plaintext". Fast Software Encryption (2002): 263-276. Web. 13 July 2016. https://en.wikipedia.org/wiki/CRIME and https://en.wikipedia.org/wiki/CRIME#References
