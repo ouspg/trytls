@@ -1,3 +1,5 @@
+**License: See trytls/LICENSE**
+
 ##Get started
 
 To run the stub you need to have the following installed on the testing environment:
