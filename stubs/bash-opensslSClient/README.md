@@ -1,3 +1,4 @@
+License: See trytls/LICENSE
 
 ##Get started
 
