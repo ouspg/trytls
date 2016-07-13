@@ -1,3 +1,13 @@
+# How to run:
+
+python run.py (url) (port) (ca_file)
+
+# Dependencies:
+
+requests installed (`pip install requests` to command line)
+
+Tested on Fedora 24
+
 # Requirements
 
 This stub has been tested with:
