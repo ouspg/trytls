@@ -118,9 +118,9 @@ connect()
       color='\e[0;36m'    #green, success
       response='[SUCCESS] '$response
     else
-      response='[FAILURE] '$response
       if [[ "$response" == "VERIFY FAILURE" || $printerror ]]; then
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+        response='[FAILURE] '$response
       else
         response='[ ERROR ] to enable errors run settings-script with "print-error" argument'
       fi
