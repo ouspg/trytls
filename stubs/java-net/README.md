@@ -1,11 +1,12 @@
 **License: See trytls/LICENSE**
 
-##Get started
+## Get started
 
-To run the stub you need to have the following installed on the testing environment:
+### Install
+
 * java + java compiler
 
-to tun the stub you need to do the following once you have java installed on your computer:
+### Run
 ```
 ..# javac Run.java
 ..# java Run [host] [port]
