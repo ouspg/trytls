@@ -1,0 +1,65 @@
+#!/bin/sh
+
+filepath="driver/driver"
+
+if [[ ! -f $filepath ]]; then
+  echo "$filepath: No such File or Directory $filepath"
+fi
+
+stubs="_"
+language="_"
+file="_"        #e.g. run.py
+backend="_"
+certs="_"
+move="_"
+timeout="_"
+parallel="_"
+
+FIS=$IFS
+IFS=' & '
+
+while read -r inst value; do
+  #echo `ls /etc/shared/simplerunner/stubs/`
+  #echo "_ $inst _ : _ $value _"
+	if [ "$value" ]; then
+		case $inst in
+      "stubs")
+        stubs=$value
+        ;;
+      "language")
+        language=$value
+        ;;
+      "file")
+        file=$value
+        ;;
+      "backend")
+        backend=$value
+        ;;
+      "certs")
+        certs=$value
+        ;;
+      "timeout")
+        #check if timeout was set by init-script
+
+        if [[ -f '/etc/shared/scripts/data/timeout' ]]; then
+          timeout=`cat '/etc/shared/scripts/data/timeout'`
+        else
+          timeout=$value
+        fi
+        ;;
+      "move")
+        move=$value
+        ;;
+    esac
+  fi
+done <"$filepath"
+
+IFS=$FIS
+
+if [[ -f '/etc/shared/scripts/data/info' ]]; then
+  info=`cat '/etc/shared/scripts/data/info'`
+  parallel=`echo $info | grep 'parallel'`
+fi
+
+
+bash '/etc/shared/scripts/run' "$stubs" "$language" "$file" "$backend" "$certs" "$move" "$timeout" "$parallel"
