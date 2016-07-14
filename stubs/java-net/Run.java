@@ -19,7 +19,7 @@ public class Run
       new java.net.URL(https_url).getContent();
       System.out.println("VERIFY SUCCESS");
     } catch (javax.net.ssl.SSLHandshakeException e){
-      System.out.println("VERIFY VAILURE");
+      System.out.println("VERIFY FAILURE");
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println(e.getCause().getMessage());

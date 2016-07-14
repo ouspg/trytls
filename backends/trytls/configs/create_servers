@@ -55,7 +55,7 @@ while read -r inst value; do
 			"create_crt")
 
 				#create signing request
-				if [ "$value" ]; then		#voidaan asettaa crt samalla kun se tehdään
+				if [[ "$value" != "no_change" ]]; then		#voidaan asettaa crt samalla kun se tehdään
 					if [[ "$value" == "hostname" ]]; then
 						crt=$current_hostname
 					else
@@ -141,7 +141,7 @@ while read -r inst value; do
 				;;
 			"push")
 
-				if [[ "$value" && "$value" != "no_change" ]]; then		#voidaan asettaa crt samalla kun se tehdään
+				if [[ "$value" != "no_change" ]]; then		#voidaan asettaa crt samalla kun se tehdään
 					if [[ "$value" == "hostname" ]]; then
 						crt=$current_hostname
 					else

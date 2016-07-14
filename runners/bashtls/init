@@ -73,6 +73,7 @@ while [ $# -gt 0 ]; do
     echo "  volumes: " ; \
     echo "  - ./shared:/etc/shared" ;\
     echo "  - $stubspath:/etc/shared/stubs" ;
+    echo "  - ./drivers/$driver:/driver" ;
     echo '  network_mode: "host" ' ; }\
     >> docker-compose.yml || exit 4
 

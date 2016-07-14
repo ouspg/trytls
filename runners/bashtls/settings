@@ -1,0 +1,18 @@
+#!/bin/bash
+
+datapath="./shared/scripts/data"
+rm $datapath/* >> /dev/null 2>&1
+
+
+#vars
+timeout=$1
+info=$2
+
+#timeout
+if [[ $timeout && $timeout != "_" ]]; then
+  echo $timeout > $datapath/timeout
+fi
+#multiple processes per stub per driver
+if [[ $info && $info != "_" ]]; then
+  echo $info > $datapath/info
+fi

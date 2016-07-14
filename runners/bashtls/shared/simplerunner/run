@@ -8,8 +8,6 @@ filename=$2
 confpath=$3
 certspath=$4
 
-
-
 curpath=`pwd`
 if [[ "$certspath" ]]; then
   if [[ "$certspath" != "_" ]]; then
@@ -28,6 +26,11 @@ stub=$6
 timeout=$7
 if [[ ! $timeout ]]; then
   timeout=15
+fi
+
+parallel=$8
+if [[ ! $parallel || $parallel == "_" ]]; then
+  parallel=''
 fi
 
 #echo timeout: $timeout
@@ -143,7 +146,11 @@ while read -r port msg status crt hostname; do
 
   #try to connect
 
-  connect $port $status $crt $hostname &
+  if [[ $parallel ]]; then
+    connect $port $status $crt $hostname &
+  else
+    connect $port $status $crt $hostname
+  fi
 
 done < "$confpath"
 
