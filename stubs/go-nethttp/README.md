@@ -11,7 +11,7 @@
 2. Run
 
     ```shell
-        $GOPATH/bin/go-nethttp https://www.example.com/ 443
+        $GOPATH/bin/go-nethttp example.com 443
     ```
 
 ## Test result
