@@ -12,8 +12,6 @@ if [[ ! $timeout || $timeout == "_" ]]; then
 fi
 parallel=$8
 
-echo asfas""
-
 processes_min=`exec ps -A --no-headers | wc -l`
 stubcount=0
 
