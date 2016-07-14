@@ -1,11 +1,12 @@
 **License: See trytls/LICENSE**
 
-##Get started
+## Get started
 
-To run the stub you need to have the following installed on the testing environment:
+### Install
+
 * gcc + openssl deps
 
-to tun the stub you need to do the following once you have java installed on your computer:
+### Run
 ```
 ..# gcc -o run run.c -lssl -lcrypto
 ..# ./run [host] [port] [ca-bundle]
