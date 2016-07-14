@@ -1,29 +1,24 @@
 import contextlib
 
 
+class Test(object):
+    def __init__(self, accept, description, host, port, cafile=None, name=None):
+        self.accept = accept
+        self.description = description
+        self.host = host
+        self.port = port
+        self.cafile = cafile
+
+        if name is None:
+            name = "{}:{}".format(self.host, self.port)
+        self.name = name
+
+
 class _TestEnv(object):
     def __init__(self, func, args, kwargs):
         self._func = func
         self._args = args
         self._kwargs = kwargs
-
-    def __repr__(self):
-        """
-        Return a readable representation of the wrapped function and its
-        call arguments.
-
-        >>> def mytest(a, b):
-        ...     pass
-        >>> repr(_TestEnv(mytest, [1], {"b": 2}))
-        'mytest(1, b=2)'
-        """
-
-        params = []
-        if self._args:
-            params.extend("{v!r}".format(v=v) for v in self._args)
-        if self._kwargs:
-            params.extend("{k}={v!r}".format(k=k, v=v) for (k, v) in self._kwargs.items())
-        return "{name}({params})".format(name=self._func.__name__, params=", ".join(params))
 
     def __call__(self):
         return contextlib.contextmanager(self._func)(*self._args, **self._kwargs)

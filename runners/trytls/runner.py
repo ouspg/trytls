@@ -32,7 +32,7 @@ class UnexpectedOutput(Exception):
     pass
 
 
-def indent(text, by=4):
+def indent(text, by=4, first_line=True):
     r"""
     >>> indent("a\nb\nc", by=1) == ' a\n b\n c'
     True
@@ -40,7 +40,8 @@ def indent(text, by=4):
 
     spaces = " " * by
     lines = text.splitlines(True)
-    return "".join(spaces + line for line in lines)
+    prefix = lines.pop(0) if (lines and not first_line) else ""
+    return prefix + "".join(spaces + line for line in lines)
 
 
 def output_info(args, openssl_version, runner_name="trytls"):
@@ -87,10 +88,10 @@ def run_one(args, host, port, cafile=None):
 
 
 def collect(args, tests):
-    for test in tests:
-        with test() as (ok_expected, host, port, cafile):
+    for env in tests:
+        with env() as test:
             try:
-                ok = run_one(list(args), host, port, cafile)
+                accept = run_one(list(args), test.host, test.port, test.cafile)
             except Unsupported as us:
                 yield test, result.Skip(details=us.args[0])
             except UnexpectedOutput as uo:
@@ -102,14 +103,14 @@ def collect(args, tests):
             except ProcessFailed as pf:
                 yield test, result.Error("stub exited with return code {}".format(pf.args[0]), pf.args[1])
             else:
-                if ok and ok_expected:
-                    yield test, result.Pass(reason="verification succeeded as expected")
-                elif ok and not ok_expected:
-                    yield test, result.Fail(reason="verification should have failed")
-                elif not ok and ok_expected:
-                    yield test, result.Fail(reason="verification should have succeeded")
+                if accept and test.accept:
+                    yield test, result.Pass()
+                elif not accept and not test.accept:
+                    yield test, result.Pass()
+                elif not accept and test.accept:
+                    yield test, result.Fail()
                 else:
-                    yield test, result.Pass(reason="verification failed as expected")
+                    yield test, result.Fail()
 
 
 class Formatter(object):
@@ -125,18 +126,24 @@ class Formatter(object):
 
     def format(self, test, res):
         template = self.base
-        if self.marker:
-            template += self.type + self.marker + " "
-        else:
-            template += "  "
+        # if self.marker:
+        #     template += self.type + self.marker + " "
+        # else:
+        #     template += "  "
 
         reset = "{RESET}"
 
-        template += self.type + res.name + reset + self.base + " " + format(test)
+        template += self.type + res.name.rjust(5) + reset + self.base + " "
+        template += test.description
+        template += " {Style.DIM}" + "[{accept} {name}]".format(
+            name=test.name,
+            accept="accept" if test.accept else "reject"
+        )
+
         if res.reason.rstrip():
-            template += reset + self.base + " " + self.reason.rstrip() + res.reason
+            template += reset + self.base + "\n" + indent("reason: " + self.reason + res.reason.rstrip(), by=6)
         if res.details.rstrip():
-            template += reset + self.base + "\n" + self.details + indent(res.details.rstrip(), by=len(res.name) + 3)
+            template += reset + self.base + "\n" + indent("output: ", by=6) + self.details + indent(res.details.rstrip(), by=14, first_line=False)
 
         return template
 
