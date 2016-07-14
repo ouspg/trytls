@@ -2,6 +2,6 @@ language & java
 stubs & /etc/shared/simplerunner/stubs/java.stubs
 file & Run
 backend & default
-certs & /etc/shared/simplerunner/certs
+certs & _
 move & cd
 timeout & 30
