@@ -1,4 +1,3 @@
-```
 platform: Linux (Ubuntu 16.04)
 runner: trytls 0.0.7 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
 stub: 'lua5.1' 'stubs/lua5.1-luasec/run.lua'
@@ -18,4 +17,3 @@ x FAIL badssl_onlymyca(False, 'sha256')
   PASS ssllabs(False, port=10445)
 x FAIL local(True, 'localhost')
   PASS local(False, 'nothing')
-```

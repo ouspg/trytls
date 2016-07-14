@@ -1,4 +1,3 @@
-```
 platform: Linux (Ubuntu 16.04)
 runner: trytls 0.0.7 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
 stub: python 'stubs/python-urllib3/run.py'
@@ -18,4 +17,3 @@ x FAIL badssl(True, '10000-sans')
   PASS ssllabs(False, port=10445)
   PASS local(True, 'localhost')
   PASS local(False, 'nothing')
-```

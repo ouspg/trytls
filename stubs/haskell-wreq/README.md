@@ -13,5 +13,5 @@ $ docker build -t test-wreq --rm .
 run:
 
 ```
-docker run -ti --rm test-wreq
+docker run --rm test-wreq
 ```
