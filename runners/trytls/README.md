@@ -23,7 +23,6 @@ trytls: error: missing the bundle argument
 
 Valid bundle options:
   https
-  imap
 ```
 
 For example, when testing a HTTP(S) library you'd want to use the `https` bundle. That specific bundle knows to answer to the library's requests with proper HTTP responses, making testing easier.
@@ -47,7 +46,7 @@ The specific exit code in such situations is 3, to distinguish it from other com
 
 ## Bundles
 
-A test bundle is a collection of tests specialized for some protocol/situation ("an HTTPS server", "an IMAP server", ...). In practice a test bundle is just a named list of tests to be run. As an example see [`bundles/https.py`](./bundles/https.py).
+A test bundle is a collection of tests specialized for some protocol/situation ("an HTTPS server", ...). In practice a test bundle is just a named list of tests to be run. As an example see [`bundles/https.py`](./bundles/https.py).
 
 The bundles are registered as `setuptools` entrypoints.
 

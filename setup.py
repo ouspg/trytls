@@ -32,8 +32,7 @@ setup(
             "trytls=trytls.runner:main"
         ],
         "trytls.bundles": [
-            "https=trytls.bundles.https:all_tests",
-            "imap=trytls.bundles.imap:all_tests"
+            "https=trytls.bundles.https:all_tests"
         ]
     },
     install_requires=[
