@@ -10,7 +10,7 @@ import (
 func main() {
 	if len(os.Args) != 3 {
 		fmt.Println("UNSUPPORTED")
-		os.Exit(1)
+		os.Exit(0)
 	}
 
 	url := "https://" + os.Args[1] + ":" + os.Args[2]
@@ -22,7 +22,7 @@ func main() {
 		if sslError {
 			fmt.Println("VERIFY FAILURE")
 			os.Exit(0)
-		} 
+		}
 		fmt.Println(err)
 		os.Exit(1)
 	}
