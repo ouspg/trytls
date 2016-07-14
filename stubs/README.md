@@ -52,3 +52,17 @@ extension for the language in question.
 
 Optionally a stub can have a `Dockerfile` that encapsulates the environment
 and the dependancies needed to run the example.
+
+---
+
+Finished stubs (documentation and correct calling convention):
+* go-nethttp
+* haskell-HaskellNet
+* haskell-wreq
+* java-https
+* java-net
+* lua5.1-luasec
+* python-requests
+* python-urllib2
+* python-urllib3
+* python3-urllib
