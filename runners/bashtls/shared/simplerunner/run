@@ -10,7 +10,7 @@ certspath=$4
 
 curpath=`pwd`
 if [[ "$certspath" ]]; then
-  if [[ "$certspath" != "_" ]]; then
+  if [[ "$certspath" != '_' ]]; then
     certspath=${certspath//[[:blank:]]/}
   else
     certspath=""
@@ -28,9 +28,11 @@ if [[ ! $timeout ]]; then
   timeout=15
 fi
 
-parallel=$8
-if [[ ! $parallel || $parallel == "_" ]]; then
-  parallel=''
+#read info
+if [[ -f '/etc/shared/scripts/data/info' ]]; then
+  info=`cat '/etc/shared/scripts/data/info'`
+  parallel=`echo $info | grep 'parallel'`
+  printerror=`echo $info | grep 'print-error'`
 fi
 
 #echo timeout: $timeout
@@ -66,26 +68,26 @@ connect()
   hostname=$4
 
   if [[ "$crt" == "certs/test.crt" && $certspath ]]; then
-    response=`exec $command $filename $hostname $port "$curpath"/"$crt" & handleresponse $!`
+    response=`exec $command $filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
     #status="OK?"
   elif [[ "$crt" == "_" ]]; then
     if [[ "$certspath" =~ "." ]]; then
-      response=`exec $command $filename $hostname $port "$certspath" & handleresponse $!`
+      response=`exec $command $filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
     else
-      response=`exec $command $filename $hostname "$port" & handleresponse $!`
+      response=`exec $command $filename $hostname "$port"  2>&1 & handleresponse $!`
     fi
   elif [[ "$certspath" ]]; then
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
-      response=`exec $command $filename $hostname $port "$certspath"/"$crt" & handleresponse $!`
+      response=`exec $command $filename $hostname $port "$certspath"/"$crt"  2>&1 & handleresponse $!`
       #status="OK?"
     else
-      response=`exec $command $filename $hostname $port "$certspath" & handleresponse $!`
+      response=`exec $command $filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
       #kill $!
       #status="OK?"
     fi
   else
-    response=`exec $command $filename $hostname "$port" & handleresponse $!`
+    response=`exec $command $filename $hostname "$port"  2>&1 & handleresponse $!`
   fi
 
   #choose color
@@ -102,8 +104,12 @@ connect()
       color='\e[0;32m'    #green, success
       response='[SUCCESS] '$response
     else
-      color='\e[0;41m'    #red, failure(either error or verify did not succeed)
-      response='[FAILURE] '$response
+      color='\e[0;41m'    #red, failure(either error or verify did succeed)
+      if [[ "$response" == "VERIFY SUCCESS" || $printerror ]]; then
+        response='[FAILURE] '$response
+      else
+        response='[ERROR] to enable errors. run settings-script with "print-error" argument to enable errors'
+      fi
     fi
 
   elif [[ "$status" == "GOOD" ]]; then
@@ -113,11 +119,19 @@ connect()
       response='[SUCCESS] '$response
     else
       response='[FAILURE] '$response
-      color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+      if [[ "$response" == "VERIFY FAILURE" || $printerror ]]; then
+        color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+      else
+        response='[ERROR] to enable errors. run settings-script with "print-error" argument to enable errors'
+      fi
     fi
   else
-    response='[  OK?  ] '$response
     color='\e[0;37m'    #allright
+    if [[ "$response" == "VERIFY SUCCESS" || "$response" == "VERIFY FAILURE" ]]; then
+      response='[  OK?  ] '$response
+    else
+      response='[ERROR] to enable errors. run settings-script with "print-error" argument to enable errors'
+    fi
   fi
 
   echo -e "$color[$stub]$response":"$msg\e[0m[$hostname]"

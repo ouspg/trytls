@@ -10,7 +10,6 @@ timeout=$7
 if [[ ! $timeout || $timeout == "_" ]]; then
   timeout=15
 fi
-parallel=$8
 
 processes_min=`exec ps -A --no-headers | wc -l`
 stubcount=0
@@ -20,11 +19,11 @@ while read -r stub; do  #read next stub
   if [[ $move && $move != "_" ]]; then
     cd "/etc/shared/stubs/$stub/"
     bash /etc/shared/simplerunner/run "$language" "$file" \
-      "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub $timeout $parallel&
+      "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub $timeout&
     cd --
   else
     bash /etc/shared/simplerunner/run "$language" "/etc/shared/stubs/$stub/$file" \
-      "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub $timeout $parallel&
+      "/etc/shared/simplerunner/conf/$backend_conf" "$certs" "/etc/shared/simplerunner" $stub $timeout&
   fi
 
   while [[ `exec ps -A --no-headers | wc -l` -gt 300 ]]; do

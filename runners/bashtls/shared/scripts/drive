@@ -13,7 +13,6 @@ backend="_"
 certs="_"
 move="_"
 timeout="_"
-parallel="_"
 
 FIS=$IFS
 IFS=' & '
@@ -56,10 +55,5 @@ done <"$filepath"
 
 IFS=$FIS
 
-if [[ -f '/etc/shared/scripts/data/info' ]]; then
-  info=`cat '/etc/shared/scripts/data/info'`
-  parallel=`echo $info | grep 'parallel'`
-fi
 
-
-bash '/etc/shared/scripts/run' "$stubs" "$language" "$file" "$backend" "$certs" "$move" "$timeout" "$parallel"
+bash '/etc/shared/scripts/run' "$stubs" "$language" "$file" "$backend" "$certs" "$move" "$timeout"
