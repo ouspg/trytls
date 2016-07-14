@@ -6,7 +6,7 @@ import subprocess
 import pkg_resources
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
-from . import __version__, gencert, utils
+from . import __version__, gencert, utils, result
 
 
 # Initialize colorama without wrapping sys.stdout globally
@@ -32,7 +32,7 @@ class UnexpectedOutput(Exception):
     pass
 
 
-def indent(text, by=4):
+def indent(text, by=4, first_line=True):
     r"""
     >>> indent("a\nb\nc", by=1) == ' a\n b\n c'
     True
@@ -40,7 +40,8 @@ def indent(text, by=4):
 
     spaces = " " * by
     lines = text.splitlines(True)
-    return "".join(spaces + line for line in lines)
+    prefix = lines.pop(0) if (lines and not first_line) else ""
+    return prefix + "".join(spaces + line for line in lines)
 
 
 def output_info(args, openssl_version, runner_name="trytls"):
@@ -70,57 +71,122 @@ def run_one(args, host, port, cafile=None):
         args,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
+        stderr=subprocess.STDOUT
     )
-    stdout, stderr = process.communicate()
-
+    out, _ = process.communicate()
     if process.returncode != 0:
-        raise ProcessFailed(process.returncode, stderr)
+        raise ProcessFailed(process.returncode, out)
 
-    output = stdout.strip()
-    if output == b"VERIFY SUCCESS":
+    out = out.rstrip()
+    if out == b"VERIFY SUCCESS":
         return True
-    if output == b"VERIFY FAILURE":
+    if out == b"VERIFY FAILURE":
         return False
-    if output == b"UNSUPPORTED":
-        raise Unsupported()
-    raise UnexpectedOutput(output)
+    if out.startswith(b"UNSUPPORTED"):
+        raise Unsupported("")
+    raise UnexpectedOutput(out)
+
+
+def collect(args, tests):
+    for env in tests:
+        with env() as test:
+            try:
+                accept = run_one(list(args), test.host, test.port, test.cafile)
+            except Unsupported as us:
+                yield test, result.Skip(details=us.args[0])
+            except UnexpectedOutput as uo:
+                output = uo.args[0].strip()
+                if not output:
+                    yield test, result.Error("no output")
+                elif output:
+                    yield test, result.Error("unexpected output", output)
+            except ProcessFailed as pf:
+                yield test, result.Error("stub exited with return code {}".format(pf.args[0]), pf.args[1])
+            else:
+                if accept and test.accept:
+                    yield test, result.Pass()
+                elif not accept and not test.accept:
+                    yield test, result.Pass()
+                elif not accept and test.accept:
+                    yield test, result.Fail()
+                else:
+                    yield test, result.Fail()
+
+
+class Formatter(object):
+    def __init__(self, base="", marker="", type="", reason="", details=""):
+        if len(marker) > 1:
+            raise ValueError("marker can be at most 1 character")
+
+        self.marker = marker
+        self.base = base
+        self.type = type
+        self.reason = reason
+        self.details = details
+
+    def format(self, test, res):
+        template = self.base
+        # if self.marker:
+        #     template += self.type + self.marker + " "
+        # else:
+        #     template += "  "
+
+        reset = "{RESET}"
+
+        template += self.type + res.name.rjust(5) + reset + self.base + " "
+        template += test.description
+        template += " {Style.DIM}" + "[{accept} {name}]".format(
+            name=test.name,
+            accept="accept" if test.accept else "reject"
+        )
+
+        if res.reason.rstrip():
+            template += reset + self.base + "\n" + indent("reason: " + self.reason + res.reason.rstrip(), by=6)
+        if res.details.rstrip():
+            template += reset + self.base + "\n" + indent("output: ", by=6) + self.details + indent(res.details.rstrip(), by=14, first_line=False)
+
+        return template
+
+
+formats = {
+    result.Skip: Formatter(
+        base="{Style.DIM}"
+    ),
+    result.Error: Formatter(
+        base="{Fore.RED}",
+        type="{Back.RED}{Fore.WHITE}",
+        details="{Style.DIM}"
+    ),
+    result.Fail: Formatter(
+        base="{Fore.RED}",
+        marker="x",
+        reason="{Fore.RED}{Style.DIM}"
+    ),
+    result.Pass: Formatter(
+        type="{Fore.GREEN}",
+        reason="{Style.DIM}"
+    )
+}
+
+
+def format_result(test, res):
+    formatter = formats.get(res.type)
+    if formatter is None:
+        raise RuntimeError("unknown result type")
+    return formatter.format(test, res)
 
 
 def run(args, tests):
     fail_count = 0
     error_count = 0
 
-    for test in tests:
-        with test() as (ok_expected, host, port, cafile):
-            try:
-                ok = run_one(list(args), host, port, cafile)
-            except Unsupported:
-                output("  {Style.DIM}SKIP {test}", test=test)
-            except UnexpectedOutput as uo:
-                error_count += 1
-                output(
-                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} unexpected output:\n{Style.DIM}{error}",
-                    error=indent(uo.args[0].decode("ascii", "replace"))
-                )
-            except ProcessFailed as pf:
-                error_count += 1
+    for test, res in collect(args, tests):
+        output(format_result(test, res))
 
-                output(
-                    "  {Back.RED}{Fore.WHITE}ERROR{RESET}{Fore.RED} process exited with return code {code}",
-                    code=pf.args[0]
-                )
-                if pf.args[1]:
-                    output(
-                        "{Fore.RED}{Style.DIM}{error}",
-                        error=indent(pf.args[1]).rstrip().decode("ascii", "replace")
-                    )
-            else:
-                if bool(ok) == bool(ok_expected):
-                    output("  {Fore.GREEN}PASS{RESET} {test}", test=test)
-                else:
-                    fail_count += 1
-                    output("{Fore.RED}x FAIL {test}", test=test)
+        if res.type == result.Fail:
+            fail_count += 1
+        elif res.type == result.Error:
+            error_count += 1
 
     return fail_count == 0 and error_count == 0
 

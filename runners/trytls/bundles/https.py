@@ -5,7 +5,7 @@ import contextlib
 import multiprocessing
 from ..utils import tmpfiles
 from ..gencert import gencert
-from ..testenv import testenv
+from ..testenv import testenv, Test
 
 try:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
@@ -14,20 +14,37 @@ except ImportError:
 
 
 @testenv
-def badssl(ok_expected, name):
-    yield ok_expected, name + ".badssl.com", 443, None
+def badssl(accept, name, description):
+    yield Test(
+        accept=accept,
+        description=description,
+        host=name + ".badssl.com",
+        port=443
+    )
 
 
 @testenv
-def badssl_onlymyca(ok_expected, name):
+def badssl_onlymyca(description):
     _, _, cadata = gencert("localhost")
+
     with tmpfiles(cadata) as cafile:
-        yield ok_expected, name + ".badssl.com", 443, cafile
+        yield Test(
+            accept=False,
+            description=description,
+            host="sha256.badssl.com",
+            port=443,
+            cafile=cafile
+        )
 
 
 @testenv
-def ssllabs(ok_expected, port, host="www.ssllabs.com"):
-    yield ok_expected, host, port, None
+def ssllabs(accept, port, description):
+    yield Test(
+        accept=accept,
+        description=description,
+        host="www.ssllabs.com",
+        port=port
+    )
 
 
 @contextlib.contextmanager
@@ -80,44 +97,45 @@ def http_server(certdata, keydata, host="localhost", port=0):
 
 
 @testenv
-def local(ok_expected, cn):
+def local(accept, cn, description):
     certdata, keydata, cadata = gencert(cn)
 
     with http_server(certdata, keydata) as (host, port):
         with tmpfiles(cadata) as cafile:
-            yield ok_expected, host, port, cafile
+            yield Test(
+                accept=accept,
+                description=description,
+                host=host,
+                port=port,
+                cafile=cafile
+            )
 
 
 badssl_tests = [
-    badssl(False, "expired"),  # not with an obsolete cert
-    badssl(False, "wrong.host"),  # not with a wrong name
-    badssl(False, "self-signed"),  # not just one's own claims
-    badssl(True, "sha256"),  # future proof sha
-    badssl(True, "1000-sans"),  # massive alternative names
-    badssl(True, "10000-sans"),  # massive alternative names
-    badssl(False, "incomplete-chain"),  # should have full proof of chain to trusted CA
-    badssl(False, "superfish"),  # super fishy CA
-    badssl(False, "edellroot"),  # rotten roots CA
-    badssl(False, "dsdtestprovider")  # unproviding CA
+    badssl(False, "expired", "expired certificate"),
+    badssl(False, "wrong.host", "wrong hostname in certificate"),
+    badssl(False, "self-signed", "self-signed certificate"),
+    badssl(True, "sha256", "SHA-256 signature"),
+    badssl(True, "1000-sans", "1000 subjectAltNames"),
+    badssl(False, "incomplete-chain", "incomplete chain of trust"),
+    badssl(False, "superfish", "Superfish CA"),
+    badssl(False, "edellroot", "eDellRoot CA"),
+    badssl(False, "dsdtestprovider", "DSDTestProvider CA")
 ]
 
 
 ssllabs_tests = [
-    ssllabs(False, port=10443),
-    ssllabs(False, port=10444),
-    ssllabs(False, port=10445)
+    ssllabs(False, 10443, "protect against an OS X vulnerability"),
+    ssllabs(False, 10444, "protect against the FREAK attack"),
+    ssllabs(False, 10445, "protect against the Logjam attack")
 ]
 
 
 local_tests = [
-    local(True, "localhost"),
-    local(False, "nothing")
+    local(True, "localhost", "valid localhost certificate"),
+    local(False, "nothing", "invalid localhost certificate"),
+    badssl_onlymyca("use only the given CA bundle, not system's")
 ]
 
 
-badssl_only_my_ca = [
-    badssl_onlymyca(False, "sha256")
-]
-
-
-all_tests = badssl_tests + badssl_only_my_ca + ssllabs_tests + local_tests
+all_tests = badssl_tests + ssllabs_tests + local_tests

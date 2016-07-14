@@ -1,8 +1,8 @@
-#BadSSL services and reasons for usage/ignore
+# BadSSL services and reasons for usage/ignore
 
-##Used
+## Used
 
-* `expired`: Obsolete cert should not be valid
+* `expired`: Expired cert should not be valid
 * `wrong.host`: Wrong host should not be valid
 * `self-signed`: Who knows who signed? Should not be valid
 * `sha256`: Should be valid to future proof
@@ -12,7 +12,7 @@
 * `edellroot`: Rotten roots CA should not be valid
 * `dsdtestprovider`: Unproviding CA should not be valid
 
-##Unused
+## Unused
 
 * `sha1-2016`: Maybe invalid after 2016
 * `sha1-2017`: Maybe invalid after 2017
