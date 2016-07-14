@@ -15,7 +15,7 @@ public class Run{
 
 		if (args.length > 2) {
 			System.out.println("UNSUPPORTED");	//for now
-			System.exit(2);
+			System.exit(0);
 		}
 
 		URL url;

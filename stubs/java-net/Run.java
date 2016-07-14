@@ -7,7 +7,7 @@ public class Run
 
     if (args.length != 2) {
       System.out.println("UNSUPPORTED");	//for now
-      System.exit(2);
+      System.exit(0);
     }
 
     String host = args[0];
@@ -18,7 +18,7 @@ public class Run
     try {
       new java.net.URL(https_url).getContent();
       System.out.println("VERIFY SUCCESS");
-    } catch (javax.net.ssl.SSLHandshakeException e){
+  } catch (javax.net.ssl.SSLHandshakeException | javax.net.ssl.SSLProtocolException | javax.net.ssl.SSLKeyException e){
       System.out.println("VERIFY FAILURE");
     } catch (Exception e) {
       e.printStackTrace();
