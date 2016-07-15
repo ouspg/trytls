@@ -3,26 +3,21 @@ open System
 
 [<EntryPoint>]
 let main(args) =      //host, port, no support for ca-bundle at the moment
-  match args with
-  | [|host; port|] ->
-    let url = String.Format("https://{0}:{1}", host, port)
-    try
-      let req = HttpWebRequest.Create(url)
-      let resp = req.GetResponse()
-      printfn "VERIFY SUCCESS"
-      exit 0
-    with
-      | :? System.Net.WebException as ex ->
-        let error = ex.Message
-        if error.Contains("NameResolutionFailure") then
-          printfn "%s" error;
-          exit 1
-        else
-          printfn "%s" "VERIFY FAILURE";
-          exit 0
-      | _ as ex->
-        printfn "%A" ex.Message;
-        exit 1
-  | _ ->
-    printfn "UNSUPPORTED"
-    exit 0
+  let returnval =
+    match args with
+    | [|host; port|] ->
+      let url = String.Format("https://{0}:{1}", host, port)
+      try
+        let req = HttpWebRequest.Create(url).GetResponse()
+        printfn "VERIFY SUCCESS"; 0
+      with
+        | :? System.Net.WebException as ex ->
+          if ex.Message.Contains("NameResolutionFailure") then
+            printfn "%s" ex.Message; 1
+          else
+            printfn "%s" "VERIFY FAILURE"; 0
+        | _ as ex->
+          printfn "%A" ex.Message; 1
+    | _ ->
+      printfn "UNSUPPORTED"; 0
+  exit returnval
