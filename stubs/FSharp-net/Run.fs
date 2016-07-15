@@ -15,9 +15,9 @@ let main(args) =      //host, port, no support for ca-bundle at the moment
           if ex.Message.Contains("NameResolutionFailure") then
             printfn "%s" ex.Message; 1
           else
-            printfn "%s" "VERIFY FAILURE"; 0
+            printfn "VERIFY FAILURE"; 0
         | _ as ex->
-          printfn "%A" ex.Message; 1
+          printfn "%s" ex.Message; 1
     | _ ->
       printfn "UNSUPPORTED"; 0
   exit returnval
