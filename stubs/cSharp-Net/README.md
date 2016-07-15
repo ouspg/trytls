@@ -9,5 +9,5 @@
 ### Run (in linux - similar in other Operating Systems)
 ```
 ..# mcs run.cs
-..# mono [host] [port] [ca-bundle]
+..# mono run.exe [host] [port]
 ```
