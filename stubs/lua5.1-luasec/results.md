@@ -1,5 +1,5 @@
 platform: Linux (Ubuntu 16.04)
-runner: trytls 0.0.8 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
+runner: trytls 0.1.0 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
 stub: 'lua5.1' 'stubs/lua5.1-luasec/run.lua'
  PASS expired certificate [reject expired.badssl.com:443]
  FAIL wrong hostname in certificate [reject wrong.host.badssl.com:443]

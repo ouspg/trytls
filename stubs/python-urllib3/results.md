@@ -1,5 +1,5 @@
 platform: OS X 10.11.5
-runner: trytls 0.0.8 (CPython 2.7.10, OpenSSL 0.9.8zh)
+runner: trytls 0.1.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: python 'stubs/python-urllib3/run.py'
  PASS expired certificate [reject expired.badssl.com:443]
  PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
