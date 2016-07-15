@@ -6,7 +6,7 @@
 
 # Dependencies
 
- * php
+  * ​PHP (version >= 4.3.0) [compiled with OpenSSL support]
 
 # Building Dockerfile
 
