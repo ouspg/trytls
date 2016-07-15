@@ -1,3 +1,10 @@
+# TryTLS stub for PHP remote file Handling
+
+Although this stub uses only `file_get_contents()` it is likely to test the
+same remote file mechanism that at least `fopen()`, `include()`, `include_once()`,
+`require()`, `require_once()` and the `imagecreatefromXXX()`-functions use when
+called with remote file URLs.
+
 # How to run
 
 ```console
@@ -7,6 +14,8 @@
 # Dependencies
 
   * PHP (version >= 4.3.0) [compiled with OpenSSL support](http://php.net/manual/en/openssl.installation.php).
+   * Context support that allows controlling peer certificate verification
+   and used CA-bundle was added with PHP 5.0.0.
 
 # Building Dockerfile
 
