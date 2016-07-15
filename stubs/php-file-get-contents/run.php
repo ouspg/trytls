@@ -36,7 +36,10 @@ set_error_handler('mywarning', E_WARNING);
 try {
   $page = file_get_contents($filename, false, stream_context_create($arrContextOptions));
 } catch (Exception $e) {
-//  echo $e->getMessage() . "\n";
+  // echo $e->getMessage() . "\n";
+  // bail out early here and don't tust return value only
+  echo ("VERIFY FAILURE" . "\n");
+  exit(0);
 }
 
 if ($page) {
