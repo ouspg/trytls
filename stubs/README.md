@@ -57,7 +57,6 @@ and the dependancies needed to run the example.
 
 Finished stubs (documentation and correct calling convention):
 * go-nethttp
-* haskell-HaskellNet
 * haskell-wreq
 * java-https
 * java-net
