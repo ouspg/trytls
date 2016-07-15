@@ -15,14 +15,14 @@ Module Run
       Environment.Exit(0)
     End if
 
-    Dim sURL As String
-    sURL = "https://" & host & ":" & port
+    Dim url As String
+    url = "https://" & host & ":" & port
 
-    Dim wrGETURL As WebRequest
-    wrGETURL = WebRequest.Create(sURL)
+    Dim request As WebRequest
+    request = WebRequest.Create(url)
 
     Try
-      wrGETURL.GetResponse()
+      request.GetResponse()
       Console.WriteLine ("VERIFY SUCCESS")
     Catch ex As System.Net.WebException
       if ex.ToString.Contains("NameResolutionFailure") Then
