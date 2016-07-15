@@ -105,6 +105,18 @@ extension for the language in question.
 Optionally a stub can have a `Dockerfile` that encapsulates the environment
 and the dependancies needed to run the example.
 
+Ideally, one should also include a `results.md` that contains the result of a test run as follows:
+
+```
+platform: Linux (Ubuntu 16.04)
+runner: trytls 0.1.0 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
+stub: python 'stubs/python-urllib2/run.py'
+ PASS expired certificate [reject expired.badssl.com:443]
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
+ ...
+```
+
 ---
 
 Finished stubs (documentation and correct calling convention):
