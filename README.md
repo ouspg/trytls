@@ -88,3 +88,8 @@ Test runners allow user to test against all or any of these backends.
  * Joonas Kuorilehto ([@joneskoo](https://github.com/joneskoo))
 
 We invite people to [contribute](CONTRIBUTING.md).
+
+# Contact us
+ * Preferred: public tweed 
+  * Use #trytls and point it to @oupsg
+ * Non-public alternative: direct message to @ouspg

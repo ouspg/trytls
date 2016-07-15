@@ -2,12 +2,13 @@
 
 ## Get started
 
-### Install
-
-* c# (for example Mono in Linux)
-
+### Install (linux)
+```
+..# apt-get install monodevelop mono-vbnc
+..# apt-get install mono-vbnc
+```
 ### Run (in linux - similar in other Operating Systems)
 ```
-..# mcs run.cs
-..# mono run.exe [host] [port]
+..# vbnc Run.vb
+..# mono Run.exe [host] [port]
 ```
