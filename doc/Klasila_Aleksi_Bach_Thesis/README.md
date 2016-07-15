@@ -14,7 +14,7 @@ Degree Programme in Computer Science and Engineering
 ---
 
 
-Klasila Aleksi (2016) TryTLS backend. University of Oulu, Degree Programme in Computer Science and Engineering. Bachelor’s Thesis, 28 p.
+Klasila Aleksi (2016) TryTLS backend. University of Oulu, Degree Programme in Computer Science and Engineering. Bachelor’s Thesis.
 
 ## Abstract
 
@@ -24,11 +24,11 @@ Klasila Aleksi (2016) TryTLS backend. University of Oulu, Degree Programme in Co
 
 **This thesis provides a way to test if client libraries do SSL correctly and as expected even without internet connnection. It also provides a backend that anyone can run on their own coputers both either to be used in private or to be published/shared with the rest of us.**
 
-**Keywords: Backend, Tools, TLS/SSL, Security**
+**Keywords: Tools, TLS/SSL, Security**
 
 ---
 
-Klasila Aleksi (2016) TryTLS backend. Oulun yliopisto, tietotekniikan tutkinto-ohjelma. Kandidaatintyö, 28 s.
+Klasila Aleksi (2016) TryTLS backend. Oulun yliopisto, tietotekniikan tutkinto-ohjelma. Kandidaatintyö.
 
 ## Tiivistelmä
 
@@ -58,12 +58,13 @@ Klasila Aleksi (2016) TryTLS backend. Oulun yliopisto, tietotekniikan tutkinto-o
   - [2.2. Motivation for the use of SSL](#22-motivation-for-the-use-of-ssl)
   - [2.3. Motivation for the use of SSL testing](#23-motivation-for-the-use-of-ssl-testing)
   - [2.4. Popular known vulnerabilities](#24-popular-known-vulnerabilities)
-  - [2.5. SSL testing](#25-ssl-testing)
-    - [2.5.1. Different approaches for testing the behavior of SSL libraries and clients during the SSL handshake](#251-different-approaches-for-testing-the-behavior-of-ssl-libraries-and-clients-during-the-ssl-handshake)
-  - [2.6. Current testing approaches / State of the art](#26-current-testing-approaches--state-of-the-art)
-    - [2.6.1 Overview](#261-overview)
-    - [2.6.2 Tools and backends in more detail](#262-tools-and-backends-in-more-detail)
-  - [2.7. Problems with the current testing approaches](#27-problems-with-the-current-testing-approaches)
+  - [2.5 Related protocols and approaches for securing connections on the internet](#25-related-protocols-and-approaches-for-securing-connections-on-the-internet)
+  - [2.6. SSL testing](#26-ssl-testing)
+    - [2.6.1. Different approaches for testing the behavior of SSL libraries and clients during the SSL handshake](#261-different-approaches-for-testing-the-behavior-of-ssl-libraries-and-clients-during-the-ssl-handshake)
+  - [2.7. Current testing approaches / State of the art](#27-current-testing-approaches--state-of-the-art)
+    - [2.7.1 Overview](#271-overview)
+    - [2.7.2 Tools and backends in more detail](#272-tools-and-backends-in-more-detail)
+  - [2.8. Problems with the current testing approaches](#28-problems-with-the-current-testing-approaches)
 - [3. trytls backend](#3-trytls-backend)
   - [3.1. Terminology](#31-terminology)
   - [3.2. Tools used](#32-tools-used)
@@ -97,18 +98,30 @@ Oulu, Finland July 06.2016
 
 ## Abbreviations
 
-* TLS/ SSL        Transport Layer Security/ Socket Layer Security
-* TCP/ UDP        Transmission Control Protocol / User Datagram Protocol
-* DTLS            Datagram Transport Layer security
-* HTTPS           Hypertext Trasfer Protocol Secure
-* FTP             File Transfer Protocol
-* FTPS            FTP that adds support for the TLS and SSL cryptographic protocols.
-* SNI             Server Name Indication
-* VM              Virtual Machine
-* UI              User Interface
-* DROWN           Decrypting RSA with Obsolete and Weakened eNcryption
-* POODLE          Padding Oracle On Downgraded Legacy Encryption
-* BEAST           Browser Exploit Against SSL/TLS
+<pre>
+TLS/ SSL              Transport Layer Security/ Socket Layer Security
+TCP/ UDP              Transmission Control Protocol / User Datagram Protocol
+DTLS                  Datagram Transport Layer security
+HTTPS                 Hypertext Trasfer Protocol Secure
+FTP                   File Transfer Protocol
+FTPS                  FTP that adds support for the TLS and SSL cryptographic protocols.
+SNI                   Server Name Indication
+VM                    Virtual Machine
+UI                    User Interface
+DH                    Diffie-Hellman
+RC4                   Rivest Cipher 4
+LSB                   least significant bit
+MUE                   Minimal Unauthenticated Encryption
+KCI                   Key Compromise Impersonation
+KDF                   Key Derivation Function
+(J-)PAKE              (juglling) Password-Authenticated Key Exchange
+DROWN                 Decrypting RSA with Obsolete and Weakened eNcryption
+POODLE                Padding Oracle On Downgraded Legacy Encryption
+BEAST                 Browser Exploit Against SSL/TLS
+SLOTH                 Security Losses from Obsolete and Truncated Transcript Hashes
+Freak                 Factoring RSA Export Keys
+CRIME                 compression Ratio Info-leak Made Easy
+</pre>
 
 ---
 
@@ -252,7 +265,31 @@ The CRIME(compression Ratio Info-leak Made Easy) exploit was created by the secu
 
 There are many more vulnerabilities found all the time. In OpenSSL alone there have been at least 16 vulnerabilities that needed fixing in 2016 till today(06.2016) [23].
 
-### 2.5. SSL testing
+### 2.5 Related protocols and approaches for securing connections on the internet
+
+**Opportunistic security - in the context of communications protocols: [39, 40]**
+
+Normally i.a. SMTP connections either authenticate and encrypt or do nothing special to secure the connection, at least when correctly implemented. The opportunistic security approach allows the use of encryption even when no authentication is available. The handshake between a SMTP server and a client begins with a STARTTLS command. The communication before the command is done in plain text which of course allows an attacker to prevent the command to have any affect on the connection, meaning even though the client wanted to start using TLS/SSL the attacker can force the client to use plain text if the client does not force the usage of either authentication and encryption or no connection at all. 
+
+“A publicly-referenced SMTP server MUST NOT require use of the STARTTLS extension in order to deliver mail locally.  This rule prevents the STARTTLS extension from damaging the interoperability of the Internet's SMTP infrastructure”
+
+**Minimal Unauthenticated Encryption [1]**
+
+MUE(Minimal Unauthenticated Encryption), i.e. uses a few round trips as possible Designed against passive surveillance, does not work against active ones. Offers a fast way within HTTP/2 to cause unauthenticated encryption. The protocol starts encryption within 3 messages (1.5 round trips), there are protocols that can start encrypting with less than that, but their error handling is much more complicated and they can also take more than just 2 round trips. MUE is negotiated in HTTP/2 headers. The two parties must agree to a shared preliminary key using (anonymous) Diffie-Hellman key agreement and derive the shared keys using agreed-to KDF(Key Derivation Function) and start encrypting messages.
+
+The client is always the one who whether to start encrypting. The server can always Reject the encryption if it either doesn’t want to start encrypting with the client or doesn’t support algorithms available. Doing encryption in the HTTP/2 means also that when moving to encrypt the connection changing port is not needed, the port 80 can still be used. MUE is only for http but there is no security problem using HTTP that is carried under TLS/SSL.
+
+**Password-Authenticated Key Excange [41]**
+
+In PAKE(Password-Authenticated Key Exchange) two parties share a password which they both use to mutually authenticate. The protocol should not allow an attacker to obtain any information about the password through simple eavesdropping. The protocol uses Diffie-Hellman key exchange with a password as an extra layer of protection. J-PAKE means juggling PAKE in which the password is combined with ephemeral values like in the standard Diffie-Hellman key exchange instead of using only the password provided to obfuscate the inputs to a key exchange.
+
+For more detailed information: https://www.normalesup.org/~fbenhamo/files/publications/SP_AbdBenMac15.pdf
+
+**Others:**
+
+There are many more protocols and approaches developed to be used either combined within or without TLS/SSL. Some of these are more secure and the others are less. The main scope of this thesis is in secure communications over TLS/SSL so this thesis won’t be getting deeper into the protocol soup at hand for now.
+
+### 2.6. SSL testing
 
 No matter what internet protocol(s) you are using with SSL protocol. The handshake part is almost always the same or at least a similar one. The protocol version, cipher suite, etc. get chosen during the handshaking. If the connection gets established the two participants - the client and the server - are to use the configuration negotiated in the SSL handshake part of the connection. The actual data exchange part is done differently when using different protocols. It is out of the scope of this thesis, so we won’t be getting into that too closely.
 
@@ -263,7 +300,7 @@ Even though the world of internet may be pretty secure for now. Who is to tell t
 
 SSL testing consists of two essential parts. The server and the client or the client and the man in the middle or the server and the man in the middle. It may also consist of all of them.
 
-#### 2.5.1. Different approaches for testing the behavior of SSL libraries and clients during the SSL handshake
+#### 2.6.1. Different approaches for testing the behavior of SSL libraries and clients during the SSL handshake
 
 **Server side testing**
 
@@ -291,9 +328,9 @@ The server and the client exchange cipher suites, SSL version number and certifi
 Figure 2. Main ways for testing SSL in action.
 ![ways_to_test_ssl](pictures/ways_to_test_ssl.png)
 
-### 2.6. Current testing approaches / State of the art
+### 2.7. Current testing approaches / State of the art
 
-#### 2.6.1 Overview
+#### 2.7.1 Overview
 
 **Server**
 
@@ -303,7 +340,7 @@ There are many tools for testing if a server is doing SSL securely. Using for ex
 
 There are not so many tools for testing SSL support of different clients. There are of course some. For example BADSSL is a service by using of which one can manually test whether if a client code, library or a program performs SSL as wanted. QUALYS SSL LABS provides also some manual tests for the client. TryTLS backend is also for client side testing but can be used on the server side as well.
 
-#### 2.6.2 Tools and backends in more detail
+#### 2.7.2 Tools and backends in more detail
 
 **BADSSL**
 
@@ -337,7 +374,7 @@ Tools for creating certificate signing requests and cheking that they are format
 
 
 
-### 2.7. Problems with the current testing approaches
+### 2.8. Problems with the current testing approaches
 
 The current tools that check whether if the client supports insecure configurations need at least mostly internet connection to work properly. The tools I am talking about are mostly internet sites. There are also tools for checking Certificates. But most of the tools are not for checking whether if the client checks the certificates correctly or not [3]. With badssl and TryTLS one can of course do just that.
 
@@ -553,7 +590,7 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 
 ## 7. References
 
-[1] some book [WIP]
+[1] P. Hoffman. VPN Consortium. (2013). "Draft-Hoffman-Httpbis-Minimal-Unauth-Enc-01 - Minimal Unauthenticated Encryption (MUE) For HTTP/2". Tools.ietf.org. N.p., 2016. Web. 15 July 2016. Available: https://tools.ietf.org/html/draft-hoffman-httpbis-minimal-unauth-enc-01
 
 [2] T. Dierks. E. Rescorla. RTFM, Inc. (2008). RFC 5246. - The Transport Layer Security (TLS) Protocol Version 1.2". Tools.ietf.org. N.p., 2016. Web. 11 July 2016. Available: https://tools.ietf.org/html/rfc5246 pp. 32-33
 
@@ -628,3 +665,9 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 [37] "CVE -CVE-2014-0160". Cve.mitre.org. N.p., 2016. Web. 13 July 2016.
 
 [38] Kelsey, John. (2016) "Compression And Information Leakage Of Plaintext". Fast Software Encryption (2002): 263-276. Web. 13 July 2016. https://en.wikipedia.org/wiki/CRIME and https://en.wikipedia.org/wiki/CRIME#References
+
+[39] V. Dukhovni. Two Sigma. (2014). "Draft-Dukhovni-Opportunistic-Security-06 - Opportunistic Security: Some Protection Most Of The Time". Tools.ietf.org. N.p., 2016. Web. 14 July 2016. Available: https://tools.ietf.org/html/draft-dukhovni-opportunistic-security-06
+
+[40] Facebook. (2014). "The Current State Of SMTP STARTTLS Deployment". M.facebook.com. N.p., 2016. Web. 15 July 2016. Available: https://m.facebook.com/notes/protect-the-graph/the-current-state-of-smtp-starttls-deployment/1453015901605223/
+
+[41] Michel Abdalla. Fabrice Benhamouda. Philip MacKenzie. (2016). "Security of the J-PAKE Password-Authenticated Key Exchange Protocol". Available: https://www.normalesup.org/~fbenhamo/files/publications/SP_AbdBenMac15.pdf
