@@ -16,7 +16,7 @@ if ($argc > 3) {
 }
 
 if( !ini_get('allow_url_fopen') ) {
-  echo "Error: " . "allow_url_fopen not set " . "cannot fetch remote urls" . "\n";
+  // echo "Error: " . "allow_url_fopen not set " . "cannot fetch remote urls" . "\n";
   echo "UNSUPPORTED" . "\n";
   exit(0);
 }
