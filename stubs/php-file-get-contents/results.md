@@ -17,7 +17,9 @@ stub: php 'run.php'
  SKIP valid localhost certificate [accept localhost:41375]
  SKIP invalid localhost certificate [reject localhost:34105]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+```
 ---
+```
 platform: OS X 10.11.5
 runner: trytls 0.1.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: python 'stubs/python-urllib2/run.py'
