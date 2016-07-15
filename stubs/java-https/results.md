@@ -1,3 +1,4 @@
+```
 platform: OS X 10.11.5
 runner: trytls 0.1.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: java Run
@@ -22,3 +23,4 @@ ERROR protect against the FREAK attack [reject www.ssllabs.com:10444]
  SKIP valid localhost certificate [accept localhost:55028]
  SKIP invalid localhost certificate [reject localhost:55029]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+```

@@ -1,3 +1,4 @@
+```
 platform: OS X 10.11.5
 runner: trytls 0.1.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: python 'stubs/python-requests/run.py'
@@ -24,3 +25,4 @@ ERROR invalid localhost certificate [reject localhost:54620]
                 SubjectAltNameWarning
               VERIFY FAILURE
  FAIL use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+```

@@ -1,3 +1,4 @@
+```
 platform: OS X 10.11.5
 runner: trytls 0.1.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: java Run
@@ -16,3 +17,4 @@ stub: java Run
  SKIP valid localhost certificate [accept localhost:55081]
  SKIP invalid localhost certificate [reject localhost:55082]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+```

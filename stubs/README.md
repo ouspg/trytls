@@ -113,6 +113,7 @@ Finished stubs (documentation and correct calling convention):
 * java-https
 * java-net
 * lua5.1-luasec
+* php-file-get-contents
 * python-requests
 * python-urllib2
 * python-urllib3

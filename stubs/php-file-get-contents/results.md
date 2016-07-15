@@ -1,3 +1,4 @@
+```
 platform: Linux (debian 8.5)
 runner: trytls 0.1.0 (CPython 2.7.9, OpenSSL 1.0.1t)
 stub: php 'run.php'
@@ -35,3 +36,4 @@ stub: python 'stubs/python-urllib2/run.py'
  PASS valid localhost certificate [accept localhost:55612]
  PASS invalid localhost certificate [reject localhost:55614]
  FAIL use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+```

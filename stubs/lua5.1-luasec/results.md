@@ -1,3 +1,4 @@
+```
 platform: Linux (Ubuntu 16.04)
 runner: trytls 0.1.0 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
 stub: 'lua5.1' 'stubs/lua5.1-luasec/run.lua'
@@ -16,3 +17,4 @@ stub: 'lua5.1' 'stubs/lua5.1-luasec/run.lua'
  FAIL valid localhost certificate [accept localhost:36832]
  PASS invalid localhost certificate [reject localhost:44904]
  FAIL use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+```
