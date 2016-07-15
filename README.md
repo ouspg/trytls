@@ -86,6 +86,7 @@ Test runners allow user to test against all or any of these backends.
  * Marko Laakso ([@ikisusi](https://github.com/ikisusi))
  * Pekka Pietikäinen ([@ppietikainen](https://github.com/ppietikainen))
  * Joonas Kuorilehto ([@joneskoo](https://github.com/joneskoo))
+ * Kasper Kyllönen ([@nkapu](https://github.com/nkapu))
 
 We invite people to [contribute](CONTRIBUTING.md).
 
