@@ -15,6 +15,12 @@ if ($argc > 3) {
   exit(0);
 }
 
+if( !ini_get('allow_url_fopen') ) {
+  echo "Error: " . "allow_url_fopen not set " . "cannot fetch remote urls" . "\n";
+  echo "UNSUPPORTED" . "\n";
+  exit(0);
+}
+
 $arrContextOptions = array(
   "ssl" => array(
     "verify_peer" => true,
