@@ -90,6 +90,6 @@ Test runners allow user to test against all or any of these backends.
 We invite people to [contribute](CONTRIBUTING.md).
 
 # Contact us
- * Preferred: public tweed 
+ * Preferred: public tweet 
   * Use #trytls and point it to @oupsg
- * Non-public alternative: direct message to @ouspg
+ * Less public alternative: direct twitter-message to @ouspg
