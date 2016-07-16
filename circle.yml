@@ -1,0 +1,12 @@
+machine:
+  post:
+    - pyenv global 2.7.12 3.4.5
+
+deployment:
+  pypi:
+    owner: ouspg
+    tag: /^v[0-9.]+$/
+    commands:
+      - pip install twine
+      - python setup.py bdist_wheel --universal
+      - twine upload --username "$PYPI_USERNAME" --password "$PYPI_PASSWORD"
