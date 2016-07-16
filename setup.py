@@ -25,6 +25,8 @@ trytls = imp.load_module("trytls", *found)
 setup(
     name="trytls",
     version=trytls.__version__,
+    license="MIT",
+    url="https://github.com/ouspg/trytls",
     package_dir={"": "./runners"},
     packages=find_packages("./runners"),
     entry_points={
