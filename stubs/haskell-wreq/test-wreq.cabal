@@ -19,4 +19,5 @@ executable test-wreq
   build-depends:       base >= 4.7 && < 5
                      , bytestring
                      , http-client
+                     , lens
                      , wreq
