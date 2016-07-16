@@ -2,12 +2,14 @@
 
 module Main where
 
+import Data.ByteString.Char8 (unpack)
 import Control.Exception (catch, SomeException)
 import Control.Monad (when)
 import System.Environment (getArgs, getProgName)
 import System.Exit (exitSuccess, exitFailure)
 
 import Network.Wreq
+import Network.HTTP.Client (HttpException(TlsExceptionHostPort))
 
 main :: IO ()
 main = do
@@ -27,7 +29,8 @@ main = do
 
   r <- catch (get $ "https://" ++ host ++ ":" ++ port)
              (\exception -> do
-                 let _ = exception :: SomeException
+                 let (TlsExceptionHostPort exp _ _) = exception
+                 putStrLn (show exp)
                  putStrLn "VERIFY FAILURE"
                  exitSuccess
              )
