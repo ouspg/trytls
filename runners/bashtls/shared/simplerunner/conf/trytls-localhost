@@ -1,40 +1,40 @@
-20000 & correct cert & GOOD & trytls_ok.crt & localhost
-20001 & wrong hostname & BAD & trytls_wrong_host.crt & localhost
-20002 & correct cn, wrong san & BAD & trytls_wrong_san.crt & localhost
-20003 & correct cn, no san & OK? & trytls_only_cn.crt & localhost
-20004 & expired cert & BAD & trytls_expired.crt & localhost
-20005 & sslv2 supported & BAD & trytls_ok.crt & localhost
-20006 & sslv3 supported & BAD & trytls_ok.crt & localhost
-20007 & tlsv1 supported & GOOD & trytls_ok.crt & localhost
-20008 & tlsv1.1 supported & GOOD & trytls_ok.crt & localhost
-20009 & tlsv1.2 supported & GOOD & trytls_ok.crt & localhost
-20010 & supports ssl in at least some level & GOOD & trytls_ok.crt & localhost
-20011 & supports high(>128 bit) 'secure' ciphers & GOOD & trytls_ok.crt & localhost
+20000 & correct cert                               & GOOD & trytls_ok.crt & localhost
+20001 & wrong hostname                             & BAD & trytls_wrong_host.crt & localhost
+20002 & correct cn, wrong san                      & BAD & trytls_wrong_san.crt & localhost
+20003 & correct cn, no san                         & OK? & trytls_only_cn.crt & localhost
+20004 & expired cert                               & BAD & trytls_expired.crt & localhost
+20005 & sslv2 supported                            & BAD & trytls_ok.crt & localhost
+20006 & sslv3 supported                            & BAD & trytls_ok.crt & localhost
+20007 & tlsv1 supported                            & GOOD & trytls_ok.crt & localhost
+20008 & tlsv1.1 supported                          & GOOD & trytls_ok.crt & localhost
+20009 & tlsv1.2 supported                          & GOOD & trytls_ok.crt & localhost
+20010 & supports ssl in at least some level        & GOOD & trytls_ok.crt & localhost
+20011 & supports high(>128 bit) 'secure' ciphers   & GOOD & trytls_ok.crt & localhost
 20012 & supports medium(~128 bit) 'secure' ciphers & OK? & trytls_ok.crt & localhost
-20013 & supports 'insecure' ciphers & BAD & trytls_ok.crt & localhost
-20014 & supports 'RSA' & GOOD & trytls_ok.crt & localhost
-20015 & supports 'AES256' & GOOD & trytls_ok.crt & localhost
-20016 & supports 'SHA384' & GOOD & trytls_ok.crt & localhost
-20017 & supports 'ECDSA' & ok? & trytls_ok.crt & localhost
-20018 & supports 'SRP' & OK? & trytls_ok.crt & localhost
-20019 & supports 'AES' & GOOD & trytls_ok.crt & localhost
-20020 & supports 'DH' & GOOD & trytls_ok.crt & localhost
-20021 & supports 'SHA' & GOOD & trytls_ok.crt & localhost
-20022 & supports 'DSS' & OK? & trytls_ok.crt & localhost
-20023 & supports 'CAMELLIA256' & GOOD & trytls_ok.crt & localhost
-20024 & supports 'AECDH' & BAD & trytls_ok.crt & localhost
-20025 & supports 'PSK' & OK? & trytls_ok.crt & localhost
-20026 & supports 'AES128' & GOOD & trytls_ok.crt & localhost
-20027 & supports 'SEED' & OK? & trytls_ok.crt & localhost
-20028 & supports 'CAMELLIA128' & GOOD & trytls_ok.crt & localhost
-20029 & supports 'AECDH' & BAD & trytls_ok.crt & localhost
-20030 & supports 'ADH' & BAD & trytls_ok.crt & localhost
-20031 & supports 'SHA256' & GOOD & trytls_ok.crt & localhost
-20032 & supports 'RC4' & BAD & trytls_ok.crt & localhost
-20033 & supports 'MD5' & BAD & trytls_ok.crt & localhost
-20034 & supports 'DES' & BAD & trytls_ok.crt & localhost
-20035 & supports 'EDH' & GOOD & trytls_ok.crt & localhost
-20036 & supports 'ECDH' & GOOD & trytls_ok.crt & localhost
-20037 & supports 'ECDSA' & BAD & trytls_ok.crt & localhost
-20038 & supports '3DES' & GOOD & trytls_ok.crt & localhost
-20039 & supports 'NULL' & BAD & trytls_ok.crt & localhost
+20013 & supports 'insecure' ciphers                & BAD & trytls_ok.crt & localhost
+20014 & supports 'RSA'                             & GOOD & trytls_ok.crt & localhost
+20015 & supports 'AES256'                          & GOOD & trytls_ok.crt & localhost
+20016 & supports 'SHA384'                          & GOOD & trytls_ok.crt & localhost
+20017 & supports 'ECDSA'                           & ok? & trytls_ok.crt & localhost
+20018 & supports 'SRP'                             & OK? & trytls_ok.crt & localhost
+20019 & supports 'AES'                             & GOOD & trytls_ok.crt & localhost
+20020 & supports 'DH'                              & GOOD & trytls_ok.crt & localhost
+20021 & supports 'SHA'                             & GOOD & trytls_ok.crt & localhost
+20022 & supports 'DSS'                             & OK? & trytls_ok.crt & localhost
+20023 & supports 'CAMELLIA256'                     & GOOD & trytls_ok.crt & localhost
+20024 & supports 'AECDH'                           & BAD & trytls_ok.crt & localhost
+20025 & supports 'PSK'                             & OK? & trytls_ok.crt & localhost
+20026 & supports 'AES128'                          & GOOD & trytls_ok.crt & localhost
+20027 & supports 'SEED'                            & OK? & trytls_ok.crt & localhost
+20028 & supports 'CAMELLIA128'                     & GOOD & trytls_ok.crt & localhost
+20029 & supports 'AECDH'                           & BAD & trytls_ok.crt & localhost
+20030 & supports 'ADH'                             & BAD & trytls_ok.crt & localhost
+20031 & supports 'SHA256'                          & GOOD & trytls_ok.crt & localhost
+20032 & supports 'RC4'                             & BAD & trytls_ok.crt & localhost
+20033 & supports 'MD5'                             & BAD & trytls_ok.crt & localhost
+20034 & supports 'DES'                             & BAD & trytls_ok.crt & localhost
+20035 & supports 'EDH'                             & GOOD & trytls_ok.crt & localhost
+20036 & supports 'ECDH'                            & GOOD & trytls_ok.crt & localhost
+20037 & supports 'ECDSA'                           & BAD & trytls_ok.crt & localhost
+20038 & supports '3DES'                            & GOOD & trytls_ok.crt & localhost
+20039 & supports 'NULL'                            & BAD & trytls_ok.crt & localhost

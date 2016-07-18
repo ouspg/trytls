@@ -1,13 +1,13 @@
-443 & supports SNI & GOOD & _ & badssl.com
-443 & expired & BAD & _ & expired.badssl.com
-443 & wrong host & BAD & _ & wrong.host.badssl.com
-443 & self-signed & BAD & _ & self-signed.badssl.com
-443 & sha-256 & GOOD & _ & sha256.badssl.com
-443 & 1000-sans & GOOD & _ & 1000-sans.badssl.com
+443 & supports SNI                  & GOOD & _ & badssl.com
+443 & expired                       & BAD & _ & expired.badssl.com
+443 & wrong host                    & BAD & _ & wrong.host.badssl.com
+443 & self-signed                   & BAD & _ & self-signed.badssl.com
+443 & sha-256                       & GOOD & _ & sha256.badssl.com
+443 & 1000-sans                     & GOOD & _ & 1000-sans.badssl.com
 443 & 10000-sans (Bad in ten years) & GOOD & _ & 10000-sans.badssl.com
-443 & incomplete-chain & BAD & _ & incomplete-chain.badssl.com
-443 & pinning-test & MIDDLE & _ & pinning-test.badssl.com
-443 & superfish & BAD & _ & superfish.badssl.com
-443 & edellroot & BAD & _ & edellroot.badssl.com
-443 & dsdtestprovider & BAD & _ & dsdtestprovider.badssl.com
-443 & disable ca-bundles & BAD & certs/test.crt & badssl.com
+443 & incomplete-chain              & BAD & _ & incomplete-chain.badssl.com
+443 & pinning-test                  & MIDDLE & _ & pinning-test.badssl.com
+443 & superfish                     & BAD & _ & superfish.badssl.com
+443 & edellroot                     & BAD & _ & edellroot.badssl.com
+443 & dsdtestprovider               & BAD & _ & dsdtestprovider.badssl.com
+443 & disable ca-bundles            & BAD & certs/test.crt & badssl.com
