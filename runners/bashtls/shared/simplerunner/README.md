@@ -13,16 +13,12 @@ You can't run stubs for which you do not have the needed dependencies installed 
 ```
 usage:
 ```console
-$ bash run <language> <stub> <conf> [certs] [curpath] [stubname]
-```
-example:
-* language = python3
-* stub = ../run.py
-* conf = badssl
-* certs = ../certs
-* curpath = ../simplerunner
-* stubname = python3-urllib
+$ bash run <language> <stub> <conf> [certs] [curpath] [stubname] [timeout(in seconds)]
 
+if ( you want to set some of the aguments to default) {
+  replace the arguments with '_' characters.
+}
+```
 
 ##Example usage:
 
@@ -33,9 +29,43 @@ against badssl (run the code on your computer and you will see the colorcoded ve
 * Others = Can't say (but not bad, either good or middle)
 
 ```console
-$ bash run python3 '../trytls/stubs/python3-urllib/run.py' 'conf/const/badssl_https_conf' | sort
-python3_1  | [python3-urllib][SUCCESS] VERIFY FAILURE: wrong host [wrong.host.badssl.com]
-python3_1  | [python3-urllib][SUCCESS] VERIFY FAILURE: edellroot [edellroot.badssl.com]
+$ bash run mono '../trytls/stubs/cSharp-Net/run.exe' 'conf/badssl-all' _ _ CSharp-Net | sort
+
+[cSharp-Net][ PASS ][VERIFY FAILURE][ dh480                         ][dh480.badssl.com]
+[cSharp-Net][ PASS ][VERIFY FAILURE][ dsdtestprovider               ][dsdtestprovider.badssl.com]
+[cSharp-Net][ PASS ][VERIFY FAILURE][ edellroot                     ][edellroot.badssl.com]
+[cSharp-Net][ PASS ][VERIFY FAILURE][ self-signed                   ][self-signed.badssl.com]
+[cSharp-Net][ PASS ][VERIFY FAILURE][ superfish                     ][superfish.badssl.com]
+[cSharp-Net][ PASS ][VERIFY FAILURE][ untrusted-root                ][untrusted-root.badssl.com]
+[cSharp-Net][ PASS ][VERIFY FAILURE][ wrong host                    ][wrong.host.badssl.com]
+[cSharp-Net][ PASS ][VERIFY SUCCESS][ sha-256                       ][sha256.badssl.com]
+[cSharp-Net][ PASS ][VERIFY SUCCESS][ supports SNI                  ][badssl.com]
+[cSharp-Net][ OK?  ][ UNSUPPORTED  ][ disable ca-bundles            ][badssl.com]
+[cSharp-Net][ OK?  ][VERIFY FAILURE][ dh1024                        ][dh1024.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY FAILURE][ dh-small-subgroup             ][dh-small-subgroup.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY FAILURE][ incomplete-chain              ][incomplete-chain.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY FAILURE][ mozilla-intermediate          ][mozilla-intermidiate.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY FAILURE][ mozilla-modern                ][mozilla-modern.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY FAILURE][ subdomain.preloaded-hsts      ][subdomain.preloaded-hsts.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ cbc                           ][cbc.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ hsts                          ][hsts.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ mixed                         ][mixed.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ mixed-favicon                 ][mixed-favicon.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ mixed-script                  ][mixed-script.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ mozilla-old                   ][mozilla-old.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ pinning-test                  ][pinning-test.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ preloaded-hsts                ][preloaded-hsts.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ rc4                           ][rc4.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ rsa8192                       ][rsa8192.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ sha1-2016                     ][sha1-2016.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ sha1-2017                     ][sha1-2017.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ upgrade                       ][upgrade.badssl.com]
+[cSharp-Net][ OK?  ][VERIFY SUCCESS][ very                          ][very.badssl.com]
+[cSharp-Net][ FAIL ][VERIFY FAILURE][ 10000-sans (Bad in ten years) ][10000-sans.badssl.com]
+[cSharp-Net][ FAIL ][VERIFY FAILURE][ 1000-sans                     ][1000-sans.badssl.com]
+[cSharp-Net][ FAIL ][VERIFY FAILURE][ dh2048                        ][dh2048.badssl.com]
+[cSharp-Net][ FAIL ][VERIFY SUCCESS][ expired                       ][expired.badssl.com]
+
 
 ...
 ```
