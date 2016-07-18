@@ -359,7 +359,7 @@ Tests and diagnostic tools for different kind of servers that support SSL. There
 
 Tools for creating certificate signing requests and cheking that they are formatted properly. They also sell certificates and other Cyber security related services and protection [27].
 
-**Others - Not all but many**
+**Others (some of the most popular ones)**
 
 <pre>
 
