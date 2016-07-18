@@ -88,10 +88,11 @@ Test runners allow user to test against all or any of these backends.
  * Pekka Pietikäinen ([@ppietikainen](https://github.com/ppietikainen))
  * Joonas Kuorilehto ([@joneskoo](https://github.com/joneskoo))
  * Kasper Kyllönen ([@nkapu](https://github.com/nkapu))
+ * Timo Mattila ([@timattil](https://github.com/timattil))
 
 We invite people to [contribute](CONTRIBUTING.md).
 
 # Contact us
- * Preferred: public tweet 
+ * Preferred: public tweet
   * Use #trytls and point it to @oupsg
  * Less public alternative: direct twitter-message to @ouspg
