@@ -67,7 +67,7 @@ connect()
   crt=$3
   hostname=$4
 
-  if [[ "$crt" == "certs/test.crt" && $certspath ]]; then
+  if [[ "$crt" == "certs/test.crt" ]]; then
     response=`exec $command $filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
     #status="OK?"
   elif [[ "$crt" == "_" ]]; then
