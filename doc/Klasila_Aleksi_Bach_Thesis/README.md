@@ -76,7 +76,7 @@ Klasila Aleksi (2016) TryTLS backend. Oulun yliopisto, tietotekniikan tutkinto-o
     - [4.2.1. Editing configuration](#421-editing-configuration)
   - [4.3. Output samples and conclusions](#43-output-samples-and-conclusions)
     - [4.3.1. Performance testing](#431-performance-testing)
-    - [4.3.2. TryTLS backend example test run](#432-trytls-backend-example-test-run)
+    - [4.3.2. Test runs against backends](#432-test-runs-against-backends)
 - [5. FUTURE RESEARCH](#5-future-research)
   - [5.1. Generally](#51-generally)
   - [5.2. Trytls backend](#52-trytls-backend)
@@ -361,17 +361,20 @@ Tools for creating certificate signing requests and cheking that they are format
 
 **Others - Not all but many**
 
-* SSL Shopper: Quick tool for checking SSL servers [3].
-* GlobalSign SSL Check: Detailed tool for checking SSL servers [3].
-* COMODO SSL Analyzer: Quick scan for https url [3].
-* SSL Checker: SSL checker that can be set to remind 30 days before a certificate expires [3].
-* HowsMySSL: Tool for testing browsers TLS/SSL support/compatibility [3].
-* DigiCert: SSL certificate installation diagnostics tool and certificate management services among others[29].
-* SSLSmart: tool aimed at improving efficiency and reducing false positives during SSL testing [28].
-* SSL Checker: Tool for showing SSL certificate details [30]
-* CSR Decoder: Tool for verifying the details of a certificate [30]
-* SSL Finder: Tool for finding best match SSL product [30]
+<pre>
 
+SSL Shopper:                Quick tool for checking SSL servers [3].
+GlobalSign SSL Check:       Detailed tool for checking SSL servers [3].
+COMODO SSL Analyzer:        Quick scan for https url [3].
+SSL Checker:                SSL checker that can be set to remind 30 days before a certificate expires [3].
+HowsMySSL:                  Tool for testing browsers TLS/SSL support/compatibility [3].
+DigiCert:                   SSL certificate installation diagnostics tool and certificate management services among others[29].
+SSLSmart:                   Tool aimed at improving efficiency and reducing false positives during SSL testing [28].
+SSL Checker:                Tool for showing SSL certificate details [30]
+CSR Decoder:                Tool for verifying the details of a certificate [30]
+SSL Finder:                 Tool for finding best match SSL product [30]
+
+</pre>
 
 
 ### 2.8. Problems with the current testing approaches
@@ -440,7 +443,7 @@ The TryTLS backend int-scripts are coded is such a way that it is easy to change
 To test whether a client does allow usage of insecure connections or not you need to be able to run that code on your computer. Alternatively you can use one of the runners available. One of the runners is also developed by be. The runner I developed can run any code(stub) you want it to run to against any number of backends using many different drivers if the drivers required have been written. Using multiple drivers allows to test the code in action using many different versions of the software or libraries needed to run the code developed or even different operating systems to run the drivers and stubs on. You can run the code against both private and public servers.
 
 Figure 6. Running stub against the backend using bashTLS with one driver (similar figure with other runners)
-![runner](pictures/runner.png)
+![runner](pictures/Runners.png)
 
 ## 4. Testing
 
@@ -527,22 +530,33 @@ Number of connections | Seconds per connection
 64 | 1.00
 128 | 2.8
 
-#### 4.3.2. TryTLS backend example test run
-
-This is an example output when using BashtTLS(bash based) runner to run python3 urllib stub against the TryTLS backend. The upper picture is taken on the client side, i.e. the output of the runner. The other picture is taken on the server side.  
+#### 4.3.2. Test runs against backends
 
 **Client side**
 
-“VERIFY FAILURE” means the connection did not get established and the “VERIFY SUCCESS” message means the connection did get established. The [SUCCESS] means that the connection worked as wanted.
+[VERIFY FAILURE] means the connection did not get established and the [VERIFY SUCCESS] message means the connection did get established. [ PASS ] means that the connection worked as wanted and the [ FAIL ] means that the test was a failure, i.e. [   OK?   ] means the establishment of the connection is ok in some cases and bad in some cases. 
 
 Picture 3. Test run against TryTLS backend using BashTLS runner and python3-urllib stub.
-![test_run1_client](pictures/test_run1_client.png)
+![test_run1_client](pictures/python3-urllib-against-trytls.png)
+
+Python3 with urllib stub is fairly safe to use. It checks for expired certificates, wrong hosts, etc. It also uses only the current modern algorithms to secure the connection and not the old/obsolete ones at all. This does not of course mean that the urrlib does not support the old ones but it means that at least the library does not advertise and use those natively which of course provides more secure communications.
+
+
+Picture 4. Test run against Badssl backend using simplerunner(runner that bashtls drivers use) and FSharp-net stub using mono.
+
+![net_test_run](pictures/FSharp-Net-against-badssl.png)
+
+Picture 5. Using Wireshark to check what cipher suites client (Mono + .Net + FSharp) supports.
+![wireshark_FSharp](pictures/wireshark_FSharp.png)
+
+[Mono](http://www.mono-project.com/)[42] is a software development environment and it is still heavily under development. The above output is the same when using other mono supported languages such as C# and visual basic which also support the usage of .Net framework as did F#. The usage of this king of libraries is not very safe and secure to be used in many situations at least natively and unmodified. They do not check for expired certificates and They advertise and use the (in most cases) old/obsolete algorithms.
+
 
 **Server side**
 
 As it can be seen below the data could be gathered and processed on the server side if wanted. Obviously just by saving the log files it could be later on reasoned out with pretty good accuracy what the client that tried to connect supports and what it does not.
 
-Picture 4. Test run against TryTLS backend using BashTLS runner and python3 - urllib stub as a client.
+Picture 6. Test run against TryTLS backend using BashTLS runner and python3 - urllib stub as a client.
 ![test_run1_server](pictures/test_run1_server.png)
 
 ## 5. FUTURE RESEARCH
@@ -575,7 +589,7 @@ The backend created could also be part of something bigger. It could be combined
 
 There are also a lot of different tools for SSL testing purposes that could be created but haven’t been at least yet. These tools to be developed include better tools for testing the SSL support of clients by sniffing the packets sent and received. This can be obviously be done using for example Wireshark or sites on the internet, but a real time automated locally usable, easily configurable tool would be better suited for the job in some cases. One of the internet sites designed for this is DC Sec [24]. Even though this approach would still require a responding web server to be useful it is very doable also with the TryTLS backend.
 
-Picture 5. Using Wireshark to check what cipher suites client (Firefox) supports.
+Picture 7. Using Wireshark to check what cipher suites client (Firefox) supports.
 ![wireshark_ciphers_firefox](pictures/wireshark_ciphers_firefox.png)
 
 ## 6. Conclusions
@@ -630,7 +644,7 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 
 [20] Sarah Madden. Christian Dresen. (2016). "DROWN Attack". Drownattack.com. N.p., 2016. Web. 11 July 2016. Available: https://drownattack.com/
 
-[21] (2014). "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. N.p., 2016. Web. 11 July 2016. Available: https://www.us-cert.gov/ncas/alerts/TA14-290A
+[21] POODLE. (2014). "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. N.p., 2016. Web. 11 July 2016. Available: https://www.us-cert.gov/ncas/alerts/TA14-290A
 
 [22] Duong, Thai. (2011). "Thái: BEAST". Vnhacker.blogspot.fi. N.p., 2011. Web. 11 July 2016. Available: https://vnhacker.blogspot.fi/2011/09/beast.html
 
@@ -671,3 +685,5 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 [40] Facebook. (2014). "The Current State Of SMTP STARTTLS Deployment". M.facebook.com. N.p., 2016. Web. 15 July 2016. Available: https://m.facebook.com/notes/protect-the-graph/the-current-state-of-smtp-starttls-deployment/1453015901605223/
 
 [41] Michel Abdalla. Fabrice Benhamouda. Philip MacKenzie. (2016). "Security of the J-PAKE Password-Authenticated Key Exchange Protocol". Available: https://www.normalesup.org/~fbenhamo/files/publications/SP_AbdBenMac15.pdf
+
+[42] Mono. (2016) "Home | Mono". Mono-project.com. N.p., 2016. Web. 17 July 2016. Available: http://www.mono-project.com/
