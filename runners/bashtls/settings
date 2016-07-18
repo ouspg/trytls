@@ -1,8 +1,8 @@
 #!/bin/bash
 
-datapath="./shared/scripts/data"
+datapath="./shared/simplerunner/info"
 rm $datapath/* >> /dev/null 2>&1
-
+mkdir $datapath >> /dev/null 2>&1
 
 #vars
 timeout=$1

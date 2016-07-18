@@ -29,8 +29,9 @@ if [[ ! $timeout ]]; then
 fi
 
 #read info
-if [[ -f '/etc/shared/scripts/data/info' ]]; then
-  info=`cat '/etc/shared/scripts/data/info'`
+infopath=$curpath/info
+if [[ -f "$infopath/info" ]]; then
+  info=`cat $infopath/info`
   parallel=`echo $info | grep 'parallel'`
   printerror=`echo $info | grep 'print-error'`
 fi
