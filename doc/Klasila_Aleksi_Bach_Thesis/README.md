@@ -557,7 +557,7 @@ Picture 5. Using Wireshark to check what cipher suites client (Mono + .Net + FSh
 As it can be seen below the data could be gathered and processed on the server side if wanted. Obviously just by saving the log files it could be later on reasoned out with pretty good accuracy what the client that tried to connect supports and what it does not.
 
 Picture 6. Test run against TryTLS backend using BashTLS runner and python3 - urllib stub as a client.
-![test_run1_server](pictures/test_run1_server.png)
+![test_run1_server](pictures/test_run1_server.png) 
 
 ## 5. FUTURE RESEARCH
 
