@@ -1,10 +1,11 @@
-# OS X OpenSSL Verification Surprises
+# OS X OpenSSL verification surprises
 
-# Summary
 When using native python shipped in OS X, the systems default bundle will be
 trusted even if instructed otherwise. This is troubling, as some organizations
 do not want to trust the default bundles. Also lately, the reputation of some
 CAs have been [brought into question](https://news.ycombinator.com/item?id=11781915).
+
+## How we found it
 
 Issue was rediscovered with TryTLS. TryTLS is a tool which checks if programming
 languages and libraries verify TLS certificates correctly. While developing the
@@ -14,7 +15,7 @@ gives the user of OpenSSL more CA's than she bargained for. If certificate check
 fails with  user provided CA, Apple's OpenSSL *gives failed verifications a
 second chance using the system keyring as trust store.*
 
-
+## Not a new issue
 This issue has been
 [reported](https://hynek.me/articles/apple-openssl-verification-surprises/)
 already 2014-03-03 by [Hynek Schlawack](https://hynek.me/).
@@ -33,7 +34,12 @@ python shipped with OS X was used.
 
 # Tested Versions
 
-## Python & Urllib
+### Code used for testing
+
+The tests were run using a [stub](https://github.com/ouspg/trytls/blob/43660507b45a59e01d7205df5ad98c704c8a555d/stubs/python-urllib2/run.py) developed for [TryTLS](https://github.com/ouspg/trytls/).
+
+### Python & Urllib
+
 ```
 $ /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7
 Python 2.7.10 (default, Oct 23 2015, 19:19:21)
@@ -44,22 +50,24 @@ Type "help", "copyright", "credits" or "license" for more information.
 <module 'urllib2' from '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.pyc'>
 ```
 
-## OpenSSL
+### OpenSSL
 
 ```
 $ /usr/bin/openssl version
 OpenSSL 0.9.8zh 14 Jan 2016
 ```
 
-## OS X
+### OS X
 ```
 10.11.5 (15F34)
 ```
 
-# Tests
-## No CA cert bundle defined - succeeds as expected
-```
+## Tests
 
+
+## No CA cert bundle defined - succeeds as expected
+
+```
 $ /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443
 VERIFY SUCCESS
 ```
@@ -73,15 +81,12 @@ VERIFY SUCCESS
 ## Apple's TEA-patch disabled - fails as expected
 
 ```
-/System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443
-VERIFY SUCCESS
-evilon:trytls jani$ env OPENSSL_X509_TEA_DISABLE=1 /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443
+$ env OPENSSL_X509_TEA_DISABLE=1 /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443
 VERIFY FAILURE
 ```
-
-## Running with brew-installed third party python interpreter - Fails as expected.
+## Running with brew-installed third party python interpreter - fails as expected.
 
 ```
-/usr/local/bin/python stubs/python-urllib2/run.py sha256.ssllabs.com 443 pki/certs/theonlycertitrust.crt
+$ /usr/local/bin/python stubs/python-urllib2/run.py sha256.ssllabs.com 443 pki/certs/theonlycertitrust.crt
 VERIFY FAILURE
 ```
