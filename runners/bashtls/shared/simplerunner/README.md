@@ -73,5 +73,18 @@ $ bash run mono '../trytls/stubs/cSharp-Net/run.exe' 'conf/badssl-all' _ _ CShar
 agains trytls backend
 ```console
 $ bash run python3 '../trytls/stubs/python3-urllib/run.py' '../trytls/backends/trytls/tmp/conf' ../trytls/backends/trytls/tmp/certs
+
+or 
+
+$ bash run mono '../trytls/stubs/vb-Net/run.exe' '../trytls/backends/trytls/tmp/conf-nocerts'
+
+or
+
+$ bash run python3 '../trytls/stubs/python3-urllib/run.py' 'conf/trytls-localhost' ../trytls/backends/trytls/tmp/certs
+* if 
+
+or
+
+$ bash run atom '../trytls/stubs/FSharp-Net/run.exe' 'conf/trytls-localhost-nocerts'
 ...
 ```
