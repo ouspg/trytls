@@ -29,6 +29,11 @@ msg & correct cn, wrong san
 status & BAD
 push & wrong_san
 
+server & only_cn
+msg & correct cn, no san
+status & OK?
+push & only_cn
+
 server & expired
 msg & expired cert
 status & BAD
