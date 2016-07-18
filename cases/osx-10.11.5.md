@@ -1,21 +1,13 @@
 # OS X OpenSSL verification surprises
 
-When using native python shipped in OS X, the systems default bundle will be
+When using native python shipped with OS X, the system default bundle will be
 trusted even if instructed otherwise. This is troubling, as some organizations
-do not want to trust the default bundles. Also lately, the reputation of some
+do not want to trust the default bundles. Also, lately, the reputation of some
 CAs have been [brought into question](https://news.ycombinator.com/item?id=11781915).
 
-## How we found it
-
-Issue was rediscovered with TryTLS. TryTLS is a tool which checks if programming
-languages and libraries verify TLS certificates correctly. While developing the
-tool, we found an unexpected behavior. Apple's patch to their OpenSSL, apparently
-made [back in 2011] (https://daniel.haxx.se/blog/2011/11/05/apples-modified-ca-cert-handling-and-curl/),  
-gives the user of OpenSSL more CA's than she bargained for. If certificate check
-fails with  user provided CA, Apple's OpenSSL *gives failed verifications a
-second chance using the system keyring as trust store.*
 
 ## Not a new issue
+
 This issue has been
 [reported](https://hynek.me/articles/apple-openssl-verification-surprises/)
 already 2014-03-03 by [Hynek Schlawack](https://hynek.me/).
@@ -27,9 +19,20 @@ Apple OS X 10.9.2*. However, we have reproduced it in OS X 10.11.5 (15F34)
 [requests](http://docs.python-requests.org/en/master/)) - as long as the
 python shipped with OS X was used.
 
+## How we found it
+
+The issue was rediscovered with TryTLS. TryTLS is a tool which checks if programming
+languages and libraries verify TLS certificates correctly. While developing the
+tool, we found an unexpected behavior. Apple's patch to their OpenSSL, apparently
+made [back in 2011](https://daniel.haxx.se/blog/2011/11/05/apples-modified-ca-cert-handling-and-curl/),  
+gives the user of OpenSSL more CAs than she bargained for. If the certificate check
+fails with  user provided CA, Apple's OpenSSL *gives failed verifications a
+second chance using the system keyring as trust store.*
+
+
 # Suggested workarounds
  * User: avoid running python code with native OS X python installation
- * Developer: consider warning user if OS X native python is used
+ * Developer: consider warning users if OS X native python is used
     and non-ca-bundle is set by the user.
 
 # Tested Versions
@@ -84,7 +87,7 @@ VERIFY SUCCESS
 $ env OPENSSL_X509_TEA_DISABLE=1 /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443
 VERIFY FAILURE
 ```
-## Running with brew-installed third party python interpreter - fails as expected.
+## Running with brew-installed third party python interpreter - fails as expected
 
 ```
 $ /usr/local/bin/python stubs/python-urllib2/run.py sha256.ssllabs.com 443 pki/certs/theonlycertitrust.crt
