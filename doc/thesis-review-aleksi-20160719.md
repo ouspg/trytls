@@ -1,4 +1,4 @@
-These are persistent notes of the [OUSPG open](https://github.com/ouspg/ouspg-open) review of the draft of [Aleksi Klasila's trytls](https://github.com/ouspg/trytls/tree/Klasila_Aleksi_Bach_Thesis/doc/Klasila_Aleksi_Bach_Thesis) B.Sc. thesis on  [etherpad](http://muistio.tieke.fi/p/trytls) [7 reviewers]
+These are persistent notes of the [OUSPG open](https://github.com/ouspg/ouspg-open) review of the draft of [Aleksi Klasila's trytls](https://github.com/ouspg/trytls/tree/Klasila_Aleksi_Bach_Thesis/doc/Klasila_Aleksi_Bach_Thesis) B.Sc. thesis on  [etherpad](http://muistio.tieke.fi/p/trytls) [8 reviewers]
 
 # Generic notes
 
