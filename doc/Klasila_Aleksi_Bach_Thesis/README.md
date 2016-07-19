@@ -542,7 +542,7 @@ Picture 3. Test run against TryTLS backend using BashTLS runner and python3-urll
 Python3 with urllib stub is fairly safe to use. It checks for expired certificates, wrong hosts, etc. It also uses only the current modern algorithms to secure the connection and not the old/obsolete ones at all. This does not of course mean that the urrlib does not support the old ones but it means that at least the library does not advertise and use those natively which of course provides more secure communications.
 
 
-Picture 4. Test run against Badssl backend using simplerunner(runner that bashtls drivers use) and FSharp-net stub using mono.
+Picture 4. Test run against Badssl backend using simplerunner(runner that bashtls drivers use) and FSharp-net stub using mono(Mono JIT compiler version 4.2.1).
 
 ![net_test_run](pictures/FSharp-Net-against-badssl.png)
 
