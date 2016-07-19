@@ -6,7 +6,7 @@
 
 ### Install
 
-* java + java compiler
+* Java Runtime Environment (JRE) + Java Development Kit (JDK)
 
 ### Run
 
