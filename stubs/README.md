@@ -130,3 +130,26 @@ Finished stubs (documentation and correct calling convention):
 * python-urllib2
 * python-urllib3
 * python3-urllib
+
+
+### Acceptance process:
+
+1. Author:
+   * Contact the author
+* License:
+   * Author agrees with the license?
+* Contribution list:
+   * Author's name on the contributions list
+* Specs:
+   * Calling convention
+* Stub works:
+   * Does it?
+* Docs + dependencies:
+   * Deps documented?
+   * **Run** + **Install**
+*  Results:
+   * Results.md
+* Findings + What to do?
+   * Pass/ fail ->
+      * Ignore?, Writeup?, Upstream?
+
