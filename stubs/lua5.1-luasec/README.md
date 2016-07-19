@@ -1,6 +1,6 @@
 **License: See [LICENSE](../../LICENSE)**
 
-**Author: [@mamietti](https://github.com/mamietti)**
+**Author: Mauri Miettinen ([@mamietti](https://github.com/mamietti))**
 
 # How to run:
 
