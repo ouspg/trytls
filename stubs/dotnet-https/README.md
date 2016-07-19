@@ -1,3 +1,7 @@
+**License: See [LICENSE](https://github.com/ouspg/trytls/blob/master/LICENSE)**
+
+**Author: [@ppietikäinen](https://github.com/ppietikäinen)**
+
 # Dependencies:
 
 .NET Core 1.0
