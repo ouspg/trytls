@@ -6,6 +6,7 @@
 
 ### Install (for example)
 ```
+https://github.com/mono/mono
 http://fsharp.org/use/linux/
 ```
 
