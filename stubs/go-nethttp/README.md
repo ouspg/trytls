@@ -1,3 +1,7 @@
+**License: See [LICENSE](https://github.com/ouspg/trytls/blob/master/LICENSE)**
+
+**Author: [@joneskoo](https://github.com/joneskoo)**
+
 # Go stub for TryTLS project
 
 ## How to run
