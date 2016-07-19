@@ -1,6 +1,6 @@
 **License: See [LICENSE](../../LICENSE)**
 
-**Author: [@ppietikäinen](https://github.com/ppietikäinen)**
+**Author: Pekka Pietikäinen ([@ppietikäinen](https://github.com/ppietikäinen))**
 
 # Dependencies:
 
