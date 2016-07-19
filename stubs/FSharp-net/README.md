@@ -1,3 +1,5 @@
+**Author: [@aleksiklasila](https://github.com/aleksiklasila)**
+
 **License: See [LICENSE](https://github.com/ouspg/trytls/blob/master/LICENSE)**
 
 ## Get started
