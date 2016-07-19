@@ -1,4 +1,4 @@
-**License: See trytls/LICENSE**
+**License: See [LICENSE](../../LICENSE)**
 
 ## Get started
 

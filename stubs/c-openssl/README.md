@@ -1,6 +1,6 @@
-**License: See [LICENSE](https://github.com/ouspg/trytls/blob/master/LICENSE)**
+**License: See [LICENSE](../../LICENSE)**
 
-**Author: [@aleksiklasila](https://github.com/aleksiklasila)**
+**Author: Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))**
 
 ## Get started
 
