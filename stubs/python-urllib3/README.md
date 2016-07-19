@@ -1,3 +1,7 @@
+**License: See [LICENSE](https://github.com/ouspg/trytls/blob/master/LICENSE)**
+
+**Author: [@mamietti](https://github.com/mamietti)**
+
 # How to run:
 
 ```
