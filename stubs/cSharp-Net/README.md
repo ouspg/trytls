@@ -6,7 +6,7 @@
 
 ### Install
 
-* c# (for example Mono in Linux)
+* c# (for example with Mono in Linux or visual studio in windows)
 ```
 https://github.com/mono/mono
 ```
