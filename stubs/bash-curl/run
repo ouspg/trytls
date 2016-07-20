@@ -31,7 +31,7 @@ else
 	#CURLE_SSL_CERTPROBLEM=58
 	#CURLE_SSL_CIPHER=59
 	#CURLE_SSL_CACERT=60
-	error="1 35 51 58 59 60"
+	error="1 35 51 58 59 60 56"
 	for i in $error; do
 		if [[ $status -eq $i ]]; then
 			echo "VERIFY FAILURE"
