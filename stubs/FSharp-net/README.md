@@ -7,7 +7,7 @@
 ### Install (for example)
 ```
 https://github.com/mono/mono
-http://fsharp.org/use/linux/
+https://github.com/fsharp/fsharp
 ```
 
 ### Run (for example)

@@ -4,10 +4,10 @@
 
 ## Get started
 
-### Install (linux)
+### Install
 ```
-..# apt-get install monodevelop mono-vbnc
-..# apt-get install mono-vbnc
+..# https://github.com/mono/mono
+..# mono-vbnc
 ```
 ### Run (in linux - similar in other Operating Systems)
 ```
