@@ -1,6 +1,6 @@
 machine:
   post:
-    - pyenv global 2.7.12 3.4.5 3.5.2 pypy-5.3.1
+    - pyenv global 2.7 3.4.5 3.5.2 pypy-5.3.1
 
 deployment:
   pypi:
