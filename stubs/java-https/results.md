@@ -11,16 +11,10 @@ stub: java Run
  PASS Superfish CA [reject superfish.badssl.com:443]
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
-ERROR protect against an OS X vulnerability [reject www.ssllabs.com:10443]
-      reason: stub exited with return code 1
-      output: Exception in thread "main" java.lang.NullPointerException
-              	at Run.main(Run.java:31)
-ERROR protect against the FREAK attack [reject www.ssllabs.com:10444]
-      reason: stub exited with return code 1
-      output: Exception in thread "main" java.lang.NullPointerException
-              	at Run.main(Run.java:31)
+ PASS protect against an OS X vulnerability [reject www.ssllabs.com:10443]
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- SKIP valid localhost certificate [accept localhost:55028]
- SKIP invalid localhost certificate [reject localhost:55029]
+ SKIP valid localhost certificate [accept localhost:52120]
+ SKIP invalid localhost certificate [reject localhost:52121]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
