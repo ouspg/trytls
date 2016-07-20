@@ -1,7 +1,9 @@
 machine:
   post:
+    - pyenv install pypy-5.3.1
+    - pyenv install pypy3-2.4.0
     # https://circleci.com/docs/build-image-precise/#python
-    - pyenv global 2.7.10 3.4.3 3.5.0 pypy-2.5.0
+    - pyenv global 2.7.10 3.4.3 3.5.0 pypy-5.3.1 pypy3-2.4.0
 
 deployment:
   pypi:
