@@ -1,4 +1,4 @@
-# TryTLS
+# TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls)
 
 Does *your* library check TLS certificates properly?
 Broken certificate checks seems to be an overlooked issue.
