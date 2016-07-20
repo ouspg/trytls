@@ -1,3 +1,4 @@
+```
 platform: OS X 10.11.5
 runner: trytls 0.0.8 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: go run 'stubs/go-nethttp/run.go'
@@ -22,3 +23,4 @@ ERROR protect against the FREAK attack [reject www.ssllabs.com:10444]
  SKIP valid localhost certificate [accept localhost:54944]
  SKIP invalid localhost certificate [reject localhost:54949]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+```
