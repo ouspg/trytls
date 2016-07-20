@@ -51,7 +51,7 @@ handleresponse()
       sleep 1
       if [[  $start -gt $timeout ]]; then
         kill $process >> /dev/null 2>&1
-        echo "[TIMED OUT   ]"
+        echo "TIMED OUT"
         return
       fi
     else
@@ -97,8 +97,9 @@ connect()
     color='\e[0;37m'    #allright
     response='[ OK?  ][ UNSUPPORTED  ]'
     #msg=$filename
-  elif [[ "$response" == "[TIMED OUT   ]" ]]; then
+  elif [[ "$response" == "TIMED OUT" ]]; then
     color='\e[0;40m'      #most likely the connection was succesfull, but can be sure
+    response="[      ][  TIMED OUT   ]"
   elif [[ "$status" == "BAD" ]]; then
 
     if [[ "$response" == "VERIFY FAILURE" ]]; then
