@@ -1,4 +1,13 @@
 ```
+Mono JIT compiler version 4.5.2
+F# Compiler for F# 4.1
+
+Do not use old compilers if it is not required for some reason.
+For example Mono JIT compiler version 4.2.1 which is the currently (7.20.2016) default version when installed using apt-get FAILS the expired certificate test.
+
+```
+
+```
 
 platform: Linux (Ubuntu 16.04)
 runner: trytls 0.1.0 (CPython 2.7.12, OpenSSL 1.0.2g-fips)
