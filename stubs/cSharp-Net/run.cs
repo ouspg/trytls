@@ -1,8 +1,5 @@
 using System;
 using System.Net;
-//tested with Mono and Visual Studio:
-//*  Mono: can't recommend using, test if you do not believe
-//*  Visual Studio (all Ok). Same for F# and Visual Basic Stubs
 
 public class Run
 {
