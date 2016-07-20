@@ -1,6 +1,7 @@
 machine:
   post:
-    - pyenv global 2.7 3.4.5 3.5.2 pypy-5.3.1
+    # https://circleci.com/docs/build-image-precise/#python
+    - pyenv global 2.7.10 3.4.3 3.5.0 pypy-2.5.0
 
 deployment:
   pypi:
