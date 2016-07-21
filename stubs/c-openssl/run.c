@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   //set certificate verify
 
   X509_VERIFY_PARAM_set_hostflags(param, X509_CHECK_FLAG_NO_PARTIAL_WILDCARDS);
-  X509_VERIFY_PARAM_set1_host(param, "localhost", 0);
+  X509_VERIFY_PARAM_set1_host(param, argv[1], 0);
   SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_PEER, NULL);
   if (SSL_CTX_load_verify_locations(ssl_ctx, ca_bundle, NULL) != 1) {
     printf("Couldn't load certificate trust store.");
