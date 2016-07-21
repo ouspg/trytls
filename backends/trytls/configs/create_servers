@@ -17,6 +17,7 @@ keypath="servers/server/key"
 
 privatekey_percert=`grep privatekey:percert info`
 privatekey_copy=`grep privatekey:copy info`
+conf_nocerts=`grep conf:also-nocerts info`
 privatekey="server"
 
 permissions=400
@@ -44,6 +45,13 @@ while read -r inst value; do
 				;;
 			"status")				#if connected, is it good?, bad?, what?
 				status=$value
+				;;
+			"create_ext")		#create all extension files that may be required
+				#san
+				echo "subjectAltName = DNS:*.$san, DNS:$san" > tmp/san_server.ext
+				;;
+			"set_ext")
+				ext=$value""_server
 				;;
 			"set_crt")
 				#set cert (name)
@@ -74,16 +82,16 @@ while read -r inst value; do
 					fi
 				fi
 
-				#create crts from root ca if root ca created???
-
-				#create crt into tmp dir
-
-				echo "subjectAltName = DNS:*.$san, DNS:$san" > tmp/server.ext
+				#echo "subjectAltName = DNS:*.$san, DNS:$san" > tmp/$ext.ext
 				#IdenTrust
 				openssl req -new -key $keypath/$privatekey.key -out tmp/server.csr -subj "/C=FI/ST=Oulu/L=Oulu/O=ouspg/OU=ouspg/CN=$cn"
 				chmod $permissions tmp/server.csr
 				#create certificate
-				openssl x509 -req -days $days -in tmp/server.csr -signkey $keypath/$privatekey.key -out tmp/certs/trytls_$crt.crt -extfile tmp/server.ext
+				if [[ "$ext" != "no_server" ]]; then
+					openssl x509 -req -days $days -in tmp/server.csr -signkey $keypath/$privatekey.key -out tmp/certs/trytls_$crt.crt -extfile tmp/$ext.ext
+				else
+					openssl x509 -req -days $days -in tmp/server.csr -signkey $keypath/$privatekey.key -out tmp/certs/trytls_$crt.crt
+				fi
 				chmod $permissions tmp/certs/trytls_$crt.crt
 
 				#mkdir -p "$crtpath/"$crt
@@ -159,6 +167,10 @@ while read -r inst value; do
 				echo $msg > "$datapath/"$server/index.html
 
 				echo "$port & $msg & $status & trytls_$crt.crt & $current_hostname" >> tmp/conf	|| exit 3
+				if [[ $conf_nocerts ]]; then
+					echo "$port & $msg & $status & _ & $current_hostname" >> tmp/conf-nocerts	|| exit 3
+				fi
+
 
 				if [[ "$protocol" == "https" ]]; then
 

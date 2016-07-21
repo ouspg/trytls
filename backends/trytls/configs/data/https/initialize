@@ -1,27 +1,40 @@
 ------------------------------------------------------------------
-what: CREATE CERTIFICATES TO BE USED
+what: CREATE CERTIFICATES AND OTHER FILES TO BE USED
 ------------------------------------------------------------------
 ........................................................
 how: CREATE DIFFERENT CERTIFICATES BASED ON DIFFERENT PARAMETER VALUES
 ........................................................
 
+#init extensions
+host & hostname
+set_ext & san
+
+#create certs
 
 #correct cert
 host & hostname
 days & 365
+create_ext & all
 create_crt & ok
 
 #wrong common name, wrong san
 host & wrongname
+create_ext & all
 create_crt & wrong_host
 
 #wrong san, correct cn
 cn & hostname
 create_crt & wrong_san
 
+#correct cn, no san
+set_ext & no
+create_crt & only_cn
+set_ext & san
+
 #expired
 host & hostname
 days & -365
+create_ext & all
 create_crt & expired
 
 ------------------------------------------------------------------

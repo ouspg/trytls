@@ -29,8 +29,9 @@ if [[ ! $timeout ]]; then
 fi
 
 #read info
-if [[ -f '/etc/shared/scripts/data/info' ]]; then
-  info=`cat '/etc/shared/scripts/data/info'`
+infopath=$curpath/info
+if [[ -f "$infopath/info" ]]; then
+  info=`cat $infopath/info`
   parallel=`echo $info | grep 'parallel'`
   printerror=`echo $info | grep 'print-error'`
 fi
@@ -50,7 +51,7 @@ handleresponse()
       sleep 1
       if [[  $start -gt $timeout ]]; then
         kill $process >> /dev/null 2>&1
-        echo "[TIMED OUT   ]"
+        echo "TIMED OUT"
         return
       fi
     else
@@ -67,7 +68,7 @@ connect()
   crt=$3
   hostname=$4
 
-  if [[ "$crt" == "certs/test.crt" && $certspath ]]; then
+  if [[ "$crt" == "certs/test.crt" ]]; then
     response=`exec $command $filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
     #status="OK?"
   elif [[ "$crt" == "_" ]]; then
@@ -93,22 +94,23 @@ connect()
   #choose color
 
   if [[ "$response" == "UNSUPPORTED" ]]; then
-    #color='\e[0;43m'
-    response='UNSUPPORTED [the stub does not support given commandline arguments]\n'
-    msg=$filename
-  elif [[ "$response" == "[TIMED OUT   ]" ]]; then
+    color='\e[0;37m'    #allright
+    response='[ OK?  ][ UNSUPPORTED  ]'
+    #msg=$filename
+  elif [[ "$response" == "TIMED OUT" ]]; then
     color='\e[0;40m'      #most likely the connection was succesfull, but can be sure
+    response="[      ][  TIMED OUT   ]"
   elif [[ "$status" == "BAD" ]]; then
 
     if [[ "$response" == "VERIFY FAILURE" ]]; then
       color='\e[0;32m'    #green, success
-      response='[SUCCESS] '$response
+      response='[ PASS ]'[$response]
     else
       color='\e[0;41m'    #red, failure(either error or verify did succeed)
       if [[ "$response" == "VERIFY SUCCESS" || $printerror ]]; then
-        response='[FAILURE] '$response
+        response='[ FAIL ]'[$response]
       else
-        response='[ ERROR ] to enable errors run settings-script with "print-error" argument'
+        response='[ ERROR]'
       fi
     fi
 
@@ -116,25 +118,25 @@ connect()
 
     if [[ "$response" == "VERIFY SUCCESS" ]]; then
       color='\e[0;36m'    #green, success
-      response='[SUCCESS] '$response
+      response="[ PASS ][$response]"
     else
       if [[ "$response" == "VERIFY FAILURE" || $printerror ]]; then
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
-        response='[FAILURE] '$response
+        response="[ FAIL ][$response]"
       else
-        response='[ ERROR ] to enable errors run settings-script with "print-error" argument'
+        response="[ ERROR]"
       fi
     fi
   else
     color='\e[0;37m'    #allright
     if [[ "$response" == "VERIFY SUCCESS" || "$response" == "VERIFY FAILURE" ]]; then
-      response='[  OK?  ] '$response
+      response="[ OK?  ][$response]"
     else
-      response='[ ERROR ] to enable errors run settings-script with "print-error" argument'
+      response="[ ERROR]"
     fi
   fi
 
-  echo -e "$color[$stub]$response":"$msg\e[0m[$hostname]"
+  echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]"
 
 }
 

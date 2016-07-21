@@ -1,4 +1,4 @@
-# TryTLS
+# TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls)
 
 Does *your* library check TLS certificates properly?
 Broken certificate checks seems to be an overlooked issue.
@@ -38,13 +38,13 @@ In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to 
 ### Usage
 
 ```sh
-$ trytls https -- python stubs/python-urllib2/run.py
-platform: Linux (Ubuntu 16.04)
-runner: trytls 0.0.7 (CPython 2.7.11+, OpenSSL 1.0.2g-fips)
+$ trytls https python stubs/python-urllib2/run.py
+platform: OS X 10.11.5
+runner: trytls 0.1.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: python 'stubs/python-urllib2/run.py'
-  PASS constant(False, 'expired.badssl.com', 443)
-  PASS constant(False, 'wrong.host.badssl.com', 443)
-  PASS constant(False, 'self-signed.badssl.com', 443)
+ PASS expired certificate [reject expired.badssl.com:443]
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
   ...
 ```
 
@@ -57,7 +57,7 @@ Stubs and their documentation can be found from the [stubs/](stubs/) directory.
 We currently are working to support following backends:
 
  * [BadSSL](https://badssl.com) - we have cherry picked the [relevant tests](backends/badssl/README.md)
- * Local backend in the test runner itself (aka `localhost` backend) [WIP]
+ * Local backend in the test runner itself (aka `localhost` backend)
  * [SSLLabs](https://ssllabs.com) - protection against [certain attacks](backends/ssllabs/README.md)
  * [Trytls backend](backends/trytls) both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
@@ -75,6 +75,7 @@ Test runners allow user to test against all or any of these backends.
   * [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq GitHub](https://github.com/bos/wreq/issues/84)
    * See also [Is Wreq suitable for HTTPS applications? · Issue #82 · bos/wreq · GitHub](https://github.com/bos/wreq/issues/82)
    * Related [http-client-tls connection to HTTPS site with invalid hostname · Issue #212 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/212)
+  * [http-client-tls vulnerable to Logjam? · Issue #215 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/215)
 
 ## Contributors
 
@@ -86,5 +87,12 @@ Test runners allow user to test against all or any of these backends.
  * Marko Laakso ([@ikisusi](https://github.com/ikisusi))
  * Pekka Pietikäinen ([@ppietikainen](https://github.com/ppietikainen))
  * Joonas Kuorilehto ([@joneskoo](https://github.com/joneskoo))
+ * Kasper Kyllönen ([@nkapu](https://github.com/nkapu))
+ * Timo Mattila ([@timattil](https://github.com/timattil))
 
 We invite people to [contribute](CONTRIBUTING.md).
+
+# Contact us
+ * Preferred: public tweet
+  * Use #trytls and point it to @oupsg
+ * Less public alternative: direct twitter-message to @ouspg

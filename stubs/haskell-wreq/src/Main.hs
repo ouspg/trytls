@@ -3,7 +3,7 @@
 module Main where
 
 import Data.ByteString.Char8 (unpack)
-import Control.Exception (catch, SomeException)
+import Control.Exception (catch)
 import Control.Monad (when)
 import System.Environment (getArgs, getProgName)
 import System.Exit (exitSuccess, exitFailure)
@@ -31,8 +31,8 @@ main = do
   catch
     (doGet $ "https://" ++ host ++ ":" ++ port)
     (\exception -> do
-        let (TlsExceptionHostPort exp _ _) = exception
-        putStrLn (show exp)
+        let (TlsExceptionHostPort e _ _) = exception
+        putStrLn (show e)
         putStrLn "VERIFY FAILURE"
         exitSuccess
     )

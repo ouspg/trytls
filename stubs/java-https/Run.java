@@ -25,10 +25,10 @@ public class Run{
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
 			con.getResponseCode();
 			System.out.println("VERIFY SUCCESS");
-		} catch (javax.net.ssl.SSLHandshakeException e) {
+		} catch (javax.net.ssl.SSLHandshakeException|javax.net.ssl.SSLKeyException|javax.net.ssl.SSLProtocolException e) {
 			System.out.println("VERIFY FAILURE");
 		} catch (Exception e) {
-			System.out.println(e.getCause().getMessage());
+			System.out.println(e);
 			System.exit(3);
 		}
 

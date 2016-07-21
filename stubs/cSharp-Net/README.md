@@ -1,13 +1,14 @@
-**License: See [LICENSE](https://github.com/ouspg/trytls/blob/master/LICENSE)**
 
 ## Get started
 
 ### Install
 
-* c# (for example Mono in Linux)
-
+* c# (for example with Mono in Linux or visual studio in windows)
+```
+https://github.com/mono/mono
+```
 ### Run (in linux - similar in other Operating Systems)
 ```
 ..# mcs run.cs
-..# mono [host] [port] [ca-bundle]
+..# mono run.exe [host] [port]
 ```

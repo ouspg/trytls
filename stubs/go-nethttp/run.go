@@ -18,7 +18,8 @@ func main() {
 	// Perform a HTTP(s) Request
 	_, err := http.Get(url)
 	if err != nil {
-		sslError := strings.Contains(err.Error(), "certificate") || strings.Contains(err.Error(), "handshake")
+		sslError := strings.Contains(err.Error(), "certificate") || strings.Contains(err.Error(), "handshake") ||
+			strings.Contains(err.Error(), "verification error") || strings.Contains(err.Error(), "unexpected ServerKeyExchange")
 		if sslError {
 			fmt.Println("VERIFY FAILURE")
 			os.Exit(0)

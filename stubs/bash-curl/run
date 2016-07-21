@@ -31,6 +31,8 @@ else
 	#CURLE_SSL_CERTPROBLEM=58
 	#CURLE_SSL_CIPHER=59
 	#CURLE_SSL_CACERT=60
+	#CURLE_RECV_ERROR=56, The TLS connection was non-properly terminated i.a. in trytls-runner localhost test, error better?.
+	
 	error="1 35 51 58 59 60"
 	for i in $error; do
 		if [[ $status -eq $i ]]; then
