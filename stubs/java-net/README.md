@@ -1,6 +1,3 @@
-**License: See [LICENSE](../../LICENSE)**
-
-**Author: Aleksi Klasila ([@aleksiklasila](https://github.com/aleksiklasila))**
 
 ## Get started
 

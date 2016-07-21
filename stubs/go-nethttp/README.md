@@ -1,6 +1,3 @@
-**License: See [LICENSE](../../LICENSE)**
-
-**Author: [@joneskoo](https://github.com/joneskoo)**
 
 # Go stub for TryTLS project
 
