@@ -58,7 +58,7 @@ connect:
   }
 
   //handshake
-
+  SSL_set_tlsext_host_name(ssl, url);
   BIO_set_conn_hostname(sbio, url);
   status = SSL_do_handshake(ssl);
   if(status <= 0) {
