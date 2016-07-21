@@ -2,12 +2,15 @@
 
 module Main where
 
-import Control.Exception (catch, SomeException)
+import Data.ByteString.Char8 (unpack)
+import Control.Exception (catch)
 import Control.Monad (when)
 import System.Environment (getArgs, getProgName)
 import System.Exit (exitSuccess, exitFailure)
 
 import Network.Wreq
+import Control.Lens ((^.))
+import Network.HTTP.Client (HttpException(TlsExceptionHostPort))
 
 main :: IO ()
 main = do
@@ -25,12 +28,19 @@ main = do
   let host = args !! 0
       port = args !! 1
 
-  r <- catch (get $ "https://" ++ host ++ ":" ++ port)
-             (\exception -> do
-                 let _ = exception :: SomeException
-                 putStrLn "VERIFY FAILURE"
-                 exitSuccess
-             )
-
-  putStrLn "VERIFY SUCCESS"
-  exitSuccess
+  catch
+    (doGet $ "https://" ++ host ++ ":" ++ port)
+    (\(TlsExceptionHostPort e _ _) -> do
+        print e
+        putStrLn "VERIFY FAILURE"
+        exitSuccess
+    )
+  where
+    doGet :: String -> IO ()
+    doGet url = do
+      r <- get url
+      let code = r ^. responseStatus . statusCode
+          msg  = r ^. responseStatus . statusMessage
+      putStrLn (show code ++" "++ unpack msg)
+      putStrLn "VERIFY SUCCESS"
+      exitSuccess

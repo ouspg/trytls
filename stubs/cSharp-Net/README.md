@@ -1,6 +1,3 @@
-**License: See [LICENSE](../../LICENSE)**
-
-**Author: [@aleksiklasila](https://github.com/aleksiklasila)**
 
 ## Get started
 

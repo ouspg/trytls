@@ -1,6 +1,3 @@
-**License: See [LICENSE](../../LICENSE)**
-
-**Author: Jani Kenttälä ([@evilon](https://github.com/evilon))**
 
 
 # Dependencies

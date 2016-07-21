@@ -1,6 +1,3 @@
-**License: See [LICENSE](../../LICENSE)**
-
-**Author: [@mamietti](https://github.com/mamietti)**
 
 # How to run:
 

@@ -78,12 +78,15 @@ def run_one(args, host, port, cafile=None):
         raise ProcessFailed(process.returncode, out)
 
     out = out.rstrip()
-    if out == b"VERIFY SUCCESS":
-        return True
-    if out == b"VERIFY FAILURE":
-        return False
-    if out.startswith(b"UNSUPPORTED"):
-        raise Unsupported("")
+    lines = out.rstrip().splitlines()
+    if lines:
+        verdict = lines.pop()
+        if verdict == b"VERIFY SUCCESS":
+            return True, "".join(lines)
+        elif verdict == b"VERIFY FAILURE":
+            return False, "".join(lines)
+        elif verdict == b"UNSUPPORTED":
+            raise Unsupported("".join(lines))
     raise UnexpectedOutput(out)
 
 
@@ -91,7 +94,7 @@ def collect(args, tests):
     for env in tests:
         with env() as test:
             try:
-                accept = run_one(list(args), test.host, test.port, test.cafile)
+                accept, details = run_one(list(args), test.host, test.port, test.cafile)
             except Unsupported as us:
                 yield test, result.Skip(details=us.args[0])
             except UnexpectedOutput as uo:
@@ -104,13 +107,13 @@ def collect(args, tests):
                 yield test, result.Error("stub exited with return code {}".format(pf.args[0]), pf.args[1])
             else:
                 if accept and test.accept:
-                    yield test, result.Pass()
+                    yield test, result.Pass(details=details)
                 elif not accept and not test.accept:
-                    yield test, result.Pass()
+                    yield test, result.Pass(details=details)
                 elif not accept and test.accept:
-                    yield test, result.Fail()
+                    yield test, result.Fail(details=details)
                 else:
-                    yield test, result.Fail()
+                    yield test, result.Fail(details=details)
 
 
 class Formatter(object):
@@ -164,7 +167,8 @@ formats = {
     ),
     result.Pass: Formatter(
         type="{Fore.GREEN}",
-        reason="{Style.DIM}"
+        reason="{Style.DIM}",
+        details="{Style.DIM}"
     )
 }
 

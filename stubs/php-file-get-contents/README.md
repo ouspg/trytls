@@ -1,6 +1,3 @@
-**License: See [LICENSE](../../LICENSE)**
-
-**Authors: Marko Laakso ([@ikisusi](https://github.com/ikisusi)) and Kasper Kyllönen ([@nkapu](https://github.com/nkapu))**
 
 # TryTLS stub for PHP remote file Handling
 
