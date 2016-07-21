@@ -9,13 +9,13 @@
 
 You can use Haskell's `[stack](www.haskellstack.org)` tool to build the stub:
 
-```sh
+```console
 $ stack build
 ```
 
 and then run it with TryTLS runner:
 
-```sh
+```console
 $ trytls https -- stack exec test-http-client-tls
 ```
 
@@ -24,13 +24,13 @@ $ trytls https -- stack exec test-http-client-tls
 
 You can use Docker to build the stub:
 
-```sh
+```console
 $ docker build -t test-http-client-tls --rm .
 ```
 
 and then run it with TryTLS runner:
 
-```sh
+```console
 $ trytls https -- docker run --rm test-http-client-tls
 ```
 
