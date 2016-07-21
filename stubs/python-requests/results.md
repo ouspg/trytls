@@ -14,16 +14,10 @@ stub: python 'stubs/python-requests/run.py'
  PASS protect against an OS X vulnerability [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
  FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
-ERROR valid localhost certificate [accept localhost:54616]
-      reason: unexpected output
-      output: /Library/Python/2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)
-                SubjectAltNameWarning
-              VERIFY SUCCESS
-ERROR invalid localhost certificate [reject localhost:54620]
-      reason: unexpected output
-      output: /Library/Python/2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)
-                SubjectAltNameWarning
-              VERIFY FAILURE
+ PASS valid localhost certificate [accept localhost:64244]
+      output: /Library/Python/2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS invalid localhost certificate [reject localhost:64248]
+      output: /Library/Python/2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
  FAIL use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 ---
@@ -43,15 +37,9 @@ stub: python 'stubs/python-requests/run.py'
  PASS protect against an OS X vulnerability [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
-ERROR valid localhost certificate [accept localhost:43952]
-      reason: unexpected output
-      output: /usr/local/lib/python2.7/dist-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)
-                SubjectAltNameWarning
-              VERIFY SUCCESS
-ERROR invalid localhost certificate [reject localhost:44896]
-      reason: unexpected output
-      output: /usr/local/lib/python2.7/dist-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)
-                SubjectAltNameWarning
-              VERIFY FAILURE
+ PASS valid localhost certificate [accept localhost:38399]
+      output: /usr/local/lib/python2.7/dist-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS invalid localhost certificate [reject localhost:44504]
+      output: /usr/local/lib/python2.7/dist-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
