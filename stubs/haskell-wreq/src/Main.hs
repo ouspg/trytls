@@ -30,9 +30,8 @@ main = do
 
   catch
     (doGet $ "https://" ++ host ++ ":" ++ port)
-    (\exception -> do
-        let (TlsExceptionHostPort e _ _) = exception
-        putStrLn (show e)
+    (\(TlsExceptionHostPort e _ _) -> do
+        print e
         putStrLn "VERIFY FAILURE"
         exitSuccess
     )
