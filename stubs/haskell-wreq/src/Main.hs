@@ -25,7 +25,7 @@ main = do
   let host = args !! 0
       port = args !! 1
 
-  r <- catch (get $ "https://" ++ host ++ ":" ++ port)
+  _ <- catch (get $ "https://" ++ host ++ ":" ++ port)
              (\exception -> do
                  let _ = exception :: SomeException
                  putStrLn "VERIFY FAILURE"
