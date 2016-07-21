@@ -69,9 +69,11 @@ function main()
             if checkhostname(cert, arg[1]) then
                 print("VERIFY SUCCESS")
             else
+                print("wrong hostname")
                 print("VERIFY FAILURE")
             end
         else
+            print(err)
             print("VERIFY FAILURE")
         end
         conn:close()
