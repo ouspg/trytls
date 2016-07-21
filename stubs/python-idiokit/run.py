@@ -11,9 +11,12 @@ def client(host, port):
     cert = yield ssl_sock.getpeercert()
     ssl.match_hostname(cert, host)
 
-
 host = sys.argv[1]
 port = sys.argv[2]
+
+if len(sys.argv) > 3:
+    print "UNSUPPORTED"
+    sys.exit(0)
 
 try:
     idiokit.main_loop(client(host, int(port)))
