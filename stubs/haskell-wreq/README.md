@@ -1,4 +1,3 @@
-**Author: [@oherrala](https://github.com/oherrala)**
 
 # TryTLS test for Haskell's Wreq library
 
