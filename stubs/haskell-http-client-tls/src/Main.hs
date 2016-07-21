@@ -2,21 +2,27 @@
 
 module Main where
 
-import           Control.Exception          (SomeException, catch)
+import           Control.Exception          (catch)
 import           Control.Monad              (when)
+import           Data.ByteString.Char8      (unpack)
 import           System.Environment         (getArgs, getProgName)
 import           System.Exit                (exitFailure, exitSuccess)
 
 import           Network.HTTP.Client        (HttpException (..), httpLbs,
-                                             newManager, parseRequest)
+                                             newManager, parseRequest,
+                                             responseStatus)
 import           Network.HTTP.Client.TLS    (mkManagerSettings)
+import           Network.HTTP.Types.Status  (statusCode, statusMessage)
 
 import           Data.X509.CertificateStore (CertificateStore,
                                              readCertificateStore)
 import           System.X509                (getSystemCertificateStore)
 
-import           Network.Connection
-import           Network.TLS
+import           Network.Connection         (TLSSettings (..))
+import           Network.TLS                (ClientParams, clientShared,
+                                             clientSupported,
+                                             defaultParamsClient, sharedCAStore,
+                                             supportedCiphers)
 import           Network.TLS.Extra.Cipher   (ciphersuite_all)
 
 main :: IO ()
@@ -46,15 +52,23 @@ main = do
   manager <- newManager $ mkManagerSettings (TLSSettings params) Nothing
   request <- parseRequest url
 
-  r <- catch (httpLbs request manager)
-             (\exception -> do
-                 let _ = exception :: SomeException
+  _ <- catch (doGet request manager)
+             (\(TlsExceptionHostPort e _ _) -> do
+                 print e
                  putStrLn "VERIFY FAILURE"
                  exitSuccess
              )
+  return ()
+  where
+    doGet request manager = do
+      r <- httpLbs request manager
+      let status = responseStatus r
+          code   = statusCode status
+          msg    = statusMessage status
+      putStrLn (show code ++" "++ unpack msg)
+      putStrLn "VERIFY SUCCESS"
+      exitSuccess
 
-  putStrLn "VERIFY SUCCESS"
-  exitSuccess
 
 injectCA :: Maybe CertificateStore -> ClientParams -> ClientParams
 injectCA caBundle p =
