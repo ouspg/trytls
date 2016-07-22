@@ -1,0 +1,13 @@
+machine:
+  post:
+    - pyenv install pypy-5.3
+    - pyenv global 2.7.10 3.4.3 3.5.0 pypy-5.3
+
+deployment:
+  pypi:
+    owner: ouspg
+    tag: /^v[0-9.]+$/
+    commands:
+      - pip install twine
+      - python setup.py bdist_wheel --universal
+      - twine upload --username "${PYPI_USERNAME}" --password "${PYPI_PASSWORD}" dist/*.whl
