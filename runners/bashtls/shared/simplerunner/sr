@@ -5,7 +5,7 @@ command=$1
 if [[ $2 && $2 != '--' ]]; then
   path=$2
 else
-  path="/home/klasila/Työpöytä/git-repos/trytls/runners/bashtls/shared/simplerunner/run"
+  path="../trytls/runners/bashtls/shared/simplerunner/run" # ADD your own path here
 fi
 
 stub=$3
