@@ -28,9 +28,7 @@ We have a [Python based test runner](runners/trytls/) and a work-in-progress
 ### Installation
 
 ```sh
-$ git clone https://github.com/ouspg/trytls.git
-$ cd trytls
-$ pip install .
+$ pip install trytls
 ```
 
 In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to [these instructions](http://docs.python-guide.org/en/latest/starting/installation/).
@@ -38,9 +36,10 @@ In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to 
 ### Usage
 
 ```sh
-$ trytls https python stubs/python-urllib2/run.py
+$ git clone https://github.com/ouspg/trytls.git
+$ trytls https python trytls/stubs/python-urllib2/run.py
 platform: OS X 10.11.5
-runner: trytls 0.1.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
+runner: trytls 0.1.1 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: python 'stubs/python-urllib2/run.py'
  PASS expired certificate [reject expired.badssl.com:443]
  PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
