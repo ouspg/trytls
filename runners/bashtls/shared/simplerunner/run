@@ -1,17 +1,63 @@
 #!/bin/bash
 
+# <command> <stub(file)> <conf> <ca> <curpath> <stub(printable name)> <timeout>
+
+
+#init-------------------------------------------------------------
+curpath=$0
+if [[ ! $curpath == \/* ]]; then
+  curpath=${curpath#./}         ##remove ./
+  curpath=`pwd`/$curpath  ##add .../..
+fi
+
+if [[ $curpath =~ "/"  ]]; then
+  curpath=${curpath%/*}   ##remove /run..
+else
+  curpath=""
+fi
 command=$1
+execcommand='exec'
 if [[ $command == "_" ]]; then
   command=""
+  extracommand='./'
+  execcommand=""
 fi
+
+
 filename=$2
+if [[ ! $filename =~ '/' ]]; then
+  if [[ $filename =~ ":" ]]; then
+    path=${filename%:*}
+    cd $curpath"/../../../../stubs/$path"
+    file=${filename##*:}
+  else
+    cd $curpath"/../../../../stubs/$filename"
+    file=`find -name "[Rr]un*"`
+    for f in $(echo $file | tr " " "\n")
+    do
+      if [[ `$command $f google.com 443 abababa daddada 2>&1 | grep "UNSUPPRTED"` ]]; then
+        file=$f #this is propably the correct file, if that is not the case, well then you will see some errors
+        break
+      fi
+    done
+  fi
+  file=${file##*/}
+  filename=`pwd`/$file
+  cd $curpath
+fi
 confpath=$3
+if [[ ! $confpath =~ '/' ]]; then
+  confpath=$curpath"/conf/"$confpath
+fi
 certspath=$4
 
-curpath=`pwd`
 if [[ "$certspath" ]]; then
   if [[ "$certspath" != '_' ]]; then
-    certspath=${certspath//[[:blank:]]/}
+    if [[ $certspath == "--" ]]; then
+      certspath=$curpath/certs
+    else
+      certspath=${certspath//[[:blank:]]/}
+    fi
   else
     certspath=""
   fi
@@ -22,7 +68,10 @@ if [[ "$certspath" ]]; then
   fi
 fi
 stub=$6
-
+if [[ ! $stub ]]; then
+  stub="${filename##*\/}"
+fi
+filepath=${curpath%/*}
 timeout=$7
 if [[ ! $timeout ]]; then
   timeout=15
@@ -35,6 +84,8 @@ if [[ -f "$infopath/info" ]]; then
   parallel=`echo $info | grep 'parallel'`
   printerror=`echo $info | grep 'print-error'`
 fi
+
+#functions-------------------------------------------------------------
 
 #echo timeout: $timeout
 
@@ -69,26 +120,26 @@ connect()
   hostname=$4
 
   if [[ "$crt" == "certs/test.crt" ]]; then
-    response=`exec $command $filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
+    response=`$execcommand $command $extracommand''$filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
     #status="OK?"
   elif [[ "$crt" == "_" ]]; then
     if [[ "$certspath" =~ "." ]]; then
-      response=`exec $command $filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
+      response=`$execcommand $command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
     else
-      response=`exec $command $filename $hostname "$port"  2>&1 & handleresponse $!`
+      response=`$execcommand $command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
     fi
   elif [[ "$certspath" ]]; then
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
-      response=`exec $command $filename $hostname $port "$certspath"/"$crt"  2>&1 & handleresponse $!`
+      response=`$execcommand $command $extracommand''$filename $hostname $port "$certspath"/"$crt" 2>&1 & handleresponse $!`
       #status="OK?"
     else
-      response=`exec $command $filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
+      response=`$execcommand $command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
       #kill $!
       #status="OK?"
     fi
   else
-    response=`exec $command $filename $hostname "$port"  2>&1 & handleresponse $!`
+    response=`$execcommand $command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
   fi
 
   #choose color
@@ -110,7 +161,9 @@ connect()
       if [[ "$response" == "VERIFY SUCCESS" || $printerror ]]; then
         response='[ FAIL ]'[$response]
       else
-        response='[ ERROR]'
+        if [[ ! $printerror ]]; then
+          response='[ ERROR]'
+        fi
       fi
     fi
 
@@ -124,7 +177,9 @@ connect()
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
         response="[ FAIL ][$response]"
       else
-        response="[ ERROR]"
+        if [[ ! $printerror ]]; then
+          response='[ ERROR]'
+        fi
       fi
     fi
   else
@@ -132,13 +187,22 @@ connect()
     if [[ "$response" == "VERIFY SUCCESS" || "$response" == "VERIFY FAILURE" ]]; then
       response="[ OK?  ][$response]"
     else
-      response="[ ERROR]"
+      if [[ ! $printerror ]]; then
+        response="[ ERROR]"
+      fi
     fi
   fi
 
   echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]"
 
 }
+
+#main-------------------------------------------------------------
+
+path=${filename%/*}
+filename="${filename##*\/}"
+filename=$extracommand''$filename
+cd $path
 
 FIS=$IFS
 IFS='&'

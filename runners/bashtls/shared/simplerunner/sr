@@ -1,0 +1,41 @@
+#!/bin/bash
+
+command=$1
+
+if [[ $2 && $2 != '--' ]]; then
+  path=$2
+else
+  path="/home/klasila/Työpöytä/git-repos/trytls/runners/bashtls/shared/simplerunner/run"
+fi
+
+stub=$3
+if [[ ! $stub || $stub == '--' ]]; then
+  stub=`pwd`
+  stub=${stub##*/}
+elif [[ ! $stub =~ ":" ]]; then
+  if [[ ! $stub =~ "/" ]]; then
+    tmp=`pwd`
+    tmp=${tmp##*/}
+    stub=$tmp:$stub
+  fi
+fi
+
+if [[ $4 && $4 != '--' ]]; then
+  confs=$4
+else
+  confs="badssl-all ssllabs others" #you can add your own backends here
+fi
+
+if [[ $5 ]]; then
+  certspath=$5
+else
+  certspath='--'
+fi
+
+curpath='_'
+
+for conf in $(echo $confs | tr '&' "\n")
+do
+  echo  bash $path $command $stub $conf $certspath $curpath $stub
+  exec bash $path $command $stub $conf $certspath $curpath $stub
+done
