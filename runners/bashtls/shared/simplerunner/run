@@ -35,7 +35,7 @@ if [[ ! $filename =~ '/' ]]; then
     file=`find -name "[Rr]un*"`
     for f in $(echo $file | tr " " "\n")
     do
-      if [[ `$command $f google.com 443 abababa daddada 2>&1 | grep "UNSUPPRTED"` ]]; then
+      if [[ `$execcommand $command $extracommand''$f a b c d e 2>&1 | grep "UNSUPPORTED"` ]]; then
         file=$f #this is propably the correct file, if that is not the case, well then you will see some errors
         break
       fi
