@@ -20,11 +20,11 @@ Klasila Aleksi (2016) TryTLS backend. University of Oulu, Degree Programme in Co
 
 **Encyption is a fundamental building block in protecting our privacy and safety of our society, unfortunately we may fail to use it properly. Transport Layer Security TLS (SSL) has an important part in encrypting the trafficing on the internet today. Socket Layer Security (SSL) protocols consist of all the deprecated and dangerous versions of TLS. SSL should not be used anymore.**
 
-**There are many protocols that use TLS. For example HTTPS (Hypertext Trasfer Protocol Secure), FTPS (File Transfer Protocol with support for TLS) and IMAP (Internet Message Access Protocol). All the protocols that use TLS have also got many different kind of implementations in different programming languages and libraries.**
+**There are many protocols that use TLS. For example: HTTPS (Hypertext Trasfer Protocol Secure), FTPS (File Transfer Protocol with support for TLS) and IMAP (Internet Message Access Protocol). All the protocols using TLS have also got many different implementations in different programming languages and libraries.**
 
 **In this thesis a backed for TLS testing purposes will be implemented. The backend can be used in testing how different TLS libraries used support TLS/SSL protocol and if the way of supporting is a secure one or not. The backend can be used in testing if libraries check certificates correctly or not and whether if they support insecure versions of TLS/SSL and/or insecure algorithms. I will also research other implementations already developed.**
 
-**This thesis provides a way to test initially if client libraries do TLS correctly and as expected even without internet connection. It also provides a backend that anyone can run on their own computers both either to be used in private or to be published/shared with the rest of us.**
+**This thesis provides a way to do initial testing on how different (client) libraries do TLS - a way to test if the libraries do TLS correctly and as expected - even without internet connection if wanted. It also provides a backend that anyone can run on their own computers both either to be used in private or to be published/shared with the rest of us.**
 
 **Keywords: Security testing, Vulnerability research, Assurance tools, TLS, SSL, Security, Encryption**
 
@@ -34,9 +34,9 @@ Klasila Aleksi (2016) TryTLS backend. Oulun yliopisto, tietotekniikan tutkinto-o
 
 ## Tiivistelmä
 
-**Tässä kandidaatintyössä tullaan käyttämään TLS:ää sekä TLS:n, että SSL:n sijasta, sillä ne tarkoittavat käytännössä samaa, mutta TLS on uudempi versio nykyisin vakavassa käytössä vaarallisesta SSL:stä. TLS:llä on nykyisin tärkeä osa internet liikenteen salaamisessa ja turvallisessa käyttämisessä. TLS:ää käyttäviä protokollia, kuten HTTPS, FTPS ja IMAP on monia. Ainakin tunnetuimille TLS:ää käyttäville protokollille on olemassa useita erilaisia toteutuksia eri ohjelmointikielillä ja kirjastoilla.**
+**Tässä kandidaatintyössä tullaan käyttämään TLS:ää sekä TLS:n, että SSL:n sijasta. TLS on uudempi versio nykyisin vakavassa käytössä vaarallisesta SSL:stä. TLS:llä on nykyisin tärkeä osa internet liikenteen salaamisessa ja turvallisuuden takaamisessa. TLS:ää käyttäviä protokollia, kuten HTTPS, FTPS ja IMAP on paljon. Ainakin tunnetuimille TLS:ää käyttäville protokollille on olemassa useita erilaisia toteutuksia eri ohjelmointikielillä ja kirjastoilla.**
 
-**Tässä työssä tullaan lisäksi rakentamaan järjestelmä, jolla voidaan selvittää kuinka eri kirjastot tukevat TLS protokollaa. Se antaa keinon selvittää tarkistavatko kirjastot varmenteet oikein, sekä tukevatko kyseiset kirjastot vaarallisia TLS/SSL versioita tai TLS:ssä käytettäviä algoritmeja. Tässä työssä tullaan myös käsittelemään olemassa olevia työkaluja TLS:n testaamiseen.**
+**Tässä työssä tullaan lisäksi rakentamaan järjestelmä, jolla voidaan selvittää kuinka eri kirjastot tukevat TLS protokollaa. Se antaa keinon selvittää tarkistavatko kirjastot varmenteet oikein, sekä tukevatko kyseiset kirjastot vaarallisia TLS/SSL versioita tai algoritmeja. Tässä työssä tullaan myös käsittelemään olemassa olevia työkaluja ja keinoja TLS:n testaamiseen.**
 
 **Avainsanat: Turvallisuus testaus, Haavoittuvuus testaus, testityökalut, TLS, SSL, Turvallisuus, Salaus**
 
@@ -92,9 +92,9 @@ Klasila Aleksi (2016) TryTLS backend. Oulun yliopisto, tietotekniikan tutkinto-o
 
 It was my job to work in the TryTLS core team to develope and popularize the TryTLS approach in order to help library and programming language developers to secure their use of the TLS encryption. We worked as a team on the whole TryTLS product and the TryTLS social enterprise and my specific area of responsibility was the selection, documentation and integration of the test backends. Role of the backends is to provide the tests that the users of the TryTLS can test their implementations against.
 
-A backend is a group of servers to which the potential client can try to connect. The TryTLS backend created during the summer was to be used mostly on our server to which everyone could try their codes against. It be set up very easily both to either private use or to be shared with the public.
+A TLS testing-backend is a group of servers to which client can try to connect. The TryTLS backend created during the summer was to be most likely used on our server to which everyone could try their codes against. It can be set up easily both to either private use or to be shared with the public.
 
-There are vulnerabilities in current implementations that use TLS for securing communications over the internet. It’s important we kept researching new ways to test TLS because it’s impossible to know all the different kind of vulnerabilities there that can be found until they get found.
+There are vulnerabilities in current implementations using TLS in secure communications over the internet. It’s important we kept researching new ways to test TLS because it’s impossible to know all the different kind of vulnerabilities there that can be found until they get found.
 
 I would like to thank the research group OUSPG (Oulu University Secure Programming Group) and Oulu University for the job I got to do there at the summer 2016. ...
 
@@ -132,52 +132,55 @@ CRIME                 compression Ratio Info-leak Made Easy
 
 ## 1. Introduction
 
-“The TLS (SSL) protocol provides communications security over the internet. The protocol allows client/server applications to communicate in a way that is designed to prevent eavesdropping, tampering, or message forgery” [2]. TLS has got a very important part in trasferring data securely in today’s Internet. We use TLS in money transactions and sending other sensitive information on the internet – among other things. TLS can be used in both TCP (Transmission Control Protocol) and UDP (User Datagram Protocol). 
+>The TLS protocol provides communications security over the internet. The protocol allows client/server applications to communicate in a way that is designed to prevent eavesdropping, tampering, or message forgery [2]. 
 
-There are a variety of different TLS libraries being used to create the programs used in TLS communications. There are OpenSSL, GnuTLS, NSS and many more [10] of them. Some of these libraries are well researched, but some of them are not that well. The TLS libraries are also used in developing new libraries. These libraries may use just a subset of the security offered by the ‘parent’ libraries. There are also under development libraries that are either relatively old or new and are being developed without the use of any existing libraries if not for commercial use then for private use. There should also be ways to test these libraries and codes.
+TLS has got a very important part in trasferring data securely in today’s Internet. TLS is used in money transactions and sending other sensitive information on the internet – among other things. TLS can be used in both TCP (Transmission Control Protocol) and UDP (User Datagram Protocol). 
 
-It is important that the libraries used to communicate using TLS are working correctly. It is not recommended by any means to use libraries that allow the client to be vulnerable to at least any of the known attacks.
+There are a variety of different TLS libraries being used to create the programs used in TLS communications. There are OpenSSL, GnuTLS, NSS and many more of them [10]. Some of the libraries are well researched, but some are not that well. TLS libraries are also used in developing new libraries. The developed libraries may use just a subset of the security (algorithms, protocols, etc.) offered by the ‘parent’ libraries. There are also under development libraries (both relatively old and new) being developed without the use of any existing libraries if not for commercial use then at least for private use. There should also be ways to test these libraries.
+
+It is important that the libraries are working correctly. It is not recommended by any means to use libraries that allow the client (or server) to be vulnerable to at least any of the known attacks.
 
 This thesis is about expanding the tool set used to test the testing behavior of TLS libraries. The tool created can be used by anyone interested in TLS. This thesis is also about examining the current state of the art TLS testing tools and backends. 
 
 ### 1.1. Related research
 
-There are quite a lot of tools [3] developed to test if either the server or the client supports insecure ciphers or protocol versions or uses certificates insecurely. If the server or the client does in fact support insecure connections or does some checks wrong the supposedly secure connection becomes relatively quickly insecure. There are many tools that can check whether if the server acts as supposed. There are not so many tools that by using them the client can check whether if it does the checking correctly or not. There are also not so many tools that tell what ciphers and protocol versions exactly does the client support at least not locally usable ones.
+There are already tools developed to test if either server or client supports insecure ciphers, insecure protocol versions or allows insecure authentication. If the client (or server) does in fact support insecure connections or does some checks wrong the supposedly secure connection becomes relatively quickly insecure. There are many tools that can check whether if the server acts as supposed, however there are not so many tools that can check whether if client does the checking correctly or not, furthermore there are also not so many tools that tell what ciphers and protocol versions exactly does the client support at least not locally usable automated ones. [3]
 
-The TLS protocol can be verified to be used correctly in many ways. Either the client or the server can reason it out during or after the TLS handshake. You can read more about this later on in this thesis. Even if the connection is established ‘securely’ it does not necessarily mean that the connection is necessarily secure because of the possible usage of weak or insecure algorithms and keys. There are already many ways developed to be used to test for the weaknesses of used protocols, ciphers or keys. One could for example use nmap to do automated testing, or use OpenSSL provided tools to do the testing manually [11]. If both the client and the server support weak configurations of cipher suites and protocols the connection they communicate over has a great change of being vulnerable.
+The TLS protocol can be verified to be used correctly in many ways. Either the client or the server can reason it out during or after the TLS handshake. You can read more about this [later on in this thesis](#21-the-handshake-protocol). Even if the connection is established it does not necessarily mean that the connection is secure because of the possible usage of for example: weak or insecure algorithms and keys. There are already many ways developed to be used to test for the weaknesses of used protocols, ciphers or keys. One could for example use nmap to do automated testing, or use OpenSSL provided tools to do the testing manually. If both the client and the server support weak configurations of cipher suites and protocols the connection they communicate over has a great change of being vulnerable. [11]
 
 The supported protocol versions, cipher suites and so forth can also be read in most cases from the library code itself. Although that sounds a very interesting subject of research it is not of real importance in terms of the scope of this thesis.
 
 ### 1.2. Aims
 
-This thesis aims to gather information about the current state of the art backends and tools used in TLS-testing. The tool created during the testing part of the thesis is called TryTLS backend. The newly created backend aims to create a way of testing TLS-libraries in action and observe whether if they behave correctly or not. It also provides a way of observing what is the current support for different protocols, cipher-suites and so on. The tool created can be used without internet connection.
+This thesis aims to gather information about the current state of the art backends and tools used in TLS-testing. The tool created during the testing part of the thesis is called TryTLS backend. The newly created backend aims to create a way of testing TLS-libraries in action and observe whether if they behave correctly or not. It also provides a way of observing what is the current support for different protocols, cipher-suites and so on.
 
 There are (almost) never too many ways of testing anything. The more sure you are to have the correctly behaving code at hand the more safely you or anyone else can use it. I myself do not believe anything to be the absolute truth unless I know it is which does not unfortunately happen too often, that is why the backend created is a very easily configurable one and the way it behaves is very easily understandable just by looking at the code if the basics of scripting are known.
 
 ### 1.3. Description of the TryTLS backend approach 
 
-**Backend**
+**Backend [17]**
 
-The TryTLS backend is a tool that can be easily set up to serve as a backend or a platform for testing TLS behavior and support of the clients trying connecting to it. It can be set up and ran on any of the most popular operating systems or if needed even on virtual machines as well [17]. The backend can serve both remote and local connections and it is configurable to create the servers for the tests wanted. The backend performs very well even under heavy usage as shown in the Testing section of this thesis. 
+The TryTLS backend is a tool that can be easily set up to serve as a backend or a platform for testing TLS behavior and support of the clients trying connecting to it. It can be set up and ran on any of the most popular operating systems or if needed even on virtual machines (VM) as well. The backend can serve both remote and local connections and it is configurable to create the servers for the tests wanted. The backend performs very well even under heavy usage as shown in the Testing section of this thesis. 
 
-**Benefits**
+**Benefits [43]**
 
-The backend can be set up and ran on a computer without even having internet connection. No need for internet connection means that it is relatively safe to test new libraries in action without having to worry about anyone eavesdropping the newborn library or protocol support taking it’s first steps in the world of wonders – surrounded only by the beauty of pure logic. It also means that the tests can be performed in such places where the internet connection is either not available or free to be used, there are still such places on the Earth [43], and who are we to prevent them from having the fun of testing TLS/SSL.
+The backend can be set up and ran on a computer without even having internet connection. No need for internet connection means that it is relatively safe to test new libraries in action without having to worry about anyone eavesdropping the newborn library or protocol support taking it’s first steps in the world of wonders – surrounded only by the beauty of pure logic. It also means that the tests can be performed in such places where the internet connection is either not available or free (safe) to be used - [there are still such places on the Earth](http://www.bbc.com/future/story/20140214-the-last-places-without-internet) - and who are we to prevent them from having the fun of testing TLS/SSL?
 
 ---
 
 ## 2. TLS/SSL IN ACTION
 
-**Brief introduction**
+**Brief introduction [2]**
 
-The TLS protocol provides relatively good support for secure connections if used correctly. It can also provide ‘secure’ connections if used incorrectly. The protocol is mainly composed of two layers: The record protocol and the handshake protocol [2]. Normally the use of TLS can be seen from the use of the letter ‘s’ in the name of the used internet protocol. Sometimes the client can also show/see a picture of a lock of some sort. Among other protocols the HTTP(S), FTP(S) and IMAP protocols use TLS to secure the connection if configured and used correctly on the both sides of the connection, the client- and the server side. 
-This thesis will mostly concentrate on researching the Handshake protocol, i.e. establishing the connection between client and the server. The record protocol is used mainly after the connection is established between the two participants. UDP over SSL is not a main theme of this thesis and the backend does not currently implement methods for testing UDP by for example testing DTLS (Datagram Transport Layer security).
+The [TLS protocol](https://tools.ietf.org/html/rfc5246) provides a relatively good support for secure connections when used correctly. It can also provide seemingly ‘secure’ (i.e. insecure) connections if used incorrectly. The protocol is mainly composed of two layers: [The record protocol](https://tools.ietf.org/html/rfc5246) and [the handshake protocol](#21-the-handshake-protocol). Normally the use of TLS can be seen from the usage of the letter ‘s’ in the name of the used internet protocol. Sometimes the client may also show a picture of a lock of some sort. Among other protocols the HTTP(S), FTP(S) and IMAP protocols can use TLS to secure the connection if configured and used correctly on the both sides of the connection, the client- and the server-side.
+
+This thesis will mostly concentrate on researching the Handshake protocol, i.e. the protocol for establishing the connection between client and server. The record protocol is used mainly after the connection has been established between the two participants. UDP over SSL is not a main theme of this thesis and the backend does not currently implement methods for testing UDP by for example: testing DTLS (Datagram Transport Layer security).
 
 ### 2.1. The handshake protocol
 
-“When a TLS (SSL) client and server first start communicating, they agree on a protocol version, select cryptographic algorithms, optionally authenticate each other, and use public-key encryption techniques to generate shared secrets.” [2]. 
+“When a TLS (SSL) client and server first start communicating, they agree on a protocol version, select cryptographic algorithms, optionally authenticate each other, and use public-key encryption techniques to generate shared secrets" [2].
 
-The protocol versions currently used are today (06.2016) TLSv1.0, TLSv1.1 and TLSv1.2. The ones that have been and may still - even though should not - be used in some cases are SSLv2, SSLv3. TLSv1.3 is currently under development and the major differences between TLSv1.2 can be seen in the ["The Transport Layer Security (TLS) Protocol Version 1.3"](https://tools.ietf.org/html/draft-ietf-tls-tls13-07)-draft or in [github](https://tlswg.github.io/tls13-spec/) [44]. The used cryptographic algorithms in TLS include algorithms for Hashing, Encrypting, Authenticating and exchanging keys. The combinations of these algorithms are called cipher suites. When the connection is about to be established the client sends the server the cipher suites - one of which it would like to use - in the order it would prefer them to be used during the connection with the server. The server either selects one of the wanted cipher suites and tells the client the (cipher)suite it selected or the server simply says that it does not have the support required for any of the proposed suites. The connection also many times involves (sometimes  optional) authentication which is usually done using X.509 certificates. Certificates are mostly public. That means that everyone can and need to get them to be able to connect to the server securely and authenticated. Some of the certificates (the ones that are publicly shared) can be seen for example using normal web browser. The encryption algorithms are used after the client and server have decided what suites to use and how to encrypt, etc. [12]
+The mostly used protocol versions are today (06.2016): TLSv1.0, TLSv1.1 and TLSv1.2. The ones that have been and may still - even though should not - be used in some cases are SSLv2, SSLv3. TLSv1.3 is currently under development and the major differences between it and TLSv1.2 can be seen in the ["The Transport Layer Security (TLS) Protocol Version 1.3"](https://tools.ietf.org/html/draft-ietf-tls-tls13-07)-draft or in [github](https://tlswg.github.io/tls13-spec/) [44]. The used cryptographic algorithms in TLS include algorithms for **Hashing**, **Encrypting**, **Authenticating** and **exchanging keys**. The combinations of these algorithms are called **cipher suites**. When the connection is about to be established the client sends the server the cipher suites - one of which it would like to use - in the order it would prefer them to be used during the connection with the server. The server either selects one of the wanted cipher suites and tells the client the (cipher) suite selected or the server simply says that it does not have the support required for any of the proposed suites. The connection also many times involves (sometimes optional) authentication which is normally done using **X.509 certificates**. Certificates are normally public - meaning that everyone can and need to get them to be able to connect to the server securely and authenticated. Some of the certificates (the ones that are publicly shared) can be seen for example using normal web browser. The encryption algorithms are used after the client and server have decided what suites to use and how to encrypt, etc. [12]
 
 Picture 1. Example TCP TLS handshake (Firefox browser → https://badssl.com).
 ![handshake1_wireshark](pictures/handshake_wireshark.png)
@@ -191,19 +194,18 @@ Figure 1. Simplified figure of the usage of the TLS protocol.
 
 **Using TLS [13]**
 
-TLS aims to provide secure Internet connections between servers and clients. It’s the backbone of the secure internet. By using secure TLS libraries in the correct manner you can send and receive messages securely. You also know that server (or client) is really who it says it is via authentication. The overall cost of using TLS is many times more costly for the servers (and clients) than just using plain text - but considering the advantages of using TLS provides the plain text is in many cases not recommended. The cost of using TLS comes mostly from potential extra hardware required and the initial handshake part of the connection creation. Thus if keep alive and concurrent connections are enabled - because of the fact that decrypting and encrypting the data is trivial for modern computers and does not affect the performance of TLS much - the performance of the connection is usually the same in normal use no matter if TLS was used or not.
+TLS aims to provide secure Internet connections. It is the backbone of the secure internet. By using secure TLS libraries in the correct manner you can send and receive messages securely. You also know that the server (or client) is really who it says it is via authentication during the handshaking. The overall cost of using TLS is usually costlier for the servers (and clients) than just using plain text - but considering the advantages of using TLS provides, the plain text is in many cases not recommended. The cost of using TLS comes mostly from potential extra hardware required and also from the initial handshake part of the connection creation. Thus if keep alive and concurrent connections are enabled - because of the fact that decrypting and encrypting the data is trivial for modern computers and does not affect the performance of TLS much - the performance (throughput) of the connection is usually the same in normal use no matter if TLS was used or not.
 
 **when the connection cannot be established for some reason when using TLS**
 
-The connection can also be established securely and as encrypted in other ways than just by using TLS but the other ways and protocols are not as popular and easy to use as TLS is – at least not securely. If a server does not support TLS it can use many services available to offer i.a. certificates for HTTP servers using HTTPS connection between the client and the security provider providing authentication. This requires that the client supports SNI (Server Name Indication) which for example most modern browsers today do. The SNI support is one of the testing subjects when testing TLS support of libraries, i.e. does the client under test support SNI or not. In case the client does support SNI it can have some security during the connection even when the server does not support TLS - at least in the form of authentication [14]. There are also other ways to benefit from TLS without having an actual support for the protocol but they are mostly out of the main scope of this thesis.
-
+The connection can also be established in a secure manner and as encrypted in other ways than just by using TLS but the other ways and protocols are not as popular and easy to use as TLS is – at least not as securely. If a server does not support TLS it can use many services available to offer some security for example by using HTTPS connection between client and a security provider (service) providing authentication. The above method requires that the client supports SNI (Server Name Indication) which for example most modern browsers today do. The SNI support is one of the testing subjects when testing TLS support of libraries, i.e. does the client under test support SNI or not. In case the client does support SNI it can have at least some security during the connection even when the server does not support TLS - at least in the form of authentication [14]. There are also other ways to benefit from TLS without having an actual support for the protocol but they are mostly out of the main scope of this thesis.
 
 
 ### 2.3. Motivation for the use of TLS testing
 
-There are a lot of potential TLS clients (and servers). Not just the browsers. "Does the client (server) really use correct certificates - is it actually who it says to be - and safe cipher suites" is a really good question and an important subject to do research on. Are the certificates checked correctly? Are only the safe ciphers allowed or is the use of the less secure ones also  an acceptable option. Maybe you just want to know the ciphers and TLS protocol versions supported by the library in use. Maybe you are creating a new library and want to test whether if the TLS handshake is done correctly or not. There are lots of reasons to do testing on TLS and create new tools for TLS testing.
+There are a lot of potential TLS clients (and servers). Not just the browsers. "Does the client (server) really authenticate correctly and use safe cipher suites" is a really good question and an important subject to do research on. Are the certificates checked correctly? Are only the safe ciphers allowed or is the use of the less secure ones also an acceptable option. Maybe you just want to know the suites and TLS protocol versions supported by the library in use. Maybe you are creating a new library and want to test whether if the TLS handshake is done correctly or not. There are lots of reasons to do testing on TLS using the currently available tools and create new ones as well.
 
-The world of security on the internet is still an evolving one. It’s changing all the time.  New bugs get found and need to be batched either by retiring the insecure protocols and ciphers or finding new ways to fix them. New standards get developed. New algorithms find their way into the world of secure internet communication. The capacity and speed of the computers increases every day – so does the attack surface of brute force required attacks. 
+The world of security on the Internet is still an evolving one. It’s changing all the time.  New bugs get found and need to be batched either by retiring the insecure protocols and ciphers or finding other ways to batch (fix) them. New standards get developed. New algorithms find their way into the world of secure Internet communications. The capacity and the speed of computers increases every day – so does the attack surface of brute force required attacks. 
 
 All the security used today is going to be outdated sometime in the future. New protocols and algorithms developed need to be tested correctly before using them, even if they are believed to be extremely safe at the time being.
 
@@ -215,50 +217,51 @@ Drown stands for Decrypting RSA with Obsolete and Weakened eNcryption. “It all
 
 **POODLE [21]**
 
-POODLE stands for Padding Oracle On Downgraded Legacy Encryption. Any SSLv3.0 with CBC (Cipher Block Chaining) can be vulnerable to POODLE attack. POODLE allows attacker to decrypt selected content within the SSL session. POODLE attack can be performed in some cases even if the server and the client both support upper TLS versions by downgrading the connection during protocol version negotiation between the client and the server. The downgrading of course requires for the support of SSLv3.0 which is today deprecated and thus should not really be used anyways.
+POODLE stands for Padding Oracle On Downgraded Legacy Encryption. Any SSLv3.0 with CBC (Cipher Block Chaining) can be vulnerable to POODLE attack. POODLE allows attacker to decrypt selected content within the SSL session. POODLE attack can be performed in some cases even if the server and the client both support upper TLS versions by downgrading the connection during protocol version negotiation between the client and the server. The downgrading of course requires also the support of SSLv3.0 which is today deprecated and thus should not really be used anyways.
 
 **BEAST [22]**
 
-BEAST stands for Browser Exploit Against SSL/TLS. TLSv1.0 and earlier protocols allow attacker to guess what the plain text of the data looks like. With enough guesses the attacker can get enough information out of the encrypted data to decrypt cookies flowing by. The attack has been batched but the batch is not on by default. The attack was found by Juliano Rizzo and Thai Duong. This attack is still a valid one in some cases.
+BEAST stands for Browser Exploit Against SSL/TLS. TLSv1.0 and earlier protocols allow attacker to guess what the plain text dereved from the encrypted data looks like. With enough guesses the attacker can get enough information out of the encrypted data to decrypt cookies flowing by. The attack has been batched but the batch is not usually on by default. The attack was found by Juliano Rizzo and Thai Duong. This attack is still a valid one in some cases.
 
 **SLOTH [31]**
 
 SLOTH stands for Security Losses from Obsolete and Truncated Transcript Hashes. Usage of RSA-MD5 in TLSv1.2 leads client authentication to be broken and server authentication to possibly be breakable by a powerful adversary. “Partly as a consequence of this work, the TLS working group has decided to remove RSA-MD5 signatures and truncated handshake hashes from TLS 1.3“. MD5 signatures are still used in TLS today even though it has been known to be cryptographically broken since at least 2005.  Using MD5 means that the security of server signatures is 128 bits but using a transcript collision attack by Karthikeyan Bhargavan and Gaetan Leuren the effective security can be halved to about 64 bits and for other mechanisms such as TLS/SSL client authentication the security losses are even more dramatic.
 
-Before TLSv1.2 the TLS/SSL client authentication signing hash function was always a concatenation of MD5 and RSA. TLSv1.2 allowed clients and servers negotiate algorithms they support and hence both the use of weaker and stronger algorithms. Many libraries and implementations allow the use of RSA-MD5 signatures. Can be used in Man-in-the-middle client impersonation attack using collisions in the use of weak RSA-MD5 signatures. The attack takes up to several hours on Amazon EC2 instances. Attack can also Man-in-the-Middle Credential Forwarding Attack colliding two ClientFinished messages which are 96 bit HMAC hashes. This takes only up to 2^42 HMAC computations to calculate. This attack is important because about [31% of HTTPS servers are currently (2015) willing to send RSA-MD5 server signatures](https://securitypitfalls.wordpress.com/2015/12/07/november-2015-scan-results/). 
+Before TLSv1.2 the TLS/SSL client authentication signing hash function was always a concatenation of MD5 and RSA. TLSv1.2 allowed clients and servers negotiate algorithms they support and hence both the use of weaker and stronger algorithms. Many libraries and implementations (at least the older versions) allow the use of RSA-MD5 signatures. The arrack can be used in Man-in-the-middle client impersonation attack using collisions in the use of weak RSA-MD5 signatures. The attack takes up to several hours on Amazon EC2 instances. Attack can also Man-in-the-Middle Credential Forwarding Attack colliding two ClientFinished messages which are 96 bit HMAC hashes. This takes only up to 2^42 HMAC computations to calculate. This attack is important because about [31% of HTTPS servers are currently (2015) willing to send RSA-MD5 server signatures](https://securitypitfalls.wordpress.com/2015/12/07/november-2015-scan-results/). 
 
 For more detailed information: [Transcript Collision Attacks: Breaking Authentication in TLS, IKE, and SSH] (http://www.mitls.org/downloads/transcript-collisions.pdf) by Karthikeyan Bhargavan and Gaetan Leuren.
 
 **Pandora’s box – KCI [32]**
 
-Key Compromise Impersonation (KCI) vulnerability is a weakness of an authenticated key exchange protocol that allows attacker who has compromised the secret client credentials (e.q. client certificate and corresponding secret key) of a victim to impersonate any server to the compromised client. If an attacker gets to install a client certificate in victim's computer the certificate can be used to also authenticate servers by leveraging the KCI vulnerability of certain cipher suites in TLS. Because the attacker can use client servers to impersonate a server there will be no warning displayed for the user when installing the certificates. All TLS fixed (EC)DH (Elliptic curve Diffie-Hellman) handshakes are vulnerable to KCI.
+Key Compromise Impersonation (KCI) vulnerability is a weakness of an authenticated key exchange protocol that allows attacker who has compromised the secret client credentials (e.q. client certificate and corresponding secret key) of a victim to impersonate any server to the compromised client. If an attacker gets to install a client certificate in victim's computer the certificate can be used to also authenticate servers by leveraging the KCI vulnerability of certain cipher suites in TLS. Because the attacker can use client servers to impersonate a server there will usually be no warning displayed for the user when installing the certificates. All TLS fixed (EC)DH (Elliptic curve Diffie-Hellman) handshakes are vulnerable to KCI.
 
 For more detailed information: [Prying open Pandora's box - KCI attacks against TLS] (https://www.usenix.org/system/files/conference/woot15/woot15-paper-hlauschek.pdf) by Clemens Hlauschek, Markus Gruber, Florian Fankhauser and Christian Schanes.
 
 
-**Freak [35]**
+**FREAK [35]**
 
-Freak (Factoring RSA Export Keys) attack targets a class of deliberately weak export cipher suites. These weak algorithms were introduced under pressure of US governments agencies while stronger algorithms were banned from export. By design an export cipher suite must be less than 512 bits long. It is very easy for an attacker to factore the modulus required to impersonate a server to vulnerable clients.
+FREAK stands for Factoring RSA Export Keys. The attack targets a class of deliberately weak export cipher suites. These weak algorithms were introduced under pressure of US governments agencies while stronger algorithms were banned from export. By design an export cipher suite must be less than 512 bits long. It is very easy for an attacker to factore the modulus required to impersonate a server to vulnerable clients.
 
 For more detailed information and links: [Freak: Factoring RSA Export Keys] (https://mitls.org/pages/attacks/SMACK#freak)
 
 **Logjam [33]**
 
-“The Logjam attack allows a man-in-the-middle attacker to downgrade vulnerable TLS connections to 512-bit export-grade cryptography.” The attack is reminiscent of the Freak attack but is due to a flaw in TLS protocol and attacks DH(Diffie-Hellman) key exchange. 8.4% of the 1 million domains were initially vulnerable. The attack allows man-in-the-middle attacker to downgrade connections towards the server from client and take over the connection towards the client by impersonating the server. With 768 bit, 1024 bit or bigger keys much more time would be needed to implement the attack and thus such attack is not really valid with the current computers. It’s recommended to use primes of 2048 bits or larger because it would take far too many years to calculate the attack.
+“The Logjam attack allows a man-in-the-middle attacker to downgrade vulnerable TLS connections to 512-bit export-grade cryptography.” The attack is reminiscent of the FREAK attack but is due to a flaw in TLS protocol and attacks DH(Diffie-Hellman) key exchange. 8.4% of the 1 million domains were initially vulnerable. The attack allows man-in-the-middle attacker to downgrade connections towards the server from client and take over the connection towards the client by impersonating the server. With 768 bit, 1024 bit or bigger keys much more time would be needed to implement the attack and thus such attack is not really valid with the current computers. It’s recommended to use primes of 2048 bits or larger because it would take far too many years to calculate the attack.
 
 For more detailed information: [Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice] (https://weakdh.org/imperfect-forward-secrecy-ccs15.pdf) by David Adrian , Karthikeyan Bhargavan, Zakir Durumeric, Pierrick Gaudry, Matthew Green, J. Alex Halderman, Nadia Heninger, Drew Springall, Emmanuel Thomé, Luke Valenta, Benjamin VanderSloot, Eric Wustrow, Santiago Zanella-Béguelin and Paul Zimmermann
 
 **Bar Mizvah - Breaking TLS with a 13-year old RC4 Weakness [34]**
 
-“Rivest Cipher 4 (RC4) is the most popular cipher in the world even though it suffers a critical – and long known – weakness known as Invariance Weakness.”. RC4 is not secure. RC4 is one of the simplest cryptographic algorithms. The data encrypted using RC4 is encrypted from the plaintext using pseudo random generated bytes that get XOR-ed with the corresponding plaintext bytes. 
+“Rivest Cipher 4 (RC4) is the most popular cipher in the world even though it suffers a critical – and long known – weakness known as Invariance Weakness”. RC4 is not secure. RC4 is one of the simplest cryptographic algorithms. The data encrypted using RC4 is encrypted from the plaintext using pseudo random generated bytes that get XOR-ed with the corresponding plaintext bytes. 
 
-This attack can be used to mount partial plaintext recovery attacks on TLS/SSL-protected data. Using it one can recover up to 100 bytes of encrypted data. The usage of RC4 is distinguishable from random. During the attack the attacker first sniffs a large number of TLS/SSL connections encrypted with RC4, waiting for a arrival of a weak key. Attacker can then use statistical biases to aggregate tiny pieces of plaintext information using LSBs (least significant bits) of up to a hundred secret bytes. The attack can be used to brute force attack cookies.
+The attack described can be used to mount partial plaintext recovery attacks on TLS/SSL-protected data. Using it one can recover up to 100 bytes of encrypted data. The usage of RC4 is distinguishable from random. During the attack the attacker first sniffs a large number of TLS/SSL connections encrypted with RC4, waiting for an arrival of a weak key. Attacker can then use statistical biases to aggregate tiny pieces of plaintext information using LSBs (least significant bits) of up to a hundred secret bytes. The attack can be used to brute force attack cookies.
+
 
 For more detailed information: [Bar Mizvah - Breaking TLS with a 13-year old RC4 Weakness] (https://www.blackhat.com/docs/asia-15/materials/asia-15-Mantin-Bar-Mitzvah-Attack-Breaking-SSL-With-13-Year-Old-RC4-Weakness-wp.pdf)
 
 **Poodle bites again [36]**
 
-TLS’s padding is a subset of SSLv3 so SSLv3 decoding could be used in TLS and it would not cause any problems in normal operation. However SSLv3 decoding would not check the padding bytes which would make the POODLE attack to work against TLS connections as well. There are sites that are affected by this.
+TLS’s padding is a subset of SSLv3 so SSLv3 decoding could be used in TLS and it would not cause any problems in normal operation. However SSLv3 decoding would not check the padding bytes which would make the POODLE attack to work against TLS connections as well. There are still sites that are affected by this.
 
 For more detailed information: [The 	POODLE bites again] (https://www.imperialviolet.org/2014/12/08/poodleagain.html)
 
@@ -278,13 +281,13 @@ There are many more vulnerabilities found all the time. In OpenSSL alone there h
 
 **Opportunistic security - in the context of communications protocols: [39, 40]**
 
-Normally i.a. SMTP connections either authenticate and encrypt or do nothing special to secure the connection - at least when correctly implemented. The opportunistic security approach allows the use of encryption even when no authentication is available. The handshake between a SMTP server and a client begins with a STARTTLS command. The communication before the command is done in plain text which allows an attacker to prevent the command to have any affect on the connection, meaning even though the client wanted to start using TLS/SSL the attacker can force the client to use plain text if the client does not force the usage of either authentication and encryption or no connection at all. 
+Normally i.a. SMTP connections either authenticate and encrypt or do nothing special to secure the connection - at least when correctly implemented. The opportunistic security approach allows the use of encryption even when no authentication is available. The handshake between a SMTP server and a client begins with a STARTTLS command. The communication before the command is done in plain text which allows an attacker to prevent the command from having any real affect on the connection, meaning even though the client wanted to start using TLS/SSL the attacker can force the client to use plain text if the client does not force the usage of either authentication and encryption or no connection at all. 
 
 “A publicly-referenced SMTP server MUST NOT require use of the STARTTLS extension in order to deliver mail locally.  This rule prevents the STARTTLS extension from damaging the interoperability of the Internet's SMTP infrastructure”
 
 **Minimal Unauthenticated Encryption [1]**
 
-MUE (Minimal Unauthenticated Encryption), i.e. usage of as few round trips as possible. Designed against passive surveillance, does not work against active ones. Offers a fast way within HTTP/2 to cause unauthenticated encryption. The protocol starts encryption within 3 messages (1.5 round trips). There are protocols that can start encrypting with less than that, but their error handling is much more complicated and they can also take sometimes more than just 2 round trips. MUE is negotiated in HTTP/2 headers. The two parties must agree to a shared preliminary key using (anonymous) Diffie-Hellman key agreement and derive the shared keys using agreed-to Key Derivation Function (KDF) and start encrypting messages.
+MUE stands for Minimal Unauthenticated Encryption, i.e. the usage of as few round trips as possible. Designed against passive surveillance. Does not work against active ones. Offers a fast way within HTTP/2 to cause unauthenticated encryption. The protocol starts encryption within 3 messages (1.5 round trips). There are protocols that can start encrypting with less than that, but their error handling is much more complicated and they can also take sometimes more than just 2 round trips. MUE is negotiated in HTTP/2 headers. The two parties must agree to a shared preliminary key using (anonymous) Diffie-Hellman key agreement and derive the shared keys using agreed-to Key Derivation Function (KDF) and start encrypting messages.
 
 The client is always the one who decides whether to start encrypting or not. The server can always Reject the encryption if it either doesn’t want to start encrypting with the client or doesn’t support any of the algorithms available. Doing encryption in the HTTP/2 means also that when moving to encrypt the connection changing port is not needed, the port 80 can still be used. MUE is only for HTTP but there is no security problem using HTTP that is carried under TLS.
 
@@ -296,12 +299,11 @@ For more detailed information: https://www.normalesup.org/~fbenhamo/files/public
 
 **Others:**
 
-There are many more protocols and approaches developed to be used either combined within or without TLS/SSL. Some of these are more secure and the others are less. The main scope of this thesis is in secure communications over TLS/SSL so this thesis won’t be getting much deeper into the protocol soup at hand for now.
+There are many more protocols and approaches developed to be used either within or without TLS/SSL. Some of them are more secure and the others are less. The main scope of this thesis is in secure communications over TLS/SSL so this thesis won’t be getting much deeper into the protocol soup at hand for now.
 
 ### 2.6. TLS testing
 
-No matter what internet protocol(s) you are using with TLS protocol. The handshake part is almost always the same or at least a similar one. The protocol version, cipher suite, etc. get chosen during the handshaking. If the connection gets established the two participants - the client and the server - are to use the configuration negotiated in the TLS handshake part of the connection. The actual data exchange (record) part of the connection is done differently when using different protocols. The record protocol is mostly out of the scope of this thesis, so we won’t be getting into it too closely.
-
+No matter what internet protocol(s) you are using with TLS protocol. The handshake part is almost always the same or at least a similar one. The protocol version, cipher suite, etc. get chosen during the handshaking. If the connection gets established the two participants - the client and the server - are to use the configuration negotiated. The actual data exchange (record) part of the connection is done differently when using different protocols. The record protocol is mostly out of the scope of this thesis.
 
 **Introduction into TLS-testing**
 
@@ -313,16 +315,15 @@ TLS/SSL testing via connection analysis consists of two essential things - clien
 
 **Server side testing**
 
-Server side testing means that the information is processed on the server side. The client is trying to create connection and either does not want to know the result of the tests or does not want to know the result until the end of all the tests. The server on the other hand collects all the interesting data available. 
+Server side testing means that the information is mainly processed on the server side. The client is trying to create a connection and either does not want to know the result of the tests or does not want to know the result until the end of all the tests. The server on the other hand collects all the interesting data available.
 
-The server can reason out what client supports and what it does not by observing both the connections established and the packets received. If a connection does not get established, the client either does not support the used configurations on the servers or the client does not want to connect to the server which is using broken or otherwise unsupported or unavailable 
-certificates. If the connection does not get established the server cannot necessarily always be sure why the client was unable to connect. That is because the server does not always know whether if the client for example lost Internet connection or if the client could not support the proposed cipher suites (even though the client may have been telling otherwise) or terminated the connection for any other reason without even telling why.
+The server can reason out what client supports and what it does not by observing both the connections established and the packets received. If a connection does not get established, the client either does not support the used configurations on the servers or the client does not want to connect to the server which is using broken or otherwise unsupported or unavailable certificates. If the connection does not get established the server cannot necessarily always be sure why the client was unable to connect. That is because the server does not always know whether if the client for example lost Internet connection or if the client could not support the proposed cipher suites (even though the client may have been telling otherwise) or terminated the connection for any other reason without even telling why.
 
-The results get either sent back to the client or saved on the server after and during the connection. For example: QUALYS SSL LABS [15] offers free of charge tests for browsers. The result is sent back to the client after the tests and most likely also saved on the server side as well.
+The results get either sent back to the client or saved on the server after and during the connection. The result is sent back to the client after the tests and most likely also saved on the server side as well. For example: QUALYS SSL LABS offers free of charge tests for browsers [15].
 
 **Client side testing**
 
-Client side testing means that the information is processed at least on the client side. The client knows in most cases only what is on the server side behind certain ports or hosts. The client tries to connect to the server as it did when doing the server side testing. If and when the connection gets established the client knows what it (the client) supports or does not support or at least does not advertise the support for. The configuration on the server can of course be either a secure or insecure one. The result is saved at least on the client host (computer) but most likely in a form or another on the servers as well.
+Client side testing means that the information is processed at least on the client side. The client knows in most cases only what is on the server side behind certain ports or hosts. The client then tries to connect to the servers as it did when doing the server side testing. If and when the connection gets established the client knows what it (the client) supports or does not support or at least does not advertise the support for. The configuration on the server can of course be either a secure or a insecure one. The result is saved at least on the client side but most likely in a form or another on the servers as well.
 
 There are tools that by using them client can check whether if it is vulnerable to certain attacks. There are also tools that let browsers to know what TLS/SSL protocol versions and cipher suites the used user agent supports. For example: QUALYS SSL LABS [15]. 
 
@@ -332,7 +333,7 @@ This thesis will mostly concentrate on the tools that test whether client suppor
 
 One way of telling whether client (or server) supports insecure (or secure) connections is man in the middle kind of approach to the problem at hand. The man in the middle sniffs the packets flowing by and reads what either the client or the server supports (and does not). The sniffing can be performed either on the client side, on the server side or in the middle of the both (in some cases). Of course this is in some ways much more difficult approach and thus not valid in most cases.
 
-The server and the client exchange cipher suites, TLS/SSL version information and certificates in plain text [16] and hence the information required to determine what the client supports (and does not) can be determined from the packets relatively easily. By using the man in the middle approach it is not always possible to figure out what the server supports. That is because of the fact that the server does not necessarily need to send anything but the information the client requires to be able to determine whether if it can connect to the server or not and by using what configuration of cipher suites, protocols and so on.
+The server and the client exchange cipher suites, TLS/SSL version information and certificates in plain text and hence the information required to determine what the client supports (and does not) can be determined from the packets. By using the man in the middle approach it is not always possible to figure out what the server supports. That is because of the fact that the server does not necessarily need to send anything but the information the client requires to be able to determine whether if it can connect to the server or not and by using what configuration of cipher suites, protocols and so on. [16]
 
 Figure 2. Main ways for testing TLS/SSL in action.
 ![ways_to_test_ssl](pictures/ways_to_test_ssl.png)
@@ -341,9 +342,9 @@ Figure 2. Main ways for testing TLS/SSL in action.
 
 #### 2.7.1 Overview
 
-**Server**
+**Server [3]**
 
-There are many tools for testing if server is doing TLS securely. Using for example Wormly Web Server Tester one can get a good overview about the security of a URL. There are also tools for checking the certificate signing request like Symantec SSL Toolbox or OpenSSL provided tools. This is useful to do before asking CA to sign a certificate [3]. There are many more tools but they are mostly outside of the main scope of this thesis or at least outside of this overview. 
+There are many tools for testing if server is doing TLS securely. Using for example Wormly Web Server Tester one can get a good overview about the security of a URL. There are also tools for checking the certificate signing request like Symantec SSL Toolbox or OpenSSL provided tools. This is useful to do before asking CA to sign a certificate. There are many more tools but they are mostly outside of the main scope of this thesis or at least outside of this overview. 
 
 **Client**
 
@@ -358,7 +359,6 @@ BADSSL is one of the few sites/servers to which you can try to connect and manua
 **QUALYS SSL LABS [15, 25]**
 
 QUALYS SSL LABS offers free of charge tests mainly for browsers. They have also many more projects going on. They offer deep analysis of the configuration of any TLS/SSL web server on the public Internet and have documents, surveys and many different analysis tools for TLS/SSL testing.
-
 
 **WORMLY - FREE DIAGNOSTIC TOOLS [26]**
 
@@ -388,7 +388,7 @@ SSL Finder:                 Tool for finding best match TLS product [30]
 
 ### 2.8. Problems with the current testing approaches
 
-The current tools that check whether if the client supports insecure configurations need at least mostly internet connection to work properly. The tools I am talking about are mostly internet sites. There are also tools for checking Certificates. But there are not many tools for checking whether if client checks the certificates correctly or not. With BADSSL and TryTLS one can of course do just that. [3]
+The current tools that check whether if the client supports insecure configurations need at least mostly internet connection to work properly and that can be seen as a problem in some cases. The tools I am talking about are mostly internet sites. There are also tools for checking Certificates. But there are not many tools for checking whether if client checks the certificates correctly or not. With BADSSL and TryTLS one can of course do just that. [3]
 
 Most of the current approaches are also in a way more difficult to reconfigure for the needs of individuals. TryTLS tries to make the process on reconfiguration as easy as possible. Obviously as seen there are already tools that provide at least some sort of testing environment for TLS clients to test on but they are in one way or another different from the TryTLS backend and as it often times is with testing tools – There are newer too many of them.
 
@@ -403,9 +403,9 @@ In this thesis term ‘connection’ refers mostly to a TCP connection between a
 
 ### 3.2. Tools used
 
-**Docker [5]** 
+**Docker [5, 17]** 
 
-Docker is a virtualization software [17]. It is an open source project to pack, ship and run any application as a lightweight container. Docker relies on a sandboxing method called containerization. Docker containers wrap a piece of software in a complete file system. Docker containers are small and the performance overhead is almost zero. Containers are also completely portable and the design is application-centric instead of being hardware-centric as the traditional virtualization methods tend to be. Docker operates at the OS level, so it can even be ran inside a VM (Virtual Machine). Docker can be used on multiple Operating Systems such as Linux, Windows and Mac. It can be ran on any infrastructure. The containers are also isolated from one another by default.
+Docker is a virtualization software. It is an open source project to pack, ship and run any application as a lightweight container. Docker relies on a sandboxing method called containerization. Docker containers wrap a piece of software in a complete file system. Docker containers are small and the performance overhead is almost zero. Containers are also completely portable and the design is application-centric instead of being hardware-centric as the traditional virtualization methods tend to be. Docker operates at the OS level, so it can even be ran inside a VM (Virtual Machine). Docker can be used on multiple Operating Systems such as Linux, Windows and Mac. It can be ran on any infrastructure. The containers are also isolated from one another by default.
 
 In the TryTLS backend the nginx servers and files required to run the servers are placed inside a docker container. Docker provides an easy way to ship the backend from one computer to another. Using docker to virtualize servers assures very short maintenance breaks when updating the servers. The servers need to be shut down only when rebuilding and restarting the containers (servers).
 
@@ -422,7 +422,7 @@ Nginx is used by many of the most popular sites like Netflix. Nginx open source 
 
 **Openssl [8]**
 
-Openssl is and Open source project. It is a toolkit for TLS and SSL protocols. It also comes with a general-purpose cryptography library. Openssl is used in TryTLS backend to generate the self signed certificates used. Openssl is also used in Nginx servers. Openssl is one of the most popular libraries used in TLS both in server- and client side.
+Openssl is and Open source project. It is a toolkit for TLS and SSL protocols. It also comes with a general-purpose cryptography library. Openssl is used in TryTLS backend to generate the self signed certificates used. Openssl is also used in Nginx servers. Openssl is one of the most popular libraries used in TLS both in server and client sides.
 
 ### 3.3. Setting up servers
 
@@ -563,8 +563,6 @@ Picture 5. Using Wireshark to check what cipher suites client (Mono + .Net + FSh
 
 There are already newer versions of Mono available on [github](https://github.com/mono) [46]. When running the tests with Mono - version 4.5 or above - the output of the tests looks pretty similar to that of the python3-urllib tests. It is important you updated Mono before using C#, F# or other Mono depended languages if you want to use them safely. Similar kind of behavior can be seen with older versions of OpenSSL (tested on Ubuntu 16.04 default version with c-OpenSSL stub) and other libraries. It is recommended to update the libraries about to be used before any serious usage.
 
-
-
 **Server side**
 
 As it can be seen below the data could be gathered and processed on the server side if wanted. Obviously just by saving the log files it could be later on reasoned out with pretty good accuracy what the client that tried to connect supports and what it does not.
@@ -576,9 +574,9 @@ Picture 6. Test run against TryTLS backend using BashTLS-runner and python3-urll
 
 ### 5.1. Generally
 
-There are quite a few tools for checking TLS support and behavior of libraries already but there are neither many good tools that use the combined power of different testing methods and results available efficiently nor the best possible documentations how to use the already existing tools to gain the best results possible or at least there used not to be. There are researches going on trying to gather information about existing tools and vulnerabilities, for example: SSL Labs has been doing this among other things since 2009 and will hopefully keep up the good work [19].
+There are quite a few tools for checking TLS support and behavior of libraries already but there are neither many good tools that use the combined power of different testing methods and results available efficiently nor the best possible documentations how to use the already existing tools to gain the best results possible or at least there used not to be. There are researches going on trying to gather information about existing tools and vulnerabilities, for example: SSL Labs has been doing this among other things since 2009 and will hopefully keep up the good work. [19]
 
-There are still network UI (User Interface) clients that use SSLv2, SSLv3 or TLSv1.0 - many of the used libraries do this by default if not updated correctly - even though there are a lot of issues and vulnerabilities like DROWN attack (SSLv2), POODLE attack (SSLv3) and possibility for BEAST attack (TLSv1) if not mitigated correctly. TLSv1.1 and TLSv1.2 are still without known serious security issues and it’s recommended to support at least the usage of TLSv1.2 because only it provides modern cryptographic algorithm. The fact that the TLSv1.1 and TLSv1.2 are without known security issues does not necessarily mean that there aren’t any or at least that there won’t be any in the future [19].
+There are still network UI (User Interface) clients that use SSLv2, SSLv3 or TLSv1.0 - many of the used libraries do this by default if not updated correctly - even though there are a lot of issues and vulnerabilities like DROWN attack (SSLv2), POODLE attack (SSLv3) and possibility for BEAST attack (TLSv1) if not mitigated correctly. TLSv1.1 and TLSv1.2 are still without known serious security issues and it’s recommended to support at least the usage of TLSv1.2 because only it provides modern cryptographic algorithm. The fact that the TLSv1.1 and TLSv1.2 are without known security issues does not necessarily mean that there aren’t any or at least that there won’t be any in the future. [19]
 
 In the future it’s important to research new ways to make TLS more secure, more efficient and especially more widely used protocol. The currently most popular TLS protocol versions and algorithms should be researched in the future. Even the old protocols such as TLSv1.0 should still be researched because they are still widely used. The currently running TLS-testing sites/servers should also be updated as the evolution of TLS and secure Internet goes forward.
 
@@ -621,94 +619,94 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 
 ## 7. References
 
-[1] P. Hoffman. VPN Consortium. (2013). "Draft-Hoffman-Httpbis-Minimal-Unauth-Enc-01 - Minimal Unauthenticated Encryption (MUE) For HTTP/2". Tools.ietf.org. N.p., 2016. Web. 15 July 2016. Available: https://tools.ietf.org/html/draft-hoffman-httpbis-minimal-unauth-enc-01
+[1] P. Hoffman. VPN Consortium. "Draft-Hoffman-Httpbis-Minimal-Unauth-Enc-01 - Minimal Unauthenticated Encryption (MUE) For HTTP/2". Tools.ietf.org. Available: https://tools.ietf.org/html/draft-hoffman-httpbis-minimal-unauth-enc-01 [Accessed 15 Jul. 2016].
 
-[2] T. Dierks. E. Rescorla. RTFM, Inc. (2008). RFC 5246. - The Transport Layer Security (TLS) Protocol Version 1.2". Tools.ietf.org. N.p., 2016. Web. 11 July 2016. Available: https://tools.ietf.org/html/rfc5246 pp. 32-33
+[2] T. Dierks. E. Rescorla. RTFM, Inc. RFC 5246. - The Transport Layer Security (TLS) Protocol Version 1.2". Tools.ietf.org.  Available: https://tools.ietf.org/html/rfc5246 pp. 32-33 [Accessed 11 Jul. 2016].
 
-[3] C. Kumar. (2016). Infrastructure, Web et al. "10 Online Tool To Test SSL, TLS & Latest Vulnerability". Geek Flare. N.p., 2015. Web. 11 July 2016. Available:  https://geekflare.com/ssl-test-certificate/
+[3] C. Kumar. Infrastructure, Web et al. "10 Online Tool To Test SSL, TLS & Latest Vulnerability". Geek Flare. Available:  https://geekflare.com/ssl-test-certificate/ [Accessed 11 Jul. 2016].
 
-[4] "Badssl.Com". Badssl.com. N.p., 2016. Web. 11 July 2016. Available:  https://badssl.com/
+[4] "Badssl.Com". Badssl.com. Available:  https://badssl.com/ [Accessed 11 Jul. 2016].
 
-[5] "What Is Docker?". Docker. N.p., 2015. Web. 11 July 2016. Available: https://www.docker.com/what-docker
+[5] "What Is Docker?". Docker. Available: https://www.docker.com/what-docker [Accessed 11 Jul. 2016].
 
-[6] "Bash - GNU Project - Free Software Foundation". Gnu.org. N.p., 2016. Web. 11 July 2016. Available: https://www.gnu.org/software/bash/
+[6] "Bash - GNU Project - Free Software Foundation". Gnu.org. Available: https://www.gnu.org/software/bash/ [Accessed 11 Jul. 2016].
 
-[7] "Nginx". Nginx.org. N.p., 2016. Web. 11 July 2016. Available: https://nginx.org/en/
+[7] "Nginx". Nginx.org. Available: https://nginx.org/en/ [Accessed 11 Jul. 2016].
 
-[8] OpenSSL Foundation, Inc. "Openssl". Openssl.org. N.p., 2016. Web. 11 July 2016. Available: https://www.openssl.org/
+[8] OpenSSL Foundation, Inc. "Openssl". Openssl.org. Available: https://www.openssl.org/ [Accessed 11 Jul. 2016].
 
-[9] "Vsftpd - Secure, Fast FTP Server For UNIX-Like Systems". Security.appspot.com. N.p., 2016. Web. 11 July 2016. Available: https://security.appspot.com/vsftpd.html
+[9] "Vsftpd - Secure, Fast FTP Server For UNIX-Like Systems". Security.appspot.com. Available: https://security.appspot.com/vsftpd.html [Accessed 11 Jul. 2016].
 
-[10] "Curl - SSL Libraries Compared". Curl.haxx.se. N.p., 2016. Web. 11 July 2016. Available: https://curl.haxx.se/docs/ssl-compared.html
+[10] "Curl - SSL Libraries Compared". Curl.haxx.se. Available: https://curl.haxx.se/docs/ssl-compared.html [Accessed 11 Jul. 2016].
 
-[11] "Testing For Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection (OTG-CRYPST-001) - OWASP". Owasp.org. N.p., 2016. Web. 11 July 2016. Available:   https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_(OTG-CRYPST-001)
+[11] "Testing For Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection (OTG-CRYPST-001) - OWASP". Owasp.org. Available:   https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_(OTG-CRYPST-001) [Accessed 11 Jul. 2016].
 
-[12]  GMO GlobalSign Inc. N.p., 2016. Web. 11 July 2016. Available: https://www.globalsign.com/en/resources/white-paper-ssl-secure-server-certificates.pdf And Tools.ietf.org. (2016). RFC 5280 - Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. [online] Available at: https://tools.ietf.org/html/rfc5280 [Accessed 20 Jul. 2016].
+[12]  GMO GlobalSign Inc. Available: https://www.globalsign.com/en/resources/white-paper-ssl-secure-server-certificates.pdf And Tools.ietf.org. (2016). RFC 5280 - Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. [online] Available at: https://tools.ietf.org/html/rfc5280 [Accessed 20 Jul. 2016].
 
-[13] "Why SSL? The Purpose Of Using SSL Certificates". Sslshopper.com. N.p., 2016. Web. 11 July 2016. Available: https://www.sslshopper.com/why-ssl-the-purpose-of-using-ssl-certificates.html
+[13] "Why SSL? The Purpose Of Using SSL Certificates". Sslshopper.com. Available: https://www.sslshopper.com/why-ssl-the-purpose-of-using-ssl-certificates.html [Accessed 11 Jul. 2016].
 
-[14] Matthew Prince. (2014). "Introducing Universal SSL". CloudFlare. N.p., 2014. Web. 11 July 2016. Available: https://blog.cloudflare.com/introducing-universal-ssl/
+[14] Matthew Prince. (2014). "Introducing Universal SSL". CloudFlare. Available: https://blog.cloudflare.com/introducing-universal-ssl/ [Accessed 11 Jul. 2016].
 
-[15] "Qualys SSL Labs". Ssllabs.com. N.p., 2016. Web. 11 July 2016. Available: https://www.ssllabs.com
+[15] "Qualys SSL Labs". Ssllabs.com. Available: https://www.ssllabs.com [Accessed 11 Jul. 2016].
 
-[16] Sarath Pillai. (2013). "Understanding SSL Handshake Protocol". slashroot.in. N.p., 2016. Web. 11 July 2016. Available: http://www.slashroot.in/understanding-ssl-handshake-protocol
+[16] Sarath Pillai. (2013). "Understanding SSL Handshake Protocol". slashroot.in. Available: http://www.slashroot.in/understanding-ssl-handshake-protocol [Accessed 11 Jul. 2016].
 
-[17] "Docker/Docker". GitHub. N.p., 2016. Web. 11 July 2016. Available:  https://github.com/docker/docker
+[17] "Docker/Docker". GitHub. Available:  https://github.com/docker/docker [Accessed 11 Jul. 2016].
 
-[18] "Google/Badssl.Com". GitHub. N.p., 2016. Web. 11 July 2016. Available:  https://github.com/google/badssl.com
+[18] "Google/Badssl.Com". GitHub. Available:  https://github.com/google/badssl.com [Accessed 11 Jul. 2016].
 
-[19] "Ssllabs/Research". GitHub. N.p., 2016. Web. 11 July 2016. Available:  https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices
+[19] "Ssllabs/Research". GitHub. Available:  https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices [Accessed 11 Jul. 2016].
 
-[20] Sarah Madden. Christian Dresen. (2016). "DROWN Attack". Drownattack.com. N.p., 2016. Web. 11 July 2016. Available: https://drownattack.com/
+[20] Sarah Madden. Christian Dresen. "DROWN Attack". Drownattack.com. Available: https://drownattack.com/ [Accessed 11 Jul. 2016].
 
-[21] POODLE. (2014). "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. N.p., 2016. Web. 11 July 2016. Available: https://www.us-cert.gov/ncas/alerts/TA14-290A
+[21] POODLE. "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. Available: https://www.us-cert.gov/ncas/alerts/TA14-290A [Accessed 11 Jul. 2016].
 
-[22] Duong, Thai. (2011). "Thái: BEAST". Vnhacker.blogspot.fi. N.p., 2011. Web. 11 July 2016. Available: https://vnhacker.blogspot.fi/2011/09/beast.html
+[22] Duong, Thai. "Thái: BEAST". Vnhacker.blogspot.fi. Available: https://vnhacker.blogspot.fi/2011/09/beast.html [Accessed 11 Jul. 2016].
 
-[23] OpenSSL Foundation, Inc. "Openssl". Openssl.org. N.p., 2016. Web. 11 July 2016. URL: https://www.openssl.org/news/vulnerabilities.html
+[23] OpenSSL Foundation, Inc. "Openssl". Openssl.org. Available: https://www.openssl.org/news/vulnerabilities.html [Accessed 11 Jul. 2016].
 
-[24]  DCSEC research group at Leibniz University Hannover. "SSL Cipher Suites Supported By Your Browser". Cc.dcsec.uni-hannover.de. N.p., 2016. Web. 11 July 2016. Available: https://cc.dcsec.uni-hannover.de/
+[24]  DCSEC research group at Leibniz University Hannover. "SSL Cipher Suites Supported By Your Browser". Cc.dcsec.uni-hannover.de.  Available: https://cc.dcsec.uni-hannover.de/ [Accessed 11 Jul. 2016].
 
-[25] Qualys, Inc. "Qualys SSL Labs - Projects". Ssllabs.com. N.p., 2016. Web. 12 July 2016. Available: https://www.ssllabs.com/projects/index.html
+[25] Qualys, Inc. "Qualys SSL Labs - Projects". Ssllabs.com. Available: https://www.ssllabs.com/projects/index.html [Accessed 12 Jul. 2016].
 
-[26] "Server Monitoring, Web Site Monitoring And Uptime Monitoring - Wormly". Wormly.com. N.p., 2016. Web. 12 July 2016. Available: https://www.wormly.com/
+[26] "Server Monitoring, Web Site Monitoring And Uptime Monitoring - Wormly". Wormly.com. Available: https://www.wormly.com/ [Accessed 12 Jul. 2016].
 
-[27]  Symantec Corporation. "Symantec - Global Leader In Next-Generation Cyber Security | Symantec". Symantec.com. N.p., 2016. Web. 12 July 2016. Available: https://www.symantec.com/
+[27]  Symantec Corporation. "Symantec - Global Leader In Next-Generation Cyber Security | Symantec". Symantec.com. Available: https://www.symantec.com/ [Accessed 12 Jul. 2016].
 
-[28] "Sslsmart | Mcafee Free Tools". Mcafee.com. N.p., 2016. Web. 12 July 2016. Available: http://www.mcafee.com/us/downloads/free-tools/sslsmart.aspx
+[28] "Sslsmart | Mcafee Free Tools". Mcafee.com. Available: http://www.mcafee.com/us/downloads/free-tools/sslsmart.aspx [Accessed 12 Jul. 2016].
 
-[29] "SSL Digital Certificate Authority - Encryption & Authentication". Digicert.com. N.p., 2016. Web. 12 July 2016. Available: https://www.digicert.com/
+[29] "SSL Digital Certificate Authority - Encryption & Authentication". Digicert.com. Available: https://www.digicert.com/ [Accessed 12 Jul. 2016].
 
-[30] ClickSSL. "SSL Tools". SSL Certificates by ClickSSL - Cheap Price, Best Quality & Support. N.p., 2013. Web. 12 July 2016. Available: https://www.clickssl.net/ssl-tools
+[30] ClickSSL. "SSL Tools". SSL Certificates by ClickSSL - Cheap Price, Best Quality & Support. Available: https://www.clickssl.net/ssl-tools [Accessed 12 Jul. 2016].
 
-[31] INRIA Paris. INRIA Paris. (2015). "Mitls, Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. N.p., 2016. Web. 13 July 2016.
+[31] INRIA Paris. INRIA Paris. "Mitls, Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. [Accessed 13 Jul. 2016].
 
-[32] Clemens Hlauschek, Markus Gruber, Florian Fankhauser and Christian Schanes. (2015) Prying open Pandora’s box: KCI attacks against TLS. Available: https://www.usenix.org/system/files/conference/woot15/woot15-paper-hlauschek.pdf
+[32] Clemens Hlauschek, Markus Gruber, Florian Fankhauser and Christian Schanes. Prying open Pandora’s box: KCI attacks against TLS. Available: https://www.usenix.org/system/files/conference/woot15/woot15-paper-hlauschek.pdf [Accessed 12 Jul. 2016].
 
-[33] David Adrian , Karthikeyan Bhargavan, Zakir Durumeric, Pierrick Gaudry, Matthew Green, J. Alex Halderman, Nadia Heninger, Drew Springall, Emmanuel Thomé, Luke Valenta, Benjamin VanderSloot, Eric Wustrow, Santiago Zanella-Béguelin and Paul Zimmermann. (2015). "Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice". Available: https://weakdh.org/imperfect-forward-secrecy-ccs15.pdf and https://weakdh.org/
+[33] David Adrian , Karthikeyan Bhargavan, Zakir Durumeric, Pierrick Gaudry, Matthew Green, J. Alex Halderman, Nadia Heninger, Drew Springall, Emmanuel Thomé, Luke Valenta, Benjamin VanderSloot, Eric Wustrow, Santiago Zanella-Béguelin and Paul Zimmermann. "Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice". Available: https://weakdh.org/imperfect-forward-secrecy-ccs15.pdf and https://weakdh.org/ [Accessed 13 Jul. 2016].
 
-[34] Blackhat asia-15. (2015). Bar Mizvah - Breaking SSL with a 13-year old RC4 Weakness. Available: https://www.blackhat.com/docs/asia-15/materials/asia-15-Mantin-Bar-Mitzvah-Attack-Breaking-SSL-With-13-Year-Old-RC4-Weakness-wp.pdf
+[34] Blackhat asia-15. Bar Mizvah - Breaking SSL with a 13-year old RC4 Weakness. Available: https://www.blackhat.com/docs/asia-15/materials/asia-15-Mantin-Bar-Mitzvah-Attack-Breaking-SSL-With-13-Year-Old-RC4-Weakness-wp.pdf [Accessed 13 Jul. 2016].
 
-[35] "Mitls, (2015), Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. N.p., 2016. Web. 13 July 2016. https://mitls.org/pages/attacks/SMACK#freak
+[35] "Mitls, (2015), Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. [Accessed 13 Jul. 2016]. https://mitls.org/pages/attacks/SMACK#freak
 
-[36] Langley, Adam. (2014) "Imperialviolet - The POODLE Bites Again". Imperialviolet.org. N.p., 2016. Web. 13 July 2016.
+[36] Langley, Adam. (2014) "Imperialviolet - The POODLE Bites Again". Imperialviolet.org. [Accessed 13 Jul. 2016].
 
-[37] "CVE -CVE-2014-0160". Cve.mitre.org. N.p., 2016. Web. 13 July 2016.
+[37] "CVE -CVE-2014-0160". Cve.mitre.org. [Accessed 13 Jul. 2016].
 
-[38] Kelsey, John. (2016) "Compression And Information Leakage Of Plaintext". Fast Software Encryption (2002): 263-276. Web. 13 July 2016. https://en.wikipedia.org/wiki/CRIME and https://en.wikipedia.org/wiki/CRIME#References
+[38] Kelsey, John. "Compression And Information Leakage Of Plaintext". Fast Software Encryption: 263-276. https://en.wikipedia.org/wiki/CRIME and https://en.wikipedia.org/wiki/CRIME#References [Accessed 13 Jul. 2016].
 
-[39] V. Dukhovni. Two Sigma. (2014). "Draft-Dukhovni-Opportunistic-Security-06 - Opportunistic Security: Some Protection Most Of The Time". Tools.ietf.org. N.p., 2016. Web. 14 July 2016. Available: https://tools.ietf.org/html/draft-dukhovni-opportunistic-security-06
+[39] V. Dukhovni. Two Sigma. "Draft-Dukhovni-Opportunistic-Security-06 - Opportunistic Security: Some Protection Most Of The Time". Tools.ietf.org. Available: https://tools.ietf.org/html/draft-dukhovni-opportunistic-security-06 [Accessed 14 Jul. 2016].
 
-[40] Facebook. (2014). "The Current State Of SMTP STARTTLS Deployment". M.facebook.com. N.p., 2016. Web. 15 July 2016. Available: https://m.facebook.com/notes/protect-the-graph/the-current-state-of-smtp-starttls-deployment/1453015901605223/
+[40] Facebook. (2014). "The Current State Of SMTP STARTTLS Deployment". M.facebook.com. Available: https://m.facebook.com/notes/protect-the-graph/the-current-state-of-smtp-starttls-deployment/1453015901605223/ [Accessed 15 Jul. 2016].
 
-[41] Michel Abdalla. Fabrice Benhamouda. Philip MacKenzie. (2016). "Security of the J-PAKE Password-Authenticated Key Exchange Protocol". Available: https://www.normalesup.org/~fbenhamo/files/publications/SP_AbdBenMac15.pdf
+[41] Michel Abdalla. Fabrice Benhamouda. Philip MacKenzie. "Security of the J-PAKE Password-Authenticated Key Exchange Protocol". Available: https://www.normalesup.org/~fbenhamo/files/publications/SP_AbdBenMac15.pdf [Accessed 22 Jul. 2016].
 
-[42] Mono. (2016) "Home | Mono". Mono-project.com. N.p., 2016. Web. 17 July 2016. Available: http://www.mono-project.com/
+[42] Mono. (2016) "Home | Mono". Mono-project.com. Available: http://www.mono-project.com/ [Accessed 22 Jul. 2016].
 
-[43] Nuwer, R. (2016). The last places on Earth without the internet. [online] Bbc.com. Available: http://www.bbc.com/future/story/20140214-the-last-places-without-internet [Accessed 19 Jul. 2016].
+[43] Nuwer, R. The last places on Earth without the internet. [online] Bbc.com. Available: http://www.bbc.com/future/story/20140214-the-last-places-without-internet [Accessed 19 Jul. 2016].
 
-[44] Network Working Group. Network Working Group. Tools.ietf.org. (2016). draft-ietf-tls-tls13-07 - The Transport Layer Security (TLS) Protocol Version 1.3. [online] Available: https://tools.ietf.org/html/draft-ietf-tls-tls13-07 [Accessed 20 Jul. 2016]. And  Tlswg.github.io. (2016). The Transport Layer Security (TLS) Protocol Version 1.3. [online] Available: https://tlswg.github.io/tls13-spec/ [Accessed 20 Jul. 2016].
+[44] Network Working Group. Network Working Group. Tools.ietf.org. draft-ietf-tls-tls13-07 - The Transport Layer Security (TLS) Protocol Version 1.3. [online] Available: https://tools.ietf.org/html/draft-ietf-tls-tls13-07 [Accessed 20 Jul. 2016]. And  Tlswg.github.io. The Transport Layer Security (TLS) Protocol Version 1.3. [online] Available: https://tlswg.github.io/tls13-spec/ [Accessed 20 Jul. 2016].
 
-[45] Pubs.opengroup.org. (2016). Shell Command Language. [online] Available: http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html [Accessed 22 Jul. 2016].
+[45] Pubs.opengroup.org. Shell Command Language. [online] Available: http://pubs.opengroup.org/onlinepubs/009695399/utilities/xcu_chap02.html [Accessed 22 Jul. 2016].
 
-[46] GitHub. (2016). Mono Project. [online] Available: https://github.com/mono [Accessed 22 Jul. 2016].
+[46] GitHub. Mono Project. [online] Available: https://github.com/mono [Accessed 22 Jul. 2016].
