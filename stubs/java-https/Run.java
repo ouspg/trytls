@@ -21,9 +21,9 @@ public class Run{
 			url = new URL(https_url);
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
 			con.getResponseCode();
-			System.out.println("VERIFY SUCCESS");
+			System.out.println("VERIFY ACCEPT");
 		} catch (javax.net.ssl.SSLHandshakeException|javax.net.ssl.SSLKeyException|javax.net.ssl.SSLProtocolException e) {
-			System.out.println("VERIFY FAILURE");
+			System.out.println("VERIFY REJECT");
 		} catch (Exception e) {
 			System.out.println(e);
 			System.exit(3);

@@ -55,7 +55,7 @@ main = do
   _ <- catch (doGet request manager)
              (\(TlsExceptionHostPort e _ _) -> do
                  print e
-                 putStrLn "VERIFY FAILURE"
+                 putStrLn "VERIFY REJECT"
                  exitSuccess
              )
   return ()
@@ -66,7 +66,7 @@ main = do
           code   = statusCode status
           msg    = statusMessage status
       putStrLn (show code ++" "++ unpack msg)
-      putStrLn "VERIFY SUCCESS"
+      putStrLn "VERIFY ACCEPT"
       exitSuccess
 
 

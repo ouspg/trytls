@@ -44,13 +44,13 @@ try {
 } catch (Exception $e) {
   // echo $e->getMessage() . "\n";
   // bail out early here and don't tust return value only
-  echo ("VERIFY FAILURE" . "\n");
+  echo ("VERIFY REJECT" . "\n");
   exit(0);
 }
 
 if ($page) {
-  echo ("VERIFY SUCCESS" . "\n");
+  echo ("VERIFY ACCEPT" . "\n");
 } else {
-  echo ("VERIFY FAILURE" . "\n");
+  echo ("VERIFY REJECT" . "\n");
 }
 ?>

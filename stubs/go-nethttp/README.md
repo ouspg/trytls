@@ -19,7 +19,7 @@
 
 | TLS verification result     | Exit code |
 | ----------------------------| --------- |
-| SUCCESS/FAILURE             | 0         |
+| ACCEPT/REJECT             | 0         |
 | ERROR                       | 1         |
 
 More information about error may be available on standard output.
@@ -34,9 +34,9 @@ Example:
 
 ```shell
 $ go run run.go https://badssl.com/
-VERIFY SUCCESS
+VERIFY ACCEPT
 $ go run run.go https://untrusted-root.badssl.com/
-VERIFY FAILURE
+VERIFY REJECT
 ```
 
 # Dependencies:

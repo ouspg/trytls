@@ -62,9 +62,9 @@ connect:
   BIO_set_conn_hostname(sbio, url);
   status = SSL_do_handshake(ssl);
   if(status <= 0) {
-    printf ("VERIFY FAILURE\n");
+    printf ("VERIFY REJECT\n");
   } else {
-    printf ("VERIFY SUCCESS");
+    printf ("VERIFY ACCEPT");
   }
 
 connect_end:
