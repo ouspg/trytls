@@ -145,7 +145,7 @@ connect()
       #status="OK?"
     fi
   else
-    response=`  $command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
+    response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
   fi
 
   #choose color
