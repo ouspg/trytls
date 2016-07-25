@@ -1,11 +1,13 @@
 #!/bin/bash
 
-datapath="info"
+datapath=`pwd`/info
 mkdir $datapath >> /dev/null 2>&1
 
 #vars
 info=$1
 timeout=$2
+
+
 
 #multiple processes per stub per driver
 if [[ $info && $info != "--" ]]; then
