@@ -113,6 +113,6 @@ $ bash run python3 '../trytls/stubs/python3-urllib/run.py' 'conf/trytls-localhos
 
 or
 
-$ bash run atom '../trytls/stubs/FSharp-Net/run.exe' 'conf/trytls-localhost-nocerts'
+$ bash run mono '../trytls/stubs/FSharp-Net/run.exe' 'conf/trytls-localhost-nocerts'
 ...
 ```
