@@ -36,10 +36,13 @@ if [[ ! $filename =~ '/' ]]; then
   filename=${filename##*/}
 fi
 
+
+
 status=""
-for f in echo $filename #| tr " " "\n"
+for f in $filename
 do
-  if [[ `$command $extracommand''$f 2>&1 | grep "UNSUPPORTED"` ]]; then
+  valid=`$command $extracommand''$f 2>&1 | grep "UNSUPPORTED"`
+  if [[ $valid ]]; then
     filename=$f #this is propably the correct file, if that is not the case, well then you will see some errors
     status="ok"
     break
@@ -118,6 +121,9 @@ handleresponse()
 
 }
 
+FAILURE="VERIFY FAILURE"
+SUCCESS="VERIFY SUCCESS"
+
 connect()
 {
   port=$1
@@ -159,12 +165,12 @@ connect()
     response="[      ][  TIMED OUT   ]"
   elif [[ "$status" == "BAD" ]]; then
 
-    if [[ "$response" == "VERIFY FAILURE" ]]; then
+    if [[ "$response" == $FAILURE ]]; then
       color='\e[0;32m'    #green, success
       response='[ PASS ]'[$response]
     else
       color='\e[0;41m'    #red, failure(either error or verify did succeed)
-      if [[ "$response" == "VERIFY SUCCESS" || $printerror ]]; then
+      if [[ "$response" == $SUCCESS || $printerror ]]; then
         response='[ FAIL ]'[$response]
       else
         if [[ ! $printerror ]]; then
@@ -175,11 +181,11 @@ connect()
 
   elif [[ "$status" == "GOOD" ]]; then
 
-    if [[ "$response" == "VERIFY SUCCESS" ]]; then
+    if [[ "$response" == $SUCCESS ]]; then
       color='\e[0;36m'    #green, success
       response="[ PASS ][$response]"
     else
-      if [[ "$response" == "VERIFY FAILURE" || $printerror ]]; then
+      if [[ "$response" == $FAILURE || $printerror ]]; then
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
         response="[ FAIL ][$response]"
       else
@@ -190,7 +196,7 @@ connect()
     fi
   else
     color='\e[0;37m'    #allright
-    if [[ "$response" == "VERIFY SUCCESS" || "$response" == "VERIFY FAILURE" ]]; then
+    if [[ "$response" == $SUCCESS || "$response" == $FAILURE ]]; then
       response="[ OK?  ][$response]"
     else
       if [[ ! $printerror ]]; then
