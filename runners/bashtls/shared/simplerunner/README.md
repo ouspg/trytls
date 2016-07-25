@@ -24,7 +24,13 @@ if ( you want to set some of the aguments to default) {
 usage(sr-script):
 ```console
 $ sr <certspath> <command> <run-path> <stub> <backends>
+```
 
+##Example usage:
+
+### sr-script (simplerunner)
+
+```
 example 1:
 $ cd ../stubs/[stub]              #move to the stub folder you want to run
 $ sr                              #execute sr-script -> run simplerunner against default backends
@@ -35,11 +41,14 @@ $ sr -- -- -- -- trytls-localhost
 example 3:
 $ sr -- java -- -- java-https:Run badssl-all
 
+example 4(for example: linux, c-openssl):
+$ sr /etc/ssl/certs/ca-certificates.crt
+
 ```
 
 
+### Run-script (run, sr and bashtls use this)
 
-##Example usage:
 
 against badssl (run the code on your computer and you will see the colorcoded version)
 * Green/Blue = Good
