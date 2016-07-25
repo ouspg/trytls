@@ -3,6 +3,11 @@
 #cp sr ../bin/        "install"
 
 if [[ $1 ]]; then
+  if [[ $1 == "--help" ]]; then
+    echo "usage: sr <certspath> <command> <run-path> <stub> <backends>"
+    echo "for more info: https://github.com/ouspg/trytls/tree/master/runners/bashtls/shared/simplerunner"
+    exit 0
+  fi
   certspath=$1
 else
   certspath='--'
