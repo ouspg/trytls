@@ -250,7 +250,7 @@ while read -r port msg status crt hostname extra; do
 
   #try to connect
 
-  if [[ $parallel ]]; then
+  if [[ $parallel && $extra != "BREAK" ]]; then
     connect $port $status $crt $hostname &                    #no extras for parallel created yet
   else
     connect $port $status $crt $hostname $extra || break      #should i skip the rest of this backend?
