@@ -8,10 +8,11 @@ This can also be ran itself.
 ##Installation:
 
 ```console
-Make sure you have bash installed.
-You can't run stubs for which you do not have the needed dependencies installed on your computer.
+-> edit sr(-script) as instructed inside of it
+-> cp sr ../bin/ if you want to
 ```
-usage:
+
+usage(run-script):
 ```console
 $ bash run <language> <stub> <conf> [certs] [curpath] [stubname] [timeout(in seconds)]
 
@@ -19,6 +20,24 @@ if ( you want to set some of the aguments to default) {
   replace the arguments with '_' characters.
 }
 ```
+
+usage(sr-script):
+```console
+$ sr <certspath> <command> <run-path> <stub> <backends>
+
+example 1:
+$ cd ../stubs/[stub]              #move to the stub folder you want to run
+$ sr                              #execute sr-script -> run simplerunner against default backends
+
+example 2:
+$ sr -- -- -- -- trytls-localhost
+
+example 3:
+$ sr -- java -- -- java-https:Run badssl-all
+
+```
+
+
 
 ##Example usage:
 
