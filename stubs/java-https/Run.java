@@ -7,16 +7,13 @@ public class Run{
 	public static void main(String[] args)
 	{
 
-		if (args.length < 2)
-			System.exit(1);
+		if (args.length != 2) {
+			System.out.println("UNSUPPORTED");
+			System.exit(0);
+		}
 
 		String host = args[0];
 		String port = args[1];
-
-		if (args.length > 2) {
-			System.out.println("UNSUPPORTED");	//for now
-			System.exit(0);
-		}
 
 		URL url;
 		String https_url = String.format("https://%s:%s", host, port);
