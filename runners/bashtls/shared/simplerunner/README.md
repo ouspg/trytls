@@ -44,6 +44,15 @@ $ sr -- java -- -- java-https:Run badssl-all
 example 4(for example: linux, c-openssl):
 $ sr /etc/ssl/certs/ca-certificates.crt
 
+settings example 1:
+$ sr settings parallel -> run tests in parallel
+
+settings example 2:
+$ sr settings 'parallel 180' -> run tests in parallel, set timeout 180 seconds
+
+settings example 3:
+$ sr settings 'parallel+print-error 90' -> run tests in parallel + print-error(print errors as they appear), set timeout 90 sec
+
 ```
 
 
