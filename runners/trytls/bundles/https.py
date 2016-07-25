@@ -24,6 +24,16 @@ def badssl(accept, name, description):
 
 
 @testenv
+def badssl_sni(description):
+    yield Test(
+        accept=True,
+        description=description,
+        host="badssl.com",
+        port=443
+    )
+
+
+@testenv
 def badssl_onlymyca(description):
     _, _, cadata = gencert("localhost")
 
@@ -112,6 +122,7 @@ def local(accept, cn, description):
 
 
 badssl_tests = [
+    badssl_sni(description="support for TLS server name indication (SNI)"),
     badssl(False, "expired", "expired certificate"),
     badssl(False, "wrong.host", "wrong hostname in certificate"),
     badssl(False, "self-signed", "self-signed certificate"),
