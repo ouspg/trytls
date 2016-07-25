@@ -1,11 +1,17 @@
 #!/bin/bash
 
-command=$1
+#cp sr ../bin/        "install"
+
+if [[ $1 && $1 != '--' ]]; then
+  command=$1
+else
+  command="python&mono&python3&java&bash&_&go run"
+fi
 
 if [[ $2 && $2 != '--' ]]; then
   path=$2
 else
-  path="../trytls/runners/bashtls/shared/simplerunner/run" # ADD your own path here
+  path="../trytls/runners/bashtls/shared/simplerunner/run"
 fi
 
 stub=$3
@@ -23,7 +29,7 @@ fi
 if [[ $4 && $4 != '--' ]]; then
   confs=$4
 else
-  confs="badssl-all ssllabs others" #you can add your own backends here
+  confs="ssllabs&badssl-all&others" #you can add your own backends here
 fi
 
 if [[ $5 ]]; then
@@ -34,8 +40,11 @@ fi
 
 curpath='_'
 
-for conf in $(echo $confs | tr '&' "\n")
-do
-  echo  bash $path $command $stub $conf $certspath $curpath $stub
-  exec bash $path $command $stub $conf $certspath $curpath $stub
+IFS="&"
+
+for cmd in $command; do       #find correct command
+  #echo $cmd
+  for conf in $confs; do      #try against all the confs
+    bash $path $cmd $stub $conf $certspath $curpath $stub || break      #if first conf fails(== wrong command or file(for the command)), next command
+  done
 done

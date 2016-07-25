@@ -16,11 +16,10 @@ else
   curpath=""
 fi
 command=$1
-execcommand='exec'
+#execcommand='exec'
 if [[ $command == "_" ]]; then
   command=""
   extracommand='./'
-  execcommand=""
 fi
 
 
@@ -29,28 +28,33 @@ if [[ ! $filename =~ '/' ]]; then
   if [[ $filename =~ ":" ]]; then
     path=${filename%:*}
     cd $curpath"/../../../../stubs/$path"
-    file=${filename##*:}
+    filename=${filename##*:}
   else
     cd $curpath"/../../../../stubs/$filename"
-    file=`find -name "[Rr]un*"`
-    for f in $(echo $file | tr " " "\n")
-    do
-      if [[ `$execcommand $command $extracommand''$f a b c d e 2>&1 | grep "UNSUPPORTED"` ]]; then
-        file=$f #this is propably the correct file, if that is not the case, well then you will see some errors
-        break
-      fi
-    done
+    filename=`find -name "[Rr]un*"`' Run run'
   fi
-  file=${file##*/}
-  filename=`pwd`/$file
-  cd $curpath
+  filename=${filename##*/}
 fi
+
+status=""
+for f in echo $filename #| tr " " "\n"
+do
+  if [[ `$command $extracommand''$f 2>&1 | grep "UNSUPPORTED"` ]]; then
+    filename=$f #this is propably the correct file, if that is not the case, well then you will see some errors
+    status="ok"
+    break
+  fi
+done
+if [[ ! $status ]]; then  #no correct file found or might be wrong command?
+  exit 1
+fi
+
 confpath=$3
 if [[ ! $confpath =~ '/' ]]; then
   confpath=$curpath"/conf/"$confpath
 fi
-certspath=$4
 
+certspath=$4
 if [[ "$certspath" ]]; then
   if [[ "$certspath" != '_' ]]; then
     if [[ $certspath == "--" ]]; then
@@ -67,11 +71,13 @@ if [[ "$certspath" ]]; then
     fi
   fi
 fi
+
 stub=$6
 if [[ ! $stub ]]; then
   stub="${filename##*\/}"
 fi
 filepath=${curpath%/*}
+
 timeout=$7
 if [[ ! $timeout ]]; then
   timeout=15
@@ -120,26 +126,26 @@ connect()
   hostname=$4
 
   if [[ "$crt" == "certs/test.crt" ]]; then
-    response=`$execcommand $command $extracommand''$filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
+    response=`$command $extracommand''$filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
     #status="OK?"
   elif [[ "$crt" == "_" ]]; then
     if [[ "$certspath" =~ "." ]]; then
-      response=`$execcommand $command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
     else
-      response=`$execcommand $command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
     fi
   elif [[ "$certspath" ]]; then
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
-      response=`$execcommand $command $extracommand''$filename $hostname $port "$certspath"/"$crt" 2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname $port "$certspath"/"$crt" 2>&1 & handleresponse $!`
       #status="OK?"
     else
-      response=`$execcommand $command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
       #kill $!
       #status="OK?"
     fi
   else
-    response=`$execcommand $command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
+    response=`  $command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
   fi
 
   #choose color
@@ -199,11 +205,6 @@ connect()
 
 #main-------------------------------------------------------------
 
-path=${filename%/*}
-filename="${filename##*\/}"
-filename=$extracommand''$filename
-cd $path
-
 FIS=$IFS
 IFS='&'
 
@@ -236,3 +237,5 @@ done < "$confpath"
 
 
 IFS=$FIS
+
+exit 0
