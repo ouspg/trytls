@@ -42,7 +42,7 @@ curpath='_'
 
 IFS="&"
 
-for cmd in $command; do       #find correct command
+for cmd in $command; do       #find correct command(s)
   #echo $cmd
   for conf in $confs; do      #try against all the confs
     bash $path $cmd $stub $conf $certspath $curpath $stub || break      #if first conf fails(== wrong command or file(for the command)), next command

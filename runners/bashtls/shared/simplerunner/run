@@ -130,6 +130,8 @@ connect()
   status=$2
   crt=$3
   hostname=$4
+  extra=$5
+  returnvalue=0
 
   if [[ "$crt" == "certs/test.crt" ]]; then
     response=`$command $extracommand''$filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
@@ -188,6 +190,11 @@ connect()
       if [[ "$response" == $FAILURE || $printerror ]]; then
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
         response="[ FAIL ][$response]"
+        if [[ $extra ]]; then
+          if [[ $extra == "BREAK" ]]; then
+            returnvalue=1
+          fi
+        fi
       else
         if [[ ! $printerror ]]; then
           response='[ ERROR]'
@@ -207,6 +214,8 @@ connect()
 
   echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]"
 
+  return $returnvalue
+
 }
 
 #main-------------------------------------------------------------
@@ -214,19 +223,22 @@ connect()
 FIS=$IFS
 IFS='&'
 
-while read -r port msg status crt hostname; do
+while read -r port msg status crt hostname extra; do
 
   port=${port//[[:blank:]]/}
   #msg=${msg//[[:blank:]]/}
   status=${status//[[:blank:]]/}
   crt=${crt//[[:blank:]]/}
   hostname=${hostname//[[:blank:]]/}
+  extra=${extra//[[:blank:]]/}
+
 
   #echo "port: " .$port.
   #echo "msg: " .$msg.
   #echo "crt: " .$crt.
   #echo "status: " .$status.
   #echo "hostname: " .$hostname.
+  #echo "extra:"$extra"-"
   #echo $filename
   #echo $confpath
   #echo $certspath
@@ -234,9 +246,9 @@ while read -r port msg status crt hostname; do
   #try to connect
 
   if [[ $parallel ]]; then
-    connect $port $status $crt $hostname &
+    connect $port $status $crt $hostname &                    #no extras for parallel created yet
   else
-    connect $port $status $crt $hostname
+    connect $port $status $crt $hostname $extra || break      #should i skip the rest of this backend?
   fi
 
 done < "$confpath"
