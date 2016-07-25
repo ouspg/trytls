@@ -17,7 +17,7 @@ fi
 if [[ $3 && $3 != '--' ]]; then
   path=$3
 else
-  path="../trytls/runners/bashtls/shared/simplerunner" #"../trytls/runners/bashtls/shared/simplerunner/run"
+  path="../trytls/runners/bashtls/shared/simplerunner"
 fi
 
 stub=$4
@@ -43,7 +43,6 @@ if [[ $certspath == "settings" ]]; then
   bash $path/settings $2
   exit 0
 fi
-echo "asdf"
 
 curpath='_'
 IFS="&"
