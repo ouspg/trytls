@@ -19,10 +19,10 @@ public class Run
       string url = "https://" + host + ":" + port;
       HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
       HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-      Console.WriteLine ("VERIFY SUCCESS");
+      Console.WriteLine ("VERIFY ACCEPT");
     } catch (System.Net.WebException e) {
       if (! e.ToString().Contains("NameResolutionFailure")){
-        Console.WriteLine("VERIFY FAILURE");
+        Console.WriteLine("VERIFY REJECT");
       } else {
         Console.WriteLine (e);
         Environment.Exit(1);

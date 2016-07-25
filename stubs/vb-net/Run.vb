@@ -23,13 +23,13 @@ Module Run
 
     Try
       request.GetResponse()
-      Console.WriteLine ("VERIFY SUCCESS")
+      Console.WriteLine ("VERIFY ACCEPT")
     Catch ex As System.Net.WebException
       if ex.ToString.Contains("NameResolutionFailure") Then
         Throw ex
         Environment.Exit(1)
       Else
-        Console.WriteLine ("VERIFY FAILURE")
+        Console.WriteLine ("VERIFY REJECT")
       End if
     Catch ex As Exception
       Throw ex

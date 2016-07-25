@@ -9,10 +9,10 @@
 
 ```
 % python python-urllib2/run.py sha1-2016.badssl.com 443
-VERIFY SUCCESS
+VERIFY ACCEPT
 
 % python python-urllib2/run.py expired.badssl.com 443
-VERIFY FAILURE
+VERIFY REJECT
 ```
 
 # Dealing with unexpected behavior

@@ -67,14 +67,14 @@ function main()
         if succ then
             local cert = conn:getpeercertificate()
             if checkhostname(cert, arg[1]) then
-                print("VERIFY SUCCESS")
+                print("VERIFY ACCEPT")
             else
                 print("wrong hostname")
-                print("VERIFY FAILURE")
+                print("VERIFY REJECT")
             end
         else
             print(err)
-            print("VERIFY FAILURE")
+            print("VERIFY REJECT")
         end
         conn:close()
     end

@@ -35,8 +35,8 @@ service and catch possible errors and exceptions to determine if it was successf
 
 All stubs should return one of the following strings to the standard output:
 
- * `VERIFY SUCCESS` when connection was established in a secure way
- * `VERIFY FAILURE` when connection failed to establish in a secure way
+ * `VERIFY ACCEPT` when connection was established in a secure way
+ * `VERIFY REJECT` when connection failed to establish in a secure way
  * `UNSUPPORTED` if the example has not implemented the requested behaviour (e.g. setting
    CA certificate bundle)
 
@@ -152,4 +152,3 @@ Finished stubs (documentation and correct calling convention):
 * Findings + What to do?
    * Pass/ fail ->
       * Ignore?, Writeup?, Upstream?
-

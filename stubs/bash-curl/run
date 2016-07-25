@@ -22,7 +22,7 @@ else
 fi
 
 if [[ "$status" -eq 0 ]]; then
-	echo "VERIFY SUCCESS"
+	echo "VERIFY ACCEPT"
 	exit 0
 else
 	#CURLE_UNSUPPORTED_PROTOCOL=1		#if some of these not needed -> can be removed
@@ -32,11 +32,11 @@ else
 	#CURLE_SSL_CIPHER=59
 	#CURLE_SSL_CACERT=60
 	#CURLE_RECV_ERROR=56, The TLS connection was non-properly terminated i.a. in trytls-runner localhost test, error better?.
-	
+
 	error="1 35 51 58 59 60"
 	for i in $error; do
 		if [[ $status -eq $i ]]; then
-			echo "VERIFY FAILURE"
+			echo "VERIFY REJECT"
 			exit 0
 		fi
 	done

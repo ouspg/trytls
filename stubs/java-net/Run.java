@@ -17,9 +17,9 @@ public class Run
 
     try {
       new java.net.URL(https_url).getContent();
-      System.out.println("VERIFY SUCCESS");
+      System.out.println("VERIFY ACCEPT");
   } catch (javax.net.ssl.SSLHandshakeException | javax.net.ssl.SSLProtocolException | javax.net.ssl.SSLKeyException e){
-      System.out.println("VERIFY FAILURE");
+      System.out.println("VERIFY REJECT");
     } catch (Exception e) {
       e.printStackTrace();
       System.out.println(e.getCause().getMessage());

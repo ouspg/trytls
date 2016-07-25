@@ -7,7 +7,7 @@ For example:
 
 ```
 $ lua5.1 stubs/lua5.1-luasec/run.lua sha256.badssl.com 443
-VERIFY FAILURE
+VERIFY REJECT
 ```
 
 # Dependencies:

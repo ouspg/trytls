@@ -9,7 +9,7 @@ For example:
 
 ```
 $ python stubs/python-urllib3/run.py sha256.badssl.com 443
-VERIFY FAILURE
+VERIFY REJECT
 ```
 
 # Dependencies:
