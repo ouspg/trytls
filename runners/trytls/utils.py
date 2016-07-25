@@ -1,3 +1,5 @@
+from __future__ import print_function, unicode_literals
+
 import os
 import sys
 import shutil
@@ -9,6 +11,8 @@ import contextlib
 try:
     from shlex import quote as _shlex_quote
 except ImportError:
+    # The following is a naive implementation of shlex.quote for Python 2.7, as
+    # shlex.quote was introduced in Python 3.3.
     def _shlex_quote(string):
         if string.isalnum():
             return string
@@ -16,14 +20,26 @@ except ImportError:
 
 
 def format_command(args):
+    r"""
+    Return a list of argument strings as one shell-escaped command.
+    """
+
     return " ".join(_shlex_quote(arg) for arg in args)
 
 
 def python_info():
+    r"""
+    Return a human-readable name for the currently used Python version.
+    """
+
     return platform.python_implementation() + " " + platform.python_version()
 
 
 def platform_info():
+    r"""
+    Return a human-readable name for the currently used platform.
+    """
+
     if sys.platform == "linux2":
         distname, version, _ = platform.linux_distribution()
         if not distname:
@@ -40,6 +56,25 @@ def platform_info():
 
 
 def memoized(func):
+    r"""
+    Return a memoized version of the given function.
+
+    >>> @memoized
+    ... def func():
+    ...     print("First run!")
+    ...     return 1
+    >>> func()
+    First run!
+    1
+
+    During the first call the function is executed and its return value gets
+    memoized. Subsequent calls just return the value without re-executing the
+    function.
+
+    >>> func()
+    1
+    """
+
     value = []
 
     @functools.wraps(func)
@@ -53,6 +88,37 @@ def memoized(func):
 
 @contextlib.contextmanager
 def tmpfiles(first, *rest):
+    r"""
+    Return a tuple of paths to temporary files that containt the given input
+    strings.
+
+    >>> with tmpfiles(b"a", b"b") as (path_a, path_b):
+    ...     open(path_a, "rb").read() == b"a"
+    ...     open(path_b, "rb").read() == b"b"
+    True
+    True
+
+    For convenience providing just one input string returns a plain path string
+    instead of a tuple.
+
+    >>> with tmpfiles(b"some data") as path:
+    ...     open(path, "rb").read() == b"some data"
+    True
+
+    The files are removed after the with-block.
+
+    >>> with tmpfiles(b"Hello, World!") as path:
+    ...     pass
+    >>> os.path.exists(path)
+    False
+
+    The returned pathname is absolute.
+
+    >>> with tmpfiles(b"") as path:
+    ...     os.path.isabs(path)
+    True
+    """
+
     datas = [first] + list(rest)
 
     tmp = tempfile.mkdtemp()

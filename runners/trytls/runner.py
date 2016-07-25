@@ -78,7 +78,7 @@ def run_one(args, host, port, cafile=None):
         raise ProcessFailed(process.returncode, out)
 
     out = out.rstrip()
-    lines = out.rstrip().splitlines()
+    lines = out.splitlines()
     if lines:
         verdict = lines.pop()
         if verdict == b"VERIFY SUCCESS":
@@ -117,11 +117,7 @@ def collect(args, tests):
 
 
 class Formatter(object):
-    def __init__(self, base="", marker="", type="", reason="", details=""):
-        if len(marker) > 1:
-            raise ValueError("marker can be at most 1 character")
-
-        self.marker = marker
+    def __init__(self, base="", type="", reason="", details=""):
         self.base = base
         self.type = type
         self.reason = reason
@@ -129,11 +125,6 @@ class Formatter(object):
 
     def format(self, test, res):
         template = self.base
-        # if self.marker:
-        #     template += self.type + self.marker + " "
-        # else:
-        #     template += "  "
-
         reset = "{RESET}"
 
         template += self.type + res.name.rjust(5) + reset + self.base + " "
@@ -162,7 +153,6 @@ formats = {
     ),
     result.Fail: Formatter(
         base="{Fore.RED}",
-        marker="x",
         reason="{Fore.RED}{Style.DIM}"
     ),
     result.Pass: Formatter(
