@@ -17,7 +17,7 @@ fi
 if [[ $3 && $3 != '--' ]]; then
   path=$3
 else
-  path="../trytls/runners/bashtls/shared/simplerunner/run"
+  path="../trytls/runners/bashtls/shared/simplerunner" #"../trytls/runners/bashtls/shared/simplerunner/run"
 fi
 
 stub=$4
@@ -38,10 +38,18 @@ else
   confs="ssllabs&badssl-all&others" #you can add your own backends here
 fi
 
-curpath='_'
+#set settings ----------------------------------------------------------
+if [[ $certspath == "settings" ]]; then
+  bash $path/settings $2
+  exit 0
+fi
+echo "asdf"
 
+curpath='_'
 IFS="&"
 
+#run tests ------------------------------------------------------------
+path=$path/run
 for cmd in $command; do       #find correct command(s)
   #echo $cmd
   for conf in $confs; do      #try against all the confs

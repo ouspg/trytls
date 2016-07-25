@@ -1,0 +1,20 @@
+#!/bin/bash
+
+datapath="info"
+mkdir $datapath >> /dev/null 2>&1
+
+#vars
+info=$1
+timeout=$2
+
+#multiple processes per stub per driver
+if [[ $info && $info != "--" ]]; then
+  rm $datapath/info >> /dev/null 2>&1
+  echo $info > $datapath/info
+fi
+
+#timeout
+if [[ $timeout && $timeout != "--" ]]; then
+  rm $datapath/timeout >> /dev/null 2>&1
+  echo $timeout > $datapath/timeout
+fi
