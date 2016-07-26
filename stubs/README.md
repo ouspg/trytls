@@ -33,6 +33,8 @@ operating system.
 Stubs should attempt to establish a **secure** connection to the given
 service(host + port) and catch possible errors and exceptions to determine if the connection was successful.
 
+The last string the stub should print is the verdict (UNSUPPORTED, VERIFY SUCCESS etc.). If you want the stub to print additional context such as the reason to accept/reject connection or an error message, the stub should print them before the verdict.
+
 The data outputted by the stub should follow the following set of instructions or a similar one.
 
 <pre>
