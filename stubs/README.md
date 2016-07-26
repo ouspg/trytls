@@ -91,7 +91,7 @@ for example curl: `curl -L -o ca-bundle.pem
 https://mkcert.org/generate/`) and then test:
 
 ```sh
-$ forrest.run google.com 443 ca-bundle.pem
+$ run.test google.com 443 ca-bundle.pem
 VERIFY SUCCESS
 ```
 
