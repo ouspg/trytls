@@ -49,7 +49,7 @@ The data outputted by the stub should follow the following set of instructions o
 5.0 else ("fatal error occured")
     (optional error message)
     return value other than zero
-<pre>
+</pre>
 ---
 
 ### Testing the stub
