@@ -10,7 +10,7 @@ end
 
 function main()
     if tablelength(arg)<4 or tablelength(arg)>5 then
-        print(string.format( "Usage: %s <URL> <PORT> (<CA-BUNDLE>)", arg[0] ))
+        print(string.format( "Usage: %s <HOST> <PORT> (<CA-BUNDLE>)", arg[0] ))
     else
         local cert = "/etc/ssl/certs/ca-certificates.crt"
         if arg[3] then
