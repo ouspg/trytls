@@ -9,9 +9,11 @@
 
 int main(int argc, char *argv[]) {
 
-  if (argc < 4) {
-    printf("UNSUPPORTED");  //for now at least
-    return 3;
+  int returncode = 0;
+
+  if (argc != 4) {
+    printf("UNSUPPORTED\n");  //for now at least
+    return returncode;
   }
 
   //init
@@ -21,7 +23,6 @@ int main(int argc, char *argv[]) {
 	SSL *ssl;
 	X509 *cert;
 
-  int status = 0, returncode = 0;
   char url[256]; sprintf(url, "%s:%s", argv[1], argv[2]);
   char ca_bundle[256]; strncpy(ca_bundle, argv[3], sizeof(ca_bundle));
 
@@ -40,7 +41,7 @@ int main(int argc, char *argv[]) {
   X509_VERIFY_PARAM_set1_host(param, argv[1], 0);
   SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_PEER, NULL);
   if (SSL_CTX_load_verify_locations(ssl_ctx, ca_bundle, NULL) != 1) {
-    printf("Couldn't load certificate trust store.");
+    printf("Couldn't load certificate trust store.\n");
     returncode=1;
     goto end;
   }
@@ -52,7 +53,7 @@ connect:
   sbio = BIO_new_ssl_connect(ssl_ctx);
   BIO_get_ssl(sbio, &ssl);
   if (!ssl) {
-    printf("Connection failed");
+    printf("Connection failed\n");
     returncode=2;
     goto connect_end;
   }
@@ -60,11 +61,10 @@ connect:
   //handshake
   SSL_set_tlsext_host_name(ssl, url);
   BIO_set_conn_hostname(sbio, url);
-  status = SSL_do_handshake(ssl);
-  if(status <= 0) {
+  if(SSL_do_handshake(ssl) <= 0) {
     printf ("VERIFY FAILURE\n");
   } else {
-    printf ("VERIFY SUCCESS");
+    printf ("VERIFY SUCCESS\n");
   }
 
 connect_end:
