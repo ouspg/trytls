@@ -10,5 +10,5 @@ https://github.com/fsharp/fsharp
 ### Run (for example)
 ```
 ..# fsharpc Run.fs
-..# mono run.exe [host] [port]
+..# mono Run.exe [host] [port]
 ```
