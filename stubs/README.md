@@ -31,20 +31,25 @@ operating system.
 ### Return values
 
 Stubs should attempt to establish a **secure** connection to the given
-service and catch possible errors and exceptions to determine if it was successful.
+service(host + port) and catch possible errors and exceptions to determine if the connection was successful.
 
-All stubs should return one of the following strings to the standard output:
+The data outputted by the stub should follow the following set of instructions or a similar one.
 
- * `VERIFY SUCCESS` when connection was established in a secure way
- * `VERIFY FAILURE` when connection failed to establish in a secure way
- * `UNSUPPORTED` if the example has not implemented the requested behaviour (e.g. setting
-   CA certificate bundle)
-
-If anything else is returned, then the test has erred.
-
-Unless a fatal error occurs, examples should always return with process exit value 0.
-
-
+<pre>
+1.0 print (optional context)
+2.0 if [the stub couldn't implement the requested behaviour (e.g. setting CA certificate bundle)] then
+    print "UNSUPPORTED"
+    return zero
+3.0 else if [the stub could connect to the service] then
+    print "VERIFY SUCCESS"
+    return zero
+4.0 else if [the stub could not connect to the service] then
+    print "VERIFY FAILURE"
+    return zero
+5.0 else ("fatal error occured")
+    (optional error message)
+    return value other than zero
+<pre>
 ---
 
 ### Testing the stub
