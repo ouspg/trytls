@@ -5,15 +5,16 @@
 #include <openssl/ssl.h>
 #include <openssl/x509v3.h>
 
-// usage ./run [host] [port] [cert]
-
 int main(int argc, char *argv[]) {
 
   int returncode = 0;
 
-  if (argc != 4) {
+  if (argc == 3) {
     printf("UNSUPPORTED\n");  //for now at least
     return returncode;
+  } else if (argc != 4) {
+    printf("usage: %s <host> <port> <ca-bundle>\n", argv[0]);
+    return (returncode + 1);
   }
 
   //init
