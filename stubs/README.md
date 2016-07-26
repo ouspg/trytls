@@ -40,17 +40,20 @@ The data outputted by the stub should follow the following set of instructions o
 <pre>
 1.0 print (optional context)
 2.0 if [the stub couldn't implement the requested behaviour (e.g. setting CA certificate bundle)] then
-    print "UNSUPPORTED"
-    return zero
+      print "UNSUPPORTED"
+      return zero
 3.0 else if [the stub could connect to the service] then
-    print "VERIFY SUCCESS"
-    return zero
+      print "VERIFY SUCCESS"
+      return zero
 4.0 else if [the stub could not connect to the service] then
-    print "VERIFY FAILURE"
-    return zero
+   4. 1 if [the stub could not connect due to reasons closely related to TLS/SSL (certificate, cipher suites, etc..)] then
+          print "VERIFY FAILURE"
+          return zero
+   4.2  else (the stub could not connect due to reasons unrelated to TLS/SSL (Name resolution, etc..))
+          goto "fatal error" (5.0, see one line below for more info)
 5.0 else ("fatal error occured")
-    (optional error message)
-    return value other than zero
+      (optional error message)
+      return value other than zero
 </pre>
 ---
 
