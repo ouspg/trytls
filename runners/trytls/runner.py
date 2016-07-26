@@ -201,47 +201,88 @@ def main():
         output("{Back.RED}{Fore.WHITE}ERROR:{RESET} {error}", error=err)
         return 1
 
-    parser = argparse.ArgumentParser(
-        usage="%(prog)s BUNDLE -- COMMAND [ARG ...]"
-    )
-    parser.add_argument(
-        "bundle",
-        metavar="BUNDLE",
-        default=None,
-        nargs="?",
-        type=load_bundle
-    )
-    parser.add_argument(
-        "command",
-        metavar="COMMAND",
-        help="the command to run",
-        default=None,
-        nargs="?"
-    )
-    parser.add_argument(
-        "args",
-        metavar="ARG",
-        nargs="*",
-        help="additional argument for the command"
-    )
+    if sys.argv[1] == "help":
 
-    args = parser.parse_args()
-    if args.bundle is None:
-        bundles = sorted(iter_bundles())
-        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), 2))
+        parser = argparse.ArgumentParser(
+            usage="%(prog)s help BUNDLE INDEX"
+        )
+        parser.add_argument(
+            "null",
+            metavar="help",
+            default=None,
+            nargs=1,
+            type=None
+        )
+        parser.add_argument(
+            "bundle",
+            metavar="BUNDLE",
+            default=None,
+            nargs=1,
+            type=load_bundle
+        )
+        parser.add_argument(
+            "index",
+            metavar="INDEX",
+            nargs="?",
+            default=None,
+            help="optional index for a specific test"
+        )
+        args = parser.parse_args()
+        if args.bundle is None:
+            bundles = sorted(iter_bundles())
+            parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), 2))
+        if args.index is None:
+            print("FIXME: see main text here, print tests")
+        else:
+            try:
+                index = int(args.index)
+                print("FIXME: " + str(args.index) + " for dictionary(?)")
+            except ValueError:
+                parser.error("invalid index " + str(args.index) + ": must be an integer")
 
-    if args.command is None:
-        parser.error("too few arguments, missing command")
+    else:
 
-    output_info([args.command] + args.args, openssl_version=openssl_version)
-    if not run([args.command] + args.args, args.bundle):
-        # Return with a non-zero exit code if all tests were not successful. The
-        # CPython interpreter exits with 1 when an unhandled exception occurs,
-        # and with 2 when there is a problem with a command line parameter. The
-        # argparse module also uses the code 2 for the same purpose. Therefore
-        # the chosen return value here is 3.
-        return 3
-    return 0
+        parser = argparse.ArgumentParser(
+            usage="%(prog)s BUNDLE -- COMMAND [ARG ...]"
+        )
+        parser.add_argument(
+            "bundle",
+            metavar="BUNDLE",
+            default=None,
+            nargs="?",
+            type=load_bundle
+        )
+        parser.add_argument(
+            "command",
+            metavar="COMMAND",
+            help="the command to run",
+            default=None,
+            nargs="?"
+        )
+        parser.add_argument(
+            "args",
+            metavar="ARG",
+            nargs="*",
+            help="additional argument for the command"
+        )
+
+        args = parser.parse_args()
+        if args.bundle is None:
+            bundles = sorted(iter_bundles())
+            parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), 2))
+
+        if args.command is None:
+            parser.error("too few arguments, missing command")
+
+        output_info([args.command] + args.args, openssl_version=openssl_version)
+        if not run([args.command] + args.args, args.bundle):
+            # Return with a non-zero exit code if all tests were not successful. The
+            # CPython interpreter exits with 1 when an unhandled exception occurs,
+            # and with 2 when there is a problem with a command line parameter. The
+            # argparse module also uses the code 2 for the same purpose. Therefore
+            # the chosen return value here is 3.
+            return 3
+        return 0
 
 
 if __name__ == "__main__":
