@@ -3,10 +3,9 @@ from __future__ import print_function, unicode_literals
 import sys
 import argparse
 import subprocess
-import pkg_resources
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
-from . import __version__, gencert, utils, result
+from . import __version__, gencert, utils, result, bundles
 
 
 # Initialize colorama without wrapping sys.stdout globally
@@ -186,15 +185,6 @@ def run(args, tests):
 
 
 def main():
-    def iter_bundles():
-        for entry in pkg_resources.iter_entry_points("trytls.bundles"):
-            yield entry.name
-
-    def load_bundle(name):
-        for entry in pkg_resources.iter_entry_points("trytls.bundles", name):
-            return entry.load()
-        return None
-
     try:
         openssl_version = gencert.openssl_version()
     except gencert.OpenSSLNotFound as err:
@@ -209,7 +199,7 @@ def main():
         metavar="BUNDLE",
         default=None,
         nargs="?",
-        type=load_bundle
+        type=bundles.load_bundle
     )
     parser.add_argument(
         "command",
@@ -227,8 +217,8 @@ def main():
 
     args = parser.parse_args()
     if args.bundle is None:
-        bundles = sorted(iter_bundles())
-        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), 2))
+        bundle_list = sorted(bundles.iter_bundles())
+        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundle_list), 2))
 
     if args.command is None:
         parser.error("too few arguments, missing command")
