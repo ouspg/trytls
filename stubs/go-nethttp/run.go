@@ -8,9 +8,12 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 3 {
+	if len(os.Args) == 2 {
 		fmt.Println("UNSUPPORTED")
 		os.Exit(0)
+	} else if len(os.Args) != 3 {
+		fmt.Println("usage: %s <host> <port>", os.Args[0])
+		os.Exit(1)
 	}
 
 	url := "https://" + os.Args[1] + ":" + os.Args[2]

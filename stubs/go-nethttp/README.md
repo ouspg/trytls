@@ -33,9 +33,9 @@ though.
 Example:
 
 ```shell
-$ go run run.go https://badssl.com/
+$ go run run.go badssl.com 443
 VERIFY SUCCESS
-$ go run run.go https://untrusted-root.badssl.com/
+$ go run run.go untrusted-root.badssl.com 443
 VERIFY FAILURE
 ```
 
