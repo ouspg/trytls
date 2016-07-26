@@ -10,9 +10,12 @@ Module Run
     if arguments.Length = 3 Then
       host = arguments(1)
       port = arguments(2)
-    Else
+    Elseif arguments.Length = 4 Then
       Console.WriteLine ("UNSUPPORTED") ' for now
       Environment.Exit(0)
+    Else
+      Console.WriteLine ("Usage: .. Run.exe <host> <port>")
+      Environment.Exit(1)
     End if
 
     Dim url As String
