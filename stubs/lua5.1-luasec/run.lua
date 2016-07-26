@@ -9,13 +9,8 @@ function tablelength(T)
 end
 
 function main()
-    if tablelength(arg)<4 or tablelength(arg)>5 then
-        print(string.format( "Usage: %s <HOST> <PORT> (<CA-BUNDLE>)", arg[0] ))
-    else
-        local cert = "/etc/ssl/certs/ca-certificates.crt"
-        if arg[3] then
-            cert = arg[3]
-        end
+    if tablelength(arg)==5 then
+        cert = arg[3]
 
         local params = {
             mode = "client",
@@ -39,6 +34,11 @@ function main()
             print("VERIFY FAILURE")
         end
         conn:close()
+    elseif tablelength(arg) == 4 then
+        print("UNSUPPORTED")
+    else
+        print(string.format( "Usage: %s <HOST> <PORT> (<CA-BUNDLE>)", arg[0] ))
+        os.exit(1)
     end
 end
 
