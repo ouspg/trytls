@@ -33,7 +33,7 @@ operating system.
 Stubs should attempt to establish a **secure** connection to the given
 service(host + port) and catch possible errors and exceptions to determine if the connection was successful.
 
-The last string the stub should print is the verdict (UNSUPPORTED, VERIFY SUCCESS etc.). If you want the stub to print additional context such as the reason to accept/reject connection or an error message, the stub should print them before the verdict.
+The last string the stub should print is the verdict (UNSUPPORTED, ACCEPT etc.). If you want the stub to print additional context such as the reason to accept/reject connection or an error message, the stub should print them before the verdict.
 
 The data outputted by the stub should follow the following set of instructions or a similar one.
 
@@ -43,10 +43,10 @@ The data outputted by the stub should follow the following set of instructions o
     print "UNSUPPORTED"
     return zero
 3.0 else if [the stub could connect to the service] then
-    print "VERIFY SUCCESS"
+    print "ACCEPT"
     return zero
 4.0 else if [the stub could not connect to the service] then
-    print "VERIFY FAILURE"
+    print "REJECT"
     return zero
 5.0 else ("fatal error occured")
     (optional error message)
@@ -71,14 +71,14 @@ Connecting to `google.com` on HTTPS port should be success:
 
 ```sh
 $ run.test google.com 443
-VERIFY SUCCESS or UNSUPPORTED
+ACCEPT or UNSUPPORTED
 ```
 
 Connecting to `badssl.com`'s `untrusted-root` should be failure:
 
 ```sh
 $ run.test untrusted-root.badssl.com 443
-VERIFY FAILURE or UNSUPPORTED
+REJECT or UNSUPPORTED
 ```
 
 If these simple tests work, your stub is ready to be tested with
@@ -94,7 +94,7 @@ https://mkcert.org/generate/`) and then test:
 
 ```sh
 $ run.test google.com 443 ca-bundle.pem
-VERIFY SUCCESS
+ACCEPT
 ```
 
 ---

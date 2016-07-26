@@ -24,12 +24,12 @@ func main() {
 		sslError := strings.Contains(err.Error(), "certificate") || strings.Contains(err.Error(), "handshake") ||
 			strings.Contains(err.Error(), "verification error") || strings.Contains(err.Error(), "unexpected ServerKeyExchange")
 		if sslError {
-			fmt.Println("VERIFY FAILURE")
+			fmt.Println("REJECT")
 			os.Exit(0)
 		}
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	fmt.Println("VERIFY SUCCESS")
+	fmt.Println("ACCEPT")
 	os.Exit(0)
 }

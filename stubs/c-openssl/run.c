@@ -63,9 +63,9 @@ connect:
   SSL_set_tlsext_host_name(ssl, url);
   BIO_set_conn_hostname(sbio, url);
   if(SSL_do_handshake(ssl) <= 0) {
-    printf ("VERIFY FAILURE\n");
+    printf ("REJECT\n");
   } else {
-    printf ("VERIFY SUCCESS\n");
+    printf ("ACCEPT\n");
   }
 
 connect_end:

@@ -13,13 +13,13 @@ class Program
 		try {
 			string url = "https://"+args[0]+":"+args[1];
 			GetURL(url).Wait();
-			Console.WriteLine("VERIFY SUCCESS");
+			Console.WriteLine("ACCEPT");
 		} catch (AggregateException ae) {
 			ae.Handle((x) =>
 			{
 			if (x is HttpRequestException) 
 			{
-				Console.WriteLine("VERIFY FAILURE");
+				Console.WriteLine("REJECT");
 				return true;
 			}
 			else {
