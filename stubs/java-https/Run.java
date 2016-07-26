@@ -7,9 +7,12 @@ public class Run{
 	public static void main(String[] args)
 	{
 
-		if (args.length != 2) {
+		if (args.length == 3) {
 			System.out.println("UNSUPPORTED");
 			System.exit(0);
+		} else if (args.length != 2) {
+			System.out.println("usage: java Run <host> <port>");
+			System.exit(1);
 		}
 
 		String host = args[0];
