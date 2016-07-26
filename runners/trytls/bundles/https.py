@@ -136,7 +136,7 @@ badssl_tests = [
 
 
 ssllabs_tests = [
-    ssllabs(False, 10443, "protect against Apple's TLS vulnerability"),
+    ssllabs(False, 10443, "protect against Apple's TLS vulnerability CVE-2014-1266"),
     ssllabs(False, 10444, "protect against the FREAK attack"),
     ssllabs(False, 10445, "protect against the Logjam attack")
 ]
