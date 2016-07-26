@@ -8,38 +8,6 @@ function tablelength(T)
     return count
 end
 
------- From https://github.com/bartbes/luasec/blob/cde151739e4f7d9262dcea462a2e58d708501ad8/src/ssl.lua
-local function checkhostname_single(hostname, cn)
-    if cn:match("^%*%.") then
-        hostname = hostname:match("%.(.+)$")
-        cn = cn:match("%.(.+)$")
-        if cn == "" or hostname == "" then return false end
-    end
-    return cn == hostname
-end
-local function checkhostname(cert, hostname)
-  local subject, ext
-  subject = cert:subject()
-  for i, v in ipairs(subject) do
-    if v.name == "commonName" then
-      if checkhostname_single(hostname, v.value) then
-        return true
-      end
-      break
-    end
-  end
-  -- If we got here, the cn doesn't match, check for the dNSName extension
-  ext = (cert:extensions() or {})["2.5.29.17"]
-  if not ext or not ext.dNSName then return false end
-  for i, v in ipairs(ext.dNSName) do
-    if checkhostname_single(hostname, v) then
-      return true
-    end
-  end
-  return false
-end
------------------
-
 function main()
     if tablelength(arg)<4 or tablelength(arg)>5 then
         print(string.format( "Usage: %s <URL> <PORT> (<CA-BUNDLE>)", arg[0] ))
@@ -65,13 +33,7 @@ function main()
         local succ,err = conn:dohandshake()
 
         if succ then
-            local cert = conn:getpeercertificate()
-            if checkhostname(cert, arg[1]) then
-                print("VERIFY SUCCESS")
-            else
-                print("wrong hostname")
-                print("VERIFY FAILURE")
-            end
+            print("VERIFY SUCCESS")
         else
             print(err)
             print("VERIFY FAILURE")
