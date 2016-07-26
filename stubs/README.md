@@ -55,28 +55,28 @@ The data outputted by the stub should follow the following set of instructions o
 ### Testing the stub
 
 To test that the stub works as it should you can perform couple of
-easy tests by running it on command line (stub is named `forrest.run`
+easy tests by running it on command line (stub is named `run.test`
 in these examples).
 
 Running the program without any arguments should give error message:
 
 ```sh
-$ forrest.run
+$ run.test
 <This should print some kind of (helpful) error message>
 ```
 
 Connecting to `google.com` on HTTPS port should be success:
 
 ```sh
-$ forrest.run google.com 443
-VERIFY SUCCESS
+$ run.test google.com 443
+VERIFY SUCCESS or UNSUPPORTED
 ```
 
 Connecting to `badssl.com`'s `untrusted-root` should be failure:
 
 ```sh
-$ forrest.run untrusted-root.badssl.com 443
-VERIFY FAILURE
+$ run.test untrusted-root.badssl.com 443
+VERIFY FAILURE or UNSUPPORTED
 ```
 
 If these simple tests work, your stub is ready to be tested with
