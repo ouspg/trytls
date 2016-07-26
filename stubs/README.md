@@ -71,14 +71,14 @@ Connecting to `google.com` on HTTPS port should be success:
 
 ```sh
 $ run.test google.com 443
-VERIFY SUCCESS or UNSUPPORTED
+VERIFY SUCCESS
 ```
 
 Connecting to `badssl.com`'s `untrusted-root` should be failure:
 
 ```sh
 $ run.test untrusted-root.badssl.com 443
-VERIFY FAILURE or UNSUPPORTED
+VERIFY FAILURE
 ```
 
 If these simple tests work, your stub is ready to be tested with
