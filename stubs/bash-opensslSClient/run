@@ -1,13 +1,13 @@
 #!/bin/bash
 
-host=$1		#e.g. localhost
+if [[ $# < 2 || $# > 3 ]]; then
+	echo "UNSUPPORTED"
+	exit 0
+fi
+
+host=$1
 port=$2
 ca_bundle=$3
-
-if [ "$#" -lt 2 ]; then
-	echo "UNSUPPORTED"
-	exit 2
-fi
 
 if [[ "$ca_bundle" ]]; then
 	resp=`echo "Q" | openssl s_client -CAfile $ca_bundle -servername $host -connect $host:$port 2>&1`
