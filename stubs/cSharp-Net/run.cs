@@ -5,9 +5,12 @@ public class Run
 {
   static public void Main (String []args)
   {
-    if (args.Length != 2){
+    if (args.Length == 3){
       Console.WriteLine("UNSUPPORTED");
       Environment.Exit(0);
+    } else if (args.Length != 2) {
+      Console.WriteLine("usage: run.exe <host> <port>");
+      Environment.Exit(1);
     }
 
     String host, port;
