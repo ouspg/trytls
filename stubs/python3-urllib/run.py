@@ -3,6 +3,9 @@ import ssl
 import urllib.error
 import urllib.request
 
+if len(sys.argv) < 3 or len(sys.argv) > 4:
+    exit("Usage: %s <URL> <PORT> [CA_FILE]" % sys.argv[0])
+
 host = sys.argv[1]
 port = sys.argv[2]
 cafile = sys.argv[3] if len(sys.argv) > 3 else None
