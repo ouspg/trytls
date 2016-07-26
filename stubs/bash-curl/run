@@ -1,8 +1,8 @@
 #!/bin/bash
 
 if [[ $# < 2 || $# > 3 ]]; then
-	echo "UNSUPPORTED"
-	exit 0
+	echo usage: $0 "<host> <port> [ca-bundle]"
+	exit 1
 fi
 
 host=$1		#e.g. localhost
