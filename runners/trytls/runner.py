@@ -81,9 +81,9 @@ def run_one(args, host, port, cafile=None):
     lines = out.splitlines()
     if lines:
         verdict = lines.pop()
-        if verdict == b"ACCEPT":
+        if verdict == b"VERIFY SUCCESS":
             return True, "".join(lines)
-        elif verdict == b"REJECT":
+        elif verdict == b"VERIFY FAILURE":
             return False, "".join(lines)
         elif verdict == b"UNSUPPORTED":
             raise Unsupported("".join(lines))
