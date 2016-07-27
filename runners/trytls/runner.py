@@ -1,12 +1,12 @@
 from __future__ import print_function, unicode_literals
 
+import os
 import sys
 import argparse
 import subprocess
-import pkg_resources
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
-from . import __version__, gencert, utils, result
+from . import __version__, gencert, utils, result, bundles
 
 
 # Initialize colorama without wrapping sys.stdout globally
@@ -67,15 +67,19 @@ def run_one(args, host, port, cafile=None):
     if cafile is not None:
         args.append(cafile)
 
-    process = subprocess.Popen(
-        args,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT
-    )
+    try:
+        process = subprocess.Popen(
+            args,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT
+        )
+    except OSError as ose:
+        raise ProcessFailed("failed to launch the stub", os.strerror(ose.errno))
+
     out, _ = process.communicate()
     if process.returncode != 0:
-        raise ProcessFailed(process.returncode, out)
+        raise ProcessFailed("stub exited with return code {}".format(process.returncode), out)
 
     out = out.rstrip()
     lines = out.splitlines()
@@ -99,12 +103,12 @@ def collect(args, tests):
                 yield test, result.Skip(details=us.args[0])
             except UnexpectedOutput as uo:
                 output = uo.args[0].strip()
-                if not output:
-                    yield test, result.Error("no output")
-                elif output:
+                if output:
                     yield test, result.Error("unexpected output", output)
+                else:
+                    yield test, result.Error("no output")
             except ProcessFailed as pf:
-                yield test, result.Error("stub exited with return code {}".format(pf.args[0]), pf.args[1])
+                yield test, result.Error(pf.args[0], pf.args[1])
             else:
                 if accept and test.accept:
                     yield test, result.Pass(details=details)
@@ -186,15 +190,6 @@ def run(args, tests):
 
 
 def main():
-    def iter_bundles():
-        for entry in pkg_resources.iter_entry_points("trytls.bundles"):
-            yield entry.name
-
-    def load_bundle(name):
-        for entry in pkg_resources.iter_entry_points("trytls.bundles", name):
-            return entry.load()
-        return None
-
     try:
         openssl_version = gencert.openssl_version()
     except gencert.OpenSSLNotFound as err:
@@ -202,39 +197,37 @@ def main():
         return 1
 
     parser = argparse.ArgumentParser(
-        usage="%(prog)s BUNDLE -- COMMAND [ARG ...]"
+        usage="%(prog)s bundle command [arg ...]"
     )
     parser.add_argument(
-        "bundle",
-        metavar="BUNDLE",
-        default=None,
-        nargs="?",
-        type=load_bundle
-    )
-    parser.add_argument(
-        "command",
-        metavar="COMMAND",
-        help="the command to run",
-        default=None,
-        nargs="?"
-    )
-    parser.add_argument(
-        "args",
-        metavar="ARG",
-        nargs="*",
-        help="additional argument for the command"
+        "remainder",
+        help=argparse.SUPPRESS,
+        nargs=argparse.REMAINDER
     )
 
     args = parser.parse_args()
-    if args.bundle is None:
-        bundles = sorted(iter_bundles())
-        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundles), 2))
+    if args.remainder and args.remainder[0] == "--":
+        args.remainder.pop(0)
+    bundle_name = args.remainder[0] if args.remainder else None
 
-    if args.command is None:
+    args = parser.parse_args(args.remainder[1:], args)
+    if args.remainder and args.remainder[0] == "--":
+        args.remainder.pop(0)
+    command = args.remainder
+
+    if bundle_name is None:
+        bundle_list = sorted(bundles.iter_bundles())
+        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundle_list), 2))
+
+    bundle = bundles.load_bundle(bundle_name)
+    if bundle is None:
+        parser.error("unknown bundle '{}'".format(bundle_name))
+
+    if not command:
         parser.error("too few arguments, missing command")
 
-    output_info([args.command] + args.args, openssl_version=openssl_version)
-    if not run([args.command] + args.args, args.bundle):
+    output_info(command, openssl_version=openssl_version)
+    if not run(command, bundle):
         # Return with a non-zero exit code if all tests were not successful. The
         # CPython interpreter exits with 1 when an unhandled exception occurs,
         # and with 2 when there is a problem with a command line parameter. The
