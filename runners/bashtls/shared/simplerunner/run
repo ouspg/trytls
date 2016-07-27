@@ -121,8 +121,8 @@ handleresponse()
 
 }
 
-FAILURE="VERIFY FAILURE"
-SUCCESS="VERIFY SUCCESS"
+FAILURE="REJECT"
+SUCCESS="ACCEPT"
 
 connect()
 {

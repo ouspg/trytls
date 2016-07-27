@@ -18,9 +18,9 @@ fi
 grepped=`echo "$resp" | grep "Verify return code:"`
 
 if [[ "$grepped" =~ " 0 " ]]; then
-		echo "VERIFY SUCCESS"
+		echo "ACCEPT"
 elif [[ $grepped ]]; then
-		echo "VERIFY FAILURE"
+		echo "REJECT"
 else
 	echo $resp
 	exit 1

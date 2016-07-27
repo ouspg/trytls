@@ -28,10 +28,10 @@ function main()
         local succ,err = conn:dohandshake()
 
         if succ then
-            print("VERIFY SUCCESS")
+            print("ACCEPT")
         else
             print(err)
-            print("VERIFY FAILURE")
+            print("REJECT")
         end
         conn:close()
     elseif tablelength(arg) == 4 then

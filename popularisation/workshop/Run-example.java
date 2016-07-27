@@ -24,9 +24,9 @@ public class Run{
 			url = new URL(https_url);
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
 			con.getResponseCode();
-			System.out.println("VERIFY SUCCESS");
+			System.out.println("ACCEPT");
 		} catch (javax.net.ssl.SSLHandshakeException e) {
-			System.out.println("VERIFY FAILURE"); // did not accept connection
+			System.out.println("REJECT"); // did not accept connection
 		} catch (Exception e) {
 			System.out.println(e.getCause().getMessage());
 			System.exit(3); //some other error?

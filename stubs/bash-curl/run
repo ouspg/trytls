@@ -22,7 +22,7 @@ else
 fi
 
 if [[ "$status" -eq 0 ]]; then
-	echo "VERIFY SUCCESS"
+	echo "ACCEPT"
 	exit 0
 else
 	#CURLE_UNSUPPORTED_PROTOCOL=1		#if some of these not needed -> can be removed
@@ -36,7 +36,7 @@ else
 	error="1 35 51 58 59 60"
 	for i in $error; do
 		if [[ $status -eq $i ]]; then
-			echo "VERIFY FAILURE"
+			echo "REJECT"
 			exit 0
 		fi
 	done

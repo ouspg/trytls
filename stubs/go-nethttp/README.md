@@ -34,9 +34,9 @@ Example:
 
 ```shell
 $ go run run.go badssl.com 443
-VERIFY SUCCESS
+ACCEPT
 $ go run run.go untrusted-root.badssl.com 443
-VERIFY FAILURE
+REJECT
 ```
 
 # Dependencies:

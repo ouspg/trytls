@@ -32,7 +32,7 @@ main = do
     (doGet $ "https://" ++ host ++ ":" ++ port)
     (\(TlsExceptionHostPort e _ _) -> do
         print e
-        putStrLn "VERIFY FAILURE"
+        putStrLn "REJECT"
         exitSuccess
     )
   where
@@ -42,5 +42,5 @@ main = do
       let code = r ^. responseStatus . statusCode
           msg  = r ^. responseStatus . statusMessage
       putStrLn (show code ++" "++ unpack msg)
-      putStrLn "VERIFY SUCCESS"
+      putStrLn "ACCEPT"
       exitSuccess

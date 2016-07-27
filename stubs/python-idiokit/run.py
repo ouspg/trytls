@@ -23,8 +23,8 @@ cafile = sys.argv[3] if len(sys.argv) > 3 else None
 
 try:
     idiokit.main_loop(client(host, int(port), cafile))
-    print "VERIFY SUCCESS"
+    print "ACCEPT"
 except idiokit.ssl.SSLError:
-    print "VERIFY FAILURE"
+    print "REJECT"
 else:
     pass
