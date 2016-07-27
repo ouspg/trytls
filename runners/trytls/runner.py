@@ -2,7 +2,6 @@ from __future__ import print_function, unicode_literals
 
 import os
 import sys
-import errno
 import argparse
 import subprocess
 from colorama import Fore, Back, Style, init, AnsiToWin32
