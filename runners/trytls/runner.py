@@ -98,10 +98,10 @@ def collect(args, tests):
                 yield test, result.Skip(details=us.args[0])
             except UnexpectedOutput as uo:
                 output = uo.args[0].strip()
-                if not output:
-                    yield test, result.Error("no output")
-                elif output:
+                if output:
                     yield test, result.Error("unexpected output", output)
+                else:
+                    yield test, result.Error("no output")
             except ProcessFailed as pf:
                 yield test, result.Error("stub exited with return code {}".format(pf.args[0]), pf.args[1])
             else:
