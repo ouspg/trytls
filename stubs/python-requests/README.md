@@ -9,13 +9,13 @@ This stub has been tested with:
 
 ```sh
 $ python stubs/python-requests/run.py sha256.badssl.com 443
-VERIFY SUCCESS
+ACCEPT
 
 python stubs/python-requests/run.py expired.badssl.com 443
-VERIFY FAILURE
+REJECT
 
 $ python stubs/python-requests/run.py sha256.badssl.com 443 <path>/pki/certs/theonlycertitrust.crt
-VERIFY FAILURE
+REJECT
 ```
 
 # Credits

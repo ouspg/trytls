@@ -11,6 +11,6 @@ verify = sys.argv[3] if len(sys.argv) > 3 else True
 try:
     r = requests.get("https://" + host + ":" + port, verify=verify)
 except requests.exceptions.SSLError as err:
-    print ("VERIFY FAILURE")
+    print ("REJECT")
 else:
-    print("VERIFY SUCCESS")
+    print("ACCEPT")

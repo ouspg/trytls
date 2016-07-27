@@ -33,7 +33,7 @@ operating system.
 Stubs should attempt to establish a **secure** connection to the given
 service(host + port) and catch possible errors and exceptions to determine if the connection was successful.
 
-The last string the stub should print is the verdict (UNSUPPORTED, VERIFY SUCCESS etc.). If you want the stub to print additional context such as the reason to accept/reject connection or an error message, the stub should print them before the verdict.
+The last string the stub should print is the verdict (UNSUPPORTED, ACCEPT etc.). If you want the stub to print additional context such as the reason to accept/reject connection or an error message, the stub should print them before the verdict.
 
 The data outputted by the stub should follow the following set of instructions or a similar one.
 
@@ -43,11 +43,11 @@ The data outputted by the stub should follow the following set of instructions o
       print "UNSUPPORTED"
       return zero
 3.0 else if [the stub could connect to the service] then
-      print "VERIFY SUCCESS"
+      print "ACCEPT"
       return zero
 4.0 else if [the stub could not connect to the service] then
    4. 1 if [the stub could not connect due to reasons closely related to TLS/SSL (certificate, cipher suites, etc..)] then
-          print "VERIFY FAILURE"
+          print "REJECT"
           return zero
    4.2  else (the stub could not connect due to reasons unrelated to TLS/SSL (Name resolution, etc..))
           goto "fatal error" (5.0, see one line below for more info)
@@ -74,14 +74,14 @@ Connecting to `google.com` on HTTPS port should be success:
 
 ```sh
 $ run.test google.com 443
-VERIFY SUCCESS
+ACCEPT
 ```
 
 Connecting to `badssl.com`'s `untrusted-root` should be failure:
 
 ```sh
 $ run.test untrusted-root.badssl.com 443
-VERIFY FAILURE
+REJECT
 ```
 
 If these simple tests work, your stub is ready to be tested with
@@ -97,7 +97,7 @@ https://mkcert.org/generate/`) and then test:
 
 ```sh
 $ run.test google.com 443 ca-bundle.pem
-VERIFY SUCCESS
+ACCEPT
 ```
 
 ---
