@@ -1,6 +1,8 @@
 from __future__ import print_function, unicode_literals
 
+import os
 import sys
+import errno
 import argparse
 import subprocess
 from colorama import Fore, Back, Style, init, AnsiToWin32
@@ -66,15 +68,19 @@ def run_one(args, host, port, cafile=None):
     if cafile is not None:
         args.append(cafile)
 
-    process = subprocess.Popen(
-        args,
-        stdin=subprocess.PIPE,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT
-    )
+    try:
+        process = subprocess.Popen(
+            args,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT
+        )
+    except OSError as ose:
+        raise ProcessFailed("failed to launch the stub", os.strerror(ose.errno))
+
     out, _ = process.communicate()
     if process.returncode != 0:
-        raise ProcessFailed(process.returncode, out)
+        raise ProcessFailed("stub exited with return code {}".format(process.returncode), out)
 
     out = out.rstrip()
     lines = out.splitlines()
@@ -103,7 +109,7 @@ def collect(args, tests):
                 else:
                     yield test, result.Error("no output")
             except ProcessFailed as pf:
-                yield test, result.Error("stub exited with return code {}".format(pf.args[0]), pf.args[1])
+                yield test, result.Error(pf.args[0], pf.args[1])
             else:
                 if accept and test.accept:
                     yield test, result.Pass(details=details)
