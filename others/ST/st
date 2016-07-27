@@ -21,23 +21,24 @@ test() {
   if [[ ! $maxValErrors || $maxValErrors == "--" ]]; then
     maxValErrors=9999;
   fi
-  err=$6             #error message (to be printed if error occurs)
+  err=$6              #error message (to be printed if error occurs)
+  extra=$7            #only one extra(!) currently so no need for 'more special' checks
   #run stub, get response and exit value
   response=`$cmdf $cmd 2>1`; errval=$?
   if [[ $errval != 0 ]]; then
     errval=1;
   fi
+
   ok=`echo "$response" | grep "$resp"`
 
-  #eval response and exit value
-  if [[ $ok ]]; then #"correct" response + value
+  if [[ $ok && ! $extra || $extra && ! $ok ]]; then #"correct" response + value
     (( stringErrors++ ))
     if [[ $stringErrors > $maxStringErrors ]]; then  #errval != val -> fatal error
       retstring=$err
       retval=1          #other than zero
     fi
   fi
-  if [[ $errval == $val ]]; then
+  if [[ $errval == $val && ! $extra || $extra && $errval != $val  ]]; then
     (( valErrors++ ))
     if [[ $valErrors > $maxValErrors ]]; then  #errval != val -> fatal error
       retstring=$err
@@ -53,30 +54,55 @@ SUCCESS="ACCEPT"
 UNSUPPORTED="UNSUPPORTED"
 
 stringErrors=0; valErrors=0
-test "a b c" "UNSUPPORTED" 1 1 -- "DON'T CARE"
+c=0   #checks, (0,1),2,4,16,...
+test "host port $ca" "UNSUPPORTED" 1 1 -- "DON'T CARE"
 if [[ $ca && $stringErrors != 0 ]]; then
   echo "HOX! the stub does not support ca-bundles"
 fi
-test "a b"   "UNSUPPORTED" 1 1 -- "stub UNSUPPORTS calling convention, you sure it is woring correctly?"
+test "host port"   "UNSUPPORTED" 1 1 -- "stub UNSUPPORTS calling convention, you sure it is working correctly?"
 if [[ ! $ca && $stringErrors != 0 ]]; then
   echo "HOX! the stub does not support being without ca-bundles"
+elif [[ $ca && $stringErrors == 0 ]]; then     #can be without and within ca-bundles
+  c=1
 fi
 if [[ $retval == 0 ]]; then
   valErrors=0
-  test "google.com 443 $ca" "DON'T CARE" 1 -- 1 "DON'T CARE"
-  test "google.com 443"     "DON'T CARE" 1 -- 1 "stub exited with value other than 0 even though it should not have"
+  test "google.com 443 $ca" "DON'T CARE" 1 -- $c "stub exited with value other than 0 even though it should not have"
+  if [[ $c != 0 ]]; then
+    test "google.com 443"     "DON'T CARE" 1 -- $c "stub exited with value other than 0 even though it should not have"
+  fi
   if [[ $retval == 0 ]]; then
     valErrors=0
-    test "a b c d" "DON'T CARE" 0 -- 0 "DON'T CARE"
-    test "a"       "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have"
+    test "host port ca foo" "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have (too many arguments)"
+    if [[ $retval == 0 ]]; then
+      test "host"             "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have (too few arguments)"
+    fi
     if [[ $retval == 0 ]]; then
       stringErrors=0;
-      test "google.com 443 $ca" "$FAILURE" 1 1 -- "DON'T CARE"
-      test "google.com 443"     "$FAILURE" 1 1 -- "(can't connect to google.com:443 - stub working correctly?)"
+      test "google.com 443 $ca" "$SUCCESS" 1 $c -- "(can't connect to google.com:443 - return $FAILURE always?)" "!"
+      if [[ $c != 0 ]]; then
+        test "google.com 443"   "$SUCCESS" 1 $c -- "(can't connect to google.com:443 - return $FAILURE always?)" "!"
+      fi
       if [[ $retval == 0 ]]; then
         stringErrors=0;
-        test "ssllabs.com 10444 $ca"  "$SUCCESS" 1 1 -- "DON'T CARE"
-        test "ssllabs.com 10444"      "$SUCCESS" 1 1 -- "can connect to ssllabs.com:10443 [FREAK], you sure it isn't returing $SUCCESS accidentally?"
+        test "ssllabs.com 10444 $ca" "$FAILURE" 1 $c -- "can connect to ssllabs.com:10443 [FREAK], you sure it isn't returing $SUCCESS always?" "!"
+        if [[ $c != 0 ]]; then
+          test "ssllabs.com 10444"   "$FAILURE" 1 $c -- "can connect to ssllabs.com:10443 [FREAK], you sure it isn't returing $SUCCESS always?" "!"
+        fi
+        if [[ $retval == 0 ]]; then
+          stringErrors=0;
+          test "idonotexistnameresfailure.com 443 $ca" "$FAILURE" 1 $c -- "(returns $FAILURE even when nameresolution error should be returned)"
+          if [[ $c != 0 ]]; then
+            test "idonotexistnameresfailure.com 443"   "$FAILURE" 1 $c -- "(returns $FAILURE even when nameresolution error should be returned)"
+          fi
+          if [[ $retval == 0 ]]; then
+            valErrors=0;
+            test "idonotexistnameresfailure.com 443 $ca" "DON'T CARE" 0 -- 0 "(returns 0 when fatal error happens, should return something else)"
+            if [[ $retval == 0 ]]; then
+              test "idonotexistnameresfailure.com 443"   "DON'T CARE" 0 -- 0 "(returns 0 when fatal error happens, should return something else)"
+            fi
+          fi
+        fi
       fi
     fi
   fi
