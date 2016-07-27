@@ -6,9 +6,12 @@ class Program
 {
 	static void Main(string[] args)
 	{
-		if (args.Length != 2) {
-		   Console.WriteLine("UNSUPPORTED");
-		   System.Environment.Exit(0);
+		if (args.Length == 3) {
+			Console.WriteLine("UNSUPPORTED");
+			System.Environment.Exit(0);
+		} else if (args.Length != 2) {
+			Console.WriteLine("Usage: dotnettest <HOST> <PORT>");
+			System.Environment.Exit(1);
 		}
 		try {
 			string url = "https://"+args[0]+":"+args[1];
@@ -26,8 +29,6 @@ class Program
 				return false;
 			}
 			});
-		} catch (System.IndexOutOfRangeException) {
-			Console.WriteLine("Usage: dotnettest <HOST> <PORT>");
 		} catch (Exception e) {
 			Console.WriteLine("Unhandled exception: {0} {1}",e.Message,e);
 			System.Environment.Exit(1);
