@@ -58,21 +58,25 @@ if [[ $ca && $stringErrors != 0 ]]; then
   echo "HOX! the stub does not support ca-bundles"
 fi
 test "a b"   "UNSUPPORTED" 1 1 -- "stub UNSUPPORTS calling convention, you sure it is woring correctly?"
+if [[ ! $ca && $stringErrors != 0 ]]; then
+  echo "HOX! the stub does not support being without ca-bundles"
+fi
 if [[ $retval == 0 ]]; then
   valErrors=0
-  test "google.com 443 $ca" "DON'T CARE" 1 -- 0 "DON'T CARE"
-  test "google.com 443"     "DON'T CARE" 1 -- 0 "stub exited with value other than 0 even though it should not have"
+  test "google.com 443 $ca" "DON'T CARE" 1 -- 1 "DON'T CARE"
+  test "google.com 443"     "DON'T CARE" 1 -- 1 "stub exited with value other than 0 even though it should not have"
   if [[ $retval == 0 ]]; then
     valErrors=0
     test "a b c d" "DON'T CARE" 0 -- 0 "DON'T CARE"
     test "a"       "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have"
     if [[ $retval == 0 ]]; then
-      stringErrors=0; valErrors=0
-      test "google.com 443 $ca" "$FAILURE" 1 0 0 "DON'T CARE"
-      test "google.com 443"     "$FAILURE" 1 0 0 "(can't connect to google.com:443 - stub working correctly?)"
+      stringErrors=0;
+      test "google.com 443 $ca" "$FAILURE" 1 1 -- "DON'T CARE"
+      test "google.com 443"     "$FAILURE" 1 1 -- "(can't connect to google.com:443 - stub working correctly?)"
       if [[ $retval == 0 ]]; then
-        stringErrors=0; valErrors=0
-        test "ssllabs.com 10444"  "$SUCCESS" 1 0 0 "can connect to ssllabs.com:10443 [FREAK], you sure it isn't returing $SUCCESS accidentally?"
+        stringErrors=0;
+        test "ssllabs.com 10444 $ca"  "$SUCCESS" 1 1 -- "DON'T CARE"
+        test "ssllabs.com 10444"      "$SUCCESS" 1 1 -- "can connect to ssllabs.com:10443 [FREAK], you sure it isn't returing $SUCCESS accidentally?"
       fi
     fi
   fi
