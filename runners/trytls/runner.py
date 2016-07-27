@@ -192,39 +192,37 @@ def main():
         return 1
 
     parser = argparse.ArgumentParser(
-        usage="%(prog)s BUNDLE -- COMMAND [ARG ...]"
+        usage="%(prog)s bundle command [arg ...]"
     )
     parser.add_argument(
-        "bundle",
-        metavar="BUNDLE",
-        default=None,
-        nargs="?",
-        type=bundles.load_bundle
-    )
-    parser.add_argument(
-        "command",
-        metavar="COMMAND",
-        help="the command to run",
-        default=None,
-        nargs="?"
-    )
-    parser.add_argument(
-        "args",
-        metavar="ARG",
-        nargs="*",
-        help="additional argument for the command"
+        "remainder",
+        help=argparse.SUPPRESS,
+        nargs=argparse.REMAINDER
     )
 
     args = parser.parse_args()
-    if args.bundle is None:
+    if args.remainder and args.remainder[0] == "--":
+        args.remainder.pop(0)
+    bundle_name = args.remainder[0] if args.remainder else None
+
+    args = parser.parse_args(args.remainder[1:], args)
+    if args.remainder and args.remainder[0] == "--":
+        args.remainder.pop(0)
+    command = args.remainder
+
+    if bundle_name is None:
         bundle_list = sorted(bundles.iter_bundles())
         parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundle_list), 2))
 
-    if args.command is None:
+    bundle = bundles.load_bundle(bundle_name)
+    if bundle is None:
+        parser.error("unknown bundle '{}'".format(bundle_name))
+
+    if not command:
         parser.error("too few arguments, missing command")
 
-    output_info([args.command] + args.args, openssl_version=openssl_version)
-    if not run([args.command] + args.args, args.bundle):
+    output_info(command, openssl_version=openssl_version)
+    if not run(command, bundle):
         # Return with a non-zero exit code if all tests were not successful. The
         # CPython interpreter exits with 1 when an unhandled exception occurs,
         # and with 2 when there is a problem with a command line parameter. The
