@@ -1,0 +1,88 @@
+#!/bin/bash
+
+cmdf=$1       #command + file ["mono ../trytls/stubs/FSharp-net/run.exe"]
+ca=$2         #ca-bundle/certificate
+
+retval=0    #what value to exit with
+retstring=""
+
+# This script can be used in testing if a stub returns correct values or not
+
+test() {
+
+  cmd=$1
+  resp=$2            #what resp to expect to
+  val=$3             #what exit value to expect to
+  maxStringErrors=$4 #how many errors until fatal error
+  if [[ ! $maxStringErrors || $maxStringErrors == "--" ]]; then
+    maxStringErrors=9999;
+  fi
+  maxValErrors=$5    #how many errors until fatal error
+  if [[ ! $maxValErrors || $maxValErrors == "--" ]]; then
+    maxValErrors=9999;
+  fi
+  err=$6             #error message (to be printed if error occurs)
+  #run stub, get response and exit value
+  response=`$cmdf $cmd 2>1`; errval=$?
+  if [[ $errval != 0 ]]; then
+    errval=1;
+  fi
+  ok=`echo "$response" | grep "$resp"`
+
+  #eval response and exit value
+  if [[ $ok ]]; then #"correct" response + value
+    (( stringErrors++ ))
+    if [[ $stringErrors > $maxStringErrors ]]; then  #errval != val -> fatal error
+      retstring=$err
+      retval=1          #other than zero
+    fi
+  fi
+  if [[ $errval == $val ]]; then
+    (( valErrors++ ))
+    if [[ $valErrors > $maxValErrors ]]; then  #errval != val -> fatal error
+      retstring=$err
+      retval=1          #other than zero
+    fi
+  fi
+}
+
+#test "<host> <port> [ca-bundle]" <expected (<response> <exit value>)> <error message> <max stringErrors> <max valErrors>
+
+FAILURE="REJECT"
+SUCCESS="ACCEPT"
+UNSUPPORTED="UNSUPPORTED"
+
+stringErrors=0; valErrors=0
+test "a b c" "UNSUPPORTED" 1 1 -- "DON'T CARE"
+if [[ $ca && $stringErrors != 0 ]]; then
+  echo "HOX! the stub does not support ca-bundles"
+fi
+test "a b"   "UNSUPPORTED" 1 1 -- "stub UNSUPPORTS calling convention, you sure it is woring correctly?"
+if [[ $retval == 0 ]]; then
+  valErrors=0
+  test "google.com 443 $ca" "DON'T CARE" 1 -- 0 "DON'T CARE"
+  test "google.com 443"     "DON'T CARE" 1 -- 0 "stub exited with value other than 0 even though it should not have"
+  if [[ $retval == 0 ]]; then
+    valErrors=0
+    test "a b c d" "DON'T CARE" 0 -- 0 "DON'T CARE"
+    test "a"       "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have"
+    if [[ $retval == 0 ]]; then
+      stringErrors=0; valErrors=0
+      test "google.com 443 $ca" "$FAILURE" 1 0 0 "DON'T CARE"
+      test "google.com 443"     "$FAILURE" 1 0 0 "(can't connect to google.com:443 - stub working correctly?)"
+      if [[ $retval == 0 ]]; then
+        stringErrors=0; valErrors=0
+        test "ssllabs.com 10444"  "$SUCCESS" 1 0 0 "can connect to ssllabs.com:10443 [FREAK], you sure it isn't returing $SUCCESS accidentally?"
+      fi
+    fi
+  fi
+fi
+
+if [[ $retval == 0 ]]; then
+  echo "ok!"
+else
+  echo -e $retstring
+  echo "There were some errors"
+fi
+
+exit $retval
