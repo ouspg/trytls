@@ -30,10 +30,10 @@ start_deps() ->
     ssl:start().
  
 check({ok, _}) ->
-    io:format("VERIFY SUCCESS~n");
+    io:format("ACCEPT~n");
  
 check({error, _}) ->
-    io:format("VERIFY FAILURE~n");
+    io:format("REJECT~n");
  
 check(_) ->
-    io:format("VERIFY FAILURE~n").
+    io:format("REJECT~n").
