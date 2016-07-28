@@ -3,6 +3,13 @@
 cmdf=$1       #command + file ["mono ../trytls/stubs/FSharp-net/run.exe"]
 ca=$2         #ca-bundle/certificate
 
+#this cannot be done for cmdf (at least in any simple way)
+#that's because there does always not have to be 'actual filename' in the cmdf (for example java Run) -> no such file
+if [[ ! -f $ca ]]; then
+  echo "Error: no such file or directory: $ca"
+  exit 1
+fi
+
 retval=0    #what value to exit with
 retstring=""
 
