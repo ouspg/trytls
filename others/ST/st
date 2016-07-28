@@ -3,7 +3,6 @@
 cmdf=$1       #command + file ["mono ../trytls/stubs/FSharp-net/run.exe"]
 ca=$2         #ca-bundle/certificate
 
-
 retval=0    #what value to exit with
 retstring=""
 
