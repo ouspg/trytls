@@ -51,14 +51,14 @@ while [ $# -gt 0 ]; do
           if [[ ! $language ]]; then
             language=$stub
           else
-            stub=`find $stubspath/  -maxdepth 1 -type d -name "$stub" -printf "%f\n"`
+            stub=`find $stubspath/  -maxdepth 1 -type d -name "$stub" | sed 's#.*/##'`
             echo $stub >> shared/simplerunner/stubs/$language.stubs
           fi
         done
         IFS=$FIS2
       else
         language=$driver
-        stub=`find $stubspath/  -maxdepth 1 -type d -name "$stub" -printf "%f\n"`
+        stub=`find $stubspath/  -maxdepth 1 -type d -name "$language-"* | sed 's#.*/##'`
         echo $stub >> shared/simplerunner/stubs/$language.stubs
       fi
 
