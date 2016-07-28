@@ -3,6 +3,7 @@
 cmdf=$1       #command + file ["mono ../trytls/stubs/FSharp-net/run.exe"]
 ca=$2         #ca-bundle/certificate
 
+
 retval=0    #what value to exit with
 retstring=""
 
@@ -24,7 +25,7 @@ test() {
   err=$6              #error message (to be printed if error occurs)
   extra=$7            #only one extra(!) currently so no need for 'more special' checks
   #run stub, get response and exit value
-  response=`$cmdf $cmd 2>1`; errval=$?
+  response=`$cmdf $cmd 2>&1`; errval=$?
   if [[ $errval != 0 ]]; then
     errval=1;
   fi
@@ -57,25 +58,27 @@ stringErrors=0; valErrors=0
 c=0   #checks, (0,1),2,4,16,...
 test "host port $ca" "UNSUPPORTED" 1 1 -- "DON'T CARE"
 if [[ $ca && $stringErrors != 0 ]]; then
-  echo "HOX! the stub does not support ca-bundles"
+  echo "Error: the stub does not support ca-bundles"
+  exit 1
 fi
-test "host port"   "UNSUPPORTED" 1 1 -- "stub UNSUPPORTS calling convention, you sure it is working correctly?"
+test "host port"     "UNSUPPORTED" 1 1 -- "stub UNSUPPORTS calling convention, you sure it is working correctly?"
 if [[ ! $ca && $stringErrors != 0 ]]; then
-  echo "HOX! the stub does not support being without ca-bundles"
+  echo "Error: the stub does not support being without ca-bundles"
+  exit 1
 elif [[ $ca && $stringErrors == 0 ]]; then     #can be without and within ca-bundles
   c=1
 fi
 if [[ $retval == 0 ]]; then
   valErrors=0
-  test "google.com 443 $ca" "DON'T CARE" 1 -- $c "stub exited with value other than 0 even though it should not have"
+  test "google.com 443 $ca" "DON'T CARE" 1 -- 0 "stub exited with value other than 0 even though it should not have \n (either it returns wrong values or the arguments for this script were not correct)"
   if [[ $c != 0 ]]; then
-    test "google.com 443"     "DON'T CARE" 1 -- $c "stub exited with value other than 0 even though it should not have"
+    test "google.com 443"   "DON'T CARE" 1 -- 0 "stub exited with value other than 0 even though it should not have \n (either it returns wrong values or the arguments for this script were not correct)"
   fi
   if [[ $retval == 0 ]]; then
     valErrors=0
-    test "host port ca foo" "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have (too many arguments)"
+    test "host"               "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have (too few arguments)"
     if [[ $retval == 0 ]]; then
-      test "host"             "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have (too few arguments)"
+      test "host port ca foo" "DON'T CARE" 0 -- 0 "stub exited with value 0 even though it should not have (too many arguments)"
     fi
     if [[ $retval == 0 ]]; then
       stringErrors=0;
