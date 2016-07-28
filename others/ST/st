@@ -41,14 +41,14 @@ test() {
 
   ok=`echo "$response" | grep "$resp"`
 
-  if [[ $ok && ! $extra || $extra && ! $ok ]]; then #something may be wrong
+  if [[ $ok && ! $extra || $extra && ! $ok ]]; then #something might be wrong
     (( stringErrors++ ))
     if [[ $stringErrors > $maxStringErrors ]]; then #ya something is most definitely wrong
       retstring=$err    # set error message
       retval=1          # -> exit ...
     fi
   fi
-  if [[ $errval == $val && ! $extra || $extra && $errval != $val  ]]; then #something may be wrong
+  if [[ $errval == $val && ! $extra || $extra && $errval != $val  ]]; then #something might be wrong
     (( valErrors++ ))
     if [[ $valErrors > $maxValErrors ]]; then #ya something is most definitely wrong
       retstring=$err    # set error message
@@ -71,7 +71,7 @@ UNSUPPORTED="UNSUPPORTED"
 #test "<host> <port> [ca-bundle]" <expected (<response> <exit value>)> <error message> <max stringErrors> <max valErrors>
 
 stringErrors=0; valErrors=0
-c=0   #checks, (0,1),2,4,16,... currently needed: 2^0-1 and 2^1-1 == 0 (either without or within ca-bunde) and 1 (both without or within ca-bundle)
+c=0   #checks, (0,1),2,4,16,... currently needed: 2^0-1 and 2^1-1 == 0 (either without or within ca-bunde) and 1 (both without and within ca-bundle)
 test "host port $ca" "$UNSUPPORTED" 1 1 -- "DON'T CARE"
 if [[ $ca && $stringErrors != 0 ]]; then
   echo "Error: the stub does not support ca-bundles"
