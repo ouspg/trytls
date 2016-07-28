@@ -1,8 +1,7 @@
-```
-
-platform: Linux (Ubuntu 16.04)
-runner: trytls 0.1.0 (CPython 2.7.12, OpenSSL 1.0.2g-fips)
+platform: OS X 10.11.5
+runner: trytls 0.1.1 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: bash run
+ PASS support for TLS server name indication (SNI) [accept badssl.com:443]
  PASS expired certificate [reject expired.badssl.com:443]
  FAIL wrong hostname in certificate [reject wrong.host.badssl.com:443]
  PASS self-signed certificate [reject self-signed.badssl.com:443]
@@ -12,10 +11,19 @@ stub: bash run
  PASS Superfish CA [reject superfish.badssl.com:443]
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
- FAIL protect against an OS X vulnerability [reject www.ssllabs.com:10443]
- FAIL protect against the FREAK attack [reject www.ssllabs.com:10444]
+ERROR protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+      reason: stub exited with return code 1
+      output: 35623:error:1407742E:SSL routines:SSL23_GET_SERVER_HELLO:tlsv1 alert protocol version:/BuildRoot/Library/Caches/com.apple.xbs/Sources/OpenSSL098/OpenSSL098-59.40.2/src/ssl/s23_clnt.c:593: CONNECTED(00000003)
+ERROR protect against the FREAK attack [reject www.ssllabs.com:10444]
+      reason: stub exited with return code 1
+      output: depth=2 /C=US/O=Entrust, Inc./OU=See www.entrust.net/legal-terms/OU=(c) 2009 Entrust, Inc. - for authorized use only/CN=Entrust Root Certification Authority - G2 verify error:num=20:unable to get local issuer certificate verify return:0 35630:error:1408D0F4:SSL routines:SSL3_GET_KEY_EXCHANGE:unexpected message:/BuildRoot/Library/Caches/com.apple.xbs/Sources/OpenSSL098/OpenSSL098-59.40.2/src/ssl/s3_clnt.c:1187: CONNECTED(00000003)
  FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS valid localhost certificate [accept localhost:38736]
- FAIL invalid localhost certificate [reject localhost:40748]
-
-```
+ERROR protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+      reason: stub exited with return code 1
+      output: depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority verify error:num=20:unable to get local issuer certificate verify return:0 35644:error:1408D0F4:SSL routines:SSL3_GET_KEY_EXCHANGE:unexpected message:/BuildRoot/Library/Caches/com.apple.xbs/Sources/OpenSSL098/OpenSSL098-59.40.2/src/ssl/s3_clnt.c:1187: CONNECTED(00000003)
+ERROR protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+      reason: stub exited with return code 1
+      output: depth=2 /C=GB/ST=Greater Manchester/L=Salford/O=COMODO CA Limited/CN=COMODO RSA Certification Authority verify error:num=20:unable to get local issuer certificate verify return:0 35651:error:1408D0F4:SSL routines:SSL3_GET_KEY_EXCHANGE:unexpected message:/BuildRoot/Library/Caches/com.apple.xbs/Sources/OpenSSL098/OpenSSL098-59.40.2/src/ssl/s3_clnt.c:1187: CONNECTED(00000003)
+ PASS valid localhost certificate [accept localhost:55085]
+ FAIL invalid localhost certificate [reject localhost:55087]
+ FAIL use only the given CA bundle, not system's [reject sha256.badssl.com:443]

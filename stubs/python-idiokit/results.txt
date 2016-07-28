@@ -1,61 +1,21 @@
-```
-platform: Linux (Ubuntu 16.04)
-runner: trytls ...
-stub: python 'stubs/python-idiokit/run.py'
-
-[WIP]
-
-
-...
-
-
-
-platform: Linux (Ubuntu 16.04)
-runner: simplerunner
-stub: python 'stubs/python-idiokit/run.py'
-
-[python-idiokit][ PASS ][ACCEPT][ Valid cert ][google.com]
-[python-idiokit][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
-[python-idiokit][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
-[python-idiokit][ PASS ][REJECT][ Logjam             ][www.ssllabs.com]
-[python-idiokit][ PASS ][ACCEPT][ correct cert                               ][localhost]
-[python-idiokit][ PASS ][REJECT][ wrong hostname                             ][localhost]
-[python-idiokit][ PASS ][REJECT][ correct cn, wrong san                      ][localhost]
-[python-idiokit][ OK?  ][ACCEPT][ correct cn, no san                         ][localhost]
-[python-idiokit][ PASS ][REJECT][ expired cert                               ][localhost]
-[python-idiokit][ PASS ][REJECT][ sslv2 supported                            ][localhost]
-[python-idiokit][ PASS ][REJECT][ sslv3 supported                            ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ tlsv1 supported                            ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ tlsv1.1 supported                          ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ tlsv1.2 supported                          ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports ssl in at least some level        ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports high(>128 bit) 'secure' ciphers   ][localhost]
-[python-idiokit][ OK?  ][REJECT][ supports medium(~128 bit) 'secure' ciphers ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'insecure' ciphers                ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'RSA'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'AES256'                          ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'SHA384'                          ][localhost]
-[python-idiokit][ OK?  ][REJECT][ supports 'ECDSA'                           ][localhost]
-[python-idiokit][ OK?  ][REJECT][ supports 'SRP'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'AES'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'DH'                              ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'SHA'                             ][localhost]
-[python-idiokit][ OK?  ][REJECT][ supports 'DSS'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'CAMELLIA256'                     ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'AECDH'                           ][localhost]
-[python-idiokit][ OK?  ][REJECT][ supports 'PSK'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'AES128'                          ][localhost]
-[python-idiokit][ OK?  ][REJECT][ supports 'SEED'                            ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'CAMELLIA128'                     ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'AECDH'                           ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'ADH'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'SHA256'                          ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'RC4'                             ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'MD5'                             ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'DES'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'EDH'                             ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports 'ECDH'                            ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'ECDSA'                           ][localhost]
-[python-idiokit][ PASS ][ACCEPT][ supports '3DES'                            ][localhost]
-[python-idiokit][ PASS ][REJECT][ supports 'NULL'                            ][localhost]
-```
+platform: OS X 10.11.5
+runner: trytls 0.1.1 (CPython 2.7.10, OpenSSL 0.9.8zh)
+stub: python 'run.py'
+ FAIL support for TLS server name indication (SNI) [accept badssl.com:443]
+ PASS expired certificate [reject expired.badssl.com:443]
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
+ FAIL SHA-256 signature [accept sha256.badssl.com:443]
+ FAIL 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+ PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+ PASS Superfish CA [reject superfish.badssl.com:443]
+ PASS eDellRoot CA [reject edellroot.badssl.com:443]
+ PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+ PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+ FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
+ PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+ PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+ PASS valid localhost certificate [accept localhost:53907]
+ PASS invalid localhost certificate [reject localhost:53909]
+ PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
