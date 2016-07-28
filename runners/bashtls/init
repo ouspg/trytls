@@ -20,8 +20,6 @@ shift 2 #stubspath + confs
 
 #create stubs file(s)
 
-echo $stubspath
-
 #remove old files
 rm shared/simplerunner/stubs/* >> /dev/null 2>&1
 
@@ -38,6 +36,8 @@ while [ $# -gt 0 ]; do
   read -a drivers <<< "${language}"
   size="${#drivers[@]}"
 
+  language=""
+
   for i in "${!drivers[@]}"
   do driver="${drivers[$i]}"
 
@@ -45,19 +45,21 @@ while [ $# -gt 0 ]; do
       #language[:stub1:stub2:...:stubn][&driver&driver&driver]
       if [[ $driver =~ ":" ]]; then
         FIS2=$IFS
-        IFS=':'
-        for stub in $driver
+        IFS=' '
+        for stub in `echo $driver | tr ':' ' '`
         do
-          if [[ $stub =~ "-" ]]; then
-            echo $stub >> shared/simplerunner/stubs/$language.stubs
+          if [[ ! $language ]]; then
+            language=$stub
           else
-            language=$stub    #set language first
+            stub=`find $stubspath/  -maxdepth 1 -type d -name "$stub" -printf "%f\n"`
+            echo $stub >> shared/simplerunner/stubs/$language.stubs
           fi
         done
         IFS=$FIS2
       else
         language=$driver
-        echo `find $stubspath/  -type d -name "$driver"-* -printf "%f\n" >> "shared/simplerunner/stubs/$language.stubs"`
+        stub=`find $stubspath/  -maxdepth 1 -type d -name "$stub" -printf "%f\n"`
+        echo $stub >> shared/simplerunner/stubs/$language.stubs
       fi
 
       if [[ $size != 1 ]]; then
@@ -72,7 +74,7 @@ while [ $# -gt 0 ]; do
     echo "  container_name: bashtls_$driver" ; \
     echo "  volumes: " ; \
     echo "  - ./shared:/etc/shared" ;\
-    echo "  - $stubspath:/etc/shared/stubs" ;
+    echo "  - $stubspath:/stubs" ;
     echo "  - ./drivers/$driver:/driver" ;
     echo '  network_mode: "host" ' ; }\
     >> docker-compose.yml || exit 4

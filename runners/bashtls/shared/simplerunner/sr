@@ -25,6 +25,12 @@ else
   path="../trytls/runners/bashtls/shared/simplerunner"
 fi
 
+#set settings ----------------------------------------------------------
+if [[ $certspath == "settings" ]]; then
+  bash $path/settings $2
+  exit 0
+fi
+
 stub=$4
 if [[ ! $stub || $stub == '--' ]]; then
   stub=`pwd`
@@ -43,11 +49,7 @@ else
   confs="ssllabs&badssl-all&others" #you can add your own backends here
 fi
 
-#set settings ----------------------------------------------------------
-if [[ $certspath == "settings" ]]; then
-  bash $path/settings $2
-  exit 0
-fi
+timeout=$6
 
 curpath='_'
 IFS="&"
@@ -55,8 +57,7 @@ IFS="&"
 #run tests ------------------------------------------------------------
 path=$path/run
 for cmd in $command; do       #find correct command(s)
-  #echo $cmd
   for conf in $confs; do      #try against all the confs
-    bash $path $cmd $stub $conf $certspath $curpath $stub || break      #if first conf fails(== wrong command or file(for the command)), next command
+    bash $path $cmd $stub $conf $certspath $curpath $stub $timeout || break      #if first conf fails(== wrong command or file(for the command)), next command
   done
 done

@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # <command> <stub(file)> <conf> <ca> <curpath> <stub(printable name)> <timeout>
-
-
 #init-------------------------------------------------------------
 curpath=$0
 if [[ ! $curpath == \/* ]]; then
@@ -36,13 +34,11 @@ if [[ ! $filename =~ '/' ]]; then
   filename=${filename##*/}
 fi
 
-
-
 status=""
 for f in $filename
 do
-  valid=`$command $extracommand''$f 2>&1 | grep "UNSUPPORTED"`
-  if [[ $valid ]]; then
+  valid=`$command $extracommand''$f google.com 443 `
+  if [[ $(echo $valid | grep "REJECT") || $(echo $valid | grep "ACCEPT")  ]]; then
     filename=$f #this is propably the correct file, if that is not the case, well then you will see some errors
     status="ok"
     break
