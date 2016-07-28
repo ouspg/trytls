@@ -3,10 +3,13 @@
 cmdf=$1       #command + file ["mono ../trytls/stubs/FSharp-net/run.exe"]
 ca=$2         #ca-bundle/certificate
 
+errors="There were some errors"
+
 #this cannot be done for cmdf (at least in any simple way)
 #that's because there does always not have to be 'actual filename' in the cmdf (for example java Run) -> no such file
-if [[ ! -f $ca ]]; then
+if [[ $ca && ! -f $ca ]]; then
   echo "Error: no such file or directory: $ca"
+  echo $errors
   exit 1
 fi
 
@@ -65,11 +68,13 @@ c=0   #checks, (0,1),2,4,16,...
 test "host port $ca" "$UNSUPPORTED" 1 1 -- "DON'T CARE"
 if [[ $ca && $stringErrors != 0 ]]; then
   echo "Error: the stub does not support ca-bundles"
+  echo $errors
   exit 1
 fi
 test "host port"     "$UNSUPPORTED" 1 1 -- "Error: UNSUPPORTS calling convention (returns always $UNSUPPORTED?)"
 if [[ ! $ca && $stringErrors != 0 ]]; then
   echo "Error: the stub does not support being without ca-bundles"
+  echo $errors
   exit 1
 elif [[ $ca && $stringErrors == 0 ]]; then     #can be without and within ca-bundles
   c=1
@@ -121,7 +126,7 @@ if [[ $retval == 0 ]]; then
   echo "ok!"
 else
   echo -e $retstring
-  echo "There were some errors"
+  echo $errors
 fi
 
 exit $retval
