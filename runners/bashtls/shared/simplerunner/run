@@ -93,6 +93,7 @@ if [[ -f "$infopath/info" ]]; then
   info=`cat $infopath/info`
   parallel=`echo $info | grep 'parallel'`
   printerror=`echo $info | grep 'print-error'`
+  printcontext=`echo $info | grep 'print-context'`
 fi
 
 #functions-------------------------------------------------------------
@@ -168,6 +169,14 @@ connect()
     response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
   fi
 
+
+  if [[ $printcontext ]]; then
+    context="`echo -e $response | sed -e '$d'`"
+  fi
+  if [[ $printerror ]]; then
+    error=$response
+  fi
+  response=`echo -e $response | sed -e '$!d'`
   #choose color
 
   if [[ "$response" == "UNSUPPORTED" ]]; then
@@ -185,12 +194,13 @@ connect()
       response='[ PASS ]'[$response]
     else
       color='\e[0;41m'    #red, failure(either error or verify did succeed)
-      if [[ "$response" == $SUCCESS || $printerror ]]; then
+      if [[ "$response" == $SUCCESS ]]; then
         response='[ FAIL ]'[$response]
         `checkreturnvalue $extra`; returnvalue=$?
       else
-        if [[ ! $printerror ]]; then
-          response='[ ERROR]'
+        response='[ ERROR]'
+        if [[ $printerror ]]; then
+          context=$error
         fi
         `checkreturnvalue $extra`; returnvalue=$?
       fi
@@ -201,13 +211,14 @@ connect()
       color='\e[0;36m'    #green, success
       response="[ PASS ][$response]"
     else
-      if [[ "$response" == $FAILURE || $printerror ]]; then
+      if [[ "$response" == $FAILURE ]]; then
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
         response="[ FAIL ][$response]"
         `checkreturnvalue $extra`; returnvalue=$?
       else
-        if [[ ! $printerror ]]; then
-          response='[ ERROR]'
+        response='[ ERROR]'
+        if [[ $printerror ]]; then
+          context=$error
         fi
         `checkreturnvalue $extra`; returnvalue=$?
       fi
@@ -217,15 +228,23 @@ connect()
     if [[ "$response" == $SUCCESS || "$response" == $FAILURE ]]; then
       response="[ OK?  ][$response]"
     else
-      if [[ ! $printerror ]]; then
-        response="[ ERROR]"
+      response='[ ERROR]'
+      if [[ $printerror ]]; then
+        context=$error
       fi
       `checkreturnvalue $extra`; returnvalue=$?
     fi
   fi
 
-  echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]"
+  if [[ $returnvalue != 0 ]]; then
+    response=$response"[-> SKIP $hostname]"
+  fi
 
+  if [[ $printcontext && $context ]]; then
+    echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]\n"$context
+  else
+    echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]"
+  fi
   return $returnvalue
 
 }
@@ -234,6 +253,8 @@ connect()
 
 FIS=$IFS
 IFS='&'
+
+trytoconnect=true
 
 while read -r port msg status crt hostname extra; do
 
@@ -256,11 +277,14 @@ while read -r port msg status crt hostname extra; do
   #echo $certspath
 
   #try to connect
-
-  if [[ $parallel && $extra != "BREAK" ]]; then
-    connect $port $status $crt $hostname &
-  else
-    connect $port $status $crt $hostname $extra || break      #should i skip the rest of this backend?
+  if [ $trytoconnect = true ]; then
+    if [[ $parallel && $extra != "BREAK" ]]; then
+      connect $port $status $crt $hostname &
+    else
+      connect $port $status $crt $hostname $extra || trytoconnect=false      #should i skip the rest of this backend?
+    fi
+  elif [[ $extra == "CONTINUE" ]]; then  #resume control
+    trytoconnect=true
   fi
 
 done < "$confpath"

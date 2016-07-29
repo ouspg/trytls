@@ -37,4 +37,4 @@
 20036 & supports 'ECDH'                            & GOOD & _ & localhost
 20037 & supports 'ECDSA'                           & BAD & _ & localhost
 20038 & supports '3DES'                            & GOOD & _ & localhost
-20039 & supports 'NULL'                            & BAD & _ & localhost
+20039 & supports 'NULL'                            & BAD & _ & localhost & CONTINUE

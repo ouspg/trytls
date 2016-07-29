@@ -37,4 +37,4 @@
 20036 & supports 'ECDH'                            & GOOD & trytls_ok.crt & localhost
 20037 & supports 'ECDSA'                           & BAD & trytls_ok.crt & localhost
 20038 & supports '3DES'                            & GOOD & trytls_ok.crt & localhost
-20039 & supports 'NULL'                            & BAD & trytls_ok.crt & localhost
+20039 & supports 'NULL'                            & BAD & trytls_ok.crt & localhost & CONTINUE
