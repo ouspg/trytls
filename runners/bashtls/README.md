@@ -50,7 +50,7 @@ $ docker-compose build
 $ #init bashtls
 $ cd ../../runners/bashtls
 $ cp ../../backends/trytls/tmp/certs/* shared/simplerunner/certs
-$ if [ "you aren't using default configuration" ]; then 
+$ if [ "you aren't using default configuration" ]; then
 $ 	cp ../../backends/trytls/tmp/conf* shared/simplerunner/conf/trytls-localhost
 	#most of the time this is not needed
 $ fi
@@ -80,3 +80,7 @@ $ ./shared/simplerunner/settings "parallel" "180" -> Run the stubs in parallel a
 $ ./shared/simplerunner/settings "linear" -> Do not Run the stubs in parallel, leave timeout as it is
 ```
 For more info: [../simplerunner/README.md](https://github.com/ouspg/trytls/blob/bashtls-update/runners/bashtls/shared/simplerunner/README.md)
+
+### Simplified picture
+
+![bashtls](data/bashtls.png)
