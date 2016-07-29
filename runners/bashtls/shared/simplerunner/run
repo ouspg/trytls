@@ -20,15 +20,19 @@ if [[ $command == "_" ]]; then
   extracommand='./'
 fi
 
+stubspath=$8
+if [[ ! $stubspath ]]; then
+  stubspath=$curpath"/../../../../stubs"
+fi
 
 filename=$2
 if [[ ! $filename =~ '/' ]]; then
   if [[ $filename =~ ":" ]]; then
-    path=${filename%:*}
-    cd $curpath"/../../../../stubs/$path"
+    path=$stubspath/${filename%:*}
+    cd $path
     filename=${filename##*:}
   else
-    cd $curpath"/../../../../stubs/$filename"
+    cd $stubspath/$filename
     filename=`find -name "[Rr]un*"`' Run run'
   fi
   filename=${filename##*/}
@@ -37,6 +41,7 @@ fi
 status=""
 for f in $filename
 do
+  echo `pwd` - $command $extracommand''$f google.com 443
   valid=`$command $extracommand''$f google.com 443 `
   if [[ $(echo $valid | grep "REJECT") || $(echo $valid | grep "ACCEPT")  ]]; then
     filename=$f #this is propably the correct file, if that is not the case, well then you will see some errors

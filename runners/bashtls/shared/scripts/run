@@ -17,6 +17,11 @@ backend=`echo $backend | tr ':' '&'`
 
 while read -r stub; do  #read next stub
 
+  filepath="driver/loop"        #if a driver wants to do something with the stub before running simplerunner.
+  if [[ -f $filepath ]]; then   #for example: compile it, let us give the driver a change.
+    bash $filepath $stub $file $language
+  fi
+
   bash '/etc/shared/simplerunner/sr' $certs $language "/etc/shared/simplerunner" "$stub:$file" "$backend" $timeout &
 
   while [[ `exec ps -A --no-headers | wc -l` -gt 300 ]]; do

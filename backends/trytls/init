@@ -1,5 +1,6 @@
 #!/bin/bash
 
+cd ${0%/*}				#move to the folder where this script is -> if you want to create the servers atomatically, create a proxy script instead of moving this one
 port=$1
 first_port=$port
 hostname=$2
@@ -11,9 +12,9 @@ echo -e "hostname: $hostname\n"
 if [ "$#" -lt 4 ]; then
 	#do nothing
 	echo "wrong number of arguments (" "$#" "given), at least 3 needed"
-	echo "port = port of the first server, service = name of the service in the data/ directory, protocol = data/dir name"
 	echo "..."
-	echo "correct would be: init port hostname https service1 service2 ... serviceN"
+	echo "Usage: init <port> <hostname> <service-type> <service1> [service2 ... serviceN]"
+	echo "Example: ./init 20000 localhost https initialize cert protocol cipher"
 	echo "..."
 	exit 1
 fi

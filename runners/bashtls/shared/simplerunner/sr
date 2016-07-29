@@ -50,6 +50,7 @@ else
 fi
 
 timeout=$6
+stubspath=$7
 
 curpath='_'
 IFS="&"
@@ -58,6 +59,6 @@ IFS="&"
 path=$path/run
 for cmd in $command; do       #find correct command(s)
   for conf in $confs; do      #try against all the confs
-    bash $path $cmd $stub $conf $certspath $curpath $stub $timeout || break      #if first conf fails(== wrong command or file(for the command)), next command
+    bash $path $cmd $stub $conf $certspath $curpath $stub $timeout $stubspath || break      #if first conf fails(== wrong command or file(for the command)), next command
   done
 done

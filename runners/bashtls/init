@@ -11,7 +11,7 @@ FIS=$IFS
 IFS=':'       #'anything' but ' '
 
 rm shared/simplerunner/conf/default >> /dev/null 2>&1
-echo $2 | sed -e 's/ / shared\/simplerunner\/conf\//g' | xargs cat \
+echo " $2" | sed -e 's/ / shared\/simplerunner\/conf\//g' | xargs cat \
   >>shared/simplerunner/conf/default
 
 IFS=FIS
