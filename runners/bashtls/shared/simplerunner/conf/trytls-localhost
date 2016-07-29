@@ -1,4 +1,4 @@
-20000 & correct cert                               & GOOD & trytls_ok.crt & localhost
+20000 & correct cert                               & GOOD & trytls_ok.crt & localhost & BREAK
 20001 & wrong hostname                             & BAD & trytls_wrong_host.crt & localhost
 20002 & correct cn, wrong san                      & BAD & trytls_wrong_san.crt & localhost
 20003 & correct cn, no san                         & OK? & trytls_only_cn.crt & localhost

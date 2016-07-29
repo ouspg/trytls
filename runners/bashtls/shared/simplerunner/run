@@ -99,6 +99,17 @@ fi
 
 #echo timeout: $timeout
 
+checkreturnvalue()
+{
+  if [[ $1 ]]; then
+    if [[ $1 == "BREAK" ]]; then
+      return 1
+    fi
+  fi
+  return 0
+}
+
+
 handleresponse()
 {
   #echo "hello world"
@@ -166,6 +177,7 @@ connect()
   elif [[ "$response" == "TIMED OUT" ]]; then
     color='\e[0;40m'      #most likely the connection was succesfull, but can be sure
     response="[      ][  TIMED OUT   ]"
+    `checkreturnvalue $extra`; returnvalue=$?
   elif [[ "$status" == "BAD" ]]; then
 
     if [[ "$response" == $FAILURE ]]; then
@@ -175,20 +187,16 @@ connect()
       color='\e[0;41m'    #red, failure(either error or verify did succeed)
       if [[ "$response" == $SUCCESS || $printerror ]]; then
         response='[ FAIL ]'[$response]
-        if [[ $extra ]]; then
-          if [[ $extra == "BREAK" ]]; then
-            returnvalue=1
-          fi
-        fi
+        `checkreturnvalue $extra`; returnvalue=$?
       else
         if [[ ! $printerror ]]; then
           response='[ ERROR]'
         fi
+        `checkreturnvalue $extra`; returnvalue=$?
       fi
     fi
 
   elif [[ "$status" == "GOOD" ]]; then
-
     if [[ "$response" == $SUCCESS ]]; then
       color='\e[0;36m'    #green, success
       response="[ PASS ][$response]"
@@ -196,15 +204,12 @@ connect()
       if [[ "$response" == $FAILURE || $printerror ]]; then
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
         response="[ FAIL ][$response]"
-        if [[ $extra ]]; then
-          if [[ $extra == "BREAK" ]]; then
-            returnvalue=1
-          fi
-        fi
+        `checkreturnvalue $extra`; returnvalue=$?
       else
         if [[ ! $printerror ]]; then
           response='[ ERROR]'
         fi
+        `checkreturnvalue $extra`; returnvalue=$?
       fi
     fi
   else
@@ -215,6 +220,7 @@ connect()
       if [[ ! $printerror ]]; then
         response="[ ERROR]"
       fi
+      `checkreturnvalue $extra`; returnvalue=$?
     fi
   fi
 
