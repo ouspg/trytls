@@ -140,10 +140,11 @@ SUCCESS="ACCEPT"
 connect()
 {
   port=$1
-  status=$2
-  crt=$3
-  hostname=$4
-  extra=$5
+  msg=$2
+  status=$3
+  crt=$4
+  hostname=$5
+  extra=$6
   returnvalue=0
 
   if [[ "$crt" == "certs/test.crt" ]]; then
@@ -159,11 +160,8 @@ connect()
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
       response=`$command $extracommand''$filename $hostname $port "$certspath"/"$crt" 2>&1 & handleresponse $!`
-      #status="OK?"
     else
       response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
-      #kill $!
-      #status="OK?"
     fi
   else
     response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
@@ -211,8 +209,8 @@ connect()
       color='\e[0;36m'    #green, success
       response="[ PASS ][$response]"
     else
+      color='\e[0;41m'    #red, failure(either error or verify did not succeed)
       if [[ "$response" == $FAILURE ]]; then
-        color='\e[0;41m'    #red, failure(either error or verify did not succeed)
         response="[ FAIL ][$response]"
         `checkreturnvalue $extra`; returnvalue=$?
       else
@@ -279,9 +277,9 @@ while read -r port msg status crt hostname extra; do
   #try to connect
   if [ $trytoconnect = true ]; then
     if [[ $parallel && $extra != "BREAK" ]]; then
-      connect $port $status $crt $hostname &
+      connect $port $msg $status $crt $hostname &
     else
-      connect $port $status $crt $hostname $extra || trytoconnect=false      #should i skip the rest of this backend?
+      connect $port $msg $status $crt $hostname $extra || trytoconnect=false      #should i skip the rest of this backend?
     fi
   elif [[ $extra == "CONTINUE" ]]; then  #resume control
     trytoconnect=true
