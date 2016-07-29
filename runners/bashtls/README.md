@@ -50,3 +50,18 @@ $ docker-compose up -> start containers:
 
  * drivers: bashtls uses these to run the simplerunner and by doing so running the tests against choses backends
  * shared: this file is shared between all the created containers
+
+## Other information
+
+### Settings
+```
+$ ./shared/simplerunner/settings "parallel" "180" -> Run the stubs in parallel and set timeout to 180
+$ ./shared/simplerunner/settings "linear" -> Do not Run the stubs in parallel, leave timeout as it is
+```
+For more info: [../simplerunner/README.md](https://github.com/ouspg/trytls/blob/bashtls-update/runners/bashtls/shared/simplerunner/README.md)
+
+
+
+
+
+
