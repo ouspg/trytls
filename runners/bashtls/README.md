@@ -6,7 +6,7 @@
 ```
 $ bash init <stubspath> <" backend1 backed2 ... backend4"> \ 	#the spaces are of importance
 	<language>[:stub1:stub2:...:stubN][&driver1&driver2&driver3]
-	
+
  * language = used language when running stubs
  * stub1 .. stubN = optional arguments, if not given all stubs will be ran
  * driver1 .. driverN = optional arguments, if not gived all drivers will be used
@@ -59,9 +59,3 @@ $ ./shared/simplerunner/settings "parallel" "180" -> Run the stubs in parallel a
 $ ./shared/simplerunner/settings "linear" -> Do not Run the stubs in parallel, leave timeout as it is
 ```
 For more info: [../simplerunner/README.md](https://github.com/ouspg/trytls/blob/bashtls-update/runners/bashtls/shared/simplerunner/README.md)
-
-
-
-
-
-
