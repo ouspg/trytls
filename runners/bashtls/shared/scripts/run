@@ -17,12 +17,20 @@ backend=`echo $backend | tr ':' '&'`
 
 while read -r stub; do  #read next stub
 
+  stubspath="/stubs"
+
   filepath="driver/loop"        #if a driver wants to do something with the stub before running simplerunner.
   if [[ -f $filepath ]]; then   #for example: compile it, let us give the driver a change.
-    bash $filepath $stub $file $language
+    resp=`bash $filepath $stub`  #if something is echoed in here >&1, then its set to be the new stubspath
+    if [[ ! $? ]]; then
+      echo "$resp" #but print error anyways
+      #shoud i exit or keep going, well lests at least for now continue, this can be changed
+      continue        #if could not compile/ check or whatever, the try the next stub instead of wasting time with this one
+    fi
+    stubspath=$resp
   fi
 
-  bash '/etc/shared/simplerunner/sr' $certs $language "/etc/shared/simplerunner" "$stub:$file" "$backend" $timeout &
+  bash '/etc/shared/simplerunner/sr' $certs $language "/etc/shared/simplerunner" "$stub:$file" "$backend" $timeout $stubspath &
 
   while [[ `exec ps -A --no-headers | wc -l` -gt 300 ]]; do
     sleep 1

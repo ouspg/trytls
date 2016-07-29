@@ -41,7 +41,7 @@ fi
 status=""
 for f in $filename
 do
-  echo `pwd` - $command $extracommand''$f google.com 443
+  #echo `pwd` - $command $extracommand''$f google.com 443
   valid=`$command $extracommand''$f google.com 443 `
   if [[ $(echo $valid | grep "REJECT") || $(echo $valid | grep "ACCEPT")  ]]; then
     filename=$f #this is propably the correct file, if that is not the case, well then you will see some errors
