@@ -57,6 +57,16 @@ def ssllabs(accept, port, description):
     )
 
 
+@testenv
+def freakattack(host, description):
+    yield Test(
+        accept=False,
+        description=description,
+        host=host,
+        port=443
+    )
+
+
 @contextlib.contextmanager
 def http_server(certdata, keydata, host="localhost", port=0):
     class Server(HTTPServer):
@@ -141,6 +151,10 @@ ssllabs_tests = [
     ssllabs(False, 10445, "protect against the Logjam attack")
 ]
 
+freakattack_tests = [
+    freakattack("cve.freakattack.com", "protect against FREAK attack (test server 1)"),
+    freakattack("cve2.freakattack.com", "protect against FREAK attack (test server 2)"),
+]
 
 local_tests = [
     local(True, "localhost", "valid localhost certificate"),
@@ -149,4 +163,4 @@ local_tests = [
 ]
 
 
-all_tests = badssl_tests + ssllabs_tests + local_tests
+all_tests = badssl_tests + ssllabs_tests + freakattack_tests + local_tests
