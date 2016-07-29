@@ -24,7 +24,7 @@ $ bash init ../trytls/stubs " badssl-all" "python3:python3-urllib&python3_1" "ba
 
 ```
 ```
-$ bash init '../trytls/stubs' "badssl" "java&java-*:javac"
+$ bash init '../trytls/stubs' "badssl" "java:java-*&javac"
 	*run javac driver using all java-* stubs using java-language
 $ docker-compose build -> install deps
 $ docker-compose up -> start containers:
