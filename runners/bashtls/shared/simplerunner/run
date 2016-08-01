@@ -134,13 +134,10 @@ handleresponse()
 
 }
 
-FAILURE="REJECT"
-SUCCESS="ACCEPT"
-
 connect()
 {
   port=$1
-  status=$2
+  expected=$2
   crt=$3
   hostname=$4
   extra=$5
@@ -148,7 +145,6 @@ connect()
 
   if [[ "$crt" == "certs/test.crt" ]]; then
     response=`$command $extracommand''$filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
-    #status="OK?"
   elif [[ "$crt" == "_" ]]; then
     if [[ "$certspath" =~ "." ]]; then
       response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
@@ -159,11 +155,9 @@ connect()
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
       response=`$command $extracommand''$filename $hostname $port "$certspath"/"$crt" 2>&1 & handleresponse $!`
-      #status="OK?"
+      #expected="OK?"
     else
       response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
-      #kill $!
-      #status="OK?"
     fi
   else
     response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
@@ -187,14 +181,14 @@ connect()
     color='\e[0;40m'      #most likely the connection was succesfull, but can be sure
     response="[      ][  TIMED OUT   ]"
     `checkreturnvalue $extra`; returnvalue=$?
-  elif [[ "$status" == "BAD" ]]; then
+  elif [[ "$expected" == "REJECT" ]]; then
 
-    if [[ "$response" == $FAILURE ]]; then
+    if [[ "$response" == "REJECT" ]]; then
       color='\e[0;32m'    #green, success
       response='[ PASS ]'[$response]
     else
       color='\e[0;41m'    #red, failure(either error or verify did succeed)
-      if [[ "$response" == $SUCCESS ]]; then
+      if [[ "$response" == "ACCEPT" ]]; then
         response='[ FAIL ]'[$response]
         `checkreturnvalue $extra`; returnvalue=$?
       else
@@ -206,12 +200,12 @@ connect()
       fi
     fi
 
-  elif [[ "$status" == "GOOD" ]]; then
-    if [[ "$response" == $SUCCESS ]]; then
+  elif [[ "$expected" == "ACCEPT" ]]; then
+    if [[ "$response" == "ACCEPT" ]]; then
       color='\e[0;36m'    #green, success
       response="[ PASS ][$response]"
     else
-      if [[ "$response" == $FAILURE ]]; then
+      if [[ "$response" == "REJECT" ]]; then
         color='\e[0;41m'    #red, failure(either error or verify did not succeed)
         response="[ FAIL ][$response]"
         `checkreturnvalue $extra`; returnvalue=$?
@@ -225,7 +219,7 @@ connect()
     fi
   else
     color='\e[0;37m'    #allright
-    if [[ "$response" == $SUCCESS || "$response" == $FAILURE ]]; then
+    if [[ "$response" == "ACCEPT" || "$response" == "REJECT" ]]; then
       response="[ OK?  ][$response]"
     else
       response='[ ERROR]'
@@ -237,7 +231,7 @@ connect()
   fi
 
   if [[ $returnvalue != 0 ]]; then
-    response=$response"[-> SKIP $hostname]"
+    response=$response"[-> SKIP $hostname (till CONTINUE)]"
   fi
 
   if [[ $printcontext && $context ]]; then
@@ -256,11 +250,11 @@ IFS='&'
 
 trytoconnect=true
 
-while read -r port msg status crt hostname extra; do
+while read -r port msg expected crt hostname extra; do
 
   port=${port//[[:blank:]]/}
   #msg=${msg//[[:blank:]]/}
-  status=${status//[[:blank:]]/}
+  expected=${expected//[[:blank:]]/}
   crt=${crt//[[:blank:]]/}
   hostname=${hostname//[[:blank:]]/}
   extra=${extra//[[:blank:]]/}
@@ -269,7 +263,7 @@ while read -r port msg status crt hostname extra; do
   #echo "port: " .$port.
   #echo "msg: " .$msg.
   #echo "crt: " .$crt.
-  #echo "status: " .$status.
+  #echo "expected: " .$expected.
   #echo "hostname: " .$hostname.
   #echo "extra:"$extra"-"
   #echo $filename
@@ -279,9 +273,9 @@ while read -r port msg status crt hostname extra; do
   #try to connect
   if [ $trytoconnect = true ]; then
     if [[ $parallel && $extra != "BREAK" ]]; then
-      connect $port $status $crt $hostname &
+      connect $port $expected $crt $hostname &
     else
-      connect $port $status $crt $hostname $extra || trytoconnect=false      #should i skip the rest of this backend?
+      connect $port $expected $crt $hostname $extra || trytoconnect=false      #should i skip the rest of this backend?
     fi
   elif [[ $extra == "CONTINUE" ]]; then  #resume control
     trytoconnect=true

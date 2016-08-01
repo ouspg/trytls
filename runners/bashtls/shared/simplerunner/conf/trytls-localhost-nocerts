@@ -1,40 +1,40 @@
-20000 & correct cert                               & GOOD & _ & localhost & BREAK
-20001 & wrong hostname                             & BAD & _ & localhost
-20002 & correct cn, wrong san                      & BAD & _ & localhost
+20000 & correct cert                               & ACCEPT & _ & localhost & BREAK
+20001 & wrong hostname                             & REJECT & _ & localhost
+20002 & correct cn, wrong san                      & REJECT & _ & localhost
 20003 & correct cn, no san                         & OK? & _ & localhost
-20004 & expired cert                               & BAD & _ & localhost
-20005 & sslv2 supported                            & BAD & _ & localhost
-20006 & sslv3 supported                            & BAD & _ & localhost
-20007 & tlsv1 supported                            & GOOD & _ & localhost
-20008 & tlsv1.1 supported                          & GOOD & _ & localhost
-20009 & tlsv1.2 supported                          & GOOD & _ & localhost
-20010 & supports ssl in at least some level        & GOOD & _ & localhost
-20011 & supports high(>128 bit) 'secure' ciphers   & GOOD & _ & localhost
+20004 & expired cert                               & REJECT & _ & localhost
+20005 & sslv2 supported                            & REJECT & _ & localhost
+20006 & sslv3 supported                            & REJECT & _ & localhost
+20007 & tlsv1 supported                            & ACCEPT & _ & localhost
+20008 & tlsv1.1 supported                          & ACCEPT & _ & localhost
+20009 & tlsv1.2 supported                          & ACCEPT & _ & localhost
+20010 & supports ssl in at least some level        & ACCEPT & _ & localhost
+20011 & supports high(>128 bit) 'secure' ciphers   & ACCEPT & _ & localhost
 20012 & supports medium(~128 bit) 'secure' ciphers & OK? & _ & localhost
-20013 & supports 'insecure' ciphers                & BAD & _ & localhost
-20014 & supports 'RSA'                             & GOOD & _ & localhost
-20015 & supports 'AES256'                          & GOOD & _ & localhost
-20016 & supports 'SHA384'                          & GOOD & _ & localhost
+20013 & supports 'insecure' ciphers                & REJECT & _ & localhost
+20014 & supports 'RSA'                             & ACCEPT & _ & localhost
+20015 & supports 'AES256'                          & ACCEPT & _ & localhost
+20016 & supports 'SHA384'                          & ACCEPT & _ & localhost
 20017 & supports 'ECDSA'                           & ok? & _ & localhost
 20018 & supports 'SRP'                             & OK? & _ & localhost
-20019 & supports 'AES'                             & GOOD & _ & localhost
-20020 & supports 'DH'                              & GOOD & _ & localhost
-20021 & supports 'SHA'                             & GOOD & _ & localhost
+20019 & supports 'AES'                             & ACCEPT & _ & localhost
+20020 & supports 'DH'                              & ACCEPT & _ & localhost
+20021 & supports 'SHA'                             & ACCEPT & _ & localhost
 20022 & supports 'DSS'                             & OK? & _ & localhost
-20023 & supports 'CAMELLIA256'                     & GOOD & _ & localhost
-20024 & supports 'AECDH'                           & BAD & _ & localhost
+20023 & supports 'CAMELLIA256'                     & ACCEPT & _ & localhost
+20024 & supports 'AECDH'                           & REJECT & _ & localhost
 20025 & supports 'PSK'                             & OK? & _ & localhost
-20026 & supports 'AES128'                          & GOOD & _ & localhost
+20026 & supports 'AES128'                          & ACCEPT & _ & localhost
 20027 & supports 'SEED'                            & OK? & _ & localhost
-20028 & supports 'CAMELLIA128'                     & GOOD & _ & localhost
-20029 & supports 'AECDH'                           & BAD & _ & localhost
-20030 & supports 'ADH'                             & BAD & _ & localhost
-20031 & supports 'SHA256'                          & GOOD & _ & localhost
-20032 & supports 'RC4'                             & BAD & _ & localhost
-20033 & supports 'MD5'                             & BAD & _ & localhost
-20034 & supports 'DES'                             & BAD & _ & localhost
-20035 & supports 'EDH'                             & GOOD & _ & localhost
-20036 & supports 'ECDH'                            & GOOD & _ & localhost
-20037 & supports 'ECDSA'                           & BAD & _ & localhost
-20038 & supports '3DES'                            & GOOD & _ & localhost
-20039 & supports 'NULL'                            & BAD & _ & localhost & CONTINUE
+20028 & supports 'CAMELLIA128'                     & ACCEPT & _ & localhost
+20029 & supports 'AECDH'                           & REJECT & _ & localhost
+20030 & supports 'ADH'                             & REJECT & _ & localhost
+20031 & supports 'SHA256'                          & ACCEPT & _ & localhost
+20032 & supports 'RC4'                             & REJECT & _ & localhost
+20033 & supports 'MD5'                             & REJECT & _ & localhost
+20034 & supports 'DES'                             & REJECT & _ & localhost
+20035 & supports 'EDH'                             & ACCEPT & _ & localhost
+20036 & supports 'ECDH'                            & ACCEPT & _ & localhost
+20037 & supports 'ECDSA'                           & REJECT & _ & localhost
+20038 & supports '3DES'                            & ACCEPT & _ & localhost
+20039 & supports 'NULL'                            & REJECT & _ & localhost & CONTINUE

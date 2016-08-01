@@ -1,13 +1,13 @@
-443 & supports SNI                  & GOOD & _ & badssl.com & BREAK
-443 & expired                       & BAD & _ & expired.badssl.com
-443 & wrong host                    & BAD & _ & wrong.host.badssl.com
-443 & self-signed                   & BAD & _ & self-signed.badssl.com
-443 & untrusted-root                & BAD & _ & untrusted-root.badssl.com
+443 & supports SNI                  & ACCEPT & _ & badssl.com & BREAK
+443 & expired                       & REJECT & _ & expired.badssl.com
+443 & wrong host                    & REJECT & _ & wrong.host.badssl.com
+443 & self-signed                   & REJECT & _ & self-signed.badssl.com
+443 & untrusted-root                & REJECT & _ & untrusted-root.badssl.com
 443 & sha1-2016                     & OK? & _ & sha1-2016.badssl.com
 443 & sha1-2017                     & OK? & _ & sha1-2017.badssl.com
-443 & sha-256                       & GOOD & _ & sha256.badssl.com
-443 & 1000-sans                     & GOOD & _ & 1000-sans.badssl.com
-443 & 10000-sans (Bad in ten years) & GOOD & _ & 10000-sans.badssl.com
+443 & sha-256                       & ACCEPT & _ & sha256.badssl.com
+443 & 1000-sans                     & ACCEPT & _ & 1000-sans.badssl.com
+443 & 10000-sans (Bad in ten years) & ACCEPT & _ & 10000-sans.badssl.com
 443 & incomplete-chain              & OK? & _ & incomplete-chain.badssl.com
 443 & rsa8192                       & OK? & _ & rsa8192.badssl.com
 443 & mixed-script                  & OK? & _ & mixed-script.badssl.com
@@ -19,16 +19,16 @@
 443 & mozilla-old                   & OK? & _ & mozilla-old.badssl.com
 443 & mozilla-intermediate          & OK? & _ & mozilla-intermidiate.badssl.com
 443 & mozilla-modern                & OK? & _ & mozilla-modern.badssl.com
-443 & dh480                         & BAD & _ & dh480.badssl.com
+443 & dh480                         & REJECT & _ & dh480.badssl.com
 443 & dh1024                        & OK? & _ & dh1024.badssl.com
-443 & dh2048                        & GOOD & _ & dh2048.badssl.com
+443 & dh2048                        & ACCEPT & _ & dh2048.badssl.com
 443 & dh-small-subgroup             & OK? & _ & dh-small-subgroup.badssl.com
 443 & hsts                          & OK? & _ & hsts.badssl.com
 443 & upgrade                       & OK? & _ & upgrade.badssl.com
 443 & preloaded-hsts                & OK? & _ & preloaded-hsts.badssl.com
 443 & subdomain.preloaded-hsts      & OK? & _ & subdomain.preloaded-hsts.badssl.com
 443 & pinning-test                  & OK? & _ & pinning-test.badssl.com
-443 & superfish                     & BAD & _ & superfish.badssl.com
-443 & edellroot                     & BAD & _ & edellroot.badssl.com
-443 & dsdtestprovider               & BAD & _ & dsdtestprovider.badssl.com
-443 & disable ca-bundles            & BAD & certs/test.crt & badssl.com & CONTINUE
+443 & superfish                     & REJECT & _ & superfish.badssl.com
+443 & edellroot                     & REJECT & _ & edellroot.badssl.com
+443 & dsdtestprovider               & REJECT & _ & dsdtestprovider.badssl.com
+443 & disable ca-bundles            & REJECT & certs/test.crt & badssl.com & CONTINUE
