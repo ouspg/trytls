@@ -1,5 +1,5 @@
 platform: OS X 10.11.5
-runner: trytls 0.1.1 (CPython 2.7.10, OpenSSL 0.9.8zh)
+runner: trytls 0.2.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
 stub: java Run
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
  PASS expired certificate [reject expired.badssl.com:443]
