@@ -232,7 +232,8 @@ connect()
   fi
 
   if [[ $returnvalue != 0 ]]; then
-    response=$response"[-> SKIP $hostname (till CONTINUE)]"
+    response=$response"[-> SKIP $hostname (till CONTINUE)    ]"
+    msg=""
   fi
 
   if [[ $printcontext && $context ]]; then
