@@ -1,6 +1,6 @@
 # TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls)
 
-Does *your* library check TLS certificates properly?
+Does *your* TLS/SSL library check [certificates](https://tools.ietf.org/html/rfc5280) properly when hanshaking?
 Broken certificate checks seems to be an overlooked issue.
 Handling certificates is surprisingly complex, and calls for extra attention.
 
@@ -15,15 +15,14 @@ favorite language and library easy.
 
 ![Architecture](doc/concept-pic.png)
 
- * **Backends** use ports and virtual hosts to provide falsified/broken certificate checks
- * **Stubs** are written for the target languages and libraries to attempt the TLS connection
- * **Runners** "check the checks" by calling the stubs systematically to find out
- how libraries handle signatures, domain names, time, SNI etc. against the backends
+ * **Backends (servers)** provide TLS/SSL tests for stubs (clients).
+ * **Stubs** attempt to establish secure TLS/SSL connections to backends.
+ * **Runners** run the stubs against backends and provide the results of the tests.
 
 ## Runners
 
-We have a [Python based test runner](runners/trytls/) and a work-in-progress
-[bash based test runner](runners/bashtls/).
+ * [trytls](runners/trytls/) (official)
+ * [bashtls](runners/bashtls/) + [simplerunner](runners/bashtls/shared/simplerunner) (unofficial)
 
 ### Installation
 
@@ -53,11 +52,12 @@ Stubs and their documentation can be found from the [stubs/](stubs/) directory.
 
 ## Backends
 
-We currently are working to support following backends:
+We are currently working to support the following [backends](backends/):
 
  * [BadSSL](https://badssl.com) - we have cherry picked the [relevant tests](backends/badssl/README.md)
  * Local backend in the test runner itself (aka `localhost` backend)
  * [SSLLabs](https://ssllabs.com) - protection against [certain attacks](backends/ssllabs/README.md)
+ * [freakattack.com](https://freakattack.com/) - protection against [FREAK](https://mitls.org/pages/attacks/SMACK#freak)
  * [Trytls backend](backends/trytls) both as docker based "run-it-yourself" packaging and as a
  hosted service provided by us [WIP]
 
@@ -67,7 +67,7 @@ Test runners allow user to test against all or any of these backends.
 
  * We do not address possible client certificate check problems in server code
  * We do not do or require a man-in-the-middle tools
- * We do not support smart TVs, IoT toasters and other such devices that can't run the test driver
+ * We do not support smart TVs, IoT toasters and other such devices that can't run any of the runners
 
 ## Found issues
 
