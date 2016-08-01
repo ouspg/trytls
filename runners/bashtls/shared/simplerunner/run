@@ -59,6 +59,7 @@ if [[ ! $confpath =~ '/' ]]; then
 fi
 
 certspath=$4
+FIS=IFS; IFS=+ read certspath cabundle <<< $certspath; IFS=FIS
 if [[ "$certspath" ]]; then
   if [[ "$certspath" != '_' ]]; then
     if [[ $certspath == "--" ]]; then
@@ -146,22 +147,24 @@ connect()
   returnvalue=0
 
   if [[ "$crt" == "certs/test.crt" ]]; then
-    response=`$command $extracommand''$filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
+    response=`$command $extracommand''$filename $hostname $port $curpath/$crt 2>&1 & handleresponse $!`
   elif [[ "$crt" == "_" ]]; then
-    if [[ "$certspath" =~ "." ]]; then
-      response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
+    if [[ $cabundle ]]; then
+      response=`$command $extracommand''$filename $hostname $port $cabundle  2>&1 & handleresponse $!`
+    elif [[ "$certspath" =~ "." ]]; then
+      response=`$command $extracommand''$filename $hostname $port $certspath  2>&1 & handleresponse $!`
     else
-      response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname $port  2>&1 & handleresponse $!`
     fi
   elif [[ "$certspath" ]]; then
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
-      response=`$command $extracommand''$filename $hostname $port "$certspath"/"$crt" 2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname $port $certspath/$crt 2>&1 & handleresponse $!`
     else
-      response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname $port $certspath  2>&1 & handleresponse $!`
     fi
   else
-    response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
+    response=`$command $extracommand''$filename $hostname $port  2>&1 & handleresponse $!`
   fi
 
 
