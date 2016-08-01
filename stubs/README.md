@@ -1,9 +1,9 @@
 ## Stubs
 
-Example code (stubs) using TLS in different languages and libraries live in here.
+Stubs in different languages and libraries live in here.
 You can contribute your stub here or just BYOR (Bring Your Own Repository).
 
-These stubs should attempt to use the chosen language and library
+The stubs should attempt to use the chosen language and library
 properly to establish a secure TLS connection to the given destination.
 
 "Have you heard of the TryTLS tester who lost his hands? He only had stubs left."
@@ -12,7 +12,7 @@ properly to establish a secure TLS connection to the given destination.
 
 ### Calling convention
 
-All stubs should have a standalone program that takes up to three command
+All the stubs should have a standalone program that takes up to three command
 line arguments (`<host> <port> [ca-bundle]`):
 
  * `<host>` is the DNS name or IP-address of the service to connect to
@@ -21,9 +21,9 @@ line arguments (`<host> <port> [ca-bundle]`):
    file to be used. The bundle file should consists of PEM encoded
    certificates concatenated together.
 
-Depending on the TLS library used in stub, the library might use own
-CA certificate bundle bundled with library or use one delivered by
-operating system.
+Depending on the TLS library used in a stub, the library might use it's own
+CA certificate bundle or one delivered by the operating system or one delivered
+by the stub.
 
 
 ---
@@ -35,13 +35,15 @@ service(host + port) and catch possible errors and exceptions to determine if th
 
 The last string the stub should print is the verdict (UNSUPPORTED, ACCEPT etc.). If you want the stub to print additional context such as the reason to accept/reject connection or an error message, the stub should print them before the verdict.
 
-The data outputted by the stub should follow the following set of instructions or a similar one.
+The data printed should follow the following set of instructions or a similar one.
 
 <pre>
 1.0 print (optional context)
 2.0 if [the stub couldn't implement the requested behaviour (e.g. setting CA certificate bundle)] then
-      print "UNSUPPORTED"
-      return zero
+      2.1 if [ the number of arguments is 2 (host + port) or 3 (host + port + ca-bundle) ] then
+         print "UNSUPPORTED"
+         return zero
+      2.2 else goto "fatal error"
 3.0 else if [the stub could connect to the service] then
       print "ACCEPT"
       return zero
@@ -63,21 +65,21 @@ To test that the stub works as it should you can perform couple of
 easy tests by running it on command line (stub is named `run.test`
 in these examples).
 
-Running the program without any arguments should give error message:
+Running the program without any arguments should give error message and exit with value other than zero:
 
 ```sh
 $ run.test
 <This should print some kind of (helpful) error message>
 ```
 
-Connecting to `google.com` on HTTPS port should be success:
+Connecting to `google.com` on HTTPS port should be success and exit with value zero:
 
 ```sh
 $ run.test google.com 443
 ACCEPT
 ```
 
-Connecting to `badssl.com`'s `untrusted-root` should be failure:
+Connecting to `badssl.com`'s `untrusted-root` should be failure and exit with value zero:
 
 ```sh
 $ run.test untrusted-root.badssl.com 443
@@ -131,16 +133,25 @@ stub: python 'stubs/python-urllib2/run.py'
 ---
 
 Finished stubs (documentation and correct calling convention):
+* bash-curl
+* bash-opensslSClient
+* c-openssl
+* cSharp-Net
+* dotnet-https
+* FSharp-net
 * go-nethttp
+* haskell-http-client-tls
 * haskell-wreq
 * java-https
 * java-net
 * lua5.1-luasec
 * php-file-get-contents
+* python3-urllib
+* python-idiokit
 * python-requests
 * python-urllib2
 * python-urllib3
-* python3-urllib
+* vb-net
 
 
 ### Acceptance process:
@@ -159,7 +170,7 @@ Finished stubs (documentation and correct calling convention):
    * Deps documented?
    * **Run** + **Install**
 *  Results:
-   * Results.md
+   * results.txt
 * Findings + What to do?
    * Pass/ fail ->
       * Ignore?, Writeup?, Upstream?
