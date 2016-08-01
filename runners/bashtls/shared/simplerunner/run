@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 # <command> <stub(file)> <conf> <ca> <curpath> <stub(printable name)> <timeout>
 #init-------------------------------------------------------------
 curpath=$0
@@ -42,8 +43,8 @@ status=""
 for f in $filename
 do
   #echo `pwd` - $command $extracommand''$f google.com 443
-  valid=`$command $extracommand''$f google.com 443 `
-  if [[ $(echo $valid | grep "REJECT") || $(echo $valid | grep "ACCEPT")  ]]; then
+  valid=`$command $extracommand''$f google.com 443`
+  if [[ $(echo $valid | grep "REJECT") || $(echo $valid | grep "ACCEPT") || $(echo $valid | grep "UNSUPPORTED") ]]; then
     filename=$f #this is propably the correct file, if that is not the case, well then you will see some errors
     status="ok"
     break
@@ -53,10 +54,13 @@ if [[ ! $status ]]; then  #no correct file found or might be wrong command?
   exit 1
 fi
 
+
+
 confpath=$3
 if [[ ! $confpath =~ '/' ]]; then
   confpath=$curpath"/conf/"$confpath
 fi
+
 
 certspath=$4
 FIS=IFS; IFS=+ read certspath cabundle <<< $certspath; IFS=FIS
@@ -76,6 +80,7 @@ if [[ "$certspath" ]]; then
     fi
   fi
 fi
+
 
 stub=$6
 if [[ ! $stub ]]; then
