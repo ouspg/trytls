@@ -1,6 +1,6 @@
 # TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls)
 
-Does *your* TLS/SSL library check [certificates](https://tools.ietf.org/html/rfc5280) properly when hanshaking?
+Does *your* TLS/SSL library check [certificates](https://tools.ietf.org/html/rfc5280) properly?
 Broken certificate checks seems to be an overlooked issue.
 Handling certificates is surprisingly complex, and calls for extra attention.
 
