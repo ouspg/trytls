@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-	if len(os.Args) == 2 {
+	if len(os.Args) == 4 {
 		fmt.Println("UNSUPPORTED")
 		os.Exit(0)
 	} else if len(os.Args) != 3 {
-		fmt.Println("usage: %s <host> <port>", os.Args[0])
+		fmt.Println("usage: go run run.go <host> <port>")
 		os.Exit(1)
 	}
 
