@@ -1,0 +1,36 @@
+platform: OS X 10.11.5
+runner: trytls 0.2.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
+stub: docker run '--rm' 'test-wreq'
+ PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+      output: 200 OK
+ PASS expired certificate [reject expired.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("certificate has expired",True,CertificateExpired))
+ FAIL wrong hostname in certificate [reject wrong.host.badssl.com:443]
+      output: 200 OK
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("certificate rejected: [SelfSigned]",True,CertificateUnknown))
+ PASS SHA-256 signature [accept sha256.badssl.com:443]
+      output: 200 OK
+ PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+      output: 200 OK
+ PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
+ PASS Superfish CA [reject superfish.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
+ PASS eDellRoot CA [reject edellroot.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
+ PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
+ PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+      output: HandshakeFailed (Error_Protocol ("bad SignatureRSA for ecdhparams",True,HandshakeFailure))
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+      output: HandshakeFailed (Error_Packet_Parsing "handshake[HandshakeType_ServerKeyXchg]: parsing error: remaining bytes")
+ FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
+      output: 200 OK
+ PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+      output: HandshakeFailed (Error_Packet_Parsing "handshake[HandshakeType_ServerKeyXchg]: parsing error: remaining bytes")
+ PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+      output: HandshakeFailed (Error_Packet_Parsing "handshake[HandshakeType_ServerKeyXchg]: parsing error: remaining bytes")
+ SKIP valid localhost certificate [accept localhost:54349]
+ SKIP invalid localhost certificate [reject localhost:54354]
+ SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]

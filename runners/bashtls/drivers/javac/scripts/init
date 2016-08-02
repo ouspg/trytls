@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bashs
 
 cacerts="/etc/ssl/certs/java/cacerts"
 

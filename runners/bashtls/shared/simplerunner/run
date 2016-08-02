@@ -1,8 +1,7 @@
 #!/bin/bash
 
+
 # <command> <stub(file)> <conf> <ca> <curpath> <stub(printable name)> <timeout>
-
-
 #init-------------------------------------------------------------
 curpath=$0
 if [[ ! $curpath == \/* ]]; then
@@ -22,27 +21,30 @@ if [[ $command == "_" ]]; then
   extracommand='./'
 fi
 
+stubspath=$8
+if [[ ! $stubspath ]]; then
+  stubspath=$curpath"/../../../../stubs"
+fi
 
 filename=$2
 if [[ ! $filename =~ '/' ]]; then
   if [[ $filename =~ ":" ]]; then
-    path=${filename%:*}
-    cd $curpath"/../../../../stubs/$path"
+    path=$stubspath/${filename%:*}
+    cd $path
     filename=${filename##*:}
   else
-    cd $curpath"/../../../../stubs/$filename"
+    cd $stubspath/$filename
     filename=`find -name "[Rr]un*"`' Run run'
   fi
   filename=${filename##*/}
 fi
 
-
-
 status=""
 for f in $filename
 do
-  valid=`$command $extracommand''$f 2>&1 | grep "UNSUPPORTED"`
-  if [[ $valid ]]; then
+  #echo `pwd` - $command $extracommand''$f google.com 443
+  valid=`$command $extracommand''$f google.com 443`
+  if [[ $(echo $valid | grep "REJECT") || $(echo $valid | grep "ACCEPT") || $(echo $valid | grep "UNSUPPORTED") ]]; then
     filename=$f #this is propably the correct file, if that is not the case, well then you will see some errors
     status="ok"
     break
@@ -52,12 +54,16 @@ if [[ ! $status ]]; then  #no correct file found or might be wrong command?
   exit 1
 fi
 
+
+
 confpath=$3
 if [[ ! $confpath =~ '/' ]]; then
   confpath=$curpath"/conf/"$confpath
 fi
 
+
 certspath=$4
+FIS=IFS; IFS=+ read certspath cabundle <<< $certspath; IFS=FIS
 if [[ "$certspath" ]]; then
   if [[ "$certspath" != '_' ]]; then
     if [[ $certspath == "--" ]]; then
@@ -74,6 +80,7 @@ if [[ "$certspath" ]]; then
     fi
   fi
 fi
+
 
 stub=$6
 if [[ ! $stub ]]; then
@@ -92,11 +99,23 @@ if [[ -f "$infopath/info" ]]; then
   info=`cat $infopath/info`
   parallel=`echo $info | grep 'parallel'`
   printerror=`echo $info | grep 'print-error'`
+  printcontext=`echo $info | grep 'print-context'`
 fi
 
 #functions-------------------------------------------------------------
 
 #echo timeout: $timeout
+
+checkreturnvalue()
+{
+  if [[ $1 ]]; then
+    if [[ $1 == "BREAK" ]]; then
+      return 1
+    fi
+  fi
+  return 0
+}
+
 
 handleresponse()
 {
@@ -121,41 +140,46 @@ handleresponse()
 
 }
 
-FAILURE="REJECT"
-SUCCESS="ACCEPT"
-
 connect()
 {
   port=$1
-  status=$2
-  crt=$3
-  hostname=$4
-  extra=$5
+  msg=$2
+  expected=$3
+  crt=$4
+  hostname=$5
+  extra=$6
+
   returnvalue=0
 
   if [[ "$crt" == "certs/test.crt" ]]; then
-    response=`$command $extracommand''$filename $hostname $port "$curpath"/"$crt" 2>&1 & handleresponse $!`
-    #status="OK?"
+    response=`$command $extracommand''$filename $hostname $port $curpath/$crt 2>&1 & handleresponse $!`
   elif [[ "$crt" == "_" ]]; then
-    if [[ "$certspath" =~ "." ]]; then
-      response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
+    if [[ $cabundle ]]; then
+      response=`$command $extracommand''$filename $hostname $port $cabundle  2>&1 & handleresponse $!`
+    elif [[ "$certspath" =~ "." ]]; then
+      response=`$command $extracommand''$filename $hostname $port $certspath  2>&1 & handleresponse $!`
     else
-      response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
+      response=`$command $extracommand''$filename $hostname $port  2>&1 & handleresponse $!`
     fi
   elif [[ "$certspath" ]]; then
     if [[ "$certspath" != "-k" ]]; then
       #echo $command $filename $hostname $port "$certspath"/"$crt"
-      response=`$command $extracommand''$filename $hostname $port "$certspath"/"$crt" 2>&1 & handleresponse $!`
-      #status="OK?"
+      response=`$command $extracommand''$filename $hostname $port $certspath/$crt 2>&1 & handleresponse $!`
     else
-      response=`$command $extracommand''$filename $hostname $port "$certspath"  2>&1 & handleresponse $!`
-      #kill $!
-      #status="OK?"
+      response=`$command $extracommand''$filename $hostname $port $certspath  2>&1 & handleresponse $!`
     fi
   else
-    response=`$command $extracommand''$filename $hostname "$port"  2>&1 & handleresponse $!`
+    response=`$command $extracommand''$filename $hostname $port  2>&1 & handleresponse $!`
   fi
 
+
+  if [[ $printcontext ]]; then
+    context="`echo -e $response | sed -e '$d'`"
+  fi
+  if [[ $printerror ]]; then
+    error=$response
+  fi
+  response=`echo -e $response | sed -e '$!d'`
   #choose color
 
   if [[ "$response" == "UNSUPPORTED" ]]; then
@@ -165,60 +189,66 @@ connect()
   elif [[ "$response" == "TIMED OUT" ]]; then
     color='\e[0;40m'      #most likely the connection was succesfull, but can be sure
     response="[      ][  TIMED OUT   ]"
-  elif [[ "$status" == "BAD" ]]; then
+    `checkreturnvalue $extra`; returnvalue=$?
+  elif [[ "$expected" == "REJECT" ]]; then
 
-    if [[ "$response" == $FAILURE ]]; then
+    if [[ "$response" == "REJECT" ]]; then
       color='\e[0;32m'    #green, success
       response='[ PASS ]'[$response]
     else
       color='\e[0;41m'    #red, failure(either error or verify did succeed)
-      if [[ "$response" == $SUCCESS || $printerror ]]; then
+      if [[ "$response" == "ACCEPT" ]]; then
         response='[ FAIL ]'[$response]
-        if [[ $extra ]]; then
-          if [[ $extra == "BREAK" ]]; then
-            returnvalue=1
-          fi
-        fi
+        `checkreturnvalue $extra`; returnvalue=$?
       else
-        if [[ ! $printerror ]]; then
-          response='[ ERROR]'
+        response='[ ERROR]'
+        if [[ $printerror ]]; then
+          context=$error
         fi
+        `checkreturnvalue $extra`; returnvalue=$?
       fi
     fi
 
-  elif [[ "$status" == "GOOD" ]]; then
-
-    if [[ "$response" == $SUCCESS ]]; then
+  elif [[ "$expected" == "ACCEPT" ]]; then
+    if [[ "$response" == "ACCEPT" ]]; then
       color='\e[0;36m'    #green, success
       response="[ PASS ][$response]"
     else
-      if [[ "$response" == $FAILURE || $printerror ]]; then
-        color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+      color='\e[0;41m'    #red, failure(either error or verify did not succeed)
+      if [[ "$response" == "REJECT" ]]; then
         response="[ FAIL ][$response]"
-        if [[ $extra ]]; then
-          if [[ $extra == "BREAK" ]]; then
-            returnvalue=1
-          fi
-        fi
+        `checkreturnvalue $extra`; returnvalue=$?
       else
-        if [[ ! $printerror ]]; then
-          response='[ ERROR]'
+        response='[ ERROR]'
+        if [[ $printerror ]]; then
+          context=$error
         fi
+        `checkreturnvalue $extra`; returnvalue=$?
       fi
     fi
   else
     color='\e[0;37m'    #allright
-    if [[ "$response" == $SUCCESS || "$response" == $FAILURE ]]; then
+    if [[ "$response" == "ACCEPT" || "$response" == "REJECT" ]]; then
       response="[ OK?  ][$response]"
     else
-      if [[ ! $printerror ]]; then
-        response="[ ERROR]"
+      response='[ ERROR]'
+      if [[ $printerror ]]; then
+        context=$error
       fi
+      `checkreturnvalue $extra`; returnvalue=$?
     fi
   fi
 
-  echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]"
+  if [[ $returnvalue != 0 ]]; then
+    response=$response"[-> SKIP $hostname (till CONTINUE)    ]"
+    msg=""
+  fi
 
+  if [[ $printcontext && $context ]]; then
+    echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]\n"$context
+  else
+    echo -e "$color[$stub]$response[$msg]\e[0m[$hostname]"
+  fi
   return $returnvalue
 
 }
@@ -228,11 +258,13 @@ connect()
 FIS=$IFS
 IFS='&'
 
-while read -r port msg status crt hostname extra; do
+trytoconnect=true
+
+while read -r port msg expected crt hostname extra; do
 
   port=${port//[[:blank:]]/}
   #msg=${msg//[[:blank:]]/}
-  status=${status//[[:blank:]]/}
+  expected=${expected//[[:blank:]]/}
   crt=${crt//[[:blank:]]/}
   hostname=${hostname//[[:blank:]]/}
   extra=${extra//[[:blank:]]/}
@@ -241,7 +273,7 @@ while read -r port msg status crt hostname extra; do
   #echo "port: " .$port.
   #echo "msg: " .$msg.
   #echo "crt: " .$crt.
-  #echo "status: " .$status.
+  #echo "expected: " .$expected.
   #echo "hostname: " .$hostname.
   #echo "extra:"$extra"-"
   #echo $filename
@@ -249,11 +281,14 @@ while read -r port msg status crt hostname extra; do
   #echo $certspath
 
   #try to connect
-
-  if [[ $parallel && $extra != "BREAK" ]]; then
-    connect $port $status $crt $hostname &
-  else
-    connect $port $status $crt $hostname $extra || break      #should i skip the rest of this backend?
+  if [ $trytoconnect = true ]; then
+    if [[ $parallel && $extra != "BREAK" ]]; then
+      connect $port $msg $expected $crt $hostname &
+    else
+      connect $port $msg $expected $crt $hostname $extra || trytoconnect=false      #should i skip the rest of this backend?
+    fi
+  elif [[ $extra == "CONTINUE" ]]; then  #resume control
+    trytoconnect=true
   fi
 
 done < "$confpath"
