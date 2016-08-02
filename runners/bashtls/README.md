@@ -81,6 +81,30 @@ $ ./shared/simplerunner/settings "linear" -> Do not Run the stubs in parallel, l
 ```
 For more info: [../simplerunner/README.md](https://github.com/ouspg/trytls/blob/bashtls-update/runners/bashtls/shared/simplerunner/README.md)
 
-### Simplified picture
+### Overview
+
+```
+
+BashTLS:
+  Init:
+    drivers=grep wanted drivers
+    for driver in drivers do
+    	stubs[driver]=grep wanted stubs
+    backends=grep wanted backends
+  Run:
+    [parallel] For driver in drivers do
+      [Init driver] + Run driver
+      [semi parallel] For stub in stubs do
+        [Init stub]
+        For backend in backends do
+          [parallel] For line in backend conf do 
+            If stub is working then
+              If timeout then print timeout
+              Else print result
+
+```
+
+
+#### Simplified picture
 
 ![bashtls](data/bashtls.png)
