@@ -38,11 +38,11 @@ In case you don't have [`pip`](https://pip.pypa.io/) installed, please refer to 
 $ git clone https://github.com/ouspg/trytls.git
 $ trytls https python trytls/stubs/python-urllib2/run.py
 platform: OS X 10.11.5
-runner: trytls 0.1.1 (CPython 2.7.10, OpenSSL 0.9.8zh)
-stub: python 'stubs/python-urllib2/run.py'
+runner: trytls 0.2.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
+stub: python 'run.py'
+ PASS support for TLS server name indication (SNI) [accept badssl.com:443]
  PASS expired certificate [reject expired.badssl.com:443]
  PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
   ...
 ```
 
