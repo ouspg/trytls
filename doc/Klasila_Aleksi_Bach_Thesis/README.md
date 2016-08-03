@@ -221,7 +221,7 @@ POODLE stands for Padding Oracle On Downgraded Legacy Encryption. Any SSLv3.0 wi
 
 **BEAST [22]**
 
-BEAST stands for Browser Exploit Against SSL/TLS. TLSv1.0 and earlier protocols allow attacker to guess what the plain text dereved from the encrypted data looks like. With enough guesses the attacker can get enough information out of the encrypted data to decrypt cookies flowing by. The attack has been batched but the batch is not usually on by default. The attack was found by Juliano Rizzo and Thai Duong. This attack is still a valid one in some cases.
+BEAST stands for Browser Exploit Against SSL/TLS. TLSv1.0 and earlier protocols allow attacker to guess what the plain text derieved from the encrypted data looks like. With enough guesses the attacker can get enough information out of the encrypted data to decrypt cookies flowing by. The attack has been batched but the batch is not usually on by default. The attack was found by Juliano Rizzo and Thai Duong. This attack is still a valid one in some cases.
 
 **SLOTH [31]**
 
@@ -619,91 +619,91 @@ Of course the code is not necessarily safe even if it passes all the tests. Or i
 
 ## 7. References
 
-[1] P. Hoffman. VPN Consortium. "Draft-Hoffman-Httpbis-Minimal-Unauth-Enc-01 - Minimal Unauthenticated Encryption (MUE) For HTTP/2". Tools.ietf.org. Available: https://tools.ietf.org/html/draft-hoffman-httpbis-minimal-unauth-enc-01 [Accessed 15 Jul. 2016].
+[1] P. Hoffman. VPN Consortium. "Draft-Hoffman-Httpbis-Minimal-Unauth-Enc-01 - Minimal Unauthenticated Encryption (MUE) For HTTP/2". Tools.ietf.org. [online] Available: https://tools.ietf.org/html/draft-hoffman-httpbis-minimal-unauth-enc-01 [Accessed 15 Jul. 2016].
 
-[2] T. Dierks. E. Rescorla. RTFM, Inc. RFC 5246. - The Transport Layer Security (TLS) Protocol Version 1.2". Tools.ietf.org.  Available: https://tools.ietf.org/html/rfc5246 pp. 32-33 [Accessed 11 Jul. 2016].
+[2] T. Dierks. E. Rescorla. RTFM, Inc. RFC 5246. - The Transport Layer Security (TLS) Protocol Version 1.2". Tools.ietf.org. [online] Available: https://tools.ietf.org/html/rfc5246 pp. 32-33 [Accessed 11 Jul. 2016].
 
-[3] C. Kumar. Infrastructure, Web et al. "10 Online Tool To Test SSL, TLS & Latest Vulnerability". Geek Flare. Available:  https://geekflare.com/ssl-test-certificate/ [Accessed 11 Jul. 2016].
+[3] C. Kumar. Infrastructure, Web et al. "10 Online Tool To Test SSL, TLS & Latest Vulnerability". Geek Flare. [online] Available:  https://geekflare.com/ssl-test-certificate/ [Accessed 11 Jul. 2016].
 
-[4] "Badssl.Com". Badssl.com. Available:  https://badssl.com/ [Accessed 11 Jul. 2016].
+[4] "Badssl.Com". Badssl.com. [online] Available: https://badssl.com/ [Accessed 11 Jul. 2016].
 
-[5] "What Is Docker?". Docker. Available: https://www.docker.com/what-docker [Accessed 11 Jul. 2016].
+[5] "What Is Docker?". Docker. [online] Available: https://www.docker.com/what-docker [Accessed 11 Jul. 2016].
 
-[6] "Bash - GNU Project - Free Software Foundation". Gnu.org. Available: https://www.gnu.org/software/bash/ [Accessed 11 Jul. 2016].
+[6] "Bash - GNU Project - Free Software Foundation". Gnu.org. [online] Available: https://www.gnu.org/software/bash/ [Accessed 11 Jul. 2016].
 
-[7] "Nginx". Nginx.org. Available: https://nginx.org/en/ [Accessed 11 Jul. 2016].
+[7] "Nginx". Nginx.org. [online] Available: https://nginx.org/en/ [Accessed 11 Jul. 2016].
 
-[8] OpenSSL Foundation, Inc. "Openssl". Openssl.org. Available: https://www.openssl.org/ [Accessed 11 Jul. 2016].
+[8] OpenSSL Foundation, Inc. "Openssl". Openssl.org. [online] Available: https://www.openssl.org/ [Accessed 11 Jul. 2016].
 
-[9] "Vsftpd - Secure, Fast FTP Server For UNIX-Like Systems". Security.appspot.com. Available: https://security.appspot.com/vsftpd.html [Accessed 11 Jul. 2016].
+[9] "Vsftpd - Secure, Fast FTP Server For UNIX-Like Systems". Security.appspot.com. [online] Available:  https://security.appspot.com/vsftpd.html [Accessed 11 Jul. 2016].
 
-[10] "Curl - SSL Libraries Compared". Curl.haxx.se. Available: https://curl.haxx.se/docs/ssl-compared.html [Accessed 11 Jul. 2016].
+[10] "Curl - SSL Libraries Compared". Curl.haxx.se. [online] Available: https://curl.haxx.se/docs/ssl-compared.html [Accessed 11 Jul. 2016].
 
-[11] "Testing For Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection (OTG-CRYPST-001) - OWASP". Owasp.org. Available:   https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_(OTG-CRYPST-001) [Accessed 11 Jul. 2016].
+[11] "Testing For Weak SSL/TLS Ciphers, Insufficient Transport Layer Protection (OTG-CRYPST-001) - OWASP". Owasp.org. [online] Available: https://www.owasp.org/index.php/Testing_for_Weak_SSL/TLS_Ciphers,_Insufficient_Transport_Layer_Protection_(OTG-CRYPST-001) [Accessed 11 Jul. 2016].
 
-[12]  GMO GlobalSign Inc. Available: https://www.globalsign.com/en/resources/white-paper-ssl-secure-server-certificates.pdf And Tools.ietf.org. (2016). RFC 5280 - Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. [online] Available at: https://tools.ietf.org/html/rfc5280 [Accessed 20 Jul. 2016].
+[12]  GMO GlobalSign Inc. Available: https://www.globalsign.com/en/resources/white-paper-ssl-secure-server-certificates.pdf And Tools.ietf.org. (2016). RFC 5280 - Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile. [online] Available: https://tools.ietf.org/html/rfc5280 [Accessed 20 Jul. 2016].
 
-[13] "Why SSL? The Purpose Of Using SSL Certificates". Sslshopper.com. Available: https://www.sslshopper.com/why-ssl-the-purpose-of-using-ssl-certificates.html [Accessed 11 Jul. 2016].
+[13] "Why SSL? The Purpose Of Using SSL Certificates". Sslshopper.com. [online] Available:  https://www.sslshopper.com/why-ssl-the-purpose-of-using-ssl-certificates.html [Accessed 11 Jul. 2016].
 
-[14] Matthew Prince. (2014). "Introducing Universal SSL". CloudFlare. Available: https://blog.cloudflare.com/introducing-universal-ssl/ [Accessed 11 Jul. 2016].
+[14] Matthew Prince. (2014). "Introducing Universal SSL". CloudFlare. [online] Available:  https://blog.cloudflare.com/introducing-universal-ssl/ [Accessed 11 Jul. 2016].
 
-[15] "Qualys SSL Labs". Ssllabs.com. Available: https://www.ssllabs.com [Accessed 11 Jul. 2016].
+[15] "Qualys SSL Labs". Ssllabs.com. [online] Available: https://www.ssllabs.com [Accessed 11 Jul. 2016].
 
-[16] Sarath Pillai. (2013). "Understanding SSL Handshake Protocol". slashroot.in. Available: http://www.slashroot.in/understanding-ssl-handshake-protocol [Accessed 11 Jul. 2016].
+[16] Sarath Pillai. (2013). "Understanding SSL Handshake Protocol". slashroot.in. [online] Available:  http://www.slashroot.in/understanding-ssl-handshake-protocol [Accessed 11 Jul. 2016].
 
-[17] "Docker/Docker". GitHub. Available:  https://github.com/docker/docker [Accessed 11 Jul. 2016].
+[17] "Docker/Docker". GitHub. [online] Available: https://github.com/docker/docker [Accessed 11 Jul. 2016].
 
-[18] "Google/Badssl.Com". GitHub. Available:  https://github.com/google/badssl.com [Accessed 11 Jul. 2016].
+[18] "Google/Badssl.Com". GitHub. [online] Available: https://github.com/google/badssl.com [Accessed 11 Jul. 2016].
 
-[19] "Ssllabs/Research". GitHub. Available:  https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices [Accessed 11 Jul. 2016].
+[19] "Ssllabs/Research". GitHub. [online] Available: https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices [Accessed 11 Jul. 2016].
 
-[20] Sarah Madden. Christian Dresen. "DROWN Attack". Drownattack.com. Available: https://drownattack.com/ [Accessed 11 Jul. 2016].
+[20] Sarah Madden. Christian Dresen. "DROWN Attack". Drownattack.com. [online] Available: https://drownattack.com/ [Accessed 11 Jul. 2016].
 
-[21] POODLE. "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. Available: https://www.us-cert.gov/ncas/alerts/TA14-290A [Accessed 11 Jul. 2016].
+[21] POODLE. "SSL 3.0 Protocol Vulnerability And POODLE Attack | US-CERT". Us-cert.gov. [online] Available:  https://www.us-cert.gov/ncas/alerts/TA14-290A [Accessed 11 Jul. 2016].
 
-[22] Duong, Thai. "Thái: BEAST". Vnhacker.blogspot.fi. Available: https://vnhacker.blogspot.fi/2011/09/beast.html [Accessed 11 Jul. 2016].
+[22] Duong, Thai. "Thái: BEAST". Vnhacker.blogspot.fi. [online] Available: https://vnhacker.blogspot.fi/2011/09/beast.html [Accessed 11 Jul. 2016].
 
-[23] OpenSSL Foundation, Inc. "Openssl". Openssl.org. Available: https://www.openssl.org/news/vulnerabilities.html [Accessed 11 Jul. 2016].
+[23] OpenSSL Foundation, Inc. "Openssl". Openssl.org. [online] Available: https://www.openssl.org/news/vulnerabilities.html [Accessed 11 Jul. 2016].
 
-[24]  DCSEC research group at Leibniz University Hannover. "SSL Cipher Suites Supported By Your Browser". Cc.dcsec.uni-hannover.de.  Available: https://cc.dcsec.uni-hannover.de/ [Accessed 11 Jul. 2016].
+[24]  DCSEC research group at Leibniz University Hannover. "SSL Cipher Suites Supported By Your Browser". Cc.dcsec.uni-hannover.de.  [online] Available: https://cc.dcsec.uni-hannover.de/ [Accessed 11 Jul. 2016].
 
-[25] Qualys, Inc. "Qualys SSL Labs - Projects". Ssllabs.com. Available: https://www.ssllabs.com/projects/index.html [Accessed 12 Jul. 2016].
+[25] Qualys, Inc. "Qualys SSL Labs - Projects". Ssllabs.com. [online] Available: https://www.ssllabs.com/projects/index.html [Accessed 12 Jul. 2016].
 
-[26] "Server Monitoring, Web Site Monitoring And Uptime Monitoring - Wormly". Wormly.com. Available: https://www.wormly.com/ [Accessed 12 Jul. 2016].
+[26] "Server Monitoring, Web Site Monitoring And Uptime Monitoring - Wormly". Wormly.com. [online] Available: https://www.wormly.com/ [Accessed 12 Jul. 2016].
 
-[27]  Symantec Corporation. "Symantec - Global Leader In Next-Generation Cyber Security | Symantec". Symantec.com. Available: https://www.symantec.com/ [Accessed 12 Jul. 2016].
+[27]  Symantec Corporation. "Symantec - Global Leader In Next-Generation Cyber Security | Symantec". Symantec.com. [online] Available:  https://www.symantec.com/ [Accessed 12 Jul. 2016].
 
-[28] "Sslsmart | Mcafee Free Tools". Mcafee.com. Available: http://www.mcafee.com/us/downloads/free-tools/sslsmart.aspx [Accessed 12 Jul. 2016].
+[28] "Sslsmart | Mcafee Free Tools". Mcafee.com. [online] Available: http://www.mcafee.com/us/downloads/free-tools/sslsmart.aspx [Accessed 12 Jul. 2016].
 
-[29] "SSL Digital Certificate Authority - Encryption & Authentication". Digicert.com. Available: https://www.digicert.com/ [Accessed 12 Jul. 2016].
+[29] "SSL Digital Certificate Authority - Encryption & Authentication". Digicert.com. [online] Available: https://www.digicert.com/ [Accessed 12 Jul. 2016].
 
-[30] ClickSSL. "SSL Tools". SSL Certificates by ClickSSL - Cheap Price, Best Quality & Support. Available: https://www.clickssl.net/ssl-tools [Accessed 12 Jul. 2016].
+[30] ClickSSL. "SSL Tools". SSL Certificates by ClickSSL - Cheap Price, Best Quality & Support. [online] Available:  https://www.clickssl.net/ssl-tools [Accessed 12 Jul. 2016].
 
-[31] INRIA Paris. INRIA Paris. "Mitls, Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. [Accessed 13 Jul. 2016].
+[31] INRIA Paris. INRIA Paris. "Mitls, Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". [online] Available: Mitls.org. [Accessed 13 Jul. 2016].
 
-[32] Clemens Hlauschek, Markus Gruber, Florian Fankhauser and Christian Schanes. Prying open Pandora’s box: KCI attacks against TLS. Available: https://www.usenix.org/system/files/conference/woot15/woot15-paper-hlauschek.pdf [Accessed 12 Jul. 2016].
+[32] Clemens Hlauschek, Markus Gruber, Florian Fankhauser and Christian Schanes. Prying open Pandora’s box: KCI attacks against TLS. [online] Available: https://www.usenix.org/system/files/conference/woot15/woot15-paper-hlauschek.pdf [Accessed 12 Jul. 2016].
 
-[33] David Adrian , Karthikeyan Bhargavan, Zakir Durumeric, Pierrick Gaudry, Matthew Green, J. Alex Halderman, Nadia Heninger, Drew Springall, Emmanuel Thomé, Luke Valenta, Benjamin VanderSloot, Eric Wustrow, Santiago Zanella-Béguelin and Paul Zimmermann. "Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice". Available: https://weakdh.org/imperfect-forward-secrecy-ccs15.pdf and https://weakdh.org/ [Accessed 13 Jul. 2016].
+[33] David Adrian , Karthikeyan Bhargavan, Zakir Durumeric, Pierrick Gaudry, Matthew Green, J. Alex Halderman, Nadia Heninger, Drew Springall, Emmanuel Thomé, Luke Valenta, Benjamin VanderSloot, Eric Wustrow, Santiago Zanella-Béguelin and Paul Zimmermann. "Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice". [online] Available: https://weakdh.org/imperfect-forward-secrecy-ccs15.pdf and [online] Available: https://weakdh.org/ [Accessed 13 Jul. 2016].
 
-[34] Blackhat asia-15. Bar Mizvah - Breaking SSL with a 13-year old RC4 Weakness. Available: https://www.blackhat.com/docs/asia-15/materials/asia-15-Mantin-Bar-Mitzvah-Attack-Breaking-SSL-With-13-Year-Old-RC4-Weakness-wp.pdf [Accessed 13 Jul. 2016].
+[34] Blackhat asia-15. Bar Mizvah - Breaking SSL with a 13-year old RC4 Weakness. [online] Available:  https://www.blackhat.com/docs/asia-15/materials/asia-15-Mantin-Bar-Mitzvah-Attack-Breaking-SSL-With-13-Year-Old-RC4-Weakness-wp.pdf [Accessed 13 Jul. 2016].
 
-[35] "Mitls, (2015), Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. [Accessed 13 Jul. 2016]. https://mitls.org/pages/attacks/SMACK#freak
+[35] "Mitls, (2015), Triple Handshake, SMACK, FREAK, Logjam, And SLOTH". Mitls.org. [Accessed 13 Jul. 2016]. [online] Available: https://mitls.org/pages/attacks/SMACK#freak
 
-[36] Langley, Adam. (2014) "Imperialviolet - The POODLE Bites Again". Imperialviolet.org. [Accessed 13 Jul. 2016].
+[36] Langley, Adam. (2014) "Imperialviolet - The POODLE Bites Again". [online] Available: Imperialviolet.org. [Accessed 13 Jul. 2016].
 
-[37] "CVE -CVE-2014-0160". Cve.mitre.org. [Accessed 13 Jul. 2016].
+[37] "CVE -CVE-2014-0160". [online] Available: Cve.mitre.org. [Accessed 13 Jul. 2016].
 
-[38] Kelsey, John. "Compression And Information Leakage Of Plaintext". Fast Software Encryption: 263-276. https://en.wikipedia.org/wiki/CRIME and https://en.wikipedia.org/wiki/CRIME#References [Accessed 13 Jul. 2016].
+[38] Kelsey, John. "Compression And Information Leakage Of Plaintext". Fast Software Encryption: 263-276. [online] Available:  https://en.wikipedia.org/wiki/CRIME and https://en.wikipedia.org/wiki/CRIME#References [Accessed 13 Jul. 2016].
 
-[39] V. Dukhovni. Two Sigma. "Draft-Dukhovni-Opportunistic-Security-06 - Opportunistic Security: Some Protection Most Of The Time". Tools.ietf.org. Available: https://tools.ietf.org/html/draft-dukhovni-opportunistic-security-06 [Accessed 14 Jul. 2016].
+[39] V. Dukhovni. Two Sigma. "Draft-Dukhovni-Opportunistic-Security-06 - Opportunistic Security: Some Protection Most Of The Time". Tools.ietf.org. [online] Available: https://tools.ietf.org/html/draft-dukhovni-opportunistic-security-06 [Accessed 14 Jul. 2016].
 
-[40] Facebook. (2014). "The Current State Of SMTP STARTTLS Deployment". M.facebook.com. Available: https://m.facebook.com/notes/protect-the-graph/the-current-state-of-smtp-starttls-deployment/1453015901605223/ [Accessed 15 Jul. 2016].
+[40] Facebook. (2014). "The Current State Of SMTP STARTTLS Deployment". M.facebook.com. [online] Available: https://m.facebook.com/notes/protect-the-graph/the-current-state-of-smtp-starttls-deployment/1453015901605223/ [Accessed 15 Jul. 2016].
 
-[41] Michel Abdalla. Fabrice Benhamouda. Philip MacKenzie. "Security of the J-PAKE Password-Authenticated Key Exchange Protocol". Available: https://www.normalesup.org/~fbenhamo/files/publications/SP_AbdBenMac15.pdf [Accessed 22 Jul. 2016].
+[41] Michel Abdalla. Fabrice Benhamouda. Philip MacKenzie. "Security of the J-PAKE Password-Authenticated Key Exchange Protocol". [online] Available: https://www.normalesup.org/~fbenhamo/files/publications/SP_AbdBenMac15.pdf [Accessed 22 Jul. 2016].
 
-[42] Mono. (2016) "Home | Mono". Mono-project.com. Available: http://www.mono-project.com/ [Accessed 22 Jul. 2016].
+[42] Mono. (2016) "Home | Mono". Mono-project.com. [online] Available: http://www.mono-project.com/ [Accessed 22 Jul. 2016].
 
-[43] Nuwer, R. The last places on Earth without the internet. [online] Bbc.com. Available: http://www.bbc.com/future/story/20140214-the-last-places-without-internet [Accessed 19 Jul. 2016].
+[43] Nuwer, R. The last places on Earth without the internet. Bbc.com. [online] Available: http://www.bbc.com/future/story/20140214-the-last-places-without-internet [Accessed 19 Jul. 2016].
 
 [44] Network Working Group. Network Working Group. Tools.ietf.org. draft-ietf-tls-tls13-07 - The Transport Layer Security (TLS) Protocol Version 1.3. [online] Available: https://tools.ietf.org/html/draft-ietf-tls-tls13-07 [Accessed 20 Jul. 2016]. And  Tlswg.github.io. The Transport Layer Security (TLS) Protocol Version 1.3. [online] Available: https://tlswg.github.io/tls13-spec/ [Accessed 20 Jul. 2016].
 
