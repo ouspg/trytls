@@ -17,14 +17,11 @@ Luarocks installed and used to install
 * luasec 0.6-1 or newer (`luarocks install luasec` to command line)
 * luasocket (`luarocks install luasocket` to command line)
 
-Certificate file in this (trytls/stubs/lua5.1-luasec/) directory from https://curl.haxx.se/docs/caextract.html
-
-Tested on Ubuntu 16.04
+Certificate file in this directory from https://curl.haxx.se/docs/caextract.html
 
 # Credits
 
 http://notebook.kulchenko.com/programming/https-ssl-calls-with-lua-and-luasec
-https://github.com/brunoos/luasec/pull/49/commits/cde151739e4f7d9262dcea462a2e58d708501ad8
 
 # Luasec License
 
