@@ -22,7 +22,10 @@ Tested on Ubuntu 16.04
 # Credits
 
 http://notebook.kulchenko.com/programming/https-ssl-calls-with-lua-and-luasec
-https://github.com/brunoos/luasec/pull/49/commits/cde151739e4f7d9262dcea462a2e58d708501ad8
+
+# Notes
+
+There is a host name check proposition by @bartbes [here](https://github.com/bartbes/luasec/commit/cde151739e4f7d9262dcea462a2e58d708501ad8) that has not been implemented in LuaSec yet.
 
 # Luasec License
 
