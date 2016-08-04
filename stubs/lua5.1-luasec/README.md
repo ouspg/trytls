@@ -12,10 +12,12 @@ REJECT
 
 # Dependencies:
 
-Lua 5.1 or newer installed
+Lua 5.1 installed
 Luarocks installed and used to install
 * luasec 0.6-1 or newer (`luarocks install luasec` to command line)
 * luasocket (`luarocks install luasocket` to command line)
+
+Certificate file in this (trytls/stubs/lua5.1-luasec/) directory from https://curl.haxx.se/docs/caextract.html
 
 Tested on Ubuntu 16.04
 
