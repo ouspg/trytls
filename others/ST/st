@@ -3,31 +3,19 @@
 cmdf=$1       #command + file, for example: "mono ../trytls/stubs/FSharp-net/run.exe"
 ca=$2         #ca-bundle/certificate, for example: /etc/ssl/certs/ca-certificate.crt
 
-errors="There were some errors"
+# Functions
 
-#this cannot be done for cmdf (at least in any simple way)
-#that's because there must not always be an 'actual filename' in the cmdf (for example java Run) -> no such file
-if [[ $ca && ! -f $ca ]]; then
-  echo "Error: no such file or directory: $ca"
-  echo $errors
-  exit 1
-fi
-
-retval=0    #what value to exit with
-retstring=""
-
-# This script can be used in testing if a stub returns correct values or not
-
+#test "<host> <port> [ca-bundle]" <expected (<response> <exit value>)> <error message> <max stringErrors> <max valErrors>
 test() {
 
-  cmd=$1
-  resp=$2            #what resp to expect to
-  val=$3             #what exit value to expect to
-  maxStringErrors=$4 #how many errors until fatal error
+  cmd=$1             #command
+  resp=$2            #what response string to expect/not expect to
+  val=$3             #what exit value to expect/not expect to
+  maxStringErrors=$4 #how many wrong/correct strings until error
   if [[ ! $maxStringErrors || $maxStringErrors == "--" ]]; then
     maxStringErrors=9999;
   fi
-  maxValErrors=$5    #how many errors until fatal error
+  maxValErrors=$5    #how many wrong/correct values until error
   if [[ ! $maxValErrors || $maxValErrors == "--" ]]; then
     maxValErrors=9999;
   fi
@@ -57,83 +45,173 @@ test() {
   fi
 }
 
-#these are in variables, so that they are easy to edit if needed
-FAILURE="REJECT"
-SUCCESS="ACCEPT"
-UNSUPPORTED="UNSUPPORTED"
+test-support(){
 
-# Terms used:
+  #simply test if a stub returns UNSUPPORTED when it is supposed to
+  #stringerrors=0
+  wrong="$UNSUPPORTED"    #if stringErrors > max then Error
+  max=1                   #cant unsupport both, but can support one -> 0 + 1 = 2-1 = 1
 
-# [DON'T CARE] -> No matter what the string is, we do not care!
-# [--]         -> No matter how many errors of this kind (either string or exit value), we do not care!
-
-
-#test "<host> <port> [ca-bundle]" <expected (<response> <exit value>)> <error message> <max stringErrors> <max valErrors>
-
-stringErrors=0; valErrors=0
-c=0   #checks, (0,1),2,4,16,... currently needed: 2^0-1 and 2^1-1 == 0 (either without or within ca-bunde) and 1 (both without and within ca-bundle)
-test "host port $ca" "$UNSUPPORTED" 1 1 -- "DON'T CARE"
-if [[ $ca && $stringErrors != 0 ]]; then
-  echo "Error: the stub does not support ca-bundles"
-  echo $errors
-  exit 1
-fi
-test "host port"     "$UNSUPPORTED" 1 1 -- "Error: UNSUPPORTS calling convention (returns always $UNSUPPORTED?)"
-if [[ ! $ca && $stringErrors != 0 ]]; then
-  echo "Error: the stub does not support being without ca-bundles"
-  echo $errors
-  exit 1
-elif [[ $ca && $stringErrors == 0 ]]; then     #can be without and within ca-bundles
-  c=1
-fi
-if [[ $retval == 0 ]]; then
-  valErrors=0
-  test "google.com 443 $ca" "DON'T CARE" 1 -- 0 "Error: Does not return 0 when 2 or 3 arguments given"
-  if [[ $c != 0 ]]; then
-    test "google.com 443"   "DON'T CARE" 1 -- 0 "Error: Does not return 0 when 2 or 3 arguments given"
+  stringErrors=0;
+  c=0
+  test "host port $ca" "$wrong" 1 $max -- "DON'T CARE"
+  if [[ $ca && $stringErrors != 0 ]]; then
+    echo "Error: the stub does not support ca-bundles"
+    echo $errors
+    exit 1
   fi
+  test "host port"     "$wrong" 1 $max -- "Error: UNSUPPORTS calling convention (returns always $wrong?)"
+  if [[ ! $ca && $stringErrors != 0 ]]; then
+    echo "Error: the stub does not support being without ca-bundles"
+    echo $errors
+    exit 1
+  elif [[ $ca && $stringErrors == 0 ]]; then     #can be without and within ca-bundles
+    c=1
+  fi
+}
+
+test-returnValue(){
+
+  #test if stub returns 0 when 2 or 3 arguments given
+  #care only about the value, do not care the string -> (--)
+  max=0     #if valErrors > max then Error
+
   if [[ $retval == 0 ]]; then
+    wrong=1   #if stub returns 1 then valErrors++
     valErrors=0
-    test "host"               "DON'T CARE" 0 -- 0 "Error: Does not care about the number of parameters, exits always with process value 0"
-    if [[ $retval == 0 ]]; then
-      test "host port ca foo" "DON'T CARE" 0 -- 0 "Error: Does not care about the number of parameters, exits always with process value 0"
-    fi
-    if [[ $retval == 0 ]]; then
-      stringErrors=0;
-      test "google.com 443 $ca" "$SUCCESS" 1 $c -- "(can't connect to google.com:443 - return $FAILURE always?)" "!"
-      if [[ $c != 0 ]]; then
-        test "google.com 443"   "$SUCCESS" 1 $c -- "(can't connect to google.com:443 - return $FAILURE always?)" "!"
-      fi
-      if [[ $retval == 0 ]]; then
-        stringErrors=0;
-        test "ssllabs.com 10444 $ca" "$FAILURE" 1 $c -- "can connect to ssllabs.com:10443 [FREAK] - return $SUCCESS always?" "!"
-        if [[ $c != 0 ]]; then
-          test "ssllabs.com 10444"   "$FAILURE" 1 $c -- "can connect to ssllabs.com:10443 [FREAK] - return $SUCCESS always?" "!"
-        fi
-        if [[ $retval == 0 ]]; then
-          stringErrors=0;
-          test "idonotexistnameresfailure.com 443 $ca" "$FAILURE" 1 $c -- "(returns $FAILURE when nameresolution error, should return something else)"
-          if [[ $c != 0 ]]; then
-            test "idonotexistnameresfailure.com 443"   "$FAILURE" 1 $c -- "(returns $FAILURE when nameresolution error, should return something else)"
-          fi
-          if [[ $retval == 0 ]]; then
-            valErrors=0;
-            test "idonotexistnameresfailure.com 443 $ca" "DON'T CARE" 0 -- 0 "(returns 0 when nameresolution error, should return something else)"
-            if [[ $retval == 0 ]]; then
-              test "idonotexistnameresfailure.com 443"   "DON'T CARE" 0 -- 0 "(returns 0 when nameresolution error, should return something else)"
-            fi
-          fi
-        fi
-      fi
+    test "google.com 443 $ca" "DON'T CARE" $wrong -- $max "Error: Does not return 0 when 2 or 3 arguments given"
+    if [[ $c != 0 ]]; then
+      test "google.com 443"   "DON'T CARE" $wrong -- $max "Error: Does not return 0 when 2 or 3 arguments given"
     fi
   fi
-fi
 
-if [[ $retval == 0 ]]; then
-  echo "ok!"
-else
-  echo -e $retstring
-  echo $errors
-fi
+  #test if stub returns value other than 0 when less than 2 or more than 3 arguments given
 
-exit $retval
+  if [[ $retval == 0 ]]; then
+    wrong=0   ##if stub returns 0 then valErrors++
+    valErrors=0
+    test "host"               "DON'T CARE" $wrong -- $max "Error: Does not care about the number of parameters, exits always with process value 0"
+    if [[ $retval == 0 ]]; then
+      test "host port ca foo" "DON'T CARE" $wrong -- $max "Error: Does not care about the number of parameters, exits always with process value 0"
+    fi
+  fi
+
+}
+
+test-returnString(){
+
+  #test if stub returns correct string or not
+  #do not care about the number of wrong values, that has either already been tested or will be tested soon
+
+  max=$c                #if stringErrors > max then Error
+
+  if [[ $retval == 0 ]]; then
+    correct="$SUCCESS"   #if not success -> stringErrors++
+    stringErrors=0;
+    test "google.com 443 $ca" "$correct" 1 $max -- "(can't connect to google.com:443 - return $FAILURE always?)" "!"
+    if [[ $c != 0 ]]; then
+      test "google.com 443"   "$correct" 1 $max -- "(can't connect to google.com:443 - return $FAILURE always?)" "!"
+    fi
+  fi
+
+  if [[ $retval == 0 ]]; then
+    correct="$FAILURE"   #if not success -> stringErrors++
+    stringErrors=0;
+    test "ssllabs.com 10444 $ca" "$correct" 1 $max -- "can connect to ssllabs.com:10443 [FREAK] - return $SUCCESS always?" "!"
+    if [[ $c != 0 ]]; then
+      test "ssllabs.com 10444"   "$correct" 1 $max -- "can connect to ssllabs.com:10443 [FREAK] - return $SUCCESS always?" "!"
+    fi
+  fi
+
+}
+
+test-fatalError(){
+
+  #test if stub handles fatal errors correctly
+  #only nameresolution error at the moment
+
+  max=$c          #if stringErrors > max then Error
+
+  if [[ $retval == 0 ]]; then
+    wrong="$FAILURE"  #if stub returns $FAILURE then stringErrors++
+    stringErrors=0;
+    test "idonotexistnameresfailure.com 443 $ca" "$wrong" 1 $max -- "(returns $FAILURE when nameresolution error, should return something else)"
+    if [[ $c != 0 ]]; then
+      test "idonotexistnameresfailure.com 443"   "$wrong" 1 $max -- "(returns $FAILURE when nameresolution error, should return something else)"
+    fi
+  fi
+
+  if [[ $retval == 0 ]]; then
+    wrong=0  #if stub returns 0 then valErrors++
+    valErrors=0;
+    test "idonotexistnameresfailure.com 443 $ca" "DON'T CARE" $wrong -- $max "(returns 0 when nameresolution error, should return something else)"
+    if [[ $retval == 0 ]]; then
+      test "idonotexistnameresfailure.com 443"   "DON'T CARE" $wrong -- $max "(returns 0 when nameresolution error, should return something else)"
+    fi
+  fi
+
+}
+
+init(){
+
+  errors="There were some errors"
+
+  if [[ $ca && ! -f $ca ]]; then
+    echo "Error: no such file or directory: $ca"
+    echo $errors
+    exit 1
+  fi
+
+  # Dunno <-> do not care, do not know, this telss the test()-functions not to care about the value of this argument
+
+  #returned value, i.e. error value (currently 1 or 0)
+  retval=0
+  #returned string, i.e. error message
+  retstring=""
+  #number of unexpected strings returned by the stub since this was last set to zero
+  stringErrors=0
+  #number of unexpected values returned by the stub since this was last set to zero
+  valErrors=0
+
+  #EXPECTED
+  #stub is/is not expected to fail. $FAILURE <-> REJECT, this is done so that either one of the following strings can be used.
+  FAILURE="REJECT"
+  #stub is/is not expected to succeed. $SUCCESS <-> ACCEPT
+  SUCCESS="ACCEPT"
+  #stub is/is not expected to unsupport. $UNSUPPORTED <-> UNSUPPORTED
+  UNSUPPORTED="UNSUPPORTED"
+
+}
+
+end(){
+
+  if [[ $retval == 0 ]]; then
+    echo "ok!"
+  else
+    echo -e $retstring
+    echo $errors
+  fi
+
+  exit $retval
+
+}
+
+main(){
+
+  #test support for ca-bundles
+  test-support
+  #test if stub returns correct values or not
+  test-returnValue
+  #test if stup returns correct strings or not
+  test-returnString
+  #test if stub handles fatal errors correctly or not
+  test-fatalError
+
+}
+
+#initialize variables, and check if ca-file exists or not if given
+init
+#do tests
+main
+#exit process
+end
