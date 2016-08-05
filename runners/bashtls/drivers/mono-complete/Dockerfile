@@ -4,4 +4,6 @@ RUN apt-get -y update && \
   apt-get -y install \
   mono-complete
 
-CMD bash '/etc/shared/scripts/drive'
+COPY scripts /scripts
+
+CMD bash scripts/init; bash '/etc/shared/scripts/drive'
