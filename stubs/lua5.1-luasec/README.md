@@ -12,20 +12,16 @@ REJECT
 
 # Dependencies:
 
-Lua 5.1 or newer installed
+Lua 5.1 installed
 Luarocks installed and used to install
 * luasec 0.6-1 or newer (`luarocks install luasec` to command line)
 * luasocket (`luarocks install luasocket` to command line)
 
-Tested on Ubuntu 16.04
+Certificate file in this directory from https://curl.haxx.se/docs/caextract.html
 
 # Credits
 
 http://notebook.kulchenko.com/programming/https-ssl-calls-with-lua-and-luasec
-
-# Notes
-
-There is a host name check proposition by @bartbes [here](https://github.com/bartbes/luasec/commit/cde151739e4f7d9262dcea462a2e58d708501ad8) that has not been implemented in LuaSec yet.
 
 # Luasec License
 
