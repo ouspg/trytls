@@ -10,7 +10,7 @@ Currently (for example):
 
 ## Setup
 
-Move the bp-script into /bin folder.
+Move the bp-script into .../bin folder.
 
 ```
 $ trytls https bp "python3 run.py" /etc/ssl/certs/ca-certificates.crt
