@@ -61,7 +61,7 @@ endnz(){  #end if non zero
 #test "<host> <port> [ca-bundle]" <expected (<response> <exit value>)> <error message> <max stringErrors> <max valErrors>
 test() {
 
-  cmd=$1             #command
+  args=$1            #arguments
   resp=$2            #what response string to expect/not expect to
   val=$3             #what exit value to expect/not expect to
   maxStringErrors=$4 #how many wrong/correct strings until error
@@ -75,7 +75,7 @@ test() {
   err=$6              #error message (to be printed if error occurs)
   extra=$7            #only one extra(!) currently so no need for 'more special' checks
   #run stub, get response and exit value
-  response=`$cmdf $cmd 2>&1`; errval=$?
+  response=`$cmdf $args 2>&1`; errval=$?
   if [[ $errval != 0 ]]; then
     errval=1;
   fi
@@ -96,6 +96,7 @@ test() {
       retval=1          # -> exit ...
     fi
   fi
+
 }
 
 test-support(){
