@@ -1,7 +1,8 @@
 #!/bin/bash
 
 cmdf=$1       #command + file, for example: "mono ../trytls/stubs/FSharp-net/run.exe"
-ca=$2         #ca-bundle/certificate, for example: /etc/ssl/certs/ca-certificate.crt
+tests=$2      #what tests to perform
+ca=$3         #ca-bundle/certificate, for example: /etc/ssl/certs/ca-certificate.crt
 
 # Functions
 
@@ -206,14 +207,21 @@ test-fatalError(){
 
 main(){
 
-  #test support for ca-bundles
-  test-support
-  #test if stub returns correct values or not
-  test-returnValue
-  #test if stup returns correct strings or not
-  test-returnString
-  #test if stub handles fatal errors correctly or not
-  test-fatalError
+  #test-support      -> test support for ca-bundles
+  #test-returnValue  -> test if stub returns correct values or not
+  #test-returnString -> test if stup returns correct strings or not
+  #test-fatalError   -> test if stub handles fatal errors correctly or not
+  case $tests in
+    "support")
+      test-support
+      ;;
+    *)
+      test-support
+      test-returnValue      #these could be performed in parallel, can be edited if seen useful
+      test-returnString
+      test-fatalError
+      ;;
+  esac
 
 }
 
