@@ -4,7 +4,7 @@
 $ ./st <<command> <file>> [tests] [ca-bundle]
 
 [tests]
-  * supported   -> test ca-bundle support
+  * support   -> test ca-bundle support
   * --          -> all
 
 ```
