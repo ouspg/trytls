@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ ! $1 ]]; then
-  echo Usage: trytls https bp <command file> <ca-bundle>
+  echo "Usage: trytls https bp <command file> <ca-bundle>"
   exit 1
 fi
 
