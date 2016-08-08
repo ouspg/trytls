@@ -41,11 +41,11 @@ $ ./st "python3 ../trytls/stubs/python3-urllib/run.py" -- ca-bundle
 $ bash ../trytls/others/ST/st "./run" "support" /etc/ssl/certs/ca-certificates.crt
 ok!
 
-bash /home/klasila/Työpöytä/git-repos/trytls/others/ST/st "./run" "support"
+$ bash ../trytls/others/ST/st "./run" "support"
 Error: the stub does not support being without ca-bundles
 There were some errors
 
-bash /home/klasila/Työpöytä/git-repos/trytls/others/ST/st "mono Run.exe" "support" /etc/ssl/certs/ca-certificates.crt
+$ bash ../trytls/others/ST/st "mono Run.exe" "support" /etc/ssl/certs/ca-certificates.crt
 Error: the stub does not support ca-bundles
 There were some errors
 
