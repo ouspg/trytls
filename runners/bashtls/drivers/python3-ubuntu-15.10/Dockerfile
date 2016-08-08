@@ -1,7 +1,8 @@
-FROM ubuntu:16.04
+FROM ubuntu:15.10
 
 RUN apt-get -y update && \
   apt-get -y install \
-  mono-complete
+  python3 \
+  python-pip
 
 CMD bash '/etc/shared/scripts/drive'

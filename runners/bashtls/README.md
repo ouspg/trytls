@@ -12,19 +12,25 @@ $ bash init <stubspath> <"backend1 backed2 ... backend4"> \ 	#the spaces are of 
  * driver1 .. driverN = optional arguments, if not gived all drivers will be used
 ```
 
+## HOX
+
+### Mac
+ * If you are using mac, the stubspath must be relative to the init-script file-path
+   * For example: use ../../stubs instead of /users/adada/trytls/stubs
+
 ## Examples
 
 ```
-$ bash init ../trytls/stubs "badssl-all" "python3"
+$ bash init ../../stubs "badssl-all" "python3"
 	* run all python3 drivers using all python3 stubs agains all(that are in conf-file) badssl servers
 
-$ bash init ../trytls/stubs "badssl-all" "python3:python3-urllib&python3_1" "bash"
+$ bash init ../../stubs "badssl-all" "python3:python3-urllib&python3_1" "bash"
 	* run python3(language) python3-urllib(stub) using python3_1(driver) and all bash stubs using all bash drivers
  		against all badssl servers
 
 ```
 ```
-$ bash init '../trytls/stubs' "badssl" "java:java-*&javac"
+$ bash init '../../stubs' "badssl" "java:java-*&javac"
 	*run javac driver using all java-* stubs using java-language
 $ docker-compose build -> install deps
 $ docker-compose up -> start containers:
