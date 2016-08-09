@@ -1,5 +1,6 @@
 **bash**
 
+<pre>
 bash-ubuntu-latest_1  | [bash-curl:run][ PASS ][ACCEPT][ Valid cert ][google.com]
 bash-ubuntu-latest_1  | [bash-curl:run][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 bash-ubuntu-latest_1  | [bash-curl:run][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -17,9 +18,11 @@ bash-ubuntu-latest_1  | [bash-curl:run][ PASS ][REJECT][ superfish              
 bash-ubuntu-latest_1  | [bash-curl:run][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 bash-ubuntu-latest_1  | [bash-curl:run][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 bash-ubuntu-latest_1  | [bash-curl:run][ FAIL ][ACCEPT][ disable ca-bundles            ][badssl.com]
+</pre>
 
 **mono-complete with http://download.mono-project.com/repo/debian repo**
 
+<pre>
 mono-complete-latest-ubuntu-latest_1  | [CSharp-Net:Run.exe][ PASS ][ACCEPT][ Valid cert ][google.com]
 mono-complete-latest-ubuntu-latest_1  | [CSharp-Net:Run.exe][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 mono-complete-latest-ubuntu-latest_1  | [CSharp-Net:Run.exe][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -55,9 +58,11 @@ mono-complete-latest-ubuntu-latest_1  | [VB-Net:Run.exe][ PASS ][REJECT][ superf
 mono-complete-latest-ubuntu-latest_1  | [VB-Net:Run.exe][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 mono-complete-latest-ubuntu-latest_1  | [VB-Net:Run.exe][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 mono-complete-latest-ubuntu-latest_1  | [VB-Net:Run.exe][ OK?  ][ UNSUPPORTED  ][ disable ca-bundles            ][badssl.com]
+</pre>
 
 **mono-complete without http://download.mono-project.com/repo/debian repo**
 
+<pre>
 mono-complete-ubuntu-latest_1  | [CSharp-Net:Run.exe][ PASS ][ACCEPT][ Valid cert ][google.com]
 mono-complete-ubuntu-latest_1  | [CSharp-Net:Run.exe][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 mono-complete-ubuntu-latest_1  | [CSharp-Net:Run.exe][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -93,9 +98,11 @@ mono-complete-ubuntu-latest_1  | [VB-Net:Run.exe][ PASS ][REJECT][ superfish    
 mono-complete-ubuntu-latest_1  | [VB-Net:Run.exe][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 mono-complete-ubuntu-latest_1  | [VB-Net:Run.exe][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 mono-complete-ubuntu-latest_1  | [VB-Net:Run.exe][ OK?  ][ UNSUPPORTED  ][ disable ca-bundles            ][badssl.com]
+</pre>
 
 **python2**
 
+<pre>
 python2-ubuntu-latest_1  | [python-urllib3:run.py][ PASS ][ACCEPT][ Valid cert ][google.com]
 python2-ubuntu-latest_1  | [python-urllib3:run.py][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 python2-ubuntu-latest_1  | [python-urllib3:run.py][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -149,9 +156,11 @@ python2-ubuntu-latest_1  | [python-requests:run.py][ PASS ][REJECT][ superfish  
 python2-ubuntu-latest_1  | [python-requests:run.py][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 python2-ubuntu-latest_1  | [python-requests:run.py][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 python2-ubuntu-latest_1  | [python-requests:run.py][ PASS ][REJECT][ disable ca-bundles            ][badssl.com]
+</pre>
 
 **python3**
 
+<pre>
 python3-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][ACCEPT][ Valid cert ][google.com]
 python3-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 python3-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -169,9 +178,11 @@ python3-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ superfish   
 python3-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 python3-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 python3-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ disable ca-bundles            ][badssl.com]
+</pre>
 
 **python3.5**
 
+<pre>
 python3.5-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][ACCEPT][ Valid cert ][google.com]
 python3.5-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 python3.5-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -189,9 +200,11 @@ python3.5-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ superfish 
 python3.5-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 python3.5-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 python3.5-ubuntu-latest_1  | [python3-urllib:run.py][ PASS ][REJECT][ disable ca-bundles            ][badssl.com]
+</pre>
 
 **java**
 
+<pre>
 java-default-ubuntu-latest_1  | [java-https:Run][ PASS ][ACCEPT][ Valid cert ][google.com]
 java-default-ubuntu-latest_1  | [java-https:Run][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 java-default-ubuntu-latest_1  | [java-https:Run][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -227,9 +240,11 @@ java-default-ubuntu-latest_1  | [java-net:Run][ PASS ][REJECT][ superfish       
 java-default-ubuntu-latest_1  | [java-net:Run][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 java-default-ubuntu-latest_1  | [java-net:Run][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 java-default-ubuntu-latest_1  | [java-net:Run][ OK?  ][ UNSUPPORTED  ][ disable ca-bundles            ][badssl.com]
+</pre>
 
 **php**
 
+<pre>
 php-ubuntu-latest_1  | [php-file-get-contents:run.php][ PASS ][ACCEPT][ Valid cert ][google.com]
 php-ubuntu-latest_1  | [php-file-get-contents:run.php][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 php-ubuntu-latest_1  | [php-file-get-contents:run.php][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
@@ -247,3 +262,4 @@ php-ubuntu-latest_1  | [php-file-get-contents:run.php][ PASS ][REJECT][ superfis
 php-ubuntu-latest_1  | [php-file-get-contents:run.php][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
 php-ubuntu-latest_1  | [php-file-get-contents:run.php][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
 php-ubuntu-latest_1  | [php-file-get-contents:run.php][ OK?  ][ UNSUPPORTED  ][ disable ca-bundles            ][badssl.com]
+</pre>
