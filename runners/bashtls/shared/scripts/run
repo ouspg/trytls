@@ -32,16 +32,12 @@ while read -r stub; do  #read next stub
 
   bash '/etc/shared/simplerunner/sr' $certs $language "/etc/shared/simplerunner" "$stub:$file" "$backend" $timeout $stubspath &
 
-  while [[ `exec ps -A --no-headers | wc -l` -gt 300 ]]; do
+  while [[ `exec ps -A --no-headers | wc -l` -gt $processes_min ]]; do
     sleep 1
   done
 
 done <"$stubs"
 
-while true; do
+while [[ `exec ps -A --no-headers | wc -l` -gt $processes_min ]]; do
   sleep 1
-  processes=`exec ps -A --no-headers | wc -l`
-  if [[ $processes == $processes_min ]]; then
-    break;
-  fi
 done
