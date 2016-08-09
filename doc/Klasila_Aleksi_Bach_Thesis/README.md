@@ -232,7 +232,7 @@ And many more:                     https://tools.ietf.org/html/rfc7457
 
 The vulnerabilities/attacks describing in more detail in this section are:
 <pre>
-DROWN:           snooping, man-in-the-middle?
+DROWN:           snooping, man-in-the-middle
 POODLE:          snooping
 BEAST:           snooping
 SLOTH:           snooping, man-in-the-middle
@@ -243,7 +243,7 @@ Bar Mizvah:      snooping
 Poodle:          snooping
 Heartbleed Bug:  Buffer overflows and numeric overflows
 Crime:           man-in-the-middle
-Others:          snooping, man-in-the-middle, injection, Buffer overflow
+Others:          snooping, man-in-the-middle, injection, Buffer overflow, ...
 </pre>
 
 **DROWN [20]**
