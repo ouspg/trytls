@@ -3,18 +3,31 @@ FROM fedora:latest
 RUN dnf install git-all tar -y
 RUN pip install trytls
 
-WORKDIR /tmp
-RUN git clone https://github.com/ouspg/trytls.git
+WORKDIR /root
+ENV VERSION 0.2.0
+RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | zcat - | tar xvf - trytls-${VERSION}/stubs/
+RUN mv trytls-${VERSION} trytls
 
 # Go
 RUN dnf install go -y
-WORKDIR /tmp/trytls-0.2.0/stubs/go-nethttp
+WORKDIR /root/trytls/stubs/go-nethttp
 RUN go build run.go
 
-RUN dnf install -y python3-requests python-requests
+# Java
+
+RUN dnf install java-1.8.0-openjdk-devel -y
+WORKDIR /root/trytls/stubs/java-https
+RUN javac Run.java
+WORKDIR /root/trytls/stubs/java-net
+RUN javac Run.java
+
+# Python 2
+RUN dnf install python-requests -y
 
 # Python 3
-RUN dnf install python3 -y
+RUN dnf install python3 python3-requests -y
 
 # PHP 5
-RUN dnf install php5 -y
+RUN dnf install php -y
+
+WORKDIR /root/trytls/stubs/
