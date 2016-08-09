@@ -3,9 +3,6 @@
 ````console
 # cat /etc/alpine-release
 3.4.0
-
-# uname -a
-Linux 1f5948b45fcf 4.4.16-boot2docker #1 SMP Fri Jul 29 00:13:24 UTC 2016 x86_64 Linux
 ```
 
 ## Python 2
