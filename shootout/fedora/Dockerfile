@@ -11,6 +11,7 @@ RUN dnf install go -y
 WORKDIR /tmp/trytls-0.2.0/stubs/go-nethttp
 RUN go build run.go
 
+RUN dnf install -y python3-requests python-requests
 
 # Python 3
 RUN dnf install python3 -y
