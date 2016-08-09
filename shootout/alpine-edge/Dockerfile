@@ -25,8 +25,14 @@ RUN /usr/lib/jvm/java-1.8-openjdk/bin/javac Run.java
 WORKDIR /tmp/trytls-0.2.0/stubs/java-net
 RUN /usr/lib/jvm/java-1.8-openjdk/bin/javac Run.java
 
+# Python 2
+RUN apk add py-requests
+
 # Python 3
-RUN apk add python3
+RUN apk add python3 && \
+    pip3 install requests
 
 # PHP 5
 RUN apk add php5
+
+WORKDIR /tmp/trytls-0.2.0/stubs/
