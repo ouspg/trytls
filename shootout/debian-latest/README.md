@@ -147,7 +147,7 @@ OpenJDK 64-Bit Server VM (build 24.111-b01, mixed mode)
 ```
 
 ```console
-rytls https java -classpath trytls/stubs/java-https/ Run
+trytls https java -classpath trytls/stubs/java-https/ Run
 platform: Linux (debian 8.5)
 runner: trytls 0.2.1 (CPython 2.7.9, OpenSSL 1.0.1t)
 stub: java '-classpath' 'trytls/stubs/java-https/' Run
