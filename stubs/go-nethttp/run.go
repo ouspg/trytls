@@ -12,7 +12,7 @@ func main() {
 		fmt.Println("UNSUPPORTED")
 		os.Exit(0)
 	} else if len(os.Args) != 3 {
-		fmt.Println("usage: go run run.go <host> <port>")
+		fmt.Printf("usage: %v <host> <port>\n", os.Args[0])
 		os.Exit(1)
 	}
 

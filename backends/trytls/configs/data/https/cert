@@ -16,27 +16,27 @@ ssl_ciphers & HIGH:!aNULL:!MD5;
 
 server & ok
 msg & correct cert
-status & GOOD
+expected & ACCEPT
 push & ok
 
 server & wrong_host
 msg & wrong hostname
-status & BAD
+expected & REJECT
 push & wrong_host
 
 server & wrong_san
 msg & correct cn, wrong san
-status & BAD
+expected & REJECT
 push & wrong_san
 
 server & only_cn
 msg & correct cn, no san
-status & OK?
+expected & OK?
 push & only_cn
 
 server & expired
 msg & expired cert
-status & BAD
+expected & REJECT
 push & expired
 
 ------------------------------------------------------------------

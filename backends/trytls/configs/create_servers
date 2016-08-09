@@ -43,8 +43,8 @@ while read -r inst value; do
 				#set message
 				msg=$value
 				;;
-			"status")				#if connected, is it good?, bad?, what?
-				status=$value
+			"expected")				#if connected, is it good?, bad?, what?
+				expected=$value
 				;;
 			"create_ext")		#create all extension files that may be required
 				#san
@@ -166,9 +166,9 @@ while read -r inst value; do
 				mkdir -p "$datapath/"$server
 				echo $msg > "$datapath/"$server/index.html
 
-				echo "$port & $msg & $status & trytls_$crt.crt & $current_hostname" >> tmp/conf	|| exit 3
+				echo "$port & $msg & $expected & trytls_$crt.crt & $current_hostname" >> tmp/conf	|| exit 3
 				if [[ $conf_nocerts ]]; then
-					echo "$port & $msg & $status & _ & $current_hostname" >> tmp/conf-nocerts	|| exit 3
+					echo "$port & $msg & $expected & _ & $current_hostname" >> tmp/conf-nocerts	|| exit 3
 				fi
 
 
