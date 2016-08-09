@@ -10,19 +10,21 @@ RUN apk -U upgrade && \
     && \
     pip install trytls
 
-WORKDIR /tmp
-RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.2.0.tar.gz | gunzip -c - | tar xvf - trytls-0.2.0/stubs/
+WORKDIR /root
+ENV VERSION 0.2.0
+RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | zcat - | tar xvf - trytls-${VERSION}/stubs/
+RUN mv trytls-${VERSION} trytls
 
 # Go
 RUN apk add go
-WORKDIR /tmp/trytls-0.2.0/stubs/go-nethttp
+WORKDIR /root/trytls/stubs/go-nethttp
 RUN go build run.go
 
 # Java
 RUN apk add openjdk8
-WORKDIR /tmp/trytls-0.2.0/stubs/java-https
+WORKDIR /root/trytls/stubs/java-https
 RUN /usr/lib/jvm/java-1.8-openjdk/bin/javac Run.java
-WORKDIR /tmp/trytls-0.2.0/stubs/java-net
+WORKDIR /root/trytls/stubs/java-net
 RUN /usr/lib/jvm/java-1.8-openjdk/bin/javac Run.java
 
 # Python 2
@@ -35,4 +37,5 @@ RUN apk add python3 && \
 # PHP 5
 RUN apk add php5
 
-WORKDIR /tmp/trytls-0.2.0/stubs/
+# Default workdir for easier manual stub testing
+WORKDIR /root/trytls/stubs/
