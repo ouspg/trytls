@@ -11,3 +11,20 @@
 ## In this folder you can add your own drivers
 * Create folder and name it well
 * Add The required files in the folder
+
+
+## Example
+
+Language: java
+Driver: javac
+
+inside the javac-folder:
+ * scripts:
+  * init -> install certificates  
+ * Dockerfile:
+  * build -> install default-jre and default-jdk 
+ * driver:
+  * set driver information (language ≃ command, certs = "_" -> no certs, etc)
+ * loop
+  * this will be invoked for all the stubs
+
