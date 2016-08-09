@@ -4,7 +4,7 @@
 
 ### python-requests
 
-```sh
+```console
 
 trytls https python trytls/stubs/python-requests/run.py
 platform: Linux (debian 8.5)
@@ -33,7 +33,7 @@ stub: python 'trytls/stubs/python-requests/run.py'
 
 ### python-urllib2
 
-```sh
+```console
 
 trytls https python trytls/stubs/python-urllib2/run.py
 platform: Linux (debian 8.5)
@@ -62,7 +62,7 @@ stub: python 'trytls/stubs/python-urllib2/run.py'
 
 ## Python3
 
-```sh
+```console
 
 python3 --version
 Python 3.4.2
@@ -71,7 +71,7 @@ Python 3.4.2
 
 ### python-requests
 
-```sh
+```console
 
 trytls https python3 trytls/stubs/python-requests/run.py
 platform: Linux (debian 8.5)
@@ -100,7 +100,15 @@ PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ## PHP
 
-```sh
+```console
+
+php -v
+PHP 5.6.24-0+deb8u1 (cli) (built: Jul 26 2016 08:17:07)
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+   with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
+
+```console
 
 trytls https php trytls/stubs/php-file-get-contents/run.php
 platform: Linux (debian 8.5)
@@ -129,7 +137,7 @@ stub: php 'trytls/stubs/php-file-get-contents/run.php'
 
 ## Java
 
-```sh
+```console
 
 java -version
 java version "1.7.0_111"
@@ -138,7 +146,7 @@ OpenJDK 64-Bit Server VM (build 24.111-b01, mixed mode)
 
 ```
 
-```sh
+```console
 rytls https java -classpath trytls/stubs/java-https/ Run
 platform: Linux (debian 8.5)
 runner: trytls 0.2.1 (CPython 2.7.9, OpenSSL 1.0.1t)
@@ -165,3 +173,40 @@ ERROR protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllab
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
  ```
+
+## Go
+
+```console
+
+go version
+go version go1.3.3 linux/amd64
+
+```
+
+
+```console
+
+trytls https go run trytls/stubs/go-nethttp/run.go
+platform: Linux (debian 8.5)
+runner: trytls 0.2.1 (CPython 2.7.9, OpenSSL 1.0.1t)
+stub: go run 'trytls/stubs/go-nethttp/run.go'
+ PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+ PASS expired certificate [reject expired.badssl.com:443]
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
+ PASS SHA-256 signature [accept sha256.badssl.com:443]
+ PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+ PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+ PASS Superfish CA [reject superfish.badssl.com:443]
+ PASS eDellRoot CA [reject edellroot.badssl.com:443]
+ PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+ PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+ PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
+ PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+ PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+ SKIP valid localhost certificate [accept localhost:39772]
+ SKIP invalid localhost certificate [reject localhost:43771]
+ SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+
+```
