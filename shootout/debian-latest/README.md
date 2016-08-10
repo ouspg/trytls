@@ -98,11 +98,13 @@ PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
 
+## python3-urllib
+
 ```console
 
-trytls https python3 trytls/stubs/python3-urllib/run.py 
+trytls https python3 trytls/stubs/python3-urllib/run.py
 platform: Linux (debian 8.5)
-runner: trytls 0.2.1 (CPython 2.7.9, OpenSSL 1.0.1t)
+runner: trytls 0.2.0 (CPython 2.7.9, OpenSSL 1.0.1t)
 stub: python3 'trytls/stubs/python3-urllib/run.py'
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
  FAIL expired certificate [reject expired.badssl.com:443]
@@ -119,8 +121,8 @@ stub: python3 'trytls/stubs/python3-urllib/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:43592]
- PASS invalid localhost certificate [reject localhost:36013]
+ PASS valid localhost certificate [accept localhost:43524]
+ PASS invalid localhost certificate [reject localhost:37039]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
