@@ -1,3 +1,4 @@
+import re
 import ssl
 import sys
 import socket
@@ -11,6 +12,63 @@ try:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 except ImportError:
     from http.server import HTTPServer, BaseHTTPRequestHandler
+
+
+BADTLS_CA_DATA = """
+-----BEGIN CERTIFICATE-----
+MIIDlTCCAn+gAwIBAgIIVvpPzLyqk+0wCwYJKoZIhvcNAQELMGoxaDAJBgNVBAYT
+AlVTMBQGA1UECAwNTWFzc2FjaHVzZXR0czAOBgNVBAcMB05ld2J1cnkwFgYDVQQK
+DA9CYWQgVExTIExpbWl0ZWQwHQYDVQQDDBZCYWQgVExTIExpbWl0ZWQgUlNBIENB
+MB4XDTE2MDEwMTAwMDAwMFoXDTI2MDEwMTAwMDAwMFowajFoMAkGA1UEBhMCVVMw
+FAYDVQQIDA1NYXNzYWNodXNldHRzMA4GA1UEBwwHTmV3YnVyeTAWBgNVBAoMD0Jh
+ZCBUTFMgTGltaXRlZDAdBgNVBAMMFkJhZCBUTFMgTGltaXRlZCBSU0EgQ0EwggEi
+MA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDSHu3OR1RS0D2xLKGK2Ts5eLoO
+/P+IXst5WPdaD9UwGI8edfAy3U8wcMFDoXNhBQM+ZW69Z5uOZVxs704+j5cgCEAT
+LbtyIrF2X8BixXFzrJFd+kpojURheyxML20GbZsznJgKzYvGqFqWa/1lYwy/v0SP
+RNGPEkjFXb/tItDwrDxcuDzY6zjNlW5MwqvS11P1H8eg0idUrANY2MzT8+oyH3Sn
+JLCsmulnmj1b6IZZDN4i8rKXEbH14jIsANHIgTqvS+kJf3Z1PqHAOUqVGlO3SDZd
+KIqZ8olS6ty9/pco6cxvX2Te9m1z5f1fSrdxAtx7lHM3pdvs9DhML+8FAewDAgMB
+AAGjQzBBMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFGEbxkZbhgwiZRAMx7Vs
+VCRXl/tkMA8GA1UdDwEB/wQFAwMHBgAwCwYJKoZIhvcNAQELA4IBAQBKv0TJoRhd
+wg7dPOFDVuKaLtuVzXEeUWfsA86iW4wjXFO/npI+1exSBX92MhsWk5Gjn9dO/Hq4
+EZ1pMJ8hFdrOXoEHlvhnZSavtoy25ZvEoxJ9XWYPqWCmwdfB3xhT4hoEaIlu5Azf
+Fw/QV5oFV8SYgwClQ+fTStxdW7CBKEX55KPUn4FOOXV5TfbLOJj3w/1V2pBTKn2f
+2safgWyIpNw7OyvYVICdW5/NvD+VTBp+4PfWkTfRD5LEAxqvaGXupBaI2qGYVibJ
+WQ77yy6bOvcJh4heqtIJuYg5F3vhvSGo4i5Bkx+daRKFzFwsoiexgRNTdlPCEGsQ
+15WBlk3X/9bt
+-----END CERTIFICATE-----
+"""
+
+
+def _split_address(address):
+    match = re.match(r"^(\S+):(\d+)$", address)
+    if not match:
+        raise ValueError("invalid address {}".format(address))
+
+    host, port = match.groups()
+    port = int(port)
+    if not (1 <= port <= 65535):
+        raise ValueError("invalid port {}".format(port))
+
+    return host, port
+
+
+@testenv
+def badtls(accept, address, description=None):
+    host, port = _split_address(address)
+
+    if description is None:
+        first, _, _ = host.partition(".")
+        description = first.replace("-", " ")
+
+    with tmpfiles(BADTLS_CA_DATA) as cafile:
+        yield Test(
+            accept=accept,
+            description=description,
+            host=host,
+            port=port,
+            cafile=cafile
+        )
 
 
 @testenv
@@ -156,11 +214,27 @@ freakattack_tests = [
     freakattack("cve2.freakattack.com", "protect against FREAK attack (test server 2)"),
 ]
 
+badtls_tests = [
+    badtls(True, "domain-match.badtls.io:10000"),
+    badtls(True, "wildcard-match.badtls.io:10001"),
+    badtls(True, "san-match.badtls.io:10002"),
+    badtls(True, "dh1024.badtls.io:10005"),
+    badtls(False, "expired-1963.badtls.io:11000"),
+    badtls(False, "future.badtls.io:11001"),
+    badtls(False, "domain-mismatch.badtls.io:11002"),
+    badtls(False, "san-mismatch.badtls.io:11003"),
+    badtls(False, "weak-sig.badtls.io:11004"),
+    badtls(False, "bad-key-usage.badtls.io:11005"),
+    badtls(False, "expired.badtls.io:11006"),
+    badtls(False, "wildcard.mismatch.badtls.io:11007", "wildcard mismatch"),
+    badtls(False, "rc4.badtls.io:11008"),
+    badtls(False, "rc4-md5.badtls.io:11009")
+]
+
 local_tests = [
     local(True, "localhost", "valid localhost certificate"),
     local(False, "nothing", "invalid localhost certificate"),
     badssl_onlymyca("use only the given CA bundle, not system's")
 ]
 
-
-all_tests = badssl_tests + ssllabs_tests + freakattack_tests + local_tests
+all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + local_tests
