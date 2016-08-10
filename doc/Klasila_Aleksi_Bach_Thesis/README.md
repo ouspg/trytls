@@ -368,7 +368,7 @@ This thesis will mostly concentrate on the tools that test whether client suppor
 
 **Packet sniffing**
 
-One way of telling whether client (or server) supports insecure (or secure) connections is man in the middle kind of approach to the problem at hand. The man in the middle sniffs the packets flowing by and reads what either the client or the server supports (and does not). The sniffing can be performed either on the client side, on the server side or in the middle of the both (in some cases). Of course this is in some ways much more difficult approach and thus not valid in most cases.
+One way of telling whether client (or server) supports insecure (or secure) connections is by sniffing the connections. Sniffing the packets flowing by and reading what client or server supports. The sniffing can be performed either on the client side, on the server side or in the middle of the both (in some cases). Of course this is in some ways much more difficult approach and thus not valid in most cases.
 
 The server and the client exchange cipher suites, TLS/SSL version information and certificates in plain text and hence the information required to determine what the client supports (and does not) can be determined from the packets. By using the man in the middle approach it is not always possible to figure out what the server supports. That is because of the fact that the server does not necessarily need to send anything but the information the client requires to be able to determine whether if it can connect to the server or not and by using what configuration of cipher suites, protocols and so on. [16]
 
