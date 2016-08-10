@@ -1,3 +1,5 @@
+from __future__ import print_function, unicode_literals
+
 import re
 import ssl
 import sys
@@ -41,9 +43,47 @@ WQ77yy6bOvcJh4heqtIJuYg5F3vhvSGo4i5Bkx+daRKFzFwsoiexgRNTdlPCEGsQ
 
 
 def _split_address(address):
+    """
+    Return (host, port) split from a string in form of "host:port".
+    The host part is returned as a string, port as int.
+
+    >>> host, port = _split_address("host.example.com:10000")
+    >>> print(host, port)
+    host.example.com 10000
+    >>> isinstance(host, type(""))
+    True
+    >>> isinstance(port, int)
+    True
+
+    Raise ValueError for values that are not valid "host:port" strings.
+
+    >>> _split_address("host.example.com")
+    Traceback (most recent call last):
+        ...
+    ValueError: invalid address 'host.example.com'
+
+    >>> _split_address(":10000")
+    Traceback (most recent call last):
+        ...
+    ValueError: invalid address ':10000'
+
+    In addition to being an integer the port value should be between 1-65535,
+    inclusive.
+
+    >>> _split_address("host:0")
+    Traceback (most recent call last):
+        ...
+    ValueError: invalid port 0
+
+    >>> _split_address("host:65536")
+    Traceback (most recent call last):
+        ...
+    ValueError: invalid port 65536
+    """
+
     match = re.match(r"^(\S+):(\d+)$", address)
     if not match:
-        raise ValueError("invalid address {}".format(address))
+        raise ValueError("invalid address '{}'".format(address))
 
     host, port = match.groups()
     port = int(port)
