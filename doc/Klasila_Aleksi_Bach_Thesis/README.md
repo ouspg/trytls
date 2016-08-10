@@ -156,7 +156,7 @@ The supported protocol versions, cipher suites and so forth can also be read in 
 
 ### 1.2. Aims
 
-This thesis will research the current state of the art tools used in TLS-testing. The main tool created and used during the testing part of the thesis is called TryTLS backend. It's known that the implementations of TLS are not perfect. It's also known that all the libraries used do not use the state of the art algorithms and techniques to secure the TLS connections as will be seen [later on](#432-test-runs-against-backends) in the thesis.
+This thesis will research the current state of the art tools used in TLS-testing by developing one tool and testing some of the libraries using TLS. The main tool created and used during the testing part of the thesis is called TryTLS backend. It's known that the implementations of TLS are not perfect. It's also known that all the libraries used do not always use the state of the art algorithms and techniques to secure the TLS connections as will be seen [later on](#432-test-runs-against-backends) in the thesis.
 
 There are (almost) never too many ways of testing anything. 
 
@@ -215,6 +215,8 @@ All the security used today is going to be outdated sometime in the future. New 
 
 ### 2.4. Popular known vulnerabilities
 
+There are basically two kind of vulnerabilities: Vulnerable algorithms and vulnerable implementations. Vulnerable algorithms may be due to actual bugs/flaws in algorithms. As time lapses the algorithms get old and hence may also become vulnerable. There are always vulnerable implementations no matter what the subject is. In case of TLS the number of vulnerable implementations are especially important to be kept as small as possible because of the importance of the protocol. There are several kind of vulnerable implementations that can be and have been made: checking certificates incorrectly, bugs in the libraries/programs, etc.
+
 Most common attacks against TLS connections are Snooping, Man-in-the-middle, Injection and Buffer/numeric overflows[47]:
 <pre>
 Snooping attacks:                  Attacker sniffs the data in transit.
@@ -232,7 +234,7 @@ And many more:                     https://tools.ietf.org/html/rfc7457
 
 The vulnerabilities/attacks describing in more detail in this section are:
 <pre>
-DROWN:           snooping, man-in-the-middle
+DROWN:           snooping, man-in-the-middle?
 POODLE:          snooping
 BEAST:           snooping
 SLOTH:           snooping, man-in-the-middle
@@ -243,7 +245,7 @@ Bar Mizvah:      snooping
 Poodle:          snooping
 Heartbleed Bug:  Buffer overflows and numeric overflows
 Crime:           man-in-the-middle
-Others:          snooping, man-in-the-middle, injection, Buffer overflow, ...
+Others:          snooping, man-in-the-middle, injection, Buffer overflow
 </pre>
 
 **DROWN [20]**
@@ -521,17 +523,33 @@ The scripts are also written in such a way that it is not too hard to edit them 
 
 #### 4.3.1. Performance testing
 
+**Aims**
+
 Performance testing is always an important part of testing new tools. It shows the best ways to use the tools and it also tells whether if the tools are really usable or not in the sense of being at least reasonably good with not wasting too much time.
 
-The tests are done using python3 and urllib in the client’s code. The server side is the TryTLS backend with default configurations. All the tests are done 10 times and the values represented are the average values of the actual values measured during the 10 tests. At the beginning of each test the servers have been rebooted. During a test clients try to connect to all the servers up and running. If the connection is established the client also makes a Get request for a html file. The size of the html file is minimal. Once the html file has been safely received by the client or something has gone wrong with the connection - the connection gets terminated. These tests test not only the speed of creating connection – the handshake protocol part of the connection - but they also measure the speed of cryptography - the record protocol part of the connection.
+**Setup**
 
-The tests were performed using 64 bit Linux Ubuntu 16.04 laptop with Intel core i3 2.27 GHz, normal networking controllers and 4 gigs of ram.
+The tests were performed using 64 bit Linux Ubuntu 16.04 laptop with Intel core i3 2.27 GHz, normal networking controllers and 4 gigs of ram.The tests are done using python3 and urllib in the client’s code. The server side is the TryTLS backend with default configurations. 
 
-**Test 1**
+**Procedure**
 
-The first tests were made setting up one backend with different numbers of servers and containers. During the tests there were never more than one client trying to connect at a time. The time it took from a client to connect to a server and end the connection was recorded and the result is shown in the table below. 
+All the tests are done 10 times and the values represented are the average values of the actual values measured during the 10 tests. At the beginning of each test the servers have been rebooted. During a test clients try to connect to all the servers up and running. If the connection is established the client also makes a Get request for a HTML file. The size of the HTML file is minimal. Once the HTML file has been safely received by the client or something has gone wrong with the connection - the connection gets terminated. These tests test not only the speed of creating connection – the handshake protocol part of the connection - but they also measure the speed of cryptography - the record protocol part of the connection. This is to make sure the backend can also be used in testing TLS record protocol in the future if seen needed.
 
-It can be seen that the servers are very fast even though the client and the servers are running on the same machine. Within certain range of servers up there is really no noticeable change in the rate of connections established. It took about 200 milliseconds for the client to try and create a connection and optionally make a GET request for a html file if connection got established. The servers were easy to set up and terminate because of the usage of docker.
+---
+
+**CASE STUDY 1**
+
+**Setup and Procedure**
+
+The first tests were made setting up one backend with different numbers of servers and containers. During the tests there were never more than one client trying to connect at a time. The time it took from a client to connect to a server and end the connection was recorded and the result is shown in the table below. The servers were easy to set up and terminate because of the usage of docker.
+
+**Analysis**
+
+It can be seen that the servers are very fast even though the client and the servers are running on the same machine. Within certain range of servers up there is really no noticeable change in the rate of connections established. It took about 200 milliseconds for the client to try and create a connection and optionally make a GET request for a HTML file if connection got established. 
+
+This shows that the backend can in fact be used in testing TLS libraries - at least with only one connection to a port at a time. This also shows that the NGINX servers are performing very well and hence NGINX is a great choice to be used pretty much in any kind of TLS testing software/projects.
+
+**Results**
 
 Chart 1. Summary of test runs of the TryTLS backend with single client.
 ![test1_chart](pictures/test1_chart.png)
@@ -552,15 +570,27 @@ Number of containers | Number of servers | Seconds per connection (only one conn
 7 | 234 | 0.18
 8 | 273 | 0.18
 
-**Test 2**
+---
 
-The tests were made setting up one backend with 8 containers and up to 273 servers. The tests were performed otherwise the same way as during the ‘Test 1’ but now the number of clients (connections) was the changing variable. All the clients are trying to connect to the same port at the beginning of the tests. Once a client gets connected it moves to the next port and so on.
+**CASE STUDY 2**
 
-Yet again the rate in which the connections were established was very good until certain limit of simultaneous connections. Probably with better computer this test would have had better results but I had no change of finding that out. The chart looks pretty similar to that of the ‘Test 1’.
+**Setup and Procedure**
+
+The tests were made setting up one backend with 8 containers and up to 273 servers. The tests were performed otherwise the same way as during the ‘CASE STUDY 1’ but now the number of clients (connections) was the changing variable. All the clients are trying to connect to the same port at the beginning of the tests. Once a client gets connected it moves to the next port and so on.
+
+**Analysis**
+
+Yet again the rate in which the connections were established was very good until certain limit of simultaneous connections. Probably with better computer this test would have had better results but I had no change of finding that out. The chart looks pretty similar to that of the ‘CASE STUDY 1’.
 
 At the beginning (with small number of clients) adding more simultaneous connections (clients) increases the performance. i.e. decreases the time it takes a client to try and connect to a server (port), do what needs to be done and terminate the connection. To a point it is useful to add more connections but adding too many connections in turn slows the servers down considerably.
 
-The ‘seconds per connection’ term means it took that much time for one client to connect to a server, get the html page and terminate the connection or just try to connect and terminate the connection if the client had no success when handshaking. Only one connection can connect (bind) to one port at the same time and all the clients are trying to connect to the same ports at least at the beginning of the test runs.
+This shows that the backend can also be used with many simultaneous connections to a server/port. This also shows the best number of connections is not one connection but more like four or more.
+
+**Terms**
+
+The ‘seconds per connection’ term means it took that much time for one client to connect to a server, get the HTML page and terminate the connection or just try to connect and terminate the connection if the client had no success when handshaking. Only one connection can connect (bind) to one port at the same time and all the clients are trying to connect to the same ports at least at the beginning of the test runs.
+
+**Results**
 
 Chart 2. Summary of test runs of the TryTLS backend with multiple clients.
 ![test1_chart](pictures/test2_chart.png)
@@ -576,16 +606,42 @@ Number of connections | Seconds per connection
 64 | 1.00
 128 | 2.8
 
+---
+
 #### 4.3.2. Test runs against backends
 
 **Client side**
 
+**Aims**
+
+The main purpose for performing these test runs is to show that some of the libraries are relatively safe to use - when updated.
+
+**Terms**
+
 ‘[VERIFY FAILURE]’ means the connection did not get established and ‘[VERIFY SUCCESS]’ means the connection did get established. ‘[ PASS ]’ means the connection worked as supposed and the ‘[ FAIL ]’ means that the test was a failure, i.e. did not go as well as wanted. ’ [   OK?   ]’ means the establishment of the connection is ok in some cases and bad in some cases. 
+
+---
+
+**CASE STUDY 1**
+
+**Analysis**
+
+Python3 with urllib is fairly safe to be used. It checks for expired certificates, wrong hosts, etc. It also uses only the current modern algorithms to secure the connection and not the old/obsolete ones at all. This does not of course mean that the urrlib does not support the old ones but it means that at least the library does not advertise and use those natively which of course provides more secure communications.
+
+**Results**
 
 Picture 3. Test run against TryTLS-backend using BashTLS-runner and python3-urllib stub.
 ![test_run1_client](pictures/python3-urllib-against-trytls.png)
 
-Python3 with urllib is fairly safe to be used. It checks for expired certificates, wrong hosts, etc. It also uses only the current modern algorithms to secure the connection and not the old/obsolete ones at all. This does not of course mean that the urrlib does not support the old ones but it means that at least the library does not advertise and use those natively which of course provides more secure communications.
+---
+
+**CASE STUDY 2**
+
+**Analysis**
+
+[Mono](http://www.mono-project.com/) [42] is a software development environment. The above output is the same when using other mono supported languages such as C# and visual basic which also support the usage of .Net framework as did F# when using 4.2.1 version of Mono. The usage of this king of libraries is not very safe and secure to be used in many situations at least natively and unmodified. They do not check for expired certificates and They advertise and use the (in most cases) old/obsolete algorithms.
+
+**Results**
 
 Picture 4. Test run against BADSSL-backend using simplerunner (runner that BashTLS drivers use) and FSharp-net stub using Mono (Mono JIT compiler version 4.2.1, see below).
 
@@ -594,13 +650,19 @@ Picture 4. Test run against BADSSL-backend using simplerunner (runner that BashT
 Picture 5. Using Wireshark to check what cipher suites client (Mono + .Net + FSharp) supports.
 ![wireshark_FSharp](pictures/wireshark_FSharp.png)
 
-[Mono](http://www.mono-project.com/) [42] is a software development environment. The above output is the same when using other mono supported languages such as C# and visual basic which also support the usage of .Net framework as did F# when using 4.2.1 version of Mono. The usage of this king of libraries is not very safe and secure to be used in many situations at least natively and unmodified. They do not check for expired certificates and They advertise and use the (in most cases) old/obsolete algorithms.
+**More information**
 
 There are already newer versions of Mono available on [github](https://github.com/mono) [46]. When running the tests with Mono - version 4.5 or above - the output of the tests looks pretty similar to that of the python3-urllib tests. It is important to have the latest version of Mono before using C#, F# or other Mono depended languages. Similar kind of behavior can be seen with older versions of OpenSSL (tested on Ubuntu 16.04 default version with c-OpenSSL stub) and other libraries. It is recommended to update the libraries about to be used before any serious usage.
 
+---
+
 **Server side**
 
+**CASE STUDY 1**
+
 As it can be seen below the data could be gathered and processed on the server side if wanted. Obviously just by saving the log files it could be later on reasoned out with pretty good accuracy what the client that tried to connect supports and what it does not.
+
+**Results**
 
 Picture 6. Test run against TryTLS backend using BashTLS-runner and python3-urllib stub as a client.
 ![test_run1_server](pictures/test_run1_server.png) 
@@ -609,9 +671,15 @@ Picture 6. Test run against TryTLS backend using BashTLS-runner and python3-urll
 
 ### 5.1. Generally
 
+**Tools**
+
 There are quite a few tools for checking TLS support and behavior of libraries already but there are neither many good tools that use the combined power of different testing methods and results available efficiently nor the best possible documentations how to use the already existing tools to gain the best results possible or at least there used not to be. There are researches going on trying to gather information about existing tools and vulnerabilities, for example: SSL Labs has been doing this among other things since 2009 and will hopefully keep up the good work. [19]
 
+**Vulnerabilities**
+
 There are still network UI (User Interface) clients that use SSLv2, SSLv3 or TLSv1.0 - many of the used libraries do this by default if not updated correctly - even though there are a lot of issues and vulnerabilities like DROWN attack (SSLv2), POODLE attack (SSLv3) and possibility for BEAST attack (TLSv1) if not mitigated correctly. TLSv1.1 and TLSv1.2 are still without known serious security issues and it’s recommended to support at least the usage of TLSv1.2 because only it provides modern cryptographic algorithm. The fact that the TLSv1.1 and TLSv1.2 are without known security issues does not necessarily mean that there aren’t any or at least that there won’t be any in the future. [19]
+
+**Evolution**
 
 In the future it’s important to research new ways to make TLS more secure, more efficient and especially more widely used protocol. The currently most popular TLS protocol versions and algorithms should be researched in the future. Even the old protocols such as TLSv1.0 should still be researched because they are still widely used. The currently running TLS-testing sites/servers should also be updated as the evolution of TLS and secure Internet goes forward.
 
@@ -630,7 +698,11 @@ The backend could also provide information about whether if the client trying to
 
 ### 5.3. Application Possibilities
 
+**Cloud**
+
 As mentioned before the TryTLS-backend could also be used in various different kind of servers and secure internet connection tests. The backend could also be extended in many other ways. The init-scripts create conf-files and certificates when ran. If there was a service sharing these conf-files and certificates anyone could participate into making the usage of TLS client safer by configuring their servers differently than the other participants have. This is one thing that may need to be considered if seen useful.
+
+**Other tools and possibilities**
 
 The backend created could also be a part of something bigger. It could be combined together with different tools created for testing TLS. It can also be used for creating virtual servers for sites with variety of purposes if configured correctly. 
 
@@ -642,11 +714,19 @@ Picture 7. Using Wireshark to check what cipher suites client (Firefox) supports
 
 ## 6. Conclusions
 
+**Goal**
+
 The main goal of this thesis was to show and research the fact that it is possible to do TLS testing for different programming languages and libraries without and within internet connection. The thesis is also about creating a software or tool that anyone can with relatively small amount of work set up and get running in no time if wanted. There are already similar tools out there on the Internet just waiting to be used more in TLS testing.
+
+**Tools**
 
 Even though there are tools for testing the TLS protocol still many of the libraries used do something wrong or insecurely or let the client do something insecurely without even always really providing the possibility of choosing whether to accept the connection or not. With the created backend and also with many of the existing other tools anyone can check whether if the code used can connect - even though not necessarily wanted – insecurely either using known vulnerabilities or natively (without having to even use any ‘real’ vulnerabilities). The TryTLS backend is very fast and comes with a great potential both for configuring the servers as needed and testing TLS libraries as it is.
 
+**Libraries**
+
 The current state of the most used libraries seems to be in pretty good shape if updated and used correctly. The versions of the libraries before updating are not always very secure to be used - but as long as it is known that the libraries need to be updated before any serious usage there seem not to be any real danger in there.
+
+**General**
 
 It should always always be possible to test the code using any of the tools available or creating new ones if needed. Including TryTLS backend. Of course the code is not necessarily safe even if it passes all the tests. Or it can be safe for now but the future will always bring us new challenges. Isn’t that just the point of living – having difficult(ish) challenges?
 
