@@ -98,6 +98,34 @@ PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
 
+```console
+
+trytls https python3 trytls/stubs/python3-urllib/run.py 
+platform: Linux (debian 8.5)
+runner: trytls 0.2.1 (CPython 2.7.9, OpenSSL 1.0.1t)
+stub: python3 'trytls/stubs/python3-urllib/run.py'
+ PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+ FAIL expired certificate [reject expired.badssl.com:443]
+ FAIL wrong hostname in certificate [reject wrong.host.badssl.com:443]
+ FAIL self-signed certificate [reject self-signed.badssl.com:443]
+ PASS SHA-256 signature [accept sha256.badssl.com:443]
+ PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+ FAIL incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+ FAIL Superfish CA [reject superfish.badssl.com:443]
+ FAIL eDellRoot CA [reject edellroot.badssl.com:443]
+ FAIL DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+ PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+ PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
+ PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+ PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+ PASS valid localhost certificate [accept localhost:43592]
+ PASS invalid localhost certificate [reject localhost:36013]
+ PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+
+```
+
+
 ## PHP
 
 ```console
