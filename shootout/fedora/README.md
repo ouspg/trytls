@@ -1,6 +1,11 @@
 # TryTLS testing with Fedora latest
 
-date: 9.8.2016
+Date: 9.8.2016 (dd.mm.yyyy)
+
+```console
+cat /etc/fedora-release
+Fedora release 24 (Twenty Four)
+```
 
 ## Python
 
@@ -71,8 +76,6 @@ stub: python 'trytls/stubs/python-urllib2/run.py'
 
 python3 --version
 Python 3.5.1
-
-
 ```
 
 ### python-requests
@@ -140,6 +143,8 @@ stub: 'go-nethttp/run'
 
 # Java
 
+## java-https
+
 ```sh
 [root@373ce1c466b5 stubs]# trytls https java -classpath java-https Run
 platform: Linux (Fedora 24)
@@ -165,6 +170,8 @@ stub: java '-classpath' 'java-https' Run
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
+
+## java-net
 
 ```sh
 [root@373ce1c466b5 stubs]# trytls https java -classpath java-net Run
