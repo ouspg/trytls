@@ -78,6 +78,8 @@ def run_one(args, host, port, cafile=None):
         raise ProcessFailed("failed to launch the stub", os.strerror(ose.errno))
 
     out, _ = process.communicate()
+    out = out.decode("ascii", "replace")
+
     if process.returncode != 0:
         raise ProcessFailed("stub exited with return code {}".format(process.returncode), out)
 
@@ -85,11 +87,11 @@ def run_one(args, host, port, cafile=None):
     lines = out.splitlines()
     if lines:
         verdict = lines.pop()
-        if verdict == b"ACCEPT":
+        if verdict == "ACCEPT":
             return True, "".join(lines)
-        elif verdict == b"REJECT":
+        elif verdict == "REJECT":
             return False, "".join(lines)
-        elif verdict == b"UNSUPPORTED":
+        elif verdict == "UNSUPPORTED":
             raise Unsupported("".join(lines))
     raise UnexpectedOutput(out)
 
@@ -138,10 +140,13 @@ class Formatter(object):
             accept="accept" if test.accept else "reject"
         )
 
-        if res.reason.rstrip():
-            template += reset + self.base + "\n" + indent("reason: " + self.reason + res.reason.rstrip(), by=6)
-        if res.details.rstrip():
-            template += reset + self.base + "\n" + indent("output: ", by=6) + self.details + indent(res.details.rstrip(), by=14, first_line=False)
+        reason = res.reason.rstrip()
+        if reason:
+            template += reset + self.base + "\n" + indent("reason: " + self.reason + reason, by=6)
+
+        details = res.details.rstrip()
+        if details:
+            template += reset + self.base + "\n" + indent("output: ", by=6) + self.details + indent(details, by=14, first_line=False)
 
         return template
 
