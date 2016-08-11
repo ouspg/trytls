@@ -23,7 +23,7 @@ public class Run{
 		try {
 			url = new URL(https_url);
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-			con.getResponseCode();
+			con.getContent();
 			System.out.println("ACCEPT");
 		} catch (javax.net.ssl.SSLException e) {
 			System.out.println(e);

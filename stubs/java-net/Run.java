@@ -15,10 +15,11 @@ public class Run {
     String host = args[0];
     String port = args[1];
 
+    URL url;
     String https_url = String.format("https://%s:%s", host, port);
-
     try {
-      new java.net.URL(https_url).getResponseCode();
+      url = new URL(https_url);
+      url.openConnection().getContent();
       System.out.println("ACCEPT");
     } catch (javax.net.ssl.SSLException e){
       System.out.println(e);
