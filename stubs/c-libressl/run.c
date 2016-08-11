@@ -36,8 +36,9 @@ int main(int argc, char **argv) {
         }
 
         config = tls_config_new();
-        if (config == NULL)
+        if (config == NULL) {
                 err(1, "tls_config_new");
+        }
 
         if (ca_file) {
                 if (tls_config_set_ca_file(config, ca_file) == -1) {
