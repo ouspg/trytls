@@ -46,6 +46,9 @@ int main(int argc, char **argv) {
   if (context == NULL)
     err(1, "tls_client");
 
+  if (tls_configure(context, config) == -1)
+    err(1, "tls_configure");
+
   if (tls_connect(context, host, port) == -1)
     err(1, "tls_connect");
 
