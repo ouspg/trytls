@@ -20,9 +20,9 @@ int main(int argc, char *argv[]) {
   //init
 
   BIO *sbio;
-	SSL_CTX *ssl_ctx;
-	SSL *ssl;
-	X509 *cert;
+  SSL_CTX *ssl_ctx;
+  SSL *ssl;
+  X509 *cert;
 
   char url[256]; sprintf(url, "%s:%s", argv[1], argv[2]);
   char ca_bundle[256]; strncpy(ca_bundle, argv[3], sizeof(ca_bundle));
@@ -78,5 +78,5 @@ end:
   EVP_cleanup();
   ERR_free_strings();
 
-	return returncode;
+  return returncode;
 }
