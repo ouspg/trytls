@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <openssl/err.h>
 #include <openssl/ssl.h>
 #include <openssl/x509v3.h>
 
@@ -31,7 +30,6 @@ int main(int argc, char *argv[]) {
   X509_VERIFY_PARAM *param = NULL;
 
   SSL_library_init();
-  SSL_load_error_strings();
 
   ssl_ctx = SSL_CTX_new(TLS_method());
   param = SSL_CTX_get0_param(ssl_ctx);
@@ -76,7 +74,6 @@ end:
 
   SSL_CTX_free(ssl_ctx);
   EVP_cleanup();
-  ERR_free_strings();
 
   return returncode;
 }
