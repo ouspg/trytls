@@ -16,7 +16,7 @@ except ImportError:
     from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-BADTLS_CA_DATA = """
+BADTLS_CA_DATA = b"""
 -----BEGIN CERTIFICATE-----
 MIIDlTCCAn+gAwIBAgIIVvpPzLyqk+0wCwYJKoZIhvcNAQELMGoxaDAJBgNVBAYT
 AlVTMBQGA1UECAwNTWFzc2FjaHVzZXR0czAOBgNVBAcMB05ld2J1cnkwFgYDVQQK
@@ -43,7 +43,7 @@ WQ77yy6bOvcJh4heqtIJuYg5F3vhvSGo4i5Bkx+daRKFzFwsoiexgRNTdlPCEGsQ
 
 
 def _split_address(address):
-    """
+    r"""
     Return (host, port) split from a string in form of "host:port".
     The host part is returned as a string, port as int.
 
