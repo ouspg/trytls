@@ -23,8 +23,15 @@ int main(int argc, char *argv[]) {
   SSL *ssl;
   X509 *cert;
 
-  char url[256]; sprintf(url, "%s:%s", argv[1], argv[2]);
-  char ca_bundle[256]; strncpy(ca_bundle, argv[3], sizeof(ca_bundle));
+  int len;
+  if ((len = strlen(argv[1]) + strlen(argv[2]) + 1) > 1020) {
+    printf("Too long URL: %d characters\n", len);
+    return (returncode + 1);
+  }
+
+  char url[1024];       sprintf(url, "%s:%s", argv[1], argv[2]);
+  char ca_bundle[1024]; strncpy(ca_bundle, argv[3], sizeof(ca_bundle));
+
 
   const char *servername = NULL;
   X509_VERIFY_PARAM *param = NULL;
