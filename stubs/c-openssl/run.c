@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
   param = SSL_CTX_get0_param(ssl_ctx);
 
   //set certificate verify
-
+  //https://wiki.openssl.org/index.php/Hostname_validation
   X509_VERIFY_PARAM_set_hostflags(param, X509_CHECK_FLAG_NO_PARTIAL_WILDCARDS);
   X509_VERIFY_PARAM_set1_host(param, argv[1], 0);
   SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_PEER, NULL);
