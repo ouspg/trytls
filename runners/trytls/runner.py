@@ -14,10 +14,15 @@ init(wrap=False)
 wrapped_stdout = AnsiToWin32(sys.stdout, autoreset=True).stream
 
 
-def output(format_string="", **kwargs):
+def colorize(format_string, *args, **kwargs):
     keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
     keys.update(kwargs)
-    print(format_string.format(**keys), file=wrapped_stdout)
+    return format_string.format(*args, **keys)
+
+
+def write(*strings):
+    for string in strings:
+        print(string, file=wrapped_stdout)
 
 
 class Unsupported(Exception):
@@ -45,20 +50,22 @@ def indent(text, by=4, first_line=True):
 
 
 def output_info(args, openssl_version, runner_name="trytls"):
-    output(
-        "{Style.BRIGHT}platform:{RESET} {platform}",
-        platform=utils.platform_info()
-    )
-    output(
-        "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python}, {openssl})",
-        runner=runner_name,
-        version=__version__,
-        python=utils.python_info(),
-        openssl=openssl_version
-    )
-    output(
-        "{Style.BRIGHT}stub:{RESET} {command}",
-        command=utils.format_command(args)
+    write(
+        colorize(
+            "{Style.BRIGHT}platform:{RESET} {platform}",
+            platform=utils.platform_info()
+        ),
+        colorize(
+            "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python}, {openssl})",
+            runner=runner_name,
+            version=__version__,
+            python=utils.python_info(),
+            openssl=openssl_version
+        ),
+        colorize(
+            "{Style.BRIGHT}stub:{RESET} {command}",
+            command=utils.format_command(args)
+        )
     )
 
 
@@ -129,45 +136,52 @@ class Formatter(object):
         self.reason = reason
         self.details = details
 
-    def format(self, test, res):
-        template = self.base
-        reset = "{RESET}"
+    def _colorize(self, format_string, *args, **kwargs):
+        keys = dict(Formatter=self)
+        keys.update(**kwargs)
+        return colorize(format_string, *args, **keys)
 
-        template += self.type + res.name.rjust(5) + reset + self.base + " "
-        template += test.description
-        template += " {Style.DIM}" + "[{accept} {name}]".format(
-            name=test.name,
-            accept="accept" if test.accept else "reject"
+    def format(self, test, res):
+        result = self._colorize(
+            "{Formatter.base}{Formatter.type}{result:>5}{RESET}{Formatter.base} {description} {Style.DIM}[{accept} {name}]",
+            result=res.name,
+            description=test.description,
+            accept="accept" if test.accept else "reject",
+            name=test.name
         )
 
         reason = res.reason.rstrip()
         if reason:
-            template += reset + self.base + "\n" + indent("reason: " + self.reason + reason, by=6)
+            result += self._colorize("{RESET}{Formatter.base}\n")
+            result += indent("reason: ", by=6)
+            result += indent(self._colorize("{Formatter.reason}{}", reason), by=14, first_line=False)
 
         details = res.details.rstrip()
         if details:
-            template += reset + self.base + "\n" + indent("output: ", by=6) + self.details + indent(details, by=14, first_line=False)
+            result += self._colorize("{RESET}{Formatter.base}\n")
+            result += indent("output: ", by=6)
+            result += indent(self._colorize("{Formatter.details}{}", details), by=14, first_line=False)
 
-        return template
+        return result
 
 
 formats = {
     result.Skip: Formatter(
-        base="{Style.DIM}"
+        base=Style.DIM
     ),
     result.Error: Formatter(
-        base="{Fore.RED}",
-        type="{Back.RED}{Fore.WHITE}",
-        details="{Style.DIM}"
+        base=Fore.RED,
+        type=Back.RED + Fore.WHITE,
+        details=Style.DIM
     ),
     result.Fail: Formatter(
-        base="{Fore.RED}",
-        reason="{Fore.RED}{Style.DIM}"
+        base=Fore.RED,
+        reason=Fore.RED + Style.DIM
     ),
     result.Pass: Formatter(
-        type="{Fore.GREEN}",
-        reason="{Style.DIM}",
-        details="{Style.DIM}"
+        type=Fore.GREEN,
+        reason=Style.DIM,
+        details=Style.DIM
     )
 }
 
@@ -184,7 +198,7 @@ def run(args, tests):
     error_count = 0
 
     for test, res in collect(args, tests):
-        output(format_result(test, res))
+        write(format_result(test, res))
 
         if res.type == result.Fail:
             fail_count += 1
@@ -198,7 +212,7 @@ def main():
     try:
         openssl_version = gencert.openssl_version()
     except gencert.OpenSSLNotFound as err:
-        output("{Back.RED}{Fore.WHITE}ERROR:{RESET} {error}", error=err)
+        write(colorize("{Back.RED}{Fore.WHITE}ERROR:{RESET} {}", err))
         return 1
 
     parser = argparse.ArgumentParser(
