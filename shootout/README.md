@@ -6,9 +6,9 @@ To reach the status "PASS", the implementation must meet the following criteria:
 
 <!-- markdownlint-disable MD013 -->
 
-* ERROR: should not be present in any of the tests verdicts
+* ERROR: should not be present in any of the test verdicts
   (ERROR means bug in stub or some other issue),
-* FAIL: should not be present in any of the tests
+* FAIL: should not be present in any of the test verdicts
   (exmample: the library establishes connection even though it should not),
 * NO SNI:  SNI support should exists, and
 * N/A: the library should be available to install from the distribution's
