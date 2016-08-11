@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
         }
 
         /* We only care about the first line from HTTP GET response */
-        for (int i=0; i < strlen(read_buf); i++) {
+        for (size_t i=0; i < strlen(read_buf); i++) {
                 if (read_buf[i] == '\n') {
                         read_buf[i] = '\0';
                         break;
