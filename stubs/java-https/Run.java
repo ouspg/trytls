@@ -26,6 +26,7 @@ public class Run{
 			con.getResponseCode();
 			System.out.println("ACCEPT");
 		} catch (javax.net.ssl.SSLException e) {
+			System.out.println(e);
 			System.out.println("REJECT");
 		} catch (Exception e) {
 			System.out.println(e);
