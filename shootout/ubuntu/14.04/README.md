@@ -8,8 +8,9 @@ RUN apt-get -y update && \
 </pre>
 
 <pre>
-either: urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile, cadefault=False)
-or:     urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
+1. urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile, cadefault=False)
+2. urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
+3. urllib.request.urlopen("https://" + host + ":" + port)
 
 python3-ubuntu-14.04_1  | [python3-urllib:run.py][ PASS ][ACCEPT][ supports SNI                  ][badssl.com]
 python3-ubuntu-14.04_1  | [python3-urllib:run.py][ FAIL ][ACCEPT][ expired                       ][expired.badssl.com]
@@ -27,7 +28,8 @@ python3-ubuntu-14.04_1  | [python3-urllib:run.py][ PASS ][REJECT][ disable ca-bu
 </pre>
 
 <pre>
-urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile, cadefault=True)
+1. urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile, cadefault=True)
+2. urllib.request.urlopen("https://" + host + ":" + port, cadefault=True)
 
 python3-ubuntu-14.04_1  | [python3-urllib:run.py][ PASS ][ACCEPT][ supports SNI                  ][badssl.com]
 python3-ubuntu-14.04_1  | [python3-urllib:run.py][ PASS ][REJECT][ expired                       ][expired.badssl.com]
