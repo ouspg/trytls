@@ -1,9 +1,14 @@
 # LibreSSL stub for TryTLS
 
-Tested with:
+Stub is tested to work with:
 
- [x] OpenBSD-current (pre-6.1) with LibreSSL 2.5.0
- [x] OS X 10.11 with LibreSSL 2.4.2
+ * OpenBSD-current (pre-6.1) with LibreSSL 2.5.0
+ * OS X 10.11 with LibreSSL 2.4.2
+ * Void Linux with LibreSSL 2.3.7
+
+Doesn't work with:
+
+ * LibreSSL 2.2.6 (tested in Alpine Edge (pre-3.5))
 
 ## Compile
 
