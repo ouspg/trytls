@@ -23,9 +23,10 @@ public class Run{
 		try {
 			url = new URL(https_url);
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-			con.getResponseCode();
+			con.getContent();
 			System.out.println("ACCEPT");
-		} catch (javax.net.ssl.SSLHandshakeException|javax.net.ssl.SSLKeyException|javax.net.ssl.SSLProtocolException e) {
+		} catch (javax.net.ssl.SSLException e) {
+			System.out.println(e);
 			System.out.println("REJECT");
 		} catch (Exception e) {
 			System.out.println(e);
@@ -34,5 +35,4 @@ public class Run{
 
 		System.exit(0);
 	}
-
 }

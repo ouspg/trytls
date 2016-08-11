@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <openssl/err.h>
 #include <openssl/ssl.h>
 #include <openssl/x509v3.h>
 
@@ -20,9 +19,9 @@ int main(int argc, char *argv[]) {
   //init
 
   BIO *sbio;
-	SSL_CTX *ssl_ctx;
-	SSL *ssl;
-	X509 *cert;
+  SSL_CTX *ssl_ctx;
+  SSL *ssl;
+  X509 *cert;
 
   char url[256]; sprintf(url, "%s:%s", argv[1], argv[2]);
   char ca_bundle[256]; strncpy(ca_bundle, argv[3], sizeof(ca_bundle));
@@ -31,7 +30,6 @@ int main(int argc, char *argv[]) {
   X509_VERIFY_PARAM *param = NULL;
 
   SSL_library_init();
-  SSL_load_error_strings();
 
   ssl_ctx = SSL_CTX_new(TLS_method());
   param = SSL_CTX_get0_param(ssl_ctx);
@@ -76,7 +74,6 @@ end:
 
   SSL_CTX_free(ssl_ctx);
   EVP_cleanup();
-  ERR_free_strings();
 
-	return returncode;
+  return returncode;
 }
