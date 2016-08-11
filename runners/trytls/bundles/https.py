@@ -228,6 +228,15 @@ def local(accept, cn, description):
                 cafile=cafile
             )
 
+@testenv
+def miscellaneous(accept, name, description):
+    yield Test(
+        accept=accept,
+        description=description,
+        host=name,
+        port=443
+    )
+
 
 badssl_tests = [
     badssl_sni(description="support for TLS server name indication (SNI)"),
@@ -277,4 +286,9 @@ local_tests = [
     badssl_onlymyca("use only the given CA bundle, not system's")
 ]
 
-all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + local_tests
+miscellaneous_tests = [
+    miscellaneous(False, "sslv3.dshield.org", "protection against POODLE attack"),
+    miscellaneous(False, "badcert-edell.tlsfun.de", "eDellRoot CA #2")
+]
+
+all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + local_tests + miscellaneous_tests
