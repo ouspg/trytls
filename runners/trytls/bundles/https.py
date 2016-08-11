@@ -255,20 +255,20 @@ freakattack_tests = [
 ]
 
 badtls_tests = [
-    badtls(True, "domain-match.badtls.io:10000"),
-    badtls(True, "wildcard-match.badtls.io:10001"),
-    badtls(True, "san-match.badtls.io:10002"),
-    badtls(True, "dh1024.badtls.io:10005"),
-    badtls(False, "expired-1963.badtls.io:11000"),
-    badtls(False, "future.badtls.io:11001"),
-    badtls(False, "domain-mismatch.badtls.io:11002"),
-    badtls(False, "san-mismatch.badtls.io:11003"),
-    badtls(False, "weak-sig.badtls.io:11004"),
-    badtls(False, "bad-key-usage.badtls.io:11005"),
-    badtls(False, "expired.badtls.io:11006"),
-    badtls(False, "wildcard.mismatch.badtls.io:11007", "wildcard mismatch"),
-    badtls(False, "rc4.badtls.io:11008"),
-    badtls(False, "rc4-md5.badtls.io:11009")
+    badtls(True, "domain-match.badtls.io:10000", "valid certificate Common Name"),
+    badtls(True, "wildcard-match.badtls.io:10001", "valid wildcard certificate Common Name"),
+    badtls(True, "san-match.badtls.io:10002", "support for Subject Alternative Name (SAN)"),
+    badtls(True, "dh1024.badtls.io:10005", "TLS handshake with 1024 bit Diffie-Hellman (DH)"),
+    badtls(False, "expired-1963.badtls.io:11000", "certificate expired in year 1963"),
+    badtls(False, "future.badtls.io:11001", "certificate validity starts in future"),
+    badtls(False, "domain-mismatch.badtls.io:11002", "mismatch in certificate's Common Name"),
+    badtls(False, "san-mismatch.badtls.io:11003", "Subject Alternative Name (SAN) mismatch"),
+    badtls(False, "weak-sig.badtls.io:11004", "MD5 signature algorithm"),
+    badtls(False, "bad-key-usage.badtls.io:11005", "certificate has invalid key usage for HTTPS connection"),
+    badtls(False, "expired.badtls.io:11006", "expired certificate"),
+    badtls(False, "wildcard.mismatch.badtls.io:11007", "invalid wildcard certificate Common Name"),
+    badtls(False, "rc4.badtls.io:11008", "supports RC4 ciphers"),
+    badtls(False, "rc4-md5.badtls.io:11009", "supports RC4 with MD5 ciphers")
 ]
 
 local_tests = [
