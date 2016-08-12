@@ -1,0 +1,6 @@
+language & java
+stubs & /etc/shared/simplerunner/stubs/java.stubs
+file & Run
+backend & default
+certs & _
+timeout & 30
