@@ -2,7 +2,18 @@
 VERSION=0.2.1
 
 cat <<EOF
-# TryTLS testing with Debian Latest
+# TryTLS testing with Debian 8
+
+\`\`\`console
+
+# cat /etc/debian_version
+EOF
+
+cat /etc/debian_version
+
+cat <<EOF
+
+\`\`\`
 
 ## Python 2
 
@@ -68,7 +79,7 @@ cat <<EOF
 
 \`\`\`
 
-### python-urllib
+### python3-urllib
 
 \`\`\`console
 
