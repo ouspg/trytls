@@ -6,7 +6,7 @@ import sys
 import socket
 import contextlib
 import multiprocessing
-from .. import result
+from .. import results
 from ..utils import tmpfiles
 from ..gencert import gencert
 from ..testenv import testenv, testgroup, Test
@@ -241,8 +241,8 @@ def badssl_tests():
         host="badssl.com",
         port=443
     )
-    if res.type != result.Pass:
-        forced_result = result.Skip("could not detect SNI support")
+    if res.type != results.Pass:
+        forced_result = results.Skip("could not detect SNI support")
 
     res = yield Test(
         accept=False,
@@ -251,8 +251,8 @@ def badssl_tests():
         port=443,
         forced_result=forced_result
     )
-    if res.type != result.Pass and not forced_result:
-        forced_result = result.Skip("stub didn't reject a self-signed certificate")
+    if res.type != results.Pass and not forced_result:
+        forced_result = results.Skip("stub didn't reject a self-signed certificate")
 
     yield testgroup(
         badssl(False, "expired", "expired certificate", forced_result),
