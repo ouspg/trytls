@@ -2,7 +2,18 @@
 VERSION=0.2.1
 
 cat <<EOF
-# TryTLS testing with Debian Latest
+# TryTLS testing with Debian 7
+
+\`\`\`console
+
+# cat /etc/debian_version
+EOF
+
+cat /etc/debian_version
+
+cat <<EOF
+
+\`\`\`
 
 ## Python 2
 
@@ -46,7 +57,7 @@ cat <<EOF
 
 ## Python 3
 
-The stub will be executed with python3.2, as that launches the version provided 
+The stub will be executed with python3.2, as that launches the version provided
 by the distribution. python3.5 was manually installed for executing the
 TryTLS runner itself (not the stub).
 

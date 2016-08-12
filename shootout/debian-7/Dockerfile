@@ -4,7 +4,7 @@ ENV VERSION 0.2.1
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y -o acquire::retries=10 install \
-        python python-pip curl vim \
+        python python-pip python3-pip curl vim \
         python3-requests python-requests php5 default-jdk golang-go && \
     mkdir src && \
     cd src && \
@@ -17,6 +17,7 @@ RUN apt-get -y update && \
     make install && \
     pip3.5 install --upgrade pip && \
     pip3.5 install https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz && \
+    cd /root && \
     curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz \
         | zcat - | tar xvf - trytls-${VERSION}/stubs/ && \
     javac trytls-${VERSION}/stubs/java-https/Run.java  && \
