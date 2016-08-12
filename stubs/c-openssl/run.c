@@ -7,7 +7,6 @@
 #include <openssl/err.h>
 
 #define MAX_LENGTH 1024
-#define FATAL_ERROR 537423874
 
 int main(int argc, char *argv[]) {
 
@@ -42,7 +41,7 @@ int main(int argc, char *argv[]) {
   SSL_load_error_strings();
   SSL_library_init();
 
-  ssl_ctx = SSL_CTX_new(TLS_method());
+  ssl_ctx = SSL_CTX_new(TLS_method());  //if you are using an older version of openssl, you may need to change this into for example: TLSv1_2_client_method
   param = SSL_CTX_get0_param(ssl_ctx);
 
   //set certificate verify
@@ -71,12 +70,8 @@ int main(int argc, char *argv[]) {
   BIO_set_conn_hostname(sbio, url);
   if(SSL_do_handshake(ssl) <= 0) {
     unsigned long int error = ERR_get_error();
-    if (error == FATAL_ERROR) {
-      printf("Fatal Error: %s\n", ERR_reason_error_string(error));  //maybe better context printing in the future
-    } else {
-      printf("%s\n", ERR_reason_error_string(error));
-      printf("REJECT\n");
-    }
+    printf("%s\n", ERR_reason_error_string(error));
+    printf("REJECT\n");
   } else {
     printf ("ACCEPT\n");
   }
