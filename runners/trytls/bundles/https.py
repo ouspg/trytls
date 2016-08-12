@@ -6,6 +6,7 @@ import sys
 import socket
 import contextlib
 import multiprocessing
+from .. import result
 from ..utils import tmpfiles
 from ..gencert import gencert
 from ..testenv import testenv, testgroup, Test
@@ -112,22 +113,13 @@ def badtls(accept, address, description=None):
 
 
 @testenv
-def badssl(accept, name, description):
+def badssl(accept, name, description, forced_result=None):
     yield Test(
         accept=accept,
         description=description,
         host=name + ".badssl.com",
-        port=443
-    )
-
-
-@testenv
-def badssl_sni(description):
-    yield Test(
-        accept=True,
-        description=description,
-        host="badssl.com",
-        port=443
+        port=443,
+        forced_result=forced_result
     )
 
 
@@ -238,18 +230,41 @@ def local(accept, cn, description):
                 cafile=cafile
             )
 
-badssl_tests = testgroup(
-    badssl_sni(description="support for TLS server name indication (SNI)"),
-    badssl(False, "expired", "expired certificate"),
-    badssl(False, "wrong.host", "wrong hostname in certificate"),
-    badssl(False, "self-signed", "self-signed certificate"),
-    badssl(True, "sha256", "SHA-256 signature"),
-    badssl(True, "1000-sans", "1000 subjectAltNames"),
-    badssl(False, "incomplete-chain", "incomplete chain of trust"),
-    badssl(False, "superfish", "Superfish CA"),
-    badssl(False, "edellroot", "eDellRoot CA"),
-    badssl(False, "dsdtestprovider", "DSDTestProvider CA")
-)
+
+@testgroup
+def badssl_tests():
+    forced_result = None
+
+    res = yield Test(
+        accept=True,
+        description="support for TLS server name indication (SNI)",
+        host="badssl.com",
+        port=443
+    )
+    if res.type != result.Pass:
+        forced_result = result.Skip("could not detect SNI support")
+
+    res = yield Test(
+        accept=False,
+        description="self-signed certificate",
+        host="self-signed.badssl.com",
+        port=443,
+        forced_result=forced_result
+    )
+    if res.type != result.Pass and not forced_result:
+        forced_result = result.Skip("stub didn't reject a self-signed certificate")
+
+    yield testgroup(
+        badssl(False, "expired", "expired certificate", forced_result),
+        badssl(False, "wrong.host", "wrong hostname in certificate", forced_result),
+        badssl(True, "sha256", "SHA-256 signature", forced_result),
+        badssl(True, "1000-sans", "1000 subjectAltNames", forced_result),
+        badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
+        badssl(False, "superfish", "Superfish CA", forced_result),
+        badssl(False, "edellroot", "eDellRoot CA", forced_result),
+        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result)
+    )
+
 
 ssllabs_tests = testgroup(
     ssllabs(False, 10443, "protect against Apple's TLS vulnerability CVE-2014-1266"),

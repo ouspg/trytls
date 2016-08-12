@@ -6,7 +6,7 @@ import argparse
 import subprocess
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
-from . import __version__, gencert, utils, result, bundles
+from . import __version__, gencert, utils, result, bundles, testenv
 
 
 # Initialize colorama without wrapping sys.stdout globally
@@ -69,7 +69,7 @@ def output_info(args, openssl_version, runner_name="trytls"):
     )
 
 
-def run_one(args, host, port, cafile=None):
+def run_stub(args, host, port, cafile=None):
     args = args + [host, str(port)]
     if cafile is not None:
         args.append(cafile)
@@ -103,46 +103,27 @@ def run_one(args, host, port, cafile=None):
     raise UnexpectedOutput(out)
 
 
-def collect(args, tests):
-    gen = tests()
+def collect(test, args):
     try:
-        value = None
+        accept, details = run_stub(list(args), test.host, test.port, test.cafile)
+    except Unsupported as us:
+        return result.Skip(details=us.args[0])
+    except UnexpectedOutput as uo:
+        output = uo.args[0].strip()
+        if output:
+            return result.Error("unexpected output", output)
+        return result.Error("no output")
+    except ProcessFailed as pf:
+        return result.Error(pf.args[0], pf.args[1])
 
-        while True:
-            try:
-                test = gen.send(value)
-            except StopIteration:
-                break
-
-            try:
-                if test.skip is None:
-                    accept, details = run_one(list(args), test.host, test.port, test.cafile)
-                else:
-                    res = result.Skip(test.skip)
-            except Unsupported as us:
-                res = result.Skip(details=us.args[0])
-            except UnexpectedOutput as uo:
-                output = uo.args[0].strip()
-                if output:
-                    res = result.Error("unexpected output", output)
-                else:
-                    res = result.Error("no output")
-            except ProcessFailed as pf:
-                res = result.Error(pf.args[0], pf.args[1])
-            else:
-                if accept and test.accept:
-                    res = result.Pass(details=details)
-                elif not accept and not test.accept:
-                    res = result.Pass(details=details)
-                elif not accept and test.accept:
-                    res = result.Fail(details=details)
-                else:
-                    res = result.Fail(details=details)
-
-            yield test, res
-            value = res
-    finally:
-        gen.close()
+    if accept and test.accept:
+        return result.Pass(details=details)
+    elif not accept and not test.accept:
+        return result.Pass(details=details)
+    elif not accept and test.accept:
+        return result.Fail(details=details)
+    else:
+        return result.Fail(details=details)
 
 
 class Formatter(object):
@@ -213,7 +194,7 @@ def run(args, tests):
     fail_count = 0
     error_count = 0
 
-    for test, res in collect(args, tests):
+    for test, res in testenv.run(tests, collect, args):
         write(format_result(test, res))
 
         if res.type == result.Fail:
