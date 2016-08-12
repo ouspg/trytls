@@ -166,11 +166,11 @@ def freakattack(host, description):
 
 
 @testenv
-def miscellaneous(accept, name, description):
+def miscellaneous(accept, host, description):
     yield Test(
         accept=accept,
         description=description,
-        host=name,
+        host=host,
         port=443
     )
 
