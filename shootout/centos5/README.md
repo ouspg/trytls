@@ -4,7 +4,7 @@ We chose centos5, centos6 and centos7 for this TryTLS-shootout
 based on the [CentOS End of Support Schedule](https://en.wikipedia.org/wiki/CentOS#End-of-support_schedule).
 
 ```console
-$ docker run -ti --rm centos6
+$ docker run -ti --rm centos5
 
 # cat /etc/redhat-release
 CentOS release 5.11 (Final)
