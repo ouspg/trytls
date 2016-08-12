@@ -1,9 +1,0 @@
-#!/bin/bashs
-
-cacerts="/etc/ssl/certs/java/cacerts"
-
-for f in /etc/shared/simplerunner/certs/*; do
-	crt=$f
-	keytool -delete -storepass changeit -noprompt -alias $crt -keystore $cacerts >> /dev/null 2>&1
-	keytool -import -storepass changeit -noprompt -alias $crt -file $crt -keystore $cacerts >> /dev/null 2>&1
-done

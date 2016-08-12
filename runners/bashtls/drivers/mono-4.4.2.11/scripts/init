@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for f in /etc/shared/simplerunner/certs/*; do
-	crt=$f
-	certmgr -add -c Trust $crt >> /dev/null 2>&1
-	#mozroots $crt;
-done
