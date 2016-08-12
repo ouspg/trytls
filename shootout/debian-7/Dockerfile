@@ -4,7 +4,7 @@ ENV VERSION 0.2.1
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y -o acquire::retries=10 install \
-        python python-pip curl vim \
+        python python-pip python3-pip curl vim \
         python3-requests python-requests php5 default-jdk golang-go && \
     mkdir src && \
     cd src && \

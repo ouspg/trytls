@@ -13,7 +13,7 @@ TryTLS runner itself (not the stub).
 \`\`\`console
 # python --version
 EOF
-python --version
+python --pro
 
 cat <<EOF
 \`\`\`
@@ -46,7 +46,7 @@ cat <<EOF
 
 ## Python 3
 
-The stub will be executed with python3.2, as that launches the version provided 
+The stub will be executed with python3.2, as that launches the version provided
 by the distribution. python3.5 was manually installed for executing the
 TryTLS runner itself (not the stub).
 
