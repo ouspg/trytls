@@ -23,7 +23,7 @@ favorite language and library easy.
 I you prefer watching over reading, take a look at
 [TryTLS training under 4 minutes!](https://www.youtube.com/watch?v=85EO61l2Oa4)
 and
-[What exactly TryTLS tests](https://www.youtube.com/watch?v=aHw2Ulr6zH8) on
+[What exactly does TryTLS test?](https://www.youtube.com/watch?v=aHw2Ulr6zH8) on
 YouTube.
 
 ## Runners
