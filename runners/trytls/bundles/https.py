@@ -8,7 +8,7 @@ import contextlib
 import multiprocessing
 from ..utils import tmpfiles
 from ..gencert import gencert
-from ..testenv import testenv, Test
+from ..testenv import testenv, testgroup, Test
 
 try:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
@@ -238,8 +238,7 @@ def local(accept, cn, description):
                 cafile=cafile
             )
 
-
-badssl_tests = [
+badssl_tests = testgroup(
     badssl_sni(description="support for TLS server name indication (SNI)"),
     badssl(False, "expired", "expired certificate"),
     badssl(False, "wrong.host", "wrong hostname in certificate"),
@@ -250,21 +249,20 @@ badssl_tests = [
     badssl(False, "superfish", "Superfish CA"),
     badssl(False, "edellroot", "eDellRoot CA"),
     badssl(False, "dsdtestprovider", "DSDTestProvider CA")
-]
+)
 
-
-ssllabs_tests = [
+ssllabs_tests = testgroup(
     ssllabs(False, 10443, "protect against Apple's TLS vulnerability CVE-2014-1266"),
     ssllabs(False, 10444, "protect against the FREAK attack"),
     ssllabs(False, 10445, "protect against the Logjam attack")
-]
+)
 
-freakattack_tests = [
+freakattack_tests = testgroup(
     freakattack("cve.freakattack.com", "protect against FREAK attack (test server 1)"),
     freakattack("cve2.freakattack.com", "protect against FREAK attack (test server 2)"),
-]
+)
 
-badtls_tests = [
+badtls_tests = testgroup(
     badtls(True, "domain-match.badtls.io:10000", "valid certificate Common Name"),
     badtls(True, "wildcard-match.badtls.io:10001", "valid wildcard certificate Common Name"),
     badtls(True, "san-match.badtls.io:10002", "support for Subject Alternative Name (SAN)"),
@@ -279,17 +277,24 @@ badtls_tests = [
     badtls(False, "wildcard.mismatch.badtls.io:11007", "invalid wildcard certificate Common Name"),
     badtls(False, "rc4.badtls.io:11008", "supports RC4 ciphers"),
     badtls(False, "rc4-md5.badtls.io:11009", "supports RC4 with MD5 ciphers")
-]
+)
 
-local_tests = [
+local_tests = testgroup(
     local(True, "localhost", "valid localhost certificate"),
     local(False, "nothing", "invalid localhost certificate"),
     badssl_onlymyca("use only the given CA bundle, not system's")
-]
+)
 
-miscellaneous_tests = [
+miscellaneous_tests = testgroup(
     miscellaneous(False, "sslv3.dshield.org", "protection against POODLE attack"),
     miscellaneous(False, "badcert-edell.tlsfun.de", "eDellRoot CA #2")
-]
+)
 
-all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + miscellaneous_tests + local_tests
+all_tests = testgroup(
+    badtls_tests,
+    badssl_tests,
+    ssllabs_tests,
+    freakattack_tests,
+    miscellaneous_tests,
+    local_tests
+)

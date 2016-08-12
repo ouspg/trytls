@@ -104,29 +104,45 @@ def run_one(args, host, port, cafile=None):
 
 
 def collect(args, tests):
-    for env in tests:
-        with env() as test:
+    gen = tests()
+    try:
+        value = None
+
+        while True:
             try:
-                accept, details = run_one(list(args), test.host, test.port, test.cafile)
+                test = gen.send(value)
+            except StopIteration:
+                break
+
+            try:
+                if test.skip is None:
+                    accept, details = run_one(list(args), test.host, test.port, test.cafile)
+                else:
+                    res = result.Skip(test.skip)
             except Unsupported as us:
-                yield test, result.Skip(details=us.args[0])
+                res = result.Skip(details=us.args[0])
             except UnexpectedOutput as uo:
                 output = uo.args[0].strip()
                 if output:
-                    yield test, result.Error("unexpected output", output)
+                    res = result.Error("unexpected output", output)
                 else:
-                    yield test, result.Error("no output")
+                    res = result.Error("no output")
             except ProcessFailed as pf:
-                yield test, result.Error(pf.args[0], pf.args[1])
+                res = result.Error(pf.args[0], pf.args[1])
             else:
                 if accept and test.accept:
-                    yield test, result.Pass(details=details)
+                    res = result.Pass(details=details)
                 elif not accept and not test.accept:
-                    yield test, result.Pass(details=details)
+                    res = result.Pass(details=details)
                 elif not accept and test.accept:
-                    yield test, result.Fail(details=details)
+                    res = result.Fail(details=details)
                 else:
-                    yield test, result.Fail(details=details)
+                    res = result.Fail(details=details)
+
+            yield test, res
+            value = res
+    finally:
+        gen.close()
 
 
 class Formatter(object):
