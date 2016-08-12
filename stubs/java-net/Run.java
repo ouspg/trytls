@@ -2,7 +2,8 @@ import java.net.URL;
 import java.io.*;
 
 public class Run {
-  public static void main(String [] args) {
+  public static void main(String [] args) throws Exception
+  {
 
     if (args.length == 3) {
       System.out.println("UNSUPPORTED");
@@ -15,17 +16,15 @@ public class Run {
     String host = args[0];
     String port = args[1];
 
+    URL url;
     String https_url = String.format("https://%s:%s", host, port);
-
     try {
-      new java.net.URL(https_url).getContent();
+      url = new URL(https_url);
+      url.openConnection().getContent();
       System.out.println("ACCEPT");
-    } catch (javax.net.ssl.SSLHandshakeException | javax.net.ssl.SSLProtocolException | javax.net.ssl.SSLKeyException e){
+    } catch (javax.net.ssl.SSLException e){
+      System.out.println(e);
       System.out.println("REJECT");
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println(e.getCause().getMessage());
-      System.exit(3);
     }
     System.exit(0);
   }

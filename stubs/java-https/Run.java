@@ -4,7 +4,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Run{
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 
 		if (args.length == 3) {
@@ -23,16 +23,13 @@ public class Run{
 		try {
 			url = new URL(https_url);
 			HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-			con.getResponseCode();
+			con.getContent();
 			System.out.println("ACCEPT");
-		} catch (javax.net.ssl.SSLHandshakeException|javax.net.ssl.SSLKeyException|javax.net.ssl.SSLProtocolException e) {
-			System.out.println("REJECT");
-		} catch (Exception e) {
+		} catch (javax.net.ssl.SSLException e) {
 			System.out.println(e);
-			System.exit(3);
+			System.out.println("REJECT");
 		}
 
 		System.exit(0);
 	}
-
 }
