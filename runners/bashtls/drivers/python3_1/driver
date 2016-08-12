@@ -1,6 +1,0 @@
-language & python3
-stubs & /etc/shared/simplerunner/stubs/python3.stubs
-file & run.py
-backend & default
-certs & /etc/shared/simplerunner/certs
-timeout & 30

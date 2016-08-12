@@ -201,7 +201,7 @@ connect()
         response='[ FAIL ]'[$response]
         `checkreturnvalue $extra`; returnvalue=$?
       else
-        response='[ ERROR]'
+        response='[ ERROR][------]'
         if [[ $printerror ]]; then
           context=$error
         fi
@@ -219,7 +219,7 @@ connect()
         response="[ FAIL ][$response]"
         `checkreturnvalue $extra`; returnvalue=$?
       else
-        response='[ ERROR]'
+        response='[ ERROR][------]'
         if [[ $printerror ]]; then
           context=$error
         fi
@@ -231,7 +231,7 @@ connect()
     if [[ "$response" == "ACCEPT" || "$response" == "REJECT" ]]; then
       response="[ OK?  ][$response]"
     else
-      response='[ ERROR]'
+      response='[ ERROR][------]'
       if [[ $printerror ]]; then
         context=$error
       fi

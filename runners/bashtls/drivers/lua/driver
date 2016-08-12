@@ -1,6 +1,0 @@
-language & lua5.1
-stubs & /etc/shared/simplerunner/stubs/lua.stubs
-file & run.lua
-backend & default
-certs & /etc/shared/simplerunner/certs+/etc/ssl/certs/ca-certificates.crt
-timeout & 30

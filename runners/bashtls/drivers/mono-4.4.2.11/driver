@@ -1,6 +1,0 @@
-language & mono
-stubs & /etc/shared/simplerunner/stubs/mono.stubs
-file & Run.exe
-backend & default
-certs & _
-timeout & 30
