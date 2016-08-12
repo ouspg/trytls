@@ -20,6 +20,12 @@ favorite language and library easy.
 * **Stubs** attempt to establish secure TLS/SSL connections to backends.
 * **Runners** run the stubs against backends and provide the results of the tests.
 
+I you prefer watching over reading, take a look at
+[TryTLS training under 4 minutes!](https://www.youtube.com/watch?v=85EO61l2Oa4)
+and
+[What exactly TryTLS tests](https://www.youtube.com/watch?v=aHw2Ulr6zH8) on
+YouTube.
+
 ## Runners
 
 * [trytls](runners/trytls/) (official)
