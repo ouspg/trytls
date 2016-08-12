@@ -1,0 +1,6 @@
+language & bash
+stubs & /etc/shared/simplerunner/stubs/bash.stubs
+file & run
+backend & default
+certs & /etc/shared/simplerunner/certs
+timeout & 30
