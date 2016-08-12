@@ -4,7 +4,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Run{
 
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 
 		if (args.length == 3) {
@@ -28,9 +28,6 @@ public class Run{
 		} catch (javax.net.ssl.SSLException e) {
 			System.out.println(e);
 			System.out.println("REJECT");
-		} catch (Exception e) {
-			System.out.println(e);
-			System.exit(3);
 		}
 
 		System.exit(0);
