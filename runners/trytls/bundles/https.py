@@ -165,6 +165,16 @@ def freakattack(host, description):
     )
 
 
+@testenv
+def miscellaneous(accept, host, description):
+    yield Test(
+        accept=accept,
+        description=description,
+        host=host,
+        port=443
+    )
+
+
 @contextlib.contextmanager
 def http_server(certdata, keydata, host="localhost", port=0):
     class Server(HTTPServer):
@@ -277,4 +287,9 @@ local_tests = [
     badssl_onlymyca("use only the given CA bundle, not system's")
 ]
 
-all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + local_tests
+miscellaneous_tests = [
+    miscellaneous(False, "sslv3.dshield.org", "protection against POODLE attack"),
+    miscellaneous(False, "badcert-edell.tlsfun.de", "eDellRoot CA #2")
+]
+
+all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + miscellaneous_tests + local_tests
