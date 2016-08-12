@@ -9,22 +9,23 @@ import functools
 import contextlib
 
 try:
-    from shlex import quote as _shlex_quote
+    from shlex import quote as _quote
 except ImportError:
-    # The following is a naive implementation of shlex.quote for Python 2.7, as
-    # shlex.quote was introduced in Python 3.3.
-    def _shlex_quote(string):
-        if string.isalnum():
-            return string
-        return "'" + string.replace("'", "\\'") + "'"
+    # shlex.quote was introduced in Python 3.3, use pipes.quote
+    # for Python 2.7.
+    from pipes import quote as _quote
 
 
 def format_command(args):
     r"""
     Return a list of argument strings as one shell-escaped command.
+
+    >>> import shlex
+    >>> shlex.split(format_command(["echo", "Hello, World!", "'quoted'"]))
+    ['echo', 'Hello, World!', "'quoted'"]
     """
 
-    return " ".join(_shlex_quote(arg) for arg in args)
+    return " ".join(_quote(arg) for arg in args)
 
 
 def python_info():
