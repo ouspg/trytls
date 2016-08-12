@@ -165,6 +165,16 @@ def freakattack(host, description):
     )
 
 
+@testenv
+def miscellaneous(accept, name, description):
+    yield Test(
+        accept=accept,
+        description=description,
+        host=name,
+        port=443
+    )
+
+
 @contextlib.contextmanager
 def http_server(certdata, keydata, host="localhost", port=0):
     class Server(HTTPServer):
@@ -229,16 +239,6 @@ def local(accept, cn, description):
             )
 
 
-@testenv
-def miscellaneous(accept, name, description):
-    yield Test(
-        accept=accept,
-        description=description,
-        host=name,
-        port=443
-    )
-
-
 badssl_tests = [
     badssl_sni(description="support for TLS server name indication (SNI)"),
     badssl(False, "expired", "expired certificate"),
@@ -292,4 +292,4 @@ miscellaneous_tests = [
     miscellaneous(False, "badcert-edell.tlsfun.de", "eDellRoot CA #2")
 ]
 
-all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + local_tests + miscellaneous_tests
+all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + miscellaneous_tests + local_tests
