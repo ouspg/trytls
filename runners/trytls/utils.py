@@ -138,3 +138,30 @@ def tmpfiles(first, *rest):
             yield filenames
     finally:
         shutil.rmtree(tmp)
+
+
+def decorator(decorator_func):
+    """
+    Return a decorator function.
+
+    >>> @decorator
+    ... def log_calls(func, *args, **keys):
+    ...     print("calling", func.__name__)
+    ...     return func(*args, **keys)
+    ...
+    >>> @log_calls
+    ... def add(a, b):
+    ...     return a + b
+    ...
+    >>> add(1, 2)
+    calling add
+    3
+    """
+
+    @functools.wraps(decorator_func)
+    def _decorator(func):
+        @functools.wraps(func)
+        def __decorator(*args, **keys):
+            return decorator_func(func, *args, **keys)
+        return __decorator
+    return _decorator
