@@ -37,8 +37,8 @@ stub: python 'trytls-0.2.1/stubs/python-requests/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:44344]
- PASS invalid localhost certificate [reject localhost:40186]
+ PASS valid localhost certificate [accept localhost:35195]
+ PASS invalid localhost certificate [reject localhost:40379]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -66,8 +66,8 @@ stub: python 'trytls-0.2.1/stubs/python-urllib2/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:37158]
- PASS invalid localhost certificate [reject localhost:45327]
+ PASS valid localhost certificate [accept localhost:36053]
+ PASS invalid localhost certificate [reject localhost:41510]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -108,8 +108,8 @@ stub: python3 'trytls-0.2.1/stubs/python-requests/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:45485]
- PASS invalid localhost certificate [reject localhost:35982]
+ PASS valid localhost certificate [accept localhost:41500]
+ PASS invalid localhost certificate [reject localhost:39217]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -137,8 +137,8 @@ stub: python3 'trytls-0.2.1/stubs/python3-urllib/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:38789]
- PASS invalid localhost certificate [reject localhost:35478]
+ PASS valid localhost certificate [accept localhost:45842]
+ PASS invalid localhost certificate [reject localhost:34504]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -178,8 +178,8 @@ ERROR protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllab
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:46568]
- SKIP invalid localhost certificate [reject localhost:44412]
+ SKIP valid localhost certificate [accept localhost:41485]
+ SKIP invalid localhost certificate [reject localhost:37062]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -225,8 +225,8 @@ ERROR protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllab
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:38724]
- SKIP invalid localhost certificate [reject localhost:34331]
+ SKIP valid localhost certificate [accept localhost:44916]
+ SKIP invalid localhost certificate [reject localhost:35003]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -263,8 +263,8 @@ stub: go run 'trytls-0.2.1/stubs/go-nethttp/run.go'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:33947]
- SKIP invalid localhost certificate [reject localhost:39409]
+ SKIP valid localhost certificate [accept localhost:41430]
+ SKIP invalid localhost certificate [reject localhost:41698]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -302,6 +302,8 @@ stub: php 'trytls-0.2.1/stubs/php-file-get-contents/run.php'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:37212]
- SKIP invalid localhost certificate [reject localhost:33597]
+ SKIP valid localhost certificate [accept localhost:39952]
+ SKIP invalid localhost certificate [reject localhost:34417]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+
+```

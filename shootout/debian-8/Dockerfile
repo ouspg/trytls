@@ -1,4 +1,4 @@
-FROM debian:8.5
+FROM debian:8
 WORKDIR /root
 ENV VERSION 0.2.1
 RUN apt-get -y update && \
