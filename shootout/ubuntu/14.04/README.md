@@ -49,44 +49,27 @@ python3-ubuntu-14.04_1  | [python3-urllib:run.py][ PASS ][REJECT][ disable ca-bu
 
 **Python 2.7.10**
 
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][ACCEPT][ supports SNI                  ][badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ expired                       ][expired.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ wrong host                    ][wrong.host.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ self-signed                   ][self-signed.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][ACCEPT][ sha-256                       ][sha256.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][ACCEPT][ 1000-sans                     ][1000-sans.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ FAIL ][REJECT][ 10000-sans (Bad in ten years) ][10000-sans.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ incomplete-chain              ][incomplete-chain.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ OK?  ][ACCEPT][ pinning-test                  ][pinning-test.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ superfish                     ][superfish.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
-python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ disable ca-bundles            ][badssl.com]
+<pre>
+#python-requests
+python2-ubuntu-14.04_1  | Python 2.7.6
+python2-ubuntu-14.04_1  | [python-requests:run.py][ FAIL ][REJECT][-> SKIP badssl.com (till CONTINUE)    ][][badssl.com]
 python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
 python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
 python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][REJECT][ Logjam             ][www.ssllabs.com]
 python2-ubuntu-14.04_1  | [python-requests:run.py][ PASS ][ACCEPT][ Valid cert ][google.com]
 
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][ACCEPT][ supports SNI                  ][badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ expired                       ][expired.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ wrong host                    ][wrong.host.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ self-signed                   ][self-signed.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][ACCEPT][ sha-256                       ][sha256.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][ACCEPT][ 1000-sans                     ][1000-sans.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ FAIL ][REJECT][ 10000-sans (Bad in ten years) ][10000-sans.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ incomplete-chain              ][incomplete-chain.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ OK?  ][ACCEPT][ pinning-test                  ][pinning-test.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ superfish                     ][superfish.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ edellroot                     ][edellroot.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ dsdtestprovider               ][dsdtestprovider.badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ disable ca-bundles            ][badssl.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ OS X vulnerability ][www.ssllabs.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][REJECT][ Logjam             ][www.ssllabs.com]
-python2-ubuntu-14.04_1  | [python-urllib2:run.py][ PASS ][ACCEPT][ Valid cert ][google.com]
+
+#urllib2
+python2-ubuntu-14.04_1  | Traceback (most recent call last):
+python2-ubuntu-14.04_1  |   File "run.py", line 13, in <module>
+python2-ubuntu-14.04_1  |     urllib2.urlopen("https://" + host + ":" + port, cafile=cafile)
+python2-ubuntu-14.04_1  | TypeError: urlopen() got an unexpected keyword argument 'cafile'
+
+</pre>
 
 **java**
 
+<pre>
 javac-default-ubuntu-14.04_1  | [java-https:Run][ PASS ][ACCEPT][ supports SNI                  ][badssl.com]
 javac-default-ubuntu-14.04_1  | [java-https:Run][ PASS ][REJECT][ expired                       ][expired.badssl.com]
 javac-default-ubuntu-14.04_1  | [java-https:Run][ PASS ][REJECT][ wrong host                    ][wrong.host.badssl.com]
@@ -122,3 +105,4 @@ javac-default-ubuntu-14.04_1  | [java-net:Run][ PASS ][REJECT][ OS X vulnerabili
 javac-default-ubuntu-14.04_1  | [java-net:Run][ PASS ][REJECT][ Freak              ][www.ssllabs.com]
 javac-default-ubuntu-14.04_1  | [java-net:Run][ PASS ][REJECT][ Logjam             ][www.ssllabs.com]
 javac-default-ubuntu-14.04_1  | [java-net:Run][ PASS ][ACCEPT][ Valid cert ][google.com]
+</pre>

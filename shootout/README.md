@@ -37,9 +37,9 @@ table below.
 |[CentOS 7.2](centos7)           | PASS            | FAIL           | PASS           | N/A                       | PASS         | N/A        | N/A      | NO SNI |
 |[Debian 8.5](debian-latest)     | PASS            | PASS           | FAIL           | PASS                      | N/A          | N/A        | N/A      | PASS   |
 |[Fedora 24](fedora24)           | PASS            | PASS           | N/A            | PASS                      | PASS         | PASS       | PASS     | PASS   |
+|[Ubuntu 12.04.5](ubuntu/12.04.5)| NO SNI          | N/A            | FAIL           | N/A                       | ?            | ERROR      | ERROR    | N/A    |
+|[Ubuntu 14.04](ubuntu/14.04)    | NO SNI          | N/A            | FAIL           | N/A                       | ?            | PASS       | PASS     | N/A    |
 |[Ubuntu 16.04](ubuntu/16.04)    | PASS            | PASS           | PASS           | N/A                       | PASS         | PASS       | PASS     | PASS   |
-|[Ubuntu 14.04](ubuntu/14.04)    | PASS            | PASS           | FAIL           | N/A                       | N/A          | PASS       | PASS     | N/A    |
-|[Ubuntu 12.04.5](ubuntu/12.04.5)| NO SNI          | N/A            | FAIL           | N/A                       | N/A          | N/A        | N/A      | N/A    |
 
 Legend:
 
