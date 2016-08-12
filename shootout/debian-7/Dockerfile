@@ -17,6 +17,7 @@ RUN apt-get -y update && \
     make install && \
     pip3.5 install --upgrade pip && \
     pip3.5 install https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz && \
+    cd /root && \
     curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz \
         | zcat - | tar xvf - trytls-${VERSION}/stubs/ && \
     javac trytls-${VERSION}/stubs/java-https/Run.java  && \

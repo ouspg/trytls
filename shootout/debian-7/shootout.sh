@@ -2,7 +2,18 @@
 VERSION=0.2.1
 
 cat <<EOF
-# TryTLS testing with Debian Latest
+# TryTLS testing with Debian 7
+
+\`\`\`console
+
+# cat /etc/debian_version
+EOF
+
+cat /etc/debian_version
+
+cat <<EOF
+
+\`\`\`
 
 ## Python 2
 
@@ -13,7 +24,7 @@ TryTLS runner itself (not the stub).
 \`\`\`console
 # python --version
 EOF
-python --pro
+python --version
 
 cat <<EOF
 \`\`\`
