@@ -107,7 +107,7 @@ stub: python3 'trytls-0.2.1/stubs/python-requests/run.py'
 
 ```
 
-### python-urllib
+### python3-urllib
 
 ```console
 
