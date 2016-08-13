@@ -71,8 +71,9 @@ int main(int argc, char **argv) {
                  "%s\r\n%s: %s\r\n\r\n",
                  "GET / HTTP/1.0",
                  "Host", host);
-        if (tls_write(context, write_buf, strlen(write_buf)) == -1)
+        if (tls_write(context, write_buf, strlen(write_buf)) == -1) {
                 err(1, "tls_write");
+        }
 
         /* Read HTTP GET response */
         if (tls_read(context, read_buf, sizeof(read_buf)) == -1) {
