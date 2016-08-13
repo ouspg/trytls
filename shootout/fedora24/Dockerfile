@@ -1,4 +1,4 @@
-FROM fedora:latest
+FROM fedora:24
 
 RUN dnf install git-all tar -y
 RUN pip install trytls
