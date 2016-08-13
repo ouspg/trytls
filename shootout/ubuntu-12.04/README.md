@@ -1,7 +1,7 @@
 # TryTLS testing with Ubuntu
 
 We chose Ubuntu 12.04, 14.04 and 16.04 LTS releases for this TryTLS-shootout
-based on the [CentOS End of Support Schedule](http://www.ubuntu.com/info/release-end-of-life).
+based on the [Ubuntu release end of life](http://www.ubuntu.com/info/release-end-of-life).
 
 ```console
 $ docker run -ti --rm ubuntu-12.04
