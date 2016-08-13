@@ -14,6 +14,7 @@ int main(int argc, char **argv) {
         char *ca_file = NULL;
         char write_buf[1024];
         char read_buf[1024];
+        ssize_t len;
         int exit_value = EXIT_SUCCESS;
 
         if (argc < 3 || argc > 4) {
@@ -73,12 +74,19 @@ int main(int argc, char **argv) {
         }
 
         /* Read HTTP GET response */
-        if (tls_read(context, read_buf, sizeof(read_buf)) == -1) {
+        len = tls_read(context, read_buf, sizeof(read_buf));
+        if (len < 0) {
                 err(1, "tls_read");
         }
 
+        if ((size_t)len < sizeof(read_buf)) {
+                read_buf[len] = '\0';
+        } else {
+                read_buf[sizeof(read_buf)-1] = '\0';
+        }
+
         /* We only care about the first line from HTTP GET response */
-        for (size_t i=0; i < strlen(read_buf); i++) {
+        for (size_t i=0; i < (size_t)len; i++) {
                 if (read_buf[i] == '\n') {
                         read_buf[i] = '\0';
                         break;
