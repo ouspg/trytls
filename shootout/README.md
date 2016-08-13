@@ -1,6 +1,6 @@
 # TryTLS shootouts
 
-## 0.2 shootout results
+## 0.2.1 shootout results
 
 We ran TryTLS tests on major and still supported distributions.
 For this shootout we limited ourselves to the official Docker images
