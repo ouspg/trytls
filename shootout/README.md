@@ -3,9 +3,10 @@
 ## 0.2 shootout results
 
 We ran TryTLS tests on major and still supported distributions.
-Our objective was to check that the bundled languages and libraries
-are safe to use with TLS. TryTLS focuses on making sure that the
-certificates are checked properly.
+For this shootout we limited ourselves to the official Docker images
+of the distributions. Our objective was to check that the bundled
+languages and libraries are safe to use with TLS. TryTLS focuses
+on making sure that the certificates are checked properly.
 
 ### Main Observations
 
@@ -37,9 +38,9 @@ table below.
 |[CentOS 7.2](centos7)           | PASS            | FAIL           | PASS           | N/A                       | PASS         | N/A        | N/A      | NO SNI |
 |[Debian 8.5](debian-8)          | PASS            | PASS           | FAIL           | PASS                      | N/A          | N/A        | N/A      | PASS   |
 |[Fedora 24](fedora24)           | PASS            | PASS           | N/A            | PASS                      | PASS         | PASS       | PASS     | PASS   |
-|[Ubuntu 12.04.5](ubuntu/12.04.5)| NO SNI          | N/A            | FAIL           | N/A                       | N/A          | N/A        | N/A      | N/A    |
-|[Ubuntu 14.04.5](ubuntu-14.04)    | NO SNI          | N/A            | FAIL           | N/A                       | N/A          | NO SNI      | N/A     | N/A    |
-|[Ubuntu 16.04.1](ubuntu-16.04)    | PASS            | PASS           | PASS           | N/A                       | PASS         | PASS       | PASS     | PASS   |
+|[Ubuntu 12.04.5](ubuntu/12.04.5)| NO SNI          | N/A            | FAIL           | N/A                       | NO SNI       | N/A        | N/A      | NO SNI |
+|[Ubuntu 14.04.5](ubuntu-14.04)  | NO SNI          | N/A            | FAIL           | N/A                       | NO SNI       | N/A        | N/A      | NO SNI |
+|[Ubuntu 16.04.1](ubuntu-16.04)  | PASS            | PASS           | PASS           | N/A                       | PASS         | PASS       | PASS     | PASS   |
 
 Legend:
 

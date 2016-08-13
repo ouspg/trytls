@@ -2,9 +2,7 @@ FROM ubuntu:12.04
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install python-pip curl && \
-    pip install --upgrade pip && \
-    /usr/local/bin/pip install trytls==0.2.1
+    apt-get -y install curl
 
 # Stubs
 WORKDIR /root
