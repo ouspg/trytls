@@ -16,9 +16,6 @@ int main(int argc, char **argv) {
         char read_buf[1024];
         int exit_value = EXIT_SUCCESS;
 
-        write_buf[0] = '\0';
-        read_buf[0]  = '\0';
-
         if (argc < 3 || argc > 4) {
                 printf("%s <host> <port> [ca-bundle]\n", argv[0]);
                 return EXIT_FAILURE;
