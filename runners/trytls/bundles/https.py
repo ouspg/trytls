@@ -175,8 +175,7 @@ def miscellaneous(accept, host, description):
     )
 
 
-@contextlib.contextmanager
-def http_server(certdata, keydata, host="localhost", port=0):
+def _serve(connection, certdata, keydata, host, port):
     class Server(HTTPServer):
         ALLOWED_EXCEPTIONS = (socket.error,)
 
@@ -205,14 +204,16 @@ def http_server(certdata, keydata, host="localhost", port=0):
         def log_message(self, format, *args):
             pass
 
-    def serve(connection, certdata, keydata, host, port):
-        server = Server((host, port), Handler)
-        connection.send((host, server.server_port))
-        server.handle_request()
+    server = Server((host, port), Handler)
+    connection.send((host, server.server_port))
+    server.handle_request()
 
+
+@contextlib.contextmanager
+def http_server(certdata, keydata, host="localhost", port=0):
     reader, writer = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(
-        target=serve,
+        target=_serve,
         args=[writer, certdata, keydata, host, port]
     )
     process.start()
