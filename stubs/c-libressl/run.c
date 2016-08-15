@@ -85,6 +85,11 @@ int main(int argc, char **argv) {
                         len = (ssize_t)i;
                         break;
                 }
+
+                /* Filter away non-ASCII charaters */
+                if (read_buf[i] < 0x20 || read_buf[i] > 0x7f) {
+                        read_buf[i] = '?';
+                }
         }
 
         fwrite(read_buf, sizeof(char), (size_t)len, stdout);
