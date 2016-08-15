@@ -132,27 +132,33 @@ stub: python 'stubs/python-urllib2/run.py'
 
 ---
 
-Finished stubs (documentation and correct calling convention):
-* bash-curl
-* bash-opensslSClient
-* c-openssl
-* cSharp-Net
-* dotnet-https
-* FSharp-net
+### Stubs tested in each release
+
+In Ubuntu 16.04
+
+* python2-requests
+* python2-urllib2
+* python3-urllib
 * go-nethttp
-* haskell-http-client-tls
-* haskell-wreq
 * java-https
 * java-net
-* lua5.1-luasec
-* php-file-get-contents
-* python3-urllib
-* python-idiokit
-* python-requests
-* python-urllib2
-* python-urllib3
-* vb-net
 
+### Other stubs
+
+* CSharp-Net
+* c-libressl
+* haskell-wreq
+* FSharp-Net
+* c-openssl
+* dotnet-https
+* 3VB-Net
+* erlang-httpc
+* lua5.1-luasec
+* bash-curl
+* php-file-get-contents
+* bash-opensslSClient
+* haskell-http-client-tls
+* python2-idiokit
 
 ### Acceptance process:
 
