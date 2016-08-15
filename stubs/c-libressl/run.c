@@ -79,22 +79,16 @@ int main(int argc, char **argv) {
                 err(1, "tls_read");
         }
 
-        if ((size_t)len < sizeof(read_buf)) {
-                read_buf[len] = '\0';
-        } else {
-                read_buf[sizeof(read_buf)-1] = '\0';
-        }
-
         /* We only care about the first line from HTTP GET response */
         for (size_t i=0; i < (size_t)len; i++) {
-                if (read_buf[i] == '\n') {
-                        read_buf[i] = '\0';
+                if (read_buf[i] == '\r' || read_buf[i] == '\n') {
+                        len = (ssize_t)i;
                         break;
                 }
         }
 
-        printf("%s\n", read_buf);
-        printf("ACCEPT\n");
+        fwrite(read_buf, sizeof(char), (size_t)len, stdout);
+        printf("\nACCEPT\n");
         exit_value = EXIT_SUCCESS;
 
  cleanup:
