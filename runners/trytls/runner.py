@@ -78,7 +78,7 @@ _NON_PRINTABLE_REX = re.compile(
 
 
 def _escape_match(match):
-    return b"\\x%02x" % ord(match.group(0))
+    return "\\x{:02x}".format(ord(match.group(0))).encode("ascii")
 
 
 def _escape_non_printable(byte_string):
