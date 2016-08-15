@@ -2,15 +2,17 @@ from selenium import webdriver
 import re
 import sys
 
-driver = webdriver.Firefox()
+driver = webdriver.Firefox(capabilities={'acceptSslCerts': False})
+#driver = webdriver.Chrome(desired_capabilities={'acceptSslCerts': False})
 driver.get_log('browser')
 
 host = sys.argv[1]
 port = sys.argv[2]
 
 failing_titles = ('Problem loading page',
-                  'Insecure connection',
-                  'failed to load')
+                  'Insecure Connection',
+                  'failed to load',
+                  'is not private')
 
 driver.get("https://" + host + ":" + port)
 
