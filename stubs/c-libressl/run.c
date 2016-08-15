@@ -14,10 +14,8 @@ int main(int argc, char **argv) {
         char *ca_file = NULL;
         char write_buf[1024];
         char read_buf[1024];
+        ssize_t len;
         int exit_value = EXIT_SUCCESS;
-
-        write_buf[0] = '\0';
-        read_buf[0]  = '\0';
 
         if (argc < 3 || argc > 4) {
                 printf("%s <host> <port> [ca-bundle]\n", argv[0]);
@@ -71,24 +69,31 @@ int main(int argc, char **argv) {
                  "%s\r\n%s: %s\r\n\r\n",
                  "GET / HTTP/1.0",
                  "Host", host);
-        if (tls_write(context, write_buf, strlen(write_buf)) == -1)
+        if (tls_write(context, write_buf, strlen(write_buf)) == -1) {
                 err(1, "tls_write");
+        }
 
         /* Read HTTP GET response */
-        if (tls_read(context, read_buf, sizeof(read_buf)) == -1) {
+        len = tls_read(context, read_buf, sizeof(read_buf));
+        if (len < 0) {
                 err(1, "tls_read");
         }
 
         /* We only care about the first line from HTTP GET response */
-        for (size_t i=0; i < strlen(read_buf); i++) {
-                if (read_buf[i] == '\n') {
-                        read_buf[i] = '\0';
+        for (size_t i=0; i < (size_t)len; i++) {
+                if (read_buf[i] == '\r' || read_buf[i] == '\n') {
+                        len = (ssize_t)i;
                         break;
+                }
+
+                /* Filter away non-ASCII charaters */
+                if (read_buf[i] < 0x20 || read_buf[i] > 0x7f) {
+                        read_buf[i] = '?';
                 }
         }
 
-        printf("%s\n", read_buf);
-        printf("ACCEPT\n");
+        fwrite(read_buf, sizeof(char), (size_t)len, stdout);
+        printf("\nACCEPT\n");
         exit_value = EXIT_SUCCESS;
 
  cleanup:
