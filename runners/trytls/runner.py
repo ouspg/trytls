@@ -1,7 +1,9 @@
 from __future__ import print_function, unicode_literals
 
+import re
 import os
 import sys
+import string
 import argparse
 import subprocess
 from colorama import Fore, Back, Style, init, AnsiToWin32
@@ -21,8 +23,8 @@ def colorize(format_string, *args, **kwargs):
 
 
 def write(*strings):
-    for string in strings:
-        print(string, file=wrapped_stdout)
+    for s in strings:
+        print(s, file=wrapped_stdout)
 
 
 class Unsupported(Exception):
@@ -69,6 +71,33 @@ def output_info(args, openssl_version, runner_name="trytls"):
     )
 
 
+# A regex that matches to any byte that is not a 7-bit ASCII printable.
+_NON_PRINTABLE_REX = re.compile(
+    b"[^" + b"".join(re.escape(x).encode("ascii") for x in string.printable) + b"]"
+)
+
+
+def _escape_match(match):
+    return b"\\x%02x" % ord(match.group(0))
+
+
+def _escape_non_printable(byte_string):
+    r"""
+    Return the byte string, escaping all bytes outside printable
+    7-bit ASCII.
+
+    >>> _escape_non_printable(b"Hello, World!") == b"Hello, World!"
+    True
+
+    Non-printables are \xNN-escaped.
+
+    >>> _escape_non_printable(b"\x00\xff") == b"\\x00\\xff"
+    True
+    """
+
+    return _NON_PRINTABLE_REX.sub(_escape_match, byte_string)
+
+
 def run_one(args, host, port, cafile=None):
     args = args + [host, str(port)]
     if cafile is not None:
@@ -85,7 +114,7 @@ def run_one(args, host, port, cafile=None):
         raise ProcessFailed("failed to launch the stub", os.strerror(ose.errno))
 
     out, _ = process.communicate()
-    out = out.decode("ascii", "replace")
+    out = _escape_non_printable(out).decode("ascii")
 
     if process.returncode != 0:
         raise ProcessFailed("stub exited with return code {}".format(process.returncode), out)
