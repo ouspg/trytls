@@ -8,10 +8,10 @@
 # Examples
 
 ```
-% python python-urllib2/run.py sha1-2016.badssl.com 443
+% python python2-urllib2/run.py sha1-2016.badssl.com 443
 ACCEPT
 
-% python python-urllib2/run.py expired.badssl.com 443
+% python python2-urllib2/run.py expired.badssl.com 443
 REJECT
 ```
 
@@ -21,9 +21,9 @@ This stub tries to avoid a situation where traceback gets hidden on unexpected b
 
 Manual / example test, connecting to non-existent domain:
 ```
-% python python-urllib2/run.py www.nosuch.example.local 443 || echo "$?"
+% python python2-urllib2/run.py www.nosuch.example.local 443 || echo "$?"
 Traceback (most recent call last):
-  File "python-urllib2/run.py", line 11, in <module>
+  File "python2-urllib2/run.py", line 11, in <module>
     urllib2.urlopen("https://" + host + ":" + port, cafile=cafile)
   File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/urllib2.py", line 154, in urlopen
     return opener.open(url, data, timeout)
