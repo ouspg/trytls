@@ -6,9 +6,10 @@ import sys
 import socket
 import contextlib
 import multiprocessing
+from .. import results
 from ..utils import tmpfiles
 from ..gencert import gencert
-from ..testenv import testenv, Test
+from ..testenv import testenv, testgroup, Test
 
 try:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
@@ -112,22 +113,13 @@ def badtls(accept, address, description=None):
 
 
 @testenv
-def badssl(accept, name, description):
+def badssl(accept, name, description, forced_result=None):
     yield Test(
         accept=accept,
         description=description,
         host=name + ".badssl.com",
-        port=443
-    )
-
-
-@testenv
-def badssl_sni(description):
-    yield Test(
-        accept=True,
-        description=description,
-        host="badssl.com",
-        port=443
+        port=443,
+        forced_result=forced_result
     )
 
 
@@ -240,32 +232,53 @@ def local(accept, cn, description):
             )
 
 
-badssl_tests = [
-    badssl_sni(description="support for TLS server name indication (SNI)"),
-    badssl(False, "expired", "expired certificate"),
-    badssl(False, "wrong.host", "wrong hostname in certificate"),
-    badssl(False, "self-signed", "self-signed certificate"),
-    badssl(True, "sha256", "SHA-256 signature"),
-    badssl(True, "1000-sans", "1000 subjectAltNames"),
-    badssl(False, "incomplete-chain", "incomplete chain of trust"),
-    badssl(False, "superfish", "Superfish CA"),
-    badssl(False, "edellroot", "eDellRoot CA"),
-    badssl(False, "dsdtestprovider", "DSDTestProvider CA")
-]
+@testgroup
+def badssl_tests():
+    forced_result = None
+
+    res = yield Test(
+        accept=True,
+        description="support for TLS server name indication (SNI)",
+        host="badssl.com",
+        port=443
+    )
+    if res.type != results.Pass:
+        forced_result = results.Skip("could not detect SNI support")
+
+    res = yield Test(
+        accept=False,
+        description="self-signed certificate",
+        host="self-signed.badssl.com",
+        port=443,
+        forced_result=forced_result
+    )
+    if res.type != results.Pass and not forced_result:
+        forced_result = results.Skip("stub didn't reject a self-signed certificate")
+
+    yield testgroup(
+        badssl(False, "expired", "expired certificate", forced_result),
+        badssl(False, "wrong.host", "wrong hostname in certificate", forced_result),
+        badssl(True, "sha256", "SHA-256 signature", forced_result),
+        badssl(True, "1000-sans", "1000 subjectAltNames", forced_result),
+        badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
+        badssl(False, "superfish", "Superfish CA", forced_result),
+        badssl(False, "edellroot", "eDellRoot CA", forced_result),
+        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result)
+    )
 
 
-ssllabs_tests = [
+ssllabs_tests = testgroup(
     ssllabs(False, 10443, "protect against Apple's TLS vulnerability CVE-2014-1266"),
     ssllabs(False, 10444, "protect against the FREAK attack"),
     ssllabs(False, 10445, "protect against the Logjam attack")
-]
+)
 
-freakattack_tests = [
+freakattack_tests = testgroup(
     freakattack("cve.freakattack.com", "protect against FREAK attack (test server 1)"),
     freakattack("cve2.freakattack.com", "protect against FREAK attack (test server 2)"),
-]
+)
 
-badtls_tests = [
+badtls_tests = testgroup(
     badtls(True, "domain-match.badtls.io:10000", "valid certificate Common Name"),
     badtls(True, "wildcard-match.badtls.io:10001", "valid wildcard certificate Common Name"),
     badtls(True, "san-match.badtls.io:10002", "support for Subject Alternative Name (SAN)"),
@@ -280,17 +293,24 @@ badtls_tests = [
     badtls(False, "wildcard.mismatch.badtls.io:11007", "invalid wildcard certificate Common Name"),
     badtls(False, "rc4.badtls.io:11008", "supports RC4 ciphers"),
     badtls(False, "rc4-md5.badtls.io:11009", "supports RC4 with MD5 ciphers")
-]
+)
 
-local_tests = [
+local_tests = testgroup(
     local(True, "localhost", "valid localhost certificate"),
     local(False, "nothing", "invalid localhost certificate"),
     badssl_onlymyca("use only the given CA bundle, not system's")
-]
+)
 
-miscellaneous_tests = [
+miscellaneous_tests = testgroup(
     miscellaneous(False, "sslv3.dshield.org", "protection against POODLE attack"),
     miscellaneous(False, "badcert-edell.tlsfun.de", "eDellRoot CA #2")
-]
+)
 
-all_tests = badtls_tests + badssl_tests + ssllabs_tests + freakattack_tests + miscellaneous_tests + local_tests
+all_tests = testgroup(
+    badtls_tests,
+    badssl_tests,
+    ssllabs_tests,
+    freakattack_tests,
+    miscellaneous_tests,
+    local_tests
+)

@@ -8,7 +8,7 @@ python run.py <url> <port> [ca_file]
 For example:
 
 ```
-$ python stubs/python-urllib3/run.py sha256.badssl.com 443
+$ python stubs/python2-urllib3/run.py sha256.badssl.com 443
 REJECT
 ```
 

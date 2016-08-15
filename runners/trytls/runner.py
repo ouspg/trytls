@@ -8,7 +8,7 @@ import argparse
 import subprocess
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
-from . import __version__, gencert, utils, result, bundles
+from . import __version__, gencert, utils, results, bundles, testenv
 
 
 # Initialize colorama without wrapping sys.stdout globally
@@ -98,7 +98,7 @@ def _escape_non_printable(byte_string):
     return _NON_PRINTABLE_REX.sub(_escape_match, byte_string)
 
 
-def run_one(args, host, port, cafile=None):
+def run_stub(args, host, port, cafile=None):
     args = args + [host, str(port)]
     if cafile is not None:
         args.append(cafile)
@@ -132,30 +132,27 @@ def run_one(args, host, port, cafile=None):
     raise UnexpectedOutput(out)
 
 
-def collect(args, tests):
-    for env in tests:
-        with env() as test:
-            try:
-                accept, details = run_one(list(args), test.host, test.port, test.cafile)
-            except Unsupported as us:
-                yield test, result.Skip(details=us.args[0])
-            except UnexpectedOutput as uo:
-                output = uo.args[0].strip()
-                if output:
-                    yield test, result.Error("unexpected output", output)
-                else:
-                    yield test, result.Error("no output")
-            except ProcessFailed as pf:
-                yield test, result.Error(pf.args[0], pf.args[1])
-            else:
-                if accept and test.accept:
-                    yield test, result.Pass(details=details)
-                elif not accept and not test.accept:
-                    yield test, result.Pass(details=details)
-                elif not accept and test.accept:
-                    yield test, result.Fail(details=details)
-                else:
-                    yield test, result.Fail(details=details)
+def collect(test, args):
+    try:
+        accept, details = run_stub(list(args), test.host, test.port, test.cafile)
+    except Unsupported as us:
+        return results.Skip(details=us.args[0])
+    except UnexpectedOutput as uo:
+        output = uo.args[0].strip()
+        if output:
+            return results.Error("unexpected output", output)
+        return results.Error("no output")
+    except ProcessFailed as pf:
+        return results.Error(pf.args[0], pf.args[1])
+
+    if accept and test.accept:
+        return results.Pass(details=details)
+    elif not accept and not test.accept:
+        return results.Pass(details=details)
+    elif not accept and test.accept:
+        return results.Fail(details=details)
+    else:
+        return results.Fail(details=details)
 
 
 class Formatter(object):
@@ -195,19 +192,19 @@ class Formatter(object):
 
 
 formats = {
-    result.Skip: Formatter(
+    results.Skip: Formatter(
         base=Style.DIM
     ),
-    result.Error: Formatter(
+    results.Error: Formatter(
         base=Fore.RED,
         type=Back.RED + Fore.WHITE,
         details=Style.DIM
     ),
-    result.Fail: Formatter(
+    results.Fail: Formatter(
         base=Fore.RED,
         reason=Fore.RED + Style.DIM
     ),
-    result.Pass: Formatter(
+    results.Pass: Formatter(
         type=Fore.GREEN,
         reason=Style.DIM,
         details=Style.DIM
@@ -226,12 +223,12 @@ def run(args, tests):
     fail_count = 0
     error_count = 0
 
-    for test, res in collect(args, tests):
+    for test, res in testenv.run(tests, collect, args):
         write(format_result(test, res))
 
-        if res.type == result.Fail:
+        if res.type == results.Fail:
             fail_count += 1
-        elif res.type == result.Error:
+        elif res.type == results.Error:
             error_count += 1
 
     return fail_count == 0 and error_count == 0

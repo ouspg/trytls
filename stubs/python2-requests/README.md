@@ -8,13 +8,13 @@ This stub has been tested with:
 # Examples
 
 ```sh
-$ python stubs/python-requests/run.py sha256.badssl.com 443
+$ python stubs/python2-requests/run.py sha256.badssl.com 443
 ACCEPT
 
-python stubs/python-requests/run.py expired.badssl.com 443
+python stubs/python2-requests/run.py expired.badssl.com 443
 REJECT
 
-$ python stubs/python-requests/run.py sha256.badssl.com 443 <path>/pki/certs/theonlycertitrust.crt
+$ python stubs/python2-requests/run.py sha256.badssl.com 443 <path>/pki/certs/theonlycertitrust.crt
 REJECT
 ```
 
