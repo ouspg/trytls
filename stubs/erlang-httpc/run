@@ -33,10 +33,8 @@ start_deps() ->
 check({ok, _}) ->
     io:format("ACCEPT~n");
 
-check({error, Reason}) ->
-    io:format("~w~n", [Reason]),
+check({error, _}) ->
     io:format("REJECT~n");
 
-check(Reason) ->
-    io:format("~w~n", [Reason]),
+check(_) ->
     halt(1).
