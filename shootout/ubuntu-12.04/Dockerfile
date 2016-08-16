@@ -6,8 +6,8 @@ RUN apt-get -y update && \
 
 # Stubs
 WORKDIR /root
-RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz | \
-  zcat | tar --strip-components=1 -xvf - trytls-0.2.1/stubs
+RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.3.0.tar.gz | \
+  zcat | tar --strip-components=1 -xvf - trytls-0.3.0/stubs
 
 # Go
 RUN apt-get -y install golang-go

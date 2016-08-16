@@ -2,24 +2,25 @@ FROM ubuntu:16.04
 
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install python-pip curl && \
-    pip install trytls==0.3.0
+    apt-get -y install python-pip curl
 
-# Stubs
 WORKDIR /root
-RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.3.0.tar.gz | \
-  zcat | tar --strip-components=1 -xvf - trytls-0.3.0/stubs
+RUN apt-get -y install git
+RUN git clone https://github.com/ouspg/trytls.git
+
+WORKDIR /root/trytls
+RUN pip install .
 
 # Go
 RUN apt-get -y install golang-go
-WORKDIR /root/stubs/go-nethttp
+WORKDIR /root/trytls/stubs/go-nethttp
 RUN go build run.go
 
 # Java
 RUN apt-get -y install default-jdk
-WORKDIR /root/stubs/java-https
+WORKDIR /root/trytls/stubs/java-https
 RUN javac Run.java
-WORKDIR /root/stubs/java-net
+WORKDIR /root/trytls/stubs/java-net
 RUN javac Run.java
 
 # Python 2
@@ -32,4 +33,4 @@ RUN apt-get -y install python3
 RUN apt-get -y install php
 
 # Default workdir for easier manual stub testing
-WORKDIR /root/stubs/
+WORKDIR /root/trytls/stubs/

@@ -4,7 +4,7 @@ RUN dnf install git-all tar -y
 RUN pip install trytls
 
 WORKDIR /root
-ENV VERSION 0.2.0
+ENV VERSION 0.3.0
 RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | zcat - | tar xvf - trytls-${VERSION}/stubs/
 RUN mv trytls-${VERSION} trytls
 
