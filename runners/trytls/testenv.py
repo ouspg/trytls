@@ -55,4 +55,4 @@ def testenv(func, *args, **keys):
 @testenv
 def testgroup(*funcs):
     for func in funcs:
-        yield func()
+        yield func

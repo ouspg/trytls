@@ -1,6 +1,5 @@
 from __future__ import print_function, unicode_literals
 
-import re
 import ssl
 import sys
 import socket
@@ -43,65 +42,8 @@ WQ77yy6bOvcJh4heqtIJuYg5F3vhvSGo4i5Bkx+daRKFzFwsoiexgRNTdlPCEGsQ
 """
 
 
-def _split_address(address):
-    r"""
-    Return (host, port) split from a string in form of "host:port".
-    The host part is returned as a string, port as int.
-
-    >>> host, port = _split_address("host.example.com:10000")
-    >>> print(host, port)
-    host.example.com 10000
-    >>> isinstance(host, type(""))
-    True
-    >>> isinstance(port, int)
-    True
-
-    Raise ValueError for values that are not valid "host:port" strings.
-
-    >>> _split_address("host.example.com")
-    Traceback (most recent call last):
-        ...
-    ValueError: invalid address 'host.example.com'
-
-    >>> _split_address(":10000")
-    Traceback (most recent call last):
-        ...
-    ValueError: invalid address ':10000'
-
-    In addition to being an integer the port value should be between 1-65535,
-    inclusive.
-
-    >>> _split_address("host:0")
-    Traceback (most recent call last):
-        ...
-    ValueError: invalid port 0
-
-    >>> _split_address("host:65536")
-    Traceback (most recent call last):
-        ...
-    ValueError: invalid port 65536
-    """
-
-    match = re.match(r"^(\S+):(\d+)$", address)
-    if not match:
-        raise ValueError("invalid address '{}'".format(address))
-
-    host, port = match.groups()
-    port = int(port)
-    if not (1 <= port <= 65535):
-        raise ValueError("invalid port {}".format(port))
-
-    return host, port
-
-
 @testenv
-def badtls(accept, address, description=None):
-    host, port = _split_address(address)
-
-    if description is None:
-        first, _, _ = host.partition(".")
-        description = first.replace("-", " ")
-
+def badtls(accept, host, port, description):
     with tmpfiles(BADTLS_CA_DATA) as cafile:
         yield Test(
             accept=accept,
@@ -308,20 +250,20 @@ freakattack_tests = testgroup(
 )
 
 badtls_tests = testgroup(
-    badtls(True, "domain-match.badtls.io:10000", "valid certificate Common Name"),
-    badtls(True, "wildcard-match.badtls.io:10001", "valid wildcard certificate Common Name"),
-    badtls(True, "san-match.badtls.io:10002", "support for Subject Alternative Name (SAN)"),
-    badtls(True, "dh1024.badtls.io:10005", "TLS handshake with 1024 bit Diffie-Hellman (DH)"),
-    badtls(False, "expired-1963.badtls.io:11000", "certificate expired in year 1963"),
-    badtls(False, "future.badtls.io:11001", "certificate validity starts in future"),
-    badtls(False, "domain-mismatch.badtls.io:11002", "mismatch in certificate's Common Name"),
-    badtls(False, "san-mismatch.badtls.io:11003", "Subject Alternative Name (SAN) mismatch"),
-    badtls(False, "weak-sig.badtls.io:11004", "MD5 signature algorithm"),
-    badtls(False, "bad-key-usage.badtls.io:11005", "certificate has invalid key usage for HTTPS connection"),
-    badtls(False, "expired.badtls.io:11006", "expired certificate"),
-    badtls(False, "wildcard.mismatch.badtls.io:11007", "invalid wildcard certificate Common Name"),
-    badtls(False, "rc4.badtls.io:11008", "supports RC4 ciphers"),
-    badtls(False, "rc4-md5.badtls.io:11009", "supports RC4 with MD5 ciphers")
+    badtls(True, "domain-match.badtls.io", 10000, "valid certificate Common Name"),
+    badtls(True, "wildcard-match.badtls.io", 10001, "valid wildcard certificate Common Name"),
+    badtls(True, "san-match.badtls.io", 10002, "support for Subject Alternative Name (SAN)"),
+    badtls(True, "dh1024.badtls.io", 10005, "TLS handshake with 1024 bit Diffie-Hellman (DH)"),
+    badtls(False, "expired-1963.badtls.io", 11000, "certificate expired in year 1963"),
+    badtls(False, "future.badtls.io", 11001, "certificate validity starts in future"),
+    badtls(False, "domain-mismatch.badtls.io", 11002, "mismatch in certificate's Common Name"),
+    badtls(False, "san-mismatch.badtls.io", 11003, "Subject Alternative Name (SAN) mismatch"),
+    badtls(False, "weak-sig.badtls.io", 11004, "MD5 signature algorithm"),
+    badtls(False, "bad-key-usage.badtls.io", 11005, "certificate has invalid key usage for HTTPS connection"),
+    badtls(False, "expired.badtls.io", 11006, "expired certificate"),
+    badtls(False, "wildcard.mismatch.badtls.io", 11007, "invalid wildcard certificate Common Name"),
+    badtls(False, "rc4.badtls.io", 11008, "supports RC4 ciphers"),
+    badtls(False, "rc4-md5.badtls.io", 11009, "supports RC4 with MD5 ciphers")
 )
 
 local_tests = testgroup(
