@@ -244,7 +244,7 @@ def local(accept, cn, description):
 
 
 @testgroup
-def sni_tests():
+def badssl_tests():
     forced_result = None
 
     res = yield Test(
@@ -274,7 +274,34 @@ def sni_tests():
         badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
         badssl(False, "superfish", "Superfish CA", forced_result),
         badssl(False, "edellroot", "eDellRoot CA", forced_result),
-        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result),
+        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result)
+    )
+
+
+@testgroup
+def tlsfun_tests():
+    forced_result = None
+
+    res = yield Test(
+        accept=True,
+        description="support for TLS server name indication (SNI)",
+        host="tlsfun.de",
+        port=443
+    )
+    if res.type != results.Pass:
+        forced_result = results.Skip("could not detect SNI support")
+
+    res = yield Test(
+        accept=False,
+        description="self-signed certificate",
+        host="self-signed.badssl.com",
+        port=443,
+        forced_result=forced_result
+    )
+    if res.type != results.Pass and not forced_result:
+        forced_result = results.Skip("stub didn't reject a self-signed certificate")
+
+    yield testgroup(
         tlsfun(False, "badcert-edell", "eDellRoot CA #2", forced_result)
     )
 
@@ -321,7 +348,8 @@ all_tests = testgroup(
     ssllabs_tests,
     freakattack_tests,
     dshield_tests,
-    sni_tests,
+    badssl_tests,
+    tlsfun_tests,
     badtls_tests,
     local_tests
 )
