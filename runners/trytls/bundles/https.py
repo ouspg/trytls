@@ -100,12 +100,13 @@ def freakattack(host, description):
 
 
 @testenv
-def miscellaneous(accept, host, description):
+def tlsfun(accept, name, description, forced_result):
     yield Test(
         accept=accept,
         description=description,
-        host=host,
-        port=443
+        host=name + ".tlsfun.de",
+        port=443,
+        forced_result=forced_result
     )
 
 
@@ -209,6 +210,34 @@ def badssl_tests():
     )
 
 
+@testgroup
+def tlsfun_tests():
+    forced_result = None
+
+    res = yield Test(
+        accept=True,
+        description="support for TLS server name indication (SNI)",
+        host="tlsfun.de",
+        port=443
+    )
+    if res.type != results.Pass:
+        forced_result = results.Skip("could not detect SNI support")
+
+    res = yield Test(
+        accept=False,
+        description="self-signed certificate",
+        host="expired.tlsfun.de",
+        port=443,
+        forced_result=forced_result
+    )
+    if res.type != results.Pass and not forced_result:
+        forced_result = results.Skip("stub didn't reject a self-signed certificate")
+
+    yield testgroup(
+        tlsfun(False, "badcert-edell", "eDellRoot CA #2", forced_result)
+    )
+
+
 ssllabs_tests = testgroup(
     ssllabs(False, 10443, "protect against Apple's TLS vulnerability CVE-2014-1266"),
     ssllabs(False, 10444, "protect against the FREAK attack"),
@@ -243,16 +272,21 @@ local_tests = testgroup(
     badssl_onlymyca("use only the given CA bundle, not system's")
 )
 
-miscellaneous_tests = testgroup(
-    miscellaneous(False, "sslv3.dshield.org", "protection against POODLE attack"),
-    miscellaneous(False, "badcert-edell.tlsfun.de", "eDellRoot CA #2")
+dshield_tests = testgroup(
+    Test(
+        accept="sslv3",
+        description="protection against POODLE attack",
+        host="sslv3.dshield.org",
+        port=443
+    )
 )
 
 all_tests = testgroup(
-    badtls_tests,
-    badssl_tests,
     ssllabs_tests,
     freakattack_tests,
-    miscellaneous_tests,
+    dshield_tests,
+    badssl_tests,
+    tlsfun_tests,
+    badtls_tests,
     local_tests
 )
