@@ -1,5 +1,7 @@
 #!/bin/sh
-VERSION=0.2.1
+VERSION=0.3.0
+
+# 002
 
 cat <<EOF
 # TryTLS testing with Debian 8
@@ -15,8 +17,6 @@ cat <<EOF
 
 \`\`\`
 
-## Python 2
-
 \`\`\`console
 # python --version
 EOF
@@ -25,33 +25,31 @@ python --version
 cat <<EOF
 \`\`\`
 
-### python-requests
+## python-requests
 
 \`\`\`console
 
-# trytls https python trytls-${VERSION}/stubs/python-requests/run.py
+# trytls https python trytls-${VERSION}/stubs/python2-requests/run.py
 EOF
 
-trytls https python trytls-${VERSION}/stubs/python-requests/run.py
+trytls https python trytls-${VERSION}/stubs/python2-requests/run.py
 
 cat <<EOF
 
 \`\`\`
 
-### python-urllib2
+## python-urllib2
 
 \`\`\`console
 
-# trytls https python trytls-${VERSION}/stubs/python-urllib2/run.py
+# trytls https python trytls-${VERSION}/stubs/python2-urllib2/run.py
 EOF
 
-trytls https python trytls-${VERSION}/stubs/python-urllib2/run.py
+trytls https python trytls-${VERSION}/stubs/python2-urllib2/run.py
 
 cat <<EOF
 
 \`\`\`
-
-## Python 3
 
 \`\`\`console
 
@@ -63,23 +61,7 @@ cat <<EOF
 
 \`\`\`
 
-<!-- markdownlint-disable MD024 -->
-
-### python-requests
-
-<!-- markdownlint-enable MD024 -->
-
-\`\`\`console
-
-# trytls https python3 trytls-${VERSION}/stubs/python-requests/run.py
-EOF
-
-trytls https python3 trytls-${VERSION}/stubs/python-requests/run.py
-cat <<EOF
-
-\`\`\`
-
-### python3-urllib
+## python3-urllib
 
 \`\`\`console
 
@@ -103,7 +85,7 @@ cat <<EOF
 
 \`\`\`
 
-### java-https
+## java-https
 
 \`\`\`console
 
@@ -116,7 +98,7 @@ cat <<EOF
 
 \`\`\`
 
-### java-net
+## java-net
 
 \`\`\`console
 
@@ -142,7 +124,7 @@ cat <<EOF
 
 \`\`\`
 
-### go-nethttp
+## go-nethttp
 
 \`\`\`console
 
@@ -155,7 +137,7 @@ cat <<EOF
 
 \`\`\`
 
-## PHP
+### php-file-get-contents
 
 \`\`\`console
 php -v
@@ -163,10 +145,6 @@ EOF
 php -v
 
 cat <<EOF
-
-\`\`\`
-
-### php-file-get-contents
 
 \`\`\`console
 # trytls https php trytls-${VERSION}/stubs/php-file-get-contents/run.php
