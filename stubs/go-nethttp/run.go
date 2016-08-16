@@ -21,15 +21,14 @@ func main() {
 	// Perform a HTTP(s) Request
 	_, err := http.Get(url)
 	if err != nil {
-		sslError := strings.Contains(err.Error(), "certificate") || strings.Contains(err.Error(), "handshake") ||
-			strings.Contains(err.Error(), "verification error") || strings.Contains(err.Error(), "unexpected ServerKeyExchange")
-		if sslError {
-			fmt.Println("REJECT")
-			os.Exit(0)
+		fatalError := strings.Contains(err.Error(), "no such host")
+		fmt.Println(err.Error())
+		if fatalError {
+			os.Exit(1)
 		}
-		fmt.Println(err)
-		os.Exit(1)
+		fmt.Println("REJECT")
+	} else {
+		fmt.Println("ACCEPT")
 	}
-	fmt.Println("ACCEPT")
 	os.Exit(0)
 }
