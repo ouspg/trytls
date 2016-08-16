@@ -13,7 +13,7 @@ RUN yum -y update && \
 # Stubs
 WORKDIR /root
 RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | \
-  zcat | tar --strip-components=1 -xvf - ${VERSION}/stubs
+  zcat | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs
 
 # No Go in CentOS 5
 
