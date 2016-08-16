@@ -1,7 +1,7 @@
 #!/bin/sh
 VERSION=0.3.0
 
-# 002
+# 003
 
 cat <<EOF
 # TryTLS testing with Debian 8
@@ -17,6 +17,8 @@ cat <<EOF
 
 \`\`\`
 
+## python2-requests
+
 \`\`\`console
 # python --version
 EOF
@@ -24,8 +26,6 @@ python --version
 
 cat <<EOF
 \`\`\`
-
-## python-requests
 
 \`\`\`console
 
@@ -38,7 +38,7 @@ cat <<EOF
 
 \`\`\`
 
-## python-urllib2
+## python2-urllib2
 
 \`\`\`console
 
@@ -74,7 +74,8 @@ cat <<EOF
 
 \`\`\`
 
-## Java
+
+## java-https
 
 \`\`\`console
 java -version
@@ -84,8 +85,6 @@ java -version
 cat <<EOF
 
 \`\`\`
-
-## java-https
 
 \`\`\`console
 
@@ -99,6 +98,15 @@ cat <<EOF
 \`\`\`
 
 ## java-net
+
+\`\`\`console
+java -version
+EOF
+java -version
+
+cat <<EOF
+
+\`\`\`
 
 \`\`\`console
 
@@ -137,7 +145,7 @@ cat <<EOF
 
 \`\`\`
 
-### php-file-get-contents
+## php-file-get-contents
 
 \`\`\`console
 php -v
@@ -145,6 +153,7 @@ EOF
 php -v
 
 cat <<EOF
+\`\`\`
 
 \`\`\`console
 # trytls https php trytls-${VERSION}/stubs/php-file-get-contents/run.php

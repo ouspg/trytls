@@ -7,12 +7,12 @@
 
 ```
 
+## python2-requests
+
 ```console
 # python --version
 Python 2.7.9
 ```
-
-## python-requests
 
 ```console
 
@@ -51,13 +51,13 @@ stub: python trytls-0.3.0/stubs/python2-requests/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:38615]
- PASS invalid localhost certificate [reject localhost:32896]
+ PASS valid localhost certificate [accept localhost:39752]
+ PASS invalid localhost certificate [reject localhost:33540]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
 
-## python-urllib2
+## python2-urllib2
 
 ```console
 
@@ -96,8 +96,8 @@ stub: python trytls-0.3.0/stubs/python2-urllib2/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:46184]
- PASS invalid localhost certificate [reject localhost:33519]
+ PASS valid localhost certificate [accept localhost:39853]
+ PASS invalid localhost certificate [reject localhost:39033]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -156,13 +156,14 @@ stub: python3 trytls-0.3.0/stubs/python3-urllib/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  FAIL eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:44197]
- PASS invalid localhost certificate [reject localhost:32789]
+ PASS valid localhost certificate [accept localhost:33739]
+ PASS invalid localhost certificate [reject localhost:34545]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
 
-## Java
+
+## java-https
 
 ```console
 java -version
@@ -171,8 +172,6 @@ OpenJDK Runtime Environment (IcedTea 2.6.7) (7u111-2.6.7-1~deb8u1)
 OpenJDK 64-Bit Server VM (build 24.111-b01, mixed mode)
 
 ```
-
-## java-https
 
 ```console
 
@@ -225,13 +224,21 @@ stub: java -classpath trytls-0.3.0/stubs/java-https/ Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:34483]
- SKIP invalid localhost certificate [reject localhost:42151]
+ SKIP valid localhost certificate [accept localhost:34967]
+ SKIP invalid localhost certificate [reject localhost:33235]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
 
 ## java-net
+
+```console
+java -version
+java version "1.7.0_111"
+OpenJDK Runtime Environment (IcedTea 2.6.7) (7u111-2.6.7-1~deb8u1)
+OpenJDK 64-Bit Server VM (build 24.111-b01, mixed mode)
+
+```
 
 ```console
 
@@ -284,8 +291,8 @@ stub: java -classpath trytls-0.3.0/stubs/java-net/ Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:41833]
- SKIP invalid localhost certificate [reject localhost:33716]
+ SKIP valid localhost certificate [accept localhost:39678]
+ SKIP invalid localhost certificate [reject localhost:34792]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
@@ -341,13 +348,13 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
       output: Get https://sslv3.dshield.org:443: tls: server selected unsupported protocol version 300
               exit status 1
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:45283]
- SKIP invalid localhost certificate [reject localhost:42672]
+ SKIP valid localhost certificate [accept localhost:36550]
+ SKIP invalid localhost certificate [reject localhost:45385]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
 
-### php-file-get-contents
+## php-file-get-contents
 
 ```console
 php -v
@@ -355,6 +362,7 @@ PHP 5.6.24-0+deb8u1 (cli) (built: Jul 26 2016 08:17:07)
 Copyright (c) 1997-2016 The PHP Group
 Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
     with Zend OPcache v7.0.6-dev, Copyright (c) 1999-2016, by Zend Technologies
+```
 
 ```console
 # trytls https php trytls-0.3.0/stubs/php-file-get-contents/run.php
@@ -392,8 +400,8 @@ stub: php trytls-0.3.0/stubs/php-file-get-contents/run.php
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:42921]
- SKIP invalid localhost certificate [reject localhost:34821]
+ SKIP valid localhost certificate [accept localhost:44305]
+ SKIP invalid localhost certificate [reject localhost:34810]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 
 ```
