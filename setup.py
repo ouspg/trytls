@@ -26,6 +26,7 @@ setup(
     name="trytls",
     version=trytls.__version__,
     license="MIT",
+    description='Does your library check TLS certificates properly ?',
     url="https://github.com/ouspg/trytls",
     package_dir={"": "./runners"},
     packages=find_packages("./runners"),
