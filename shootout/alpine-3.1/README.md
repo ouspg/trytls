@@ -106,12 +106,18 @@ stub: python run.py
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-# Go
+## Python3
+
+N/A
+
+## Go
 
 ```console
 # go version
 go version go1.3.3 linux/amd64
 ```
+
+### go-nethttp
 
 ```console
 # trytls https go run run.go
@@ -168,10 +174,10 @@ stub: go run run.go
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-# Java
+## Java
 
 ```console
-# java -version
+### java -version
 java version "1.7.0_75"
 OpenJDK Runtime Environment (IcedTea 2.5.4) (Alpine 7.75.2.5.4-r0)
 OpenJDK 64-Bit Server VM (build 24.75-b04, mixed mode)
@@ -184,7 +190,7 @@ References:
  * http://stackoverflow.com/q/4764611/361823
  * http://stackoverflow.com/q/6784463/361823
 
-## java-https
+### java-https
 
 ```console
 # trytls https java Run
@@ -244,7 +250,7 @@ stub: java Run
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-## java-net
+### java-net
 
 ```console
 # trytls https java Run
@@ -304,7 +310,7 @@ stub: java Run
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-# PHP 5
+## PHP 5
 
 ```console
 # php --version
@@ -313,7 +319,7 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
 ```
 
-## php-file-get-contents
+### php-file-get-contents
 
 ```console
 # trytls https php run.php
