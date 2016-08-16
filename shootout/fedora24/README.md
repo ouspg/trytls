@@ -10,10 +10,13 @@ OS                 | python2-requests | python2-urllib2 | python3-urllib | go-ne
 Fedora release 24  | PASS             | PASS            | PASS           | ERROR      | PASS       | PASS     | PASS
 
 # python2-requests
-
+```
+# python --version
+Python 2.7.12
+```
 ```sh
 
-$ trytls https python python2-requests/run.py
+# trytls https python python2-requests/run.py
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
 stub: python python2-requests/run.py
@@ -62,10 +65,13 @@ stub: python python2-requests/run.py
  ```
 
 # python2-urllib2
-
+```
+# python --version
+Python 2.7.12
+```
 ```sh
 
-$ trytls https python python2-urllib2/run.py
+# trytls https python python2-urllib2/run.py
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
 stub: python python2-urllib2/run.py
@@ -107,17 +113,17 @@ stub: python python2-urllib2/run.py
 ```
 
 
-### python3-urllib
+# python3-urllib
 
 ```sh
 
-python3 --version
+# python3 --version
 Python 3.5.1
 ```
 
 ```sh
 
-trytls https python3 python3-urllib/run.py
+# trytls https python3 python3-urllib/run.py
 
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
@@ -164,7 +170,7 @@ stub: python3 python3-urllib/run.py
 
 ```sh
 
-trytls https go-nethttp/run
+# trytls https go-nethttp/run
 
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
@@ -211,7 +217,7 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
 # java-https
 
 ```sh
-$ trytls https java -classpath java-https Run
+# trytls https java -classpath java-https Run
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
 stub: java -classpath java-https Run
@@ -269,7 +275,7 @@ stub: java -classpath java-https Run
 # java-net
 
 ```sh
-$ trytls https java -classpath java-net Run
+# trytls https java -classpath java-net Run
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
 stub: java -classpath java-net Run
@@ -327,7 +333,7 @@ stub: java -classpath java-net Run
 # PHP 5
 ```sh
 
-$ trytls https php php-file-get-contents/run.php
+# trytls https php php-file-get-contents/run.php
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
 stub: php php-file-get-contents/run.php
