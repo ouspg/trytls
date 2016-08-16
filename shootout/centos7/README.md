@@ -16,7 +16,7 @@ CentOS Linux release 7.2.1511 (Core)
 
 OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
 ---------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-CentOS 7.2 | ?                | ?               | ?              | ?          | ?          | ?        | ?
+CentOS 7.2 | FAIL             | FAIL            | PASS           | ERROR      | PASS       | PASS     | NO SNI
 
 ## python-requests
 
@@ -67,9 +67,9 @@ stub: python python2-requests/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:35784]
+ PASS valid localhost certificate [accept localhost:41494]
       output: /usr/lib/python2.7/site-packages/urllib3/connection.py:251: SecurityWarning: Certificate has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SecurityWarning
- PASS invalid localhost certificate [reject localhost:41841]
+ PASS invalid localhost certificate [reject localhost:33398]
       output: /usr/lib/python2.7/site-packages/urllib3/connection.py:251: SecurityWarning: Certificate has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SecurityWarning
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
@@ -125,8 +125,8 @@ stub: python python2-urllib2/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  FAIL protection against POODLE attack [reject sslv3.dshield.org:443]
  FAIL eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:33660]
- PASS invalid localhost certificate [reject localhost:46115]
+ PASS valid localhost certificate [accept localhost:38540]
+ PASS invalid localhost certificate [reject localhost:34976]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -173,8 +173,8 @@ stub: python python3-urllib/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:43437]
- PASS invalid localhost certificate [reject localhost:46497]
+ PASS valid localhost certificate [accept localhost:44836]
+ PASS invalid localhost certificate [reject localhost:41640]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -223,8 +223,8 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
       reason: stub exited with return code 1
       output: Get https://sslv3.dshield.org:443: tls: server selected unsupported protocol version 300
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:44788]
- SKIP invalid localhost certificate [reject localhost:36236]
+ SKIP valid localhost certificate [accept localhost:33887]
+ SKIP invalid localhost certificate [reject localhost:45874]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -287,8 +287,8 @@ stub: java -classpath java-https Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:39505]
- SKIP invalid localhost certificate [reject localhost:45384]
+ SKIP valid localhost certificate [accept localhost:39458]
+ SKIP invalid localhost certificate [reject localhost:46293]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -351,8 +351,8 @@ stub: java -classpath java-net Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:45135]
- SKIP invalid localhost certificate [reject localhost:36783]
+ SKIP valid localhost certificate [accept localhost:33168]
+ SKIP invalid localhost certificate [reject localhost:38757]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -410,8 +410,8 @@ stub: php php-file-get-contents/run.php
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:34449]
- SKIP invalid localhost certificate [reject localhost:36643]
+ SKIP valid localhost certificate [accept localhost:41475]
+ SKIP invalid localhost certificate [reject localhost:37222]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 

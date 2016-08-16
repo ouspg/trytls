@@ -2,7 +2,7 @@
 
 myrun() {
   echo '```console'
-  echo $*
+  echo "$@"
   shift 1
   "$@"
   echo '```'
