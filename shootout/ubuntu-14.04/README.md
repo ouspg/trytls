@@ -4,24 +4,28 @@ We chose Ubuntu 12.04, 14.04 and 16.04 LTS releases for this TryTLS-shootout
 based on the [Ubuntu release end of life](http://www.ubuntu.com/info/release-end-of-life).
 
 ```console
-$ docker run -ti --rm shootout-ubuntu14.04
+docker run -ti --rm ubuntu-14.04
+```
 
+```console
 # grep DISTRIB_DESCRIPTION /etc/lsb-release
 DISTRIB_DESCRIPTION="Ubuntu 14.04.5 LTS"
 ```
 
 <!-- markdownlint-disable MD013 -->
 
-OS                 | python-requests | python-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
------------------- | --------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Ubuntu 14.04.5 LTS | NO SNI          | ERROR          | FAIL           | NO SNI     | PASS      | PASS    | NO SNI
+python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+?                | ?               | ?              | ?          | ?          | ?        | ?
 
 ## python2-requests
 
 ```console
 # python --version
 Python 2.7.6
+```
 
+```console
 # trytls https python python2-requests/run.py
 platform: Linux (Ubuntu 14.04)
 runner: trytls 0.3.0 (CPython 2.7.6, OpenSSL 1.0.1f)
@@ -66,8 +70,8 @@ stub: python python2-requests/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:37256]
- PASS invalid localhost certificate [reject localhost:43712]
+ PASS valid localhost certificate [accept localhost:36631]
+ PASS invalid localhost certificate [reject localhost:37125]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -76,7 +80,9 @@ stub: python python2-requests/run.py
 ```console
 # python --version
 Python 2.7.6
+```
 
+```console
 # trytls https python python2-urllib2/run.py
 platform: Linux (Ubuntu 14.04)
 runner: trytls 0.3.0 (CPython 2.7.6, OpenSSL 1.0.1f)
@@ -95,7 +101,9 @@ ERROR valid certificate Common Name [accept domain-match.badtls.io:10000]
 ```console
 # python3 --version
 Python 3.4.3
+```
 
+```console
 # trytls https python3 python3-urllib/run.py
 platform: Linux (Ubuntu 14.04)
 runner: trytls 0.3.0 (CPython 2.7.6, OpenSSL 1.0.1f)
@@ -139,8 +147,8 @@ stub: python3 python3-urllib/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  FAIL eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:32799]
- PASS invalid localhost certificate [reject localhost:40320]
+ PASS valid localhost certificate [accept localhost:43074]
+ PASS invalid localhost certificate [reject localhost:37218]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -149,7 +157,9 @@ stub: python3 python3-urllib/run.py
 ```console
 # go version
 go version go1.2.1 linux/amd64
+```
 
+```console
 # trytls https go-nethttp/run
 platform: Linux (Ubuntu 14.04)
 runner: trytls 0.3.0 (CPython 2.7.6, OpenSSL 1.0.1f)
@@ -196,8 +206,8 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
       reason: stub exited with return code 1
       output: Get https://sslv3.dshield.org:443: local error: protocol version not supported
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:40895]
- SKIP invalid localhost certificate [reject localhost:42064]
+ SKIP valid localhost certificate [accept localhost:42573]
+ SKIP invalid localhost certificate [reject localhost:35058]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -208,7 +218,9 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
 java version "1.7.0_101"
 OpenJDK Runtime Environment (IcedTea 2.6.6) (7u101-2.6.6-0ubuntu0.14.04.1)
 OpenJDK 64-Bit Server VM (build 24.95-b01, mixed mode)
+```
 
+```console
 # trytls https java -classpath java-https Run
 platform: Linux (Ubuntu 14.04)
 runner: trytls 0.3.0 (CPython 2.7.6, OpenSSL 1.0.1f)
@@ -258,8 +270,8 @@ stub: java -classpath java-https Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:46013]
- SKIP invalid localhost certificate [reject localhost:36413]
+ SKIP valid localhost certificate [accept localhost:36757]
+ SKIP invalid localhost certificate [reject localhost:46287]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -270,7 +282,9 @@ stub: java -classpath java-https Run
 java version "1.7.0_101"
 OpenJDK Runtime Environment (IcedTea 2.6.6) (7u101-2.6.6-0ubuntu0.14.04.1)
 OpenJDK 64-Bit Server VM (build 24.95-b01, mixed mode)
+```
 
+```console
 # trytls https java -classpath java-net Run
 platform: Linux (Ubuntu 14.04)
 runner: trytls 0.3.0 (CPython 2.7.6, OpenSSL 1.0.1f)
@@ -320,8 +334,8 @@ stub: java -classpath java-net Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:41236]
- SKIP invalid localhost certificate [reject localhost:34991]
+ SKIP valid localhost certificate [accept localhost:45947]
+ SKIP invalid localhost certificate [reject localhost:41578]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -333,7 +347,9 @@ PHP 5.5.9-1ubuntu4.19 (cli) (built: Jul 28 2016 19:31:33)
 Copyright (c) 1997-2014 The PHP Group
 Zend Engine v2.5.0, Copyright (c) 1998-2014 Zend Technologies
     with Zend OPcache v7.0.3, Copyright (c) 1999-2014, by Zend Technologies
+```
 
+```console
 # trytls https php php-file-get-contents/run.php
 platform: Linux (Ubuntu 14.04)
 runner: trytls 0.3.0 (CPython 2.7.6, OpenSSL 1.0.1f)
@@ -378,8 +394,8 @@ stub: php php-file-get-contents/run.php
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:37243]
- SKIP invalid localhost certificate [reject localhost:33019]
+ SKIP valid localhost certificate [accept localhost:37101]
+ SKIP invalid localhost certificate [reject localhost:42428]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 

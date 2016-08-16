@@ -12,9 +12,9 @@ DISTRIB_DESCRIPTION="Ubuntu 12.04.5 LTS"
 
 <!-- markdownlint-disable MD013 -->
 
-OS                 | python-requests | python-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
------------------- | --------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Ubuntu 12.04.5 LTS | ERROR           | ERROR          | ERROR           | ERROR    | N/A        | N/A      | NO SNI
+python-requests | python-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+--------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+ERROR           | ERROR          | ERROR          | ERROR      | N/A        | N/A      | NO SNI
 
 ## python2-requests
 
