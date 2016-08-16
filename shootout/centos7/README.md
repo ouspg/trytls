@@ -67,9 +67,9 @@ stub: python python2-requests/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:41449]
+ PASS valid localhost certificate [accept localhost:35784]
       output: /usr/lib/python2.7/site-packages/urllib3/connection.py:251: SecurityWarning: Certificate has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SecurityWarning
- PASS invalid localhost certificate [reject localhost:33028]
+ PASS invalid localhost certificate [reject localhost:41841]
       output: /usr/lib/python2.7/site-packages/urllib3/connection.py:251: SecurityWarning: Certificate has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SecurityWarning
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
@@ -125,8 +125,8 @@ stub: python python2-urllib2/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  FAIL protection against POODLE attack [reject sslv3.dshield.org:443]
  FAIL eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:41873]
- PASS invalid localhost certificate [reject localhost:39565]
+ PASS valid localhost certificate [accept localhost:33660]
+ PASS invalid localhost certificate [reject localhost:46115]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -134,21 +134,55 @@ stub: python python2-urllib2/run.py
 
 ```console
 # scl enable rh-python35 python --version
-Unable to open /etc/scl/conf/python!
+Python 3.5.1
 ```
 
 ```console
 # scl enable rh-python35 trytls https python python3-urllib/run.py
-Unable to open /etc/scl/conf/trytls!
+platform: Linux (CentOS Linux 7.2.1511)
+runner: trytls 0.3.0 (CPython 2.7.5, OpenSSL 1.0.1e-fips)
+stub: python python3-urllib/run.py
+ PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
+ PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+ PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+ PASS TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+ PASS certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+ PASS certificate validity starts in future [reject future.badtls.io:11001]
+ PASS mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+ PASS Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+ PASS MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+ PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+ PASS expired certificate [reject expired.badtls.io:11006]
+ PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+ PASS supports RC4 ciphers [reject rc4.badtls.io:11008]
+ PASS supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
+ PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
+ PASS expired certificate [reject expired.badssl.com:443]
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+ PASS SHA-256 signature [accept sha256.badssl.com:443]
+ PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+ PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+ PASS Superfish CA [reject superfish.badssl.com:443]
+ PASS eDellRoot CA [reject edellroot.badssl.com:443]
+ PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+ PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+ PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
+ PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+ PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+ PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+ PASS valid localhost certificate [accept localhost:43437]
+ PASS invalid localhost certificate [reject localhost:46497]
+ PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
 ## go-nethttp
 
 ```console
-# go version go1.6.3 linux/amd64
-usage: version
-
-Version prints the Go version, as reported by runtime.Version.
+# go version
+go version go1.6.3 linux/amd64
 ```
 
 ```console
@@ -189,8 +223,8 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
       reason: stub exited with return code 1
       output: Get https://sslv3.dshield.org:443: tls: server selected unsupported protocol version 300
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:46033]
- SKIP invalid localhost certificate [reject localhost:46125]
+ SKIP valid localhost certificate [accept localhost:44788]
+ SKIP invalid localhost certificate [reject localhost:36236]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -253,8 +287,8 @@ stub: java -classpath java-https Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:35753]
- SKIP invalid localhost certificate [reject localhost:40187]
+ SKIP valid localhost certificate [accept localhost:39505]
+ SKIP invalid localhost certificate [reject localhost:45384]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -317,8 +351,8 @@ stub: java -classpath java-net Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:39274]
- SKIP invalid localhost certificate [reject localhost:46387]
+ SKIP valid localhost certificate [accept localhost:45135]
+ SKIP invalid localhost certificate [reject localhost:36783]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -376,8 +410,8 @@ stub: php php-file-get-contents/run.php
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:40327]
- SKIP invalid localhost certificate [reject localhost:36731]
+ SKIP valid localhost certificate [accept localhost:34449]
+ SKIP invalid localhost certificate [reject localhost:36643]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
