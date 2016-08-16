@@ -16,7 +16,7 @@ DISTRIB_DESCRIPTION="Ubuntu 14.04.5 LTS"
 
 python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
 ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-?                | ?               | ?              | ?          | ?          | ?        | ?
+NO SNI           | ERROR           | FAIL           | ERROR      | PASS       | PASS     | NO SNI
 
 ## python2-requests
 
