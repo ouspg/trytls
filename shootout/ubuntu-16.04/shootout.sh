@@ -26,11 +26,11 @@ myrun \# grep DISTRIB_DESCRIPTION /etc/lsb-release
 cat <<EOF
 <!-- markdownlint-disable MD013 -->
 
-OS               | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Ubuntu 16.04 LTS | ?                | ?               | ?              | ?          | ?          | ?        | ?
+python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+?                | ?               | ?              | ?          | ?          | ?        | ?
 
-## python-requests
+## python2-requests
 
 EOF
 
@@ -38,7 +38,7 @@ myrun \# python --version
 myrun \# trytls https python python2-requests/run.py
 
 cat <<EOF
-## python-urllib2
+## python2-urllib2
 
 EOF
 

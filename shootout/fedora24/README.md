@@ -11,9 +11,9 @@ Fedora release 24 (Twenty Four)
 
 <!-- markdownlint-disable MD013 -->
 
-OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Fedora 24  | PASS             | PASS            | PASS           | ERROR      | PASS       | PASS     | PASS
+python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+PASS             | PASS            | PASS           | ERROR      | PASS       | PASS     | PASS
 
 ## python2-requests
 

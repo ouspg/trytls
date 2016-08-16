@@ -14,9 +14,9 @@ DISTRIB_DESCRIPTION="Ubuntu 16.04.1 LTS"
 
 <!-- markdownlint-disable MD013 -->
 
-OS               | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Ubuntu 16.04 LTS | FAIL             | FAIL            | FAIL           | ERROR      | PASS       | PASS     | PASS
+python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+FAIL             | FAIL            | FAIL           | ERROR      | PASS       | PASS     | PASS
 
 ## python-requests
 
