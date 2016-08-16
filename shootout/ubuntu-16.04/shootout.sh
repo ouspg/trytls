@@ -10,24 +10,27 @@ myrun() {
 }
 
 cat <<EOF
-# TryTLS testing with Fedora latest
+# TryTLS testing with Ubuntu
+
+We chose Ubuntu 12.04, 14.04 and 16.04 LTS releases for this TryTLS-shootout
+based on the [Ubuntu release end of life](http://www.ubuntu.com/info/release-end-of-life).
 
 \`\`\`console
-docker run -ti --rm fedora24
+docker run -ti --rm ubuntu-16.04
 \`\`\`
 
 EOF
 
-myrun \# cat /etc/redhat-release | sed -e 's/ *$//'
+myrun \# grep DISTRIB_DESCRIPTION /etc/lsb-release
 
 cat <<EOF
 <!-- markdownlint-disable MD013 -->
 
-OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Fedora 24  | ?                | ?               | ?              | ?          | ?          | ?        | ?
+OS               | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+Ubuntu 16.04 LTS | ?                | ?               | ?              | ?          | ?          | ?        | ?
 
-## python2-requests
+## python-requests
 
 EOF
 
@@ -35,7 +38,7 @@ myrun \# python --version
 myrun \# trytls https python python2-requests/run.py
 
 cat <<EOF
-## python2-urllib2
+## python-urllib2
 
 EOF
 
