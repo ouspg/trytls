@@ -58,7 +58,7 @@ cat <<EOF
 
 EOF
 
-myrun \# go version go1.6.3 linux/amd64
+myrun \# go version
 myrun \# trytls https go-nethttp/run
 
 cat <<EOF
