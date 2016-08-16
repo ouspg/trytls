@@ -1,16 +1,17 @@
 FROM centos:centos7
 
+ENV VERSION 0.3.0
 RUN yum -y update && \
     yum -y install epel-release && \
     yum -y install python-pip && \
     yum -y install openssl && \
     yum clean all && \
-    pip install trytls==0.2.1
+    pip install trytls==${VERSION}
 
 # Stubs
 WORKDIR /root
-RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz | \
-  zcat | tar --strip-components=1 -xvf - trytls-0.2.1/stubs
+RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | \
+  zcat | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs
 
 # Go
 RUN yum -y install go
@@ -34,5 +35,6 @@ RUN yum -y install rh-python35
 # PHP
 RUN yum -y install php
 
-# Default workdir for easier manual stub testing
+# Default workdir & script for easier manual stub testing
 WORKDIR /root/stubs/
+COPY shootout.sh /root/stubs/
