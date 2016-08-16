@@ -158,16 +158,6 @@ def freakattack(host, description):
 
 
 @testenv
-def dshield(accept, host, description):
-    yield Test(
-        accept=accept,
-        description=description,
-        host=host + ".dshield.org",
-        port=443
-    )
-
-
-@testenv
 def tlsfun(accept, name, description, forced_result):
     yield Test(
         accept=accept,
@@ -294,7 +284,7 @@ def tlsfun_tests():
     res = yield Test(
         accept=False,
         description="self-signed certificate",
-        host="self-signed.badssl.com",
+        host="expired.tlsfun.de",
         port=443,
         forced_result=forced_result
     )
@@ -341,7 +331,12 @@ local_tests = testgroup(
 )
 
 dshield_tests = testgroup(
-    dshield(False, "sslv3", "protection against POODLE attack")
+    Test(
+        accept="sslv3",
+        description="protection against POODLE attack",
+        host="sslv3.dshield.org",
+        port=443
+    )
 )
 
 all_tests = testgroup(
