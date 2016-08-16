@@ -5,6 +5,10 @@ cat /etc/fedora-release
 Fedora release 24 (Twenty Four)
 ```
 
+OS                 | python-requests | python-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+------------------ | --------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+Fedora release 24  | PASS             | PASS          | PASS           | ERROR       | PASS       | PASS     | PASS
+
 ## Python
 
 ### python-requests
