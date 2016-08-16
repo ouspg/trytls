@@ -1,21 +1,28 @@
 # TryTLS testing with Fedora latest
 
 ```console
-cat /etc/fedora-release
+docker run -ti --rm fedora24
+```
+
+```console
+# cat /etc/redhat-release
 Fedora release 24 (Twenty Four)
 ```
 
-OS                 | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
------------------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Fedora release 24  | PASS             | PASS            | PASS           | ERROR      | PASS       | PASS     | PASS
+<!-- markdownlint-disable MD013 -->
 
-# python2-requests
-```
+OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+Fedora 24  | ?                | ?               | ?              | ?          | ?          | ?        | ?
+
+## python-requests
+
+```console
 # python --version
 Python 2.7.12
 ```
-```sh
 
+```console
 # trytls https python python2-requests/run.py
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
@@ -56,21 +63,21 @@ stub: python python2-requests/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:35336]
+ PASS valid localhost certificate [accept localhost:45667]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
- PASS invalid localhost certificate [reject localhost:46459]
+ PASS invalid localhost certificate [reject localhost:46159]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-
- ```
-
-# python2-urllib2
 ```
+
+## python-urllib2
+
+```console
 # python --version
 Python 2.7.12
 ```
-```sh
 
+```console
 # trytls https python python2-urllib2/run.py
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
@@ -106,25 +113,20 @@ stub: python python2-urllib2/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:40436]
- PASS invalid localhost certificate [reject localhost:39641]
+ PASS valid localhost certificate [accept localhost:36576]
+ PASS invalid localhost certificate [reject localhost:42532]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-
 ```
 
+## python3-urllib
 
-# python3-urllib
-
-```sh
-
+```console
 # python3 --version
 Python 3.5.1
 ```
 
-```sh
-
+```console
 # trytls https python3 python3-urllib/run.py
-
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
 stub: python3 python3-urllib/run.py
@@ -159,19 +161,20 @@ stub: python3 python3-urllib/run.py
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:32860]
- PASS invalid localhost certificate [reject localhost:42826]
+ PASS valid localhost certificate [accept localhost:46772]
+ PASS invalid localhost certificate [reject localhost:46715]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-
-
 ```
 
-# Go
+## go-nethttp
 
-```sh
+```console
+# go version
+go version go1.6.3 linux/amd64
+```
 
+```console
 # trytls https go-nethttp/run
-
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
 stub: go-nethttp/run
@@ -208,15 +211,21 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
       reason: stub exited with return code 1
       output: Get https://sslv3.dshield.org:443: tls: server selected unsupported protocol version 300
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:45357]
- SKIP invalid localhost certificate [reject localhost:43702]
+ SKIP valid localhost certificate [accept localhost:43305]
+ SKIP invalid localhost certificate [reject localhost:43601]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-
 ```
 
-# java-https
+## java-https
 
-```sh
+```console
+# java -version
+openjdk version "1.8.0_101"
+OpenJDK Runtime Environment (build 1.8.0_101-b14)
+OpenJDK 64-Bit Server VM (build 25.101-b14, mixed mode)
+```
+
+```console
 # trytls https java -classpath java-https Run
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
@@ -266,15 +275,21 @@ stub: java -classpath java-https Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:38966]
- SKIP invalid localhost certificate [reject localhost:38344]
+ SKIP valid localhost certificate [accept localhost:37482]
+ SKIP invalid localhost certificate [reject localhost:42140]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-
 ```
 
-# java-net
+## java-net
 
-```sh
+```console
+# java -version
+openjdk version "1.8.0_101"
+OpenJDK Runtime Environment (build 1.8.0_101-b14)
+OpenJDK 64-Bit Server VM (build 25.101-b14, mixed mode)
+```
+
+```console
 # trytls https java -classpath java-net Run
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
@@ -324,15 +339,21 @@ stub: java -classpath java-net Run
       output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:38799]
- SKIP invalid localhost certificate [reject localhost:40236]
+ SKIP valid localhost certificate [accept localhost:42313]
+ SKIP invalid localhost certificate [reject localhost:35036]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-
 ```
 
-# PHP 5
-```sh
+## php-file-get-contents
 
+```console
+# php --version
+PHP 5.6.24 (cli) (built: Jul 21 2016 05:04:03)
+Copyright (c) 1997-2016 The PHP Group
+Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
+```
+
+```console
 # trytls https php php-file-get-contents/run.php
 platform: Linux (Fedora 24)
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h-fips)
@@ -368,8 +389,9 @@ stub: php php-file-get-contents/run.php
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:41117]
- SKIP invalid localhost certificate [reject localhost:39391]
+ SKIP valid localhost certificate [accept localhost:33830]
+ SKIP invalid localhost certificate [reject localhost:45954]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-
 ```
+
+<!-- markdownlint-enable MD013 -->
