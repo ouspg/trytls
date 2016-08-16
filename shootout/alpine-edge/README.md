@@ -12,17 +12,37 @@
 Python 2.7.12
 ```
 
-### python-requests
+### python2-requests
 
 ```console
-# trytls https python python-requests/run.py
+# trytls https python run.py
 platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: python 'python-requests/run.py'
+runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
+stub: python run.py
+ PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
+      output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for domain-match.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+      output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for wildcard-match.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+ PASS TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+      output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for dh1024.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+ PASS certificate validity starts in future [reject future.badtls.io:11001]
+ PASS mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+      output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for domain-mismatch.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+ FAIL MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+      output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for weak-sig.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+ PASS expired certificate [reject expired.badtls.io:11006]
+ PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+      output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for wildcard.mismatch.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
+ PASS supports RC4 ciphers [reject rc4.badtls.io:11008]
+ PASS supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
  PASS expired certificate [reject expired.badssl.com:443]
  PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
  PASS SHA-256 signature [accept sha256.badssl.com:443]
  PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
  PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
@@ -34,24 +54,40 @@ stub: python 'python-requests/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:44810]
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+ PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+ PASS valid localhost certificate [accept localhost:37923]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
- PASS invalid localhost certificate [reject localhost:34797]
+ PASS invalid localhost certificate [reject localhost:35371]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-### python-urllib2
+### python2-urllib2
 
 ```console
-# trytls https python python-urllib2/run.py 
+# trytls https python run.py
 platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: python 'python-urllib2/run.py'
+runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
+stub: python run.py
+ PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
+ PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+ PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+ PASS TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+ PASS certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+ PASS certificate validity starts in future [reject future.badtls.io:11001]
+ PASS mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+ PASS Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+ FAIL MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+ PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+ PASS expired certificate [reject expired.badtls.io:11006]
+ PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+ PASS supports RC4 ciphers [reject rc4.badtls.io:11008]
+ PASS supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
  PASS expired certificate [reject expired.badssl.com:443]
  PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
  PASS SHA-256 signature [accept sha256.badssl.com:443]
  PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
  PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
@@ -63,58 +99,40 @@ stub: python 'python-urllib2/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:43982]
- PASS invalid localhost certificate [reject localhost:34682]
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+ PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+ PASS valid localhost certificate [accept localhost:33803]
+ PASS invalid localhost certificate [reject localhost:39887]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
 ## Python 3
 
-```console
-# python3 --version
-Python 3.5.2
-```
-
-### python-requests
-
-```console
-# trytls https python3 python-requests/run.py 
-platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: python3 'python-requests/run.py'
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
- PASS Superfish CA [reject superfish.badssl.com:443]
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:43439]
-      output: /usr/lib/python3.5/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
- PASS invalid localhost certificate [reject localhost:38403]
-      output: /usr/lib/python3.5/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
- PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
-
 ### python3-urllib
 
 ```console
-# trytls https python3 python3-urllib/run.py 
+# trytls https python3 run.py
 platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: python3 'python3-urllib/run.py'
+runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
+stub: python3 run.py
+ PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
+ PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+ PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+ PASS TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+ PASS certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+ PASS certificate validity starts in future [reject future.badtls.io:11001]
+ PASS mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+ PASS Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+ FAIL MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+ PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+ PASS expired certificate [reject expired.badtls.io:11006]
+ PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+ PASS supports RC4 ciphers [reject rc4.badtls.io:11008]
+ PASS supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+ PASS self-signed certificate [reject self-signed.badssl.com:443]
  PASS expired certificate [reject expired.badssl.com:443]
  PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
  PASS SHA-256 signature [accept sha256.badssl.com:443]
  PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
  PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
@@ -126,8 +144,10 @@ stub: python3 'python3-urllib/run.py'
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS valid localhost certificate [accept localhost:33393]
- PASS invalid localhost certificate [reject localhost:45493]
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+ PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+ PASS valid localhost certificate [accept localhost:35112]
+ PASS invalid localhost certificate [reject localhost:32864]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -138,28 +158,60 @@ stub: python3 'python3-urllib/run.py'
 go version go1.7rc4 linux/amd64
 ```
 
+## go-nethttp
+
 ```console
-# trytls https go-nethttp/run
+# trytls https run
 platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: 'go-nethttp/run'
+runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
+stub: go run run.go
+ SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
+ SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+ SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+ SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+ SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+ SKIP certificate validity starts in future [reject future.badtls.io:11001]
+ SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+ SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+ SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+ SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+ SKIP expired certificate [reject expired.badtls.io:11006]
+ SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+ SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
+ SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
  PASS self-signed certificate [reject self-signed.badssl.com:443]
+      output: Get https://self-signed.badssl.com:443: x509: certificate signed by unknown authority
+ PASS expired certificate [reject expired.badssl.com:443]
+      output: Get https://expired.badssl.com:443: x509: certificate has expired or is not yet valid
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+      output: Get https://wrong.host.badssl.com:443: x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com
  PASS SHA-256 signature [accept sha256.badssl.com:443]
  PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
  PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+      output: Get https://incomplete-chain.badssl.com:443: x509: certificate signed by unknown authority
  PASS Superfish CA [reject superfish.badssl.com:443]
+      output: Get https://superfish.badssl.com:443: x509: certificate signed by unknown authority
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
+      output: Get https://edellroot.badssl.com:443: x509: certificate signed by unknown authority
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+      output: Get https://dsdtestprovider.badssl.com:443: x509: certificate signed by unknown authority
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+      output: Get https://www.ssllabs.com:10443: crypto/rsa: verification error
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+      output: Get https://www.ssllabs.com:10444: tls: unexpected ServerKeyExchange
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
+      output: Get https://www.ssllabs.com:10445: remote error: tls: handshake failure
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+      output: Get https://cve.freakattack.com:443: tls: unexpected ServerKeyExchange
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:45781]
- SKIP invalid localhost certificate [reject localhost:33420]
+      output: Get https://cve2.freakattack.com:443: tls: unexpected ServerKeyExchange
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+      output: Get https://sslv3.dshield.org:443: tls: server selected unsupported protocol version 300
+ PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+      output: Get https://badcert-edell.tlsfun.de:443: x509: certificate signed by unknown authority
+ SKIP valid localhost certificate [accept localhost:44362]
+ SKIP invalid localhost certificate [reject localhost:37022]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -175,54 +227,114 @@ OpenJDK 64-Bit Server VM (build 25.92-b14, mixed mode)
 ## java-https
 
 ```console
-# trytls https java -classpath java-https Run
+# trytls https java Run
 platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: java '-classpath' 'java-https' Run
+runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
+stub: java Run
+ SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
+ SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+ SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+ SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+ SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+ SKIP certificate validity starts in future [reject future.badtls.io:11001]
+ SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+ SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+ SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+ SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+ SKIP expired certificate [reject expired.badtls.io:11006]
+ SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+ SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
+ SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
  PASS self-signed certificate [reject self-signed.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+ PASS expired certificate [reject expired.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path validation failed: java.security.cert.CertPathValidatorException: timestamp check failed
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No subject alternative DNS name matching wrong.host.badssl.com found.
  PASS SHA-256 signature [accept sha256.badssl.com:443]
  PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
  PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS Superfish CA [reject superfish.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+      output: javax.net.ssl.SSLKeyException: Invalid signature on ECDH server key exchange message
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchange message for key exchange RSA
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
+      output: javax.net.ssl.SSLHandshakeException: DHPublicKey does not comply to algorithm constraints
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchange message for key exchange RSA
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:39717]
- SKIP invalid localhost certificate [reject localhost:35820]
+      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchange message for key exchange RSA
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+      output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
+ PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+ SKIP valid localhost certificate [accept localhost:45298]
+ SKIP invalid localhost certificate [reject localhost:41596]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
 ## java-net
 
 ```console
-# trytls https java -classpath java-net Run
+# trytls https java Run
 platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: java '-classpath' 'java-net' Run
+runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
+stub: java Run
+ SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
+ SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+ SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+ SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+ SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+ SKIP certificate validity starts in future [reject future.badtls.io:11001]
+ SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+ SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+ SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+ SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+ SKIP expired certificate [reject expired.badtls.io:11006]
+ SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+ SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
+ SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
  PASS self-signed certificate [reject self-signed.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+ PASS expired certificate [reject expired.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path validation failed: java.security.cert.CertPathValidatorException: timestamp check failed
+ PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No subject alternative DNS name matching wrong.host.badssl.com found.
  PASS SHA-256 signature [accept sha256.badssl.com:443]
  PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
  PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS Superfish CA [reject superfish.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+      output: javax.net.ssl.SSLKeyException: Invalid signature on ECDH server key exchange message
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchange message for key exchange RSA
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
+      output: javax.net.ssl.SSLHandshakeException: DHPublicKey does not comply to algorithm constraints
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchange message for key exchange RSA
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:44913]
- SKIP invalid localhost certificate [reject localhost:40563]
+      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchange message for key exchange RSA
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+      output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
+ PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+ SKIP valid localhost certificate [accept localhost:46005]
+ SKIP invalid localhost certificate [reject localhost:43719]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -230,33 +342,57 @@ stub: java '-classpath' 'java-net' Run
 
 ```console
 # php --version
-PHP 5.6.24 (cli) (built: Jul 25 2016 15:05:02) 
+PHP 5.6.24 (cli) (built: Jul 25 2016 15:05:02)
 Copyright (c) 1997-2016 The PHP Group
 Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
 ```
 
-```console
-# trytls https php php-file-get-contents/run.php 
-platform: Linux
-runner: trytls 0.2.0 (CPython 2.7.12, OpenSSL 1.0.2h)
-stub: php 'php-file-get-contents/run.php'
- FAIL support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
- FAIL SHA-256 signature [accept sha256.badssl.com:443]
- FAIL 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
- PASS Superfish CA [reject superfish.badssl.com:443]
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- SKIP valid localhost certificate [accept localhost:38770]
- SKIP invalid localhost certificate [reject localhost:37030]
- SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+## php-file-get-contents
 
+```console
+# trytls https php run.php
+SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
+SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
+SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
+SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
+SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
+SKIP certificate validity starts in future [reject future.badtls.io:11001]
+SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
+SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
+SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
+SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
+SKIP expired certificate [reject expired.badtls.io:11006]
+SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
+SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
+SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
+FAIL support for TLS server name indication (SNI) [accept badssl.com:443]
+SKIP self-signed certificate [reject self-signed.badssl.com:443]
+     reason: could not detect SNI support
+SKIP expired certificate [reject expired.badssl.com:443]
+     reason: could not detect SNI support
+SKIP wrong hostname in certificate [reject wrong.host.badssl.com:443]
+     reason: could not detect SNI support
+SKIP SHA-256 signature [accept sha256.badssl.com:443]
+     reason: could not detect SNI support
+SKIP 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+     reason: could not detect SNI support
+SKIP incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+     reason: could not detect SNI support
+SKIP Superfish CA [reject superfish.badssl.com:443]
+     reason: could not detect SNI support
+SKIP eDellRoot CA [reject edellroot.badssl.com:443]
+     reason: could not detect SNI support
+SKIP DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+     reason: could not detect SNI support
+PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
+PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+SKIP valid localhost certificate [accept localhost:37790]
+SKIP invalid localhost certificate [reject localhost:33591]
+SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
+
+```
