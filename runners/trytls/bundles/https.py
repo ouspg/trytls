@@ -158,12 +158,23 @@ def freakattack(host, description):
 
 
 @testenv
-def miscellaneous(accept, host, description):
+def dshield(accept, host, description):
     yield Test(
         accept=accept,
         description=description,
-        host=host,
+        host=host + ".dshield.org",
         port=443
+    )
+
+
+@testenv
+def tlsfun(accept, name, description, forced_result):
+    yield Test(
+        accept=accept,
+        description=description,
+        host=name + ".tlsfun.de",
+        port=443,
+        forced_result=forced_result
     )
 
 
@@ -233,7 +244,7 @@ def local(accept, cn, description):
 
 
 @testgroup
-def badssl_tests():
+def sni_tests():
     forced_result = None
 
     res = yield Test(
@@ -263,7 +274,8 @@ def badssl_tests():
         badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
         badssl(False, "superfish", "Superfish CA", forced_result),
         badssl(False, "edellroot", "eDellRoot CA", forced_result),
-        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result)
+        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result),
+        tlsfun(False, "badcert-edell", "eDellRoot CA #2", forced_result)
     )
 
 
@@ -301,16 +313,15 @@ local_tests = testgroup(
     badssl_onlymyca("use only the given CA bundle, not system's")
 )
 
-miscellaneous_tests = testgroup(
-    miscellaneous(False, "sslv3.dshield.org", "protection against POODLE attack"),
-    miscellaneous(False, "badcert-edell.tlsfun.de", "eDellRoot CA #2")
+dshield_tests = testgroup(
+    dshield(False, "sslv3", "protection against POODLE attack")
 )
 
 all_tests = testgroup(
-    badtls_tests,
-    badssl_tests,
     ssllabs_tests,
     freakattack_tests,
-    miscellaneous_tests,
+    dshield_tests,
+    sni_tests,
+    badtls_tests,
     local_tests
 )
