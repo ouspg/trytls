@@ -12,10 +12,10 @@
 Python 2.7.12
 ```
 
-### python-requests
+### python2-requests
 
 ```console
-# trytls https python python-requests/run.py
+# trytls https python run.py
 platform: Linux
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: python run.py
@@ -63,10 +63,10 @@ stub: python run.py
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-### python-urllib2
+### python2-urllib2
 
 ```console
-# trytls https python python2-urllib2/run.py
+# trytls https python run.py
 platform: Linux
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: python run.py
@@ -111,7 +111,7 @@ stub: python run.py
 ### python3-urllib
 
 ```console
-# trytls https python3 python3-urllib/run.py
+# trytls https python3 run.py
 platform: Linux
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: python3 run.py
@@ -158,8 +158,10 @@ stub: python3 run.py
 go version go1.7rc4 linux/amd64
 ```
 
+## go-nethttp
+
 ```console
-# trytls https go-nethttp/run
+# trytls https run
 platform: Linux
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: go run run.go
@@ -225,7 +227,7 @@ OpenJDK 64-Bit Server VM (build 25.92-b14, mixed mode)
 ## java-https
 
 ```console
-# trytls https java -classpath java-https Run
+# trytls https java Run
 platform: Linux
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: java Run
@@ -282,7 +284,7 @@ stub: java Run
 ## java-net
 
 ```console
-# trytls https java -classpath java-net Run
+# trytls https java Run
 platform: Linux
 runner: trytls 0.3.0 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: java Run
@@ -345,8 +347,10 @@ Copyright (c) 1997-2016 The PHP Group
 Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
 ```
 
+## php-file-get-contents
+
 ```console
-# trytls https php php-file-get-contents/run.php
+# trytls https php run.php
 SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
 SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
 SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
