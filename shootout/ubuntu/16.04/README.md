@@ -68,7 +68,7 @@ mono-complete-latest-ubuntu-latest_1  | [VB-Net:Run.exe][ OK?  ][ UNSUPPORTED  ]
 
 **mono-complete without http://download.mono-project.com/repo/debian repo**
 
-driver: mono-complete-latest
+driver: mono-complete-ubuntu-latest
 https://github.com/ouspg/trytls/blob/0a8c49e36746c9a36bef6bc99ed028244d1f23b3/runners/bashtls/drivers/mono-complete-latest/Dockerfile
 
 <pre>
