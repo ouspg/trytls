@@ -14,7 +14,7 @@ DISTRIB_DESCRIPTION="Ubuntu 16.04.1 LTS"
 
 OS               | python-requests | python-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
 ---------------- | --------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Ubuntu 16.04 LTS | FAIL            | FAIL           | FAIL           | PASS       | PASS       | PASS     | PASS
+Ubuntu 16.04 LTS | FAIL            | FAIL           | FAIL           | ERROR       | PASS       | PASS     | PASS
 
 ## python-requests
 
