@@ -13,7 +13,7 @@ docker run -ti --rm debian7
 
 OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
 ---------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-CentOS 7.2 | ?                | ?               | ?              | ?          | ?          | ?        | ?
+CentOS 7.2 | FAIL             | ERROR           | FAIL           | NO-SNI     | PASS       | PASS     | NO SNI
 
 ## python2-requests
 
