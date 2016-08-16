@@ -5,13 +5,11 @@ cat /etc/fedora-release
 Fedora release 24 (Twenty Four)
 ```
 
-OS                 | python-requests | python-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
------------------- | --------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Fedora release 24  | PASS             | PASS          | PASS           | ERROR       | PASS       | PASS     | PASS
+OS                 | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+------------------ | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+Fedora release 24  | PASS             | PASS            | PASS           | ERROR      | PASS       | PASS     | PASS
 
-## Python
-
-### python2-requests
+# python2-requests
 
 ```sh
 
@@ -63,7 +61,7 @@ stub: python python2-requests/run.py
 
  ```
 
-### python2-urllib2
+# python2-urllib2
 
 ```sh
 
@@ -108,15 +106,14 @@ stub: python python2-urllib2/run.py
 
 ```
 
-## Python3
+
+### python3-urllib
 
 ```sh
 
 python3 --version
 Python 3.5.1
 ```
-
-### python3-urllib
 
 ```sh
 
@@ -211,9 +208,7 @@ ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
 
 ```
 
-# Java
-
-## java-https
+# java-https
 
 ```sh
 $ trytls https java -classpath java-https Run
@@ -271,7 +266,7 @@ stub: java -classpath java-https Run
 
 ```
 
-## java-net
+# java-net
 
 ```sh
 $ trytls https java -classpath java-net Run
