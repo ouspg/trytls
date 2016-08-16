@@ -37,5 +37,6 @@ RUN yum -y install rh-python34 && \
 # PHP
 RUN yum -y install php
 
-# Default workdir for easier manual stub testing
+# Default workdir & script for easier manual stub testing
 WORKDIR /root/stubs/
+COPY shootout.sh /root/stubs/
