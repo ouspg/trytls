@@ -1,25 +1,44 @@
 package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
 )
 
 func main() {
-	if len(os.Args) == 4 {
-		fmt.Println("UNSUPPORTED")
-		os.Exit(0)
-	} else if len(os.Args) != 3 {
-		fmt.Printf("usage: %v <host> <port>\n", os.Args[0])
+	if len(os.Args) < 3 || len(os.Args) > 4 {
+		fmt.Printf("usage: %v <host> <port> [cafile]\n", os.Args[0])
 		os.Exit(1)
 	}
 
-	url := "https://" + os.Args[1] + ":" + os.Args[2]
+	client := http.DefaultClient
+	if len(os.Args) == 4 {
+		cadata, err := ioutil.ReadFile(os.Args[3])
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
-	// Perform an HTTP(S) Request
-	_, err := http.Get(url)
+		pool := x509.NewCertPool()
+		if !pool.AppendCertsFromPEM(cadata) {
+			fmt.Println("Couldn't append certs")
+			os.Exit(1)
+		}
+
+		client = &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{RootCAs: pool},
+			},
+		}
+	}
+
+	// Perform an HTTPS Request
+	_, err := client.Get("https://" + os.Args[1] + ":" + os.Args[2])
 	if err != nil {
 		fatalError := strings.Contains(err.Error(), "no such host")
 		fmt.Println(err.Error())
