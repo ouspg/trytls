@@ -11,7 +11,7 @@ Fedora release 24  | PASS             | PASS          | PASS           | ERROR  
 
 ## Python
 
-### python-requests
+### python2-requests
 
 ```sh
 
@@ -63,7 +63,7 @@ stub: python python2-requests/run.py
 
  ```
 
-### python-urllib2
+### python2-urllib2
 
 ```sh
 

@@ -16,7 +16,7 @@ OS                 | python-requests | python-urllib2 | python3-urllib | go-neth
 ------------------ | --------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
 Ubuntu 14.04.5 LTS | NO SNI          | ERROR          | FAIL           | NO SNI     | PASS      | PASS    | NO SNI
 
-## python-requests
+## python2-requests
 
 ```console
 # python --version
@@ -71,7 +71,7 @@ stub: python python2-requests/run.py
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-## python-urllib2
+## python2-urllib2
 
 ```console
 # python --version

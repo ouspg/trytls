@@ -16,7 +16,7 @@ OS                 | python-requests | python-urllib2 | python3-urllib | go-neth
 ------------------ | --------------- | -------------- | -------------- | ---------- | ---------- | -------- | ---------------------
 Ubuntu 12.04.5 LTS | ERROR           | ERROR          | ERROR           | ERROR    | N/A        | N/A      | NO SNI
 
-## python-requests
+## python2-requests
 
 ```console
 # python --version
@@ -35,7 +35,7 @@ ERROR valid certificate Common Name [accept domain-match.badtls.io:10000]
 ...
 ```
 
-## python-urllib2
+## python2-urllib2
 
 ```console
 # python --version
