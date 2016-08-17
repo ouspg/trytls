@@ -48,7 +48,7 @@ cat <<EOF
 EOF
 
 myrun \# python3.2 --version
-myrun \# trytls https python3 python3-urllib/run.py
+myrun \# trytls https python3.2 python3-urllib/run.py
 
 cat <<EOF
 ## go-nethttp

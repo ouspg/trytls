@@ -11,9 +11,9 @@ docker run -ti --rm debian7
 
 <!-- markdownlint-disable MD013 -->
 
-OS         | python2-requests       | python2-urllib2 | python3-urllib | go-nethttp   | java-https   | java-net | php-file-get-contents
----------- | ----------------       | --------------- | -------------- | ----------   | ----------   | -------- | ---------------------
-Debian 7   | FAIL(RC4,MD5) w/NO SNI | N/A             | FAIL(MD5)     | PASS w/NO SNI| PASS         | PASS     | PASS w/NO SNI
+OS         | python2-requests       | python2-urllib2 | python3-urllib | go-nethttp              | java-https   | java-net | php-file-get-contents
+---------- | ----------------       | --------------- | -------------- | ----------------------- | ----------   | -------- | ---------------------
+Debian 7   | FAIL(RC4,MD5) w/NO SNI | N/A             | FAIL(POODLE,self-signed,RC4,RC5,RC4+MD5) | PASS w/NO SNI| PASS     | PASS     | PASS w/NO SNI
 
 ## python2-requests
 
@@ -71,8 +71,8 @@ stub: python python2-requests/run.py
  FAIL denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  FAIL denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS valid localhost certificate [accept localhost:46264]
- PASS invalid localhost certificate [reject localhost:33017]
+ PASS valid localhost certificate [accept localhost:42664]
+ PASS invalid localhost certificate [reject localhost:42348]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -242,13 +242,13 @@ ERROR denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
                 File "python2-urllib2/run.py", line 14, in <module>
                   except ssl.CertificateError:
               AttributeError: 'module' object has no attribute 'CertificateError'
-ERROR valid localhost certificate [accept localhost:46199]
+ERROR valid localhost certificate [accept localhost:38285]
       reason: stub exited with return code 1
       output: Traceback (most recent call last):
                 File "python2-urllib2/run.py", line 14, in <module>
                   except ssl.CertificateError:
               AttributeError: 'module' object has no attribute 'CertificateError'
-ERROR invalid localhost certificate [reject localhost:46674]
+ERROR invalid localhost certificate [reject localhost:41825]
       reason: stub exited with return code 1
       output: Traceback (most recent call last):
                 File "python2-urllib2/run.py", line 14, in <module>
@@ -270,29 +270,38 @@ Python 3.2.3
 ```
 
 ```console
-# trytls https python3 python3-urllib/run.py
+# trytls https python3.2 python3-urllib/run.py
 platform: Linux
 runner: trytls 0.3.4 (CPython 3.5.2, OpenSSL 1.0.1e)
-stub: python3 python3-urllib/run.py
+stub: python3.2 python3-urllib/run.py
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
  PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+ FAIL protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
- PASS Superfish CA [reject superfish.badssl.com:443]
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+ FAIL self-signed certificate [reject self-signed.badssl.com:443]
+ SKIP expired certificate [reject expired.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
+ SKIP wrong hostname in certificate [reject wrong.host.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
+ SKIP SHA-256 signature [accept sha256.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
+ SKIP 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
+ SKIP incomplete chain of trust [reject incomplete-chain.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
+ SKIP Superfish CA [reject superfish.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
+ SKIP eDellRoot CA [reject edellroot.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
+ SKIP DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
+      reason: stub didn't reject a self-signed certificate
  PASS support for TLS server name indication (SNI) [accept tlsfun.de:443]
- PASS self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+ FAIL self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
+ SKIP eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
+      reason: stub didn't reject a self-signed certificate
  PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
  PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
  PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
@@ -304,11 +313,11 @@ stub: python3 python3-urllib/run.py
  PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
  PASS expired certificate [reject expired.badtls.io:11006]
  PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- PASS denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
+ FAIL denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
- PASS denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS valid localhost certificate [accept localhost:40003]
- PASS invalid localhost certificate [reject localhost:45069]
+ FAIL denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
+ PASS valid localhost certificate [accept localhost:39893]
+ PASS invalid localhost certificate [reject localhost:37622]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -376,8 +385,8 @@ stub: go run go-nethttp/run.go
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:45021]
- SKIP invalid localhost certificate [reject localhost:43758]
+ SKIP valid localhost certificate [accept localhost:43252]
+ SKIP invalid localhost certificate [reject localhost:32841]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -428,8 +437,8 @@ stub: java -classpath java-https Run
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:34884]
- SKIP invalid localhost certificate [reject localhost:41741]
+ SKIP valid localhost certificate [accept localhost:41619]
+ SKIP invalid localhost certificate [reject localhost:33237]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -480,8 +489,8 @@ stub: java -classpath java-net Run
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:34765]
- SKIP invalid localhost certificate [reject localhost:42547]
+ SKIP valid localhost certificate [accept localhost:45245]
+ SKIP invalid localhost certificate [reject localhost:43911]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -543,8 +552,8 @@ stub: php php-file-get-contents/run.php
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:36018]
- SKIP invalid localhost certificate [reject localhost:38375]
+ SKIP valid localhost certificate [accept localhost:40678]
+ SKIP invalid localhost certificate [reject localhost:41923]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
