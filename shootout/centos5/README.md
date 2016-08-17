@@ -18,7 +18,7 @@ ERROR            | ERROR           | N/A            | N/A        | N/A        | 
 
 ## python2-requests
 
-```
+```console
 trytls https docker run -i --rm centos5 python python2-requests/run.py
 platform: OS X 10.10.5
 runner: trytls 0.3.4 (CPython 2.7.10, OpenSSL 0.9.8zg)
