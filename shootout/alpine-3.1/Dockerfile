@@ -11,7 +11,7 @@ RUN apk -U upgrade && \
     pip install trytls
 
 WORKDIR /root
-ENV VERSION 0.3.3
+ENV VERSION 0.3.4
 RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | zcat - | tar xvf - trytls-${VERSION}/stubs/
 RUN mv trytls-${VERSION} trytls
 

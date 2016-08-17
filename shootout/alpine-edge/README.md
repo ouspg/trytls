@@ -12,7 +12,7 @@ OS          | python2-requests | python2-urllib2 | python3-urllib | go-nethttp |
 ----------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
 alpine-edge | FAIL             | FAIL            | FAIL           | PASS       | PASS       | PASS     | NO SNI
 
-## Python 2
+## Python2
 
 ```console
 # python --version
@@ -24,7 +24,7 @@ Python 2.7.12
 ```console
 # trytls https python run.py
 platform: Linux
-runner: trytls 0.3.3 (CPython 2.7.12, OpenSSL 1.0.2h)
+runner: trytls 0.3.4 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: python run.py
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
@@ -43,6 +43,7 @@ stub: python run.py
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
  PASS support for TLS server name indication (SNI) [accept tlsfun.de:443]
+ PASS self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
  PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for domain-match.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
@@ -64,9 +65,9 @@ stub: python run.py
  FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for weak-sig.badtls.io has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
  PASS denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS valid localhost certificate [accept localhost:35549]
+ PASS valid localhost certificate [accept localhost:37086]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
- PASS invalid localhost certificate [reject localhost:45507]
+ PASS invalid localhost certificate [reject localhost:33083]
       output: /usr/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for localhost has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)  SubjectAltNameWarning
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
@@ -76,7 +77,7 @@ stub: python run.py
 ```console
 # trytls https python run.py
 platform: Linux
-runner: trytls 0.3.3 (CPython 2.7.12, OpenSSL 1.0.2h)
+runner: trytls 0.3.4 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: python run.py
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
@@ -95,6 +96,7 @@ stub: python run.py
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
  PASS support for TLS server name indication (SNI) [accept tlsfun.de:443]
+ PASS self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
  PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
  PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
@@ -110,8 +112,8 @@ stub: python run.py
  PASS denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  PASS denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS valid localhost certificate [accept localhost:42025]
- PASS invalid localhost certificate [reject localhost:42211]
+ PASS valid localhost certificate [accept localhost:38169]
+ PASS invalid localhost certificate [reject localhost:45030]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -127,7 +129,7 @@ Python 3.5.2
 ```console
 # trytls https python3 run.py
 platform: Linux
-runner: trytls 0.3.3 (CPython 2.7.12, OpenSSL 1.0.2h)
+runner: trytls 0.3.4 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: python3 run.py
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
@@ -146,6 +148,7 @@ stub: python3 run.py
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
  PASS support for TLS server name indication (SNI) [accept tlsfun.de:443]
+ PASS self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
  PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
  PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
@@ -161,8 +164,8 @@ stub: python3 run.py
  PASS denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  PASS denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS valid localhost certificate [accept localhost:46443]
- PASS invalid localhost certificate [reject localhost:43253]
+ PASS valid localhost certificate [accept localhost:37943]
+ PASS invalid localhost certificate [reject localhost:45324]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -178,7 +181,7 @@ go version go1.7rc4 linux/amd64
 ```console
 # trytls https go run run.go
 platform: Linux
-runner: trytls 0.3.3 (CPython 2.7.12, OpenSSL 1.0.2h)
+runner: trytls 0.3.4 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: go run run.go
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
       output: Get https://www.ssllabs.com:10443: crypto/rsa: verification error
@@ -210,6 +213,8 @@ stub: go run run.go
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
       output: Get https://dsdtestprovider.badssl.com:443: x509: certificate signed by unknown authority
  PASS support for TLS server name indication (SNI) [accept tlsfun.de:443]
+ PASS self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
+      output: Get https://self-signed.badssl.com:443: x509: certificate signed by unknown authority
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       output: Get https://badcert-edell.tlsfun.de:443: x509: certificate signed by unknown authority
  SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
@@ -226,8 +231,8 @@ stub: go run run.go
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:41323]
- SKIP invalid localhost certificate [reject localhost:37595]
+ SKIP valid localhost certificate [accept localhost:40072]
+ SKIP invalid localhost certificate [reject localhost:44904]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -245,7 +250,7 @@ OpenJDK 64-Bit Server VM (build 25.92-b14, mixed mode)
 ```console
 # trytls https java Run
 platform: Linux
-runner: trytls 0.3.3 (CPython 2.7.12, OpenSSL 1.0.2h)
+runner: trytls 0.3.4 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: java Run
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
@@ -264,6 +269,7 @@ stub: java Run
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
  PASS support for TLS server name indication (SNI) [accept tlsfun.de:443]
+ PASS self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
  SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
  SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
@@ -279,8 +285,8 @@ stub: java Run
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:34064]
- SKIP invalid localhost certificate [reject localhost:39594]
+ SKIP valid localhost certificate [accept localhost:37032]
+ SKIP invalid localhost certificate [reject localhost:46602]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -289,7 +295,7 @@ stub: java Run
 ```console
 # trytls https java Run
 platform: Linux
-runner: trytls 0.3.3 (CPython 2.7.12, OpenSSL 1.0.2h)
+runner: trytls 0.3.4 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: java Run
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
@@ -308,6 +314,7 @@ stub: java Run
  PASS eDellRoot CA [reject edellroot.badssl.com:443]
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
  PASS support for TLS server name indication (SNI) [accept tlsfun.de:443]
+ PASS self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
  PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
  SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
  SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
@@ -323,8 +330,8 @@ stub: java Run
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:45021]
- SKIP invalid localhost certificate [reject localhost:46412]
+ SKIP valid localhost certificate [accept localhost:45957]
+ SKIP invalid localhost certificate [reject localhost:46322]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -342,7 +349,7 @@ Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
 ```console
 # trytls https php run.php
 platform: Linux
-runner: trytls 0.3.3 (CPython 2.7.12, OpenSSL 1.0.2h)
+runner: trytls 0.3.4 (CPython 2.7.12, OpenSSL 1.0.2h)
 stub: php run.php
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
@@ -370,6 +377,8 @@ stub: php run.php
  SKIP DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
       reason: could not detect SNI support
  FAIL support for TLS server name indication (SNI) [accept tlsfun.de:443]
+ SKIP self-signed certificate (temporarily using badssl.com) [reject self-signed.badssl.com:443]
+      reason: could not detect SNI support
  SKIP eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
       reason: could not detect SNI support
  SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
@@ -386,7 +395,7 @@ stub: php run.php
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:36024]
- SKIP invalid localhost certificate [reject localhost:33838]
+ SKIP valid localhost certificate [accept localhost:34123]
+ SKIP invalid localhost certificate [reject localhost:42963]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
