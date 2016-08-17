@@ -1,9 +1,9 @@
 FROM debian:8
 WORKDIR /root
-ENV VERSION 0.3.0
-#RUN apt-get -y update
-#    apt-get -y upgrade && \
-RUN  apt-get -y update && apt-get -y -o acquire::retries=10 install \
+ENV VERSION 0.3.2
+RUN apt-get -y update && \
+    apt-get -y upgrade && \
+    apt-get -y -o acquire::retries=10 install \
         python python-pip curl vim \
         python3-requests python-requests php5 default-jdk golang-go && \
     pip install trytls==${VERSION} && \

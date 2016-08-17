@@ -24,44 +24,46 @@ Python 2.7.9
 
 ```console
 # trytls https python python2-requests/run.py
-platform: Linux (debian 8.5)
-runner: trytls 0.3.0 (CPython 2.7.9, OpenSSL 1.0.1t)
-stub: python python2-requests/run.py
- PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
- PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
- PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
- PASS TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
- PASS certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
- PASS certificate validity starts in future [reject future.badtls.io:11001]
- PASS mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
- PASS Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
- FAIL MD5 signature algorithm [reject weak-sig.badtls.io:11004]
- PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
- PASS expired certificate [reject expired.badtls.io:11006]
- PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- PASS supports RC4 ciphers [reject rc4.badtls.io:11008]
- PASS supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
- PASS Superfish CA [reject superfish.badssl.com:443]
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:37923]
- PASS invalid localhost certificate [reject localhost:33616]
- PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+[1mplatform:[0m Linux (debian 8.5)[0m
+[0m[1mrunner:[0m trytls 0.3.2 (CPython 2.7.9, OpenSSL 1.0.1t)[0m
+[0m[1mstub:[0m python python2-requests/run.py[0m
+[0m[32m PASS[0m protect against Apple's TLS vulnerability CVE-2014-1266 [2m[reject www.ssllabs.com:10443][0m
+[0m[32m PASS[0m protect against the FREAK attack [2m[reject www.ssllabs.com:10444][0m
+[0m[32m PASS[0m protect against the Logjam attack [2m[reject www.ssllabs.com:10445][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 1) [2m[reject cve.freakattack.com:443][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 2) [2m[reject cve2.freakattack.com:443][0m
+[0m[31m FAIL[0m[31m protection against POODLE attack [2m[accept sslv3.dshield.org:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept badssl.com:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject self-signed.badssl.com:443][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badssl.com:443][0m
+[0m[32m PASS[0m wrong hostname in certificate [2m[reject wrong.host.badssl.com:443][0m
+[0m[32m PASS[0m SHA-256 signature [2m[accept sha256.badssl.com:443][0m
+[0m[32m PASS[0m 1000 subjectAltNames [2m[accept 1000-sans.badssl.com:443][0m
+[0m[32m PASS[0m incomplete chain of trust [2m[reject incomplete-chain.badssl.com:443][0m
+[0m[32m PASS[0m Superfish CA [2m[reject superfish.badssl.com:443][0m
+[0m[32m PASS[0m eDellRoot CA [2m[reject edellroot.badssl.com:443][0m
+[0m[32m PASS[0m DSDTestProvider CA [2m[reject dsdtestprovider.badssl.com:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept tlsfun.de:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject expired.tlsfun.de:443][0m
+[0m[32m PASS[0m eDellRoot CA #2 [2m[reject badcert-edell.tlsfun.de:443][0m
+[0m[32m PASS[0m valid certificate Common Name [2m[accept domain-match.badtls.io:10000][0m
+[0m[32m PASS[0m valid wildcard certificate Common Name [2m[accept wildcard-match.badtls.io:10001][0m
+[0m[32m PASS[0m support for Subject Alternative Name (SAN) [2m[accept san-match.badtls.io:10002][0m
+[0m[32m PASS[0m TLS handshake with 1024 bit Diffie-Hellman (DH) [2m[accept dh1024.badtls.io:10005][0m
+[0m[32m PASS[0m certificate expired in year 1963 [2m[reject expired-1963.badtls.io:11000][0m
+[0m[32m PASS[0m certificate validity starts in future [2m[reject future.badtls.io:11001][0m
+[0m[32m PASS[0m mismatch in certificate's Common Name [2m[reject domain-mismatch.badtls.io:11002][0m
+[0m[32m PASS[0m Subject Alternative Name (SAN) mismatch [2m[reject san-mismatch.badtls.io:11003][0m
+[0m[31m FAIL[0m[31m MD5 signature algorithm [2m[reject weak-sig.badtls.io:11004][0m
+[0m[32m PASS[0m certificate has invalid key usage for HTTPS connection [2m[reject bad-key-usage.badtls.io:11005][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badtls.io:11006][0m
+[0m[32m PASS[0m invalid wildcard certificate Common Name [2m[reject wildcard.mismatch.badtls.io:11007][0m
+[0m[32m PASS[0m supports RC4 ciphers [2m[reject rc4.badtls.io:11008][0m
+[0m[32m PASS[0m supports RC4 with MD5 ciphers [2m[reject rc4-md5.badtls.io:11009][0m
+[0m[32m PASS[0m valid localhost certificate [2m[accept localhost:45109][0m
+[0m[32m PASS[0m invalid localhost certificate [2m[reject localhost:45566][0m
+[0m[32m PASS[0m use only the given CA bundle, not system's [2m[reject sha256.badssl.com:443][0m
+[0m[0m```
 
 ## python2-urllib2
 
@@ -72,44 +74,46 @@ Python 2.7.9
 
 ```console
 # trytls https python python2-urllib2/run.py
-platform: Linux (debian 8.5)
-runner: trytls 0.3.0 (CPython 2.7.9, OpenSSL 1.0.1t)
-stub: python python2-urllib2/run.py
- PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
- PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
- PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
- PASS TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
- PASS certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
- PASS certificate validity starts in future [reject future.badtls.io:11001]
- PASS mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
- PASS Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
- FAIL MD5 signature algorithm [reject weak-sig.badtls.io:11004]
- PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
- PASS expired certificate [reject expired.badtls.io:11006]
- PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- FAIL supports RC4 ciphers [reject rc4.badtls.io:11008]
- PASS supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
- PASS Superfish CA [reject superfish.badssl.com:443]
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:38485]
- PASS invalid localhost certificate [reject localhost:45650]
- PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+[1mplatform:[0m Linux (debian 8.5)[0m
+[0m[1mrunner:[0m trytls 0.3.2 (CPython 2.7.9, OpenSSL 1.0.1t)[0m
+[0m[1mstub:[0m python python2-urllib2/run.py[0m
+[0m[32m PASS[0m protect against Apple's TLS vulnerability CVE-2014-1266 [2m[reject www.ssllabs.com:10443][0m
+[0m[32m PASS[0m protect against the FREAK attack [2m[reject www.ssllabs.com:10444][0m
+[0m[32m PASS[0m protect against the Logjam attack [2m[reject www.ssllabs.com:10445][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 1) [2m[reject cve.freakattack.com:443][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 2) [2m[reject cve2.freakattack.com:443][0m
+[0m[31m FAIL[0m[31m protection against POODLE attack [2m[accept sslv3.dshield.org:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept badssl.com:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject self-signed.badssl.com:443][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badssl.com:443][0m
+[0m[32m PASS[0m wrong hostname in certificate [2m[reject wrong.host.badssl.com:443][0m
+[0m[32m PASS[0m SHA-256 signature [2m[accept sha256.badssl.com:443][0m
+[0m[32m PASS[0m 1000 subjectAltNames [2m[accept 1000-sans.badssl.com:443][0m
+[0m[32m PASS[0m incomplete chain of trust [2m[reject incomplete-chain.badssl.com:443][0m
+[0m[32m PASS[0m Superfish CA [2m[reject superfish.badssl.com:443][0m
+[0m[32m PASS[0m eDellRoot CA [2m[reject edellroot.badssl.com:443][0m
+[0m[32m PASS[0m DSDTestProvider CA [2m[reject dsdtestprovider.badssl.com:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept tlsfun.de:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject expired.tlsfun.de:443][0m
+[0m[32m PASS[0m eDellRoot CA #2 [2m[reject badcert-edell.tlsfun.de:443][0m
+[0m[32m PASS[0m valid certificate Common Name [2m[accept domain-match.badtls.io:10000][0m
+[0m[32m PASS[0m valid wildcard certificate Common Name [2m[accept wildcard-match.badtls.io:10001][0m
+[0m[32m PASS[0m support for Subject Alternative Name (SAN) [2m[accept san-match.badtls.io:10002][0m
+[0m[32m PASS[0m TLS handshake with 1024 bit Diffie-Hellman (DH) [2m[accept dh1024.badtls.io:10005][0m
+[0m[32m PASS[0m certificate expired in year 1963 [2m[reject expired-1963.badtls.io:11000][0m
+[0m[32m PASS[0m certificate validity starts in future [2m[reject future.badtls.io:11001][0m
+[0m[32m PASS[0m mismatch in certificate's Common Name [2m[reject domain-mismatch.badtls.io:11002][0m
+[0m[32m PASS[0m Subject Alternative Name (SAN) mismatch [2m[reject san-mismatch.badtls.io:11003][0m
+[0m[31m FAIL[0m[31m MD5 signature algorithm [2m[reject weak-sig.badtls.io:11004][0m
+[0m[32m PASS[0m certificate has invalid key usage for HTTPS connection [2m[reject bad-key-usage.badtls.io:11005][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badtls.io:11006][0m
+[0m[32m PASS[0m invalid wildcard certificate Common Name [2m[reject wildcard.mismatch.badtls.io:11007][0m
+[0m[31m FAIL[0m[31m supports RC4 ciphers [2m[reject rc4.badtls.io:11008][0m
+[0m[32m PASS[0m supports RC4 with MD5 ciphers [2m[reject rc4-md5.badtls.io:11009][0m
+[0m[32m PASS[0m valid localhost certificate [2m[accept localhost:44679][0m
+[0m[32m PASS[0m invalid localhost certificate [2m[reject localhost:34013][0m
+[0m[32m PASS[0m use only the given CA bundle, not system's [2m[reject sha256.badssl.com:443][0m
+[0m[0m```
 
 ## python3-urllib
 
@@ -120,52 +124,72 @@ Python 3.4.2
 
 ```console
 # trytls https python3 python3-urllib/run.py
-platform: Linux (debian 8.5)
-runner: trytls 0.3.0 (CPython 2.7.9, OpenSSL 1.0.1t)
-stub: python3 python3-urllib/run.py
- PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
- PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
- PASS support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
- PASS TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
- PASS certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
- PASS certificate validity starts in future [reject future.badtls.io:11001]
- PASS mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
- PASS Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
- FAIL MD5 signature algorithm [reject weak-sig.badtls.io:11004]
- PASS certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
- PASS expired certificate [reject expired.badtls.io:11006]
- PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- FAIL supports RC4 ciphers [reject rc4.badtls.io:11008]
- PASS supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- FAIL self-signed certificate [reject self-signed.badssl.com:443]
- SKIP expired certificate [reject expired.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- SKIP wrong hostname in certificate [reject wrong.host.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- SKIP SHA-256 signature [accept sha256.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- SKIP 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- SKIP incomplete chain of trust [reject incomplete-chain.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- SKIP Superfish CA [reject superfish.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- SKIP eDellRoot CA [reject edellroot.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- SKIP DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
-      reason: stub didn't reject a self-signed certificate
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
- FAIL eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- PASS valid localhost certificate [accept localhost:36625]
- PASS invalid localhost certificate [reject localhost:41712]
- PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+[1mplatform:[0m Linux (debian 8.5)[0m
+[0m[1mrunner:[0m trytls 0.3.2 (CPython 2.7.9, OpenSSL 1.0.1t)[0m
+[0m[1mstub:[0m python3 python3-urllib/run.py[0m
+[0m[32m PASS[0m protect against Apple's TLS vulnerability CVE-2014-1266 [2m[reject www.ssllabs.com:10443][0m
+[0m[32m PASS[0m protect against the FREAK attack [2m[reject www.ssllabs.com:10444][0m
+[0m[32m PASS[0m protect against the Logjam attack [2m[reject www.ssllabs.com:10445][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 1) [2m[reject cve.freakattack.com:443][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 2) [2m[reject cve2.freakattack.com:443][0m
+[0m[31m FAIL[0m[31m protection against POODLE attack [2m[accept sslv3.dshield.org:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept badssl.com:443][0m
+[0m[31m FAIL[0m[31m self-signed certificate [2m[reject self-signed.badssl.com:443][0m
+[0m[2m SKIP[0m[2m expired certificate [2m[reject expired.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[2m SKIP[0m[2m wrong hostname in certificate [2m[reject wrong.host.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[2m SKIP[0m[2m SHA-256 signature [2m[accept sha256.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[2m SKIP[0m[2m 1000 subjectAltNames [2m[accept 1000-sans.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[2m SKIP[0m[2m incomplete chain of trust [2m[reject incomplete-chain.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[2m SKIP[0m[2m Superfish CA [2m[reject superfish.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[2m SKIP[0m[2m eDellRoot CA [2m[reject edellroot.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[2m SKIP[0m[2m DSDTestProvider CA [2m[reject dsdtestprovider.badssl.com:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept tlsfun.de:443][0m
+[0m[31m[41m[37mERROR[0m[31m self-signed certificate [2m[reject expired.tlsfun.de:443][0m[31m
+      reason: stub exited with return code 1[0m[31m
+      output: [2mTraceback (most recent call last):
+                File "python3-urllib/run.py", line 14, in <module>
+                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
+                File "/usr/lib/python3.4/urllib/request.py", line 153, in urlopen
+                  return opener.open(url, data, timeout)
+                File "/usr/lib/python3.4/urllib/request.py", line 461, in open
+                  response = meth(req, response)
+                File "/usr/lib/python3.4/urllib/request.py", line 571, in http_response
+                  'http', request, response, code, msg, hdrs)
+                File "/usr/lib/python3.4/urllib/request.py", line 499, in error
+                  return self._call_chain(*args)
+                File "/usr/lib/python3.4/urllib/request.py", line 433, in _call_chain
+                  result = func(*args)
+                File "/usr/lib/python3.4/urllib/request.py", line 579, in http_error_default
+                  raise HTTPError(req.full_url, code, msg, hdrs, fp)
+              urllib.error.HTTPError: HTTP Error 403: Forbidden[0m
+[0m[2m SKIP[0m[2m eDellRoot CA #2 [2m[reject badcert-edell.tlsfun.de:443][0m[2m
+      reason: stub didn't reject a self-signed certificate[0m
+[0m[32m PASS[0m valid certificate Common Name [2m[accept domain-match.badtls.io:10000][0m
+[0m[32m PASS[0m valid wildcard certificate Common Name [2m[accept wildcard-match.badtls.io:10001][0m
+[0m[32m PASS[0m support for Subject Alternative Name (SAN) [2m[accept san-match.badtls.io:10002][0m
+[0m[32m PASS[0m TLS handshake with 1024 bit Diffie-Hellman (DH) [2m[accept dh1024.badtls.io:10005][0m
+[0m[32m PASS[0m certificate expired in year 1963 [2m[reject expired-1963.badtls.io:11000][0m
+[0m[32m PASS[0m certificate validity starts in future [2m[reject future.badtls.io:11001][0m
+[0m[32m PASS[0m mismatch in certificate's Common Name [2m[reject domain-mismatch.badtls.io:11002][0m
+[0m[32m PASS[0m Subject Alternative Name (SAN) mismatch [2m[reject san-mismatch.badtls.io:11003][0m
+[0m[31m FAIL[0m[31m MD5 signature algorithm [2m[reject weak-sig.badtls.io:11004][0m
+[0m[32m PASS[0m certificate has invalid key usage for HTTPS connection [2m[reject bad-key-usage.badtls.io:11005][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badtls.io:11006][0m
+[0m[32m PASS[0m invalid wildcard certificate Common Name [2m[reject wildcard.mismatch.badtls.io:11007][0m
+[0m[31m FAIL[0m[31m supports RC4 ciphers [2m[reject rc4.badtls.io:11008][0m
+[0m[32m PASS[0m supports RC4 with MD5 ciphers [2m[reject rc4-md5.badtls.io:11009][0m
+[0m[32m PASS[0m valid localhost certificate [2m[accept localhost:38778][0m
+[0m[32m PASS[0m invalid localhost certificate [2m[reject localhost:45981][0m
+[0m[32m PASS[0m use only the given CA bundle, not system's [2m[reject sha256.badssl.com:443][0m
+[0m[0m```
 
 ## go-nethttp
 
@@ -175,48 +199,62 @@ go version go1.3.3 linux/amd64
 ```
 
 ```console
-# trytls https go run go-nethttp/run.go
-platform: Linux (debian 8.5)
-runner: trytls 0.3.0 (CPython 2.7.9, OpenSSL 1.0.1t)
-stub: go run go-nethttp/run.go
- SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
- SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
- SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
- SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
- SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
- SKIP certificate validity starts in future [reject future.badtls.io:11001]
- SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
- SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
- SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
- SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
- SKIP expired certificate [reject expired.badtls.io:11006]
- SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
- SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
- PASS Superfish CA [reject superfish.badssl.com:443]
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
-ERROR protection against POODLE attack [reject sslv3.dshield.org:443]
-      reason: stub exited with return code 1
-      output: Get https://sslv3.dshield.org:443: tls: server selected unsupported protocol version 300
-              exit status 1
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:40177]
- SKIP invalid localhost certificate [reject localhost:37893]
- SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+# trytls https go-nethttp/run
+[1mplatform:[0m Linux (debian 8.5)[0m
+[0m[1mrunner:[0m trytls 0.3.2 (CPython 2.7.9, OpenSSL 1.0.1t)[0m
+[0m[1mstub:[0m go-nethttp/run[0m
+[0m[32m PASS[0m protect against Apple's TLS vulnerability CVE-2014-1266 [2m[reject www.ssllabs.com:10443][0m
+      output: [2mGet https://www.ssllabs.com:10443: crypto/rsa: verification error[0m
+[0m[32m PASS[0m protect against the FREAK attack [2m[reject www.ssllabs.com:10444][0m
+      output: [2mGet https://www.ssllabs.com:10444: tls: unexpected ServerKeyExchange[0m
+[0m[32m PASS[0m protect against the Logjam attack [2m[reject www.ssllabs.com:10445][0m
+      output: [2mGet https://www.ssllabs.com:10445: remote error: handshake failure[0m
+[0m[32m PASS[0m protect against FREAK attack (test server 1) [2m[reject cve.freakattack.com:443][0m
+      output: [2mGet https://cve.freakattack.com:443: tls: unexpected ServerKeyExchange[0m
+[0m[32m PASS[0m protect against FREAK attack (test server 2) [2m[reject cve2.freakattack.com:443][0m
+      output: [2mGet https://cve2.freakattack.com:443: tls: unexpected ServerKeyExchange[0m
+[0m[31m FAIL[0m[31m protection against POODLE attack [2m[accept sslv3.dshield.org:443][0m[31m
+      output: Get https://sslv3.dshield.org:443: tls: server selected unsupported protocol version 300[0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept badssl.com:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject self-signed.badssl.com:443][0m
+      output: [2mGet https://self-signed.badssl.com:443: x509: certificate signed by unknown authority[0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badssl.com:443][0m
+      output: [2mGet https://expired.badssl.com:443: x509: certificate has expired or is not yet valid[0m
+[0m[32m PASS[0m wrong hostname in certificate [2m[reject wrong.host.badssl.com:443][0m
+      output: [2mGet https://wrong.host.badssl.com:443: x509: certificate is valid for *.badssl.com, badssl.com, not wrong.host.badssl.com[0m
+[0m[32m PASS[0m SHA-256 signature [2m[accept sha256.badssl.com:443][0m
+[0m[32m PASS[0m 1000 subjectAltNames [2m[accept 1000-sans.badssl.com:443][0m
+[0m[32m PASS[0m incomplete chain of trust [2m[reject incomplete-chain.badssl.com:443][0m
+      output: [2mGet https://incomplete-chain.badssl.com:443: x509: certificate signed by unknown authority[0m
+[0m[32m PASS[0m Superfish CA [2m[reject superfish.badssl.com:443][0m
+      output: [2mGet https://superfish.badssl.com:443: x509: certificate signed by unknown authority[0m
+[0m[32m PASS[0m eDellRoot CA [2m[reject edellroot.badssl.com:443][0m
+      output: [2mGet https://edellroot.badssl.com:443: x509: certificate signed by unknown authority[0m
+[0m[32m PASS[0m DSDTestProvider CA [2m[reject dsdtestprovider.badssl.com:443][0m
+      output: [2mGet https://dsdtestprovider.badssl.com:443: x509: certificate signed by unknown authority[0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept tlsfun.de:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject expired.tlsfun.de:443][0m
+      output: [2mGet https://expired.tlsfun.de:443: x509: certificate has expired or is not yet valid[0m
+[0m[32m PASS[0m eDellRoot CA #2 [2m[reject badcert-edell.tlsfun.de:443][0m
+      output: [2mGet https://badcert-edell.tlsfun.de:443: x509: certificate signed by unknown authority[0m
+[0m[2m SKIP[0m[2m valid certificate Common Name [2m[accept domain-match.badtls.io:10000][0m
+[0m[2m SKIP[0m[2m valid wildcard certificate Common Name [2m[accept wildcard-match.badtls.io:10001][0m
+[0m[2m SKIP[0m[2m support for Subject Alternative Name (SAN) [2m[accept san-match.badtls.io:10002][0m
+[0m[2m SKIP[0m[2m TLS handshake with 1024 bit Diffie-Hellman (DH) [2m[accept dh1024.badtls.io:10005][0m
+[0m[2m SKIP[0m[2m certificate expired in year 1963 [2m[reject expired-1963.badtls.io:11000][0m
+[0m[2m SKIP[0m[2m certificate validity starts in future [2m[reject future.badtls.io:11001][0m
+[0m[2m SKIP[0m[2m mismatch in certificate's Common Name [2m[reject domain-mismatch.badtls.io:11002][0m
+[0m[2m SKIP[0m[2m Subject Alternative Name (SAN) mismatch [2m[reject san-mismatch.badtls.io:11003][0m
+[0m[2m SKIP[0m[2m MD5 signature algorithm [2m[reject weak-sig.badtls.io:11004][0m
+[0m[2m SKIP[0m[2m certificate has invalid key usage for HTTPS connection [2m[reject bad-key-usage.badtls.io:11005][0m
+[0m[2m SKIP[0m[2m expired certificate [2m[reject expired.badtls.io:11006][0m
+[0m[2m SKIP[0m[2m invalid wildcard certificate Common Name [2m[reject wildcard.mismatch.badtls.io:11007][0m
+[0m[2m SKIP[0m[2m supports RC4 ciphers [2m[reject rc4.badtls.io:11008][0m
+[0m[2m SKIP[0m[2m supports RC4 with MD5 ciphers [2m[reject rc4-md5.badtls.io:11009][0m
+[0m[2m SKIP[0m[2m valid localhost certificate [2m[accept localhost:42274][0m
+[0m[2m SKIP[0m[2m invalid localhost certificate [2m[reject localhost:43663][0m
+[0m[2m SKIP[0m[2m use only the given CA bundle, not system's [2m[reject sha256.badssl.com:443][0m
+[0m[0m```
 
 ## java-https
 
@@ -229,58 +267,46 @@ OpenJDK 64-Bit Server VM (build 24.111-b01, mixed mode)
 
 ```console
 # trytls https java -classpath java-https Run
-platform: Linux (debian 8.5)
-runner: trytls 0.3.0 (CPython 2.7.9, OpenSSL 1.0.1t)
-stub: java -classpath java-https Run
- SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
- SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
- SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
- SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
- SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
- SKIP certificate validity starts in future [reject future.badtls.io:11001]
- SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
- SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
- SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
- SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
- SKIP expired certificate [reject expired.badtls.io:11006]
- SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
- SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS expired certificate [reject expired.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path validation failed: java.security.cert.CertPathValidatorException: timestamp check failed
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No subject alternative DNS name matching wrong.host.badssl.com found.
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS Superfish CA [reject superfish.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
-      output: javax.net.ssl.SSLException: Received fatal alert: protocol_version
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
-      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchangemessage for key exchange RSA
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
-      output: javax.net.ssl.SSLHandshakeException: DHPublicKey does not comply to algorithm constraints
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
-      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchangemessage for key exchange RSA
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
-      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchangemessage for key exchange RSA
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
-      output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:40514]
- SKIP invalid localhost certificate [reject localhost:38699]
- SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+[1mplatform:[0m Linux (debian 8.5)[0m
+[0m[1mrunner:[0m trytls 0.3.2 (CPython 2.7.9, OpenSSL 1.0.1t)[0m
+[0m[1mstub:[0m java -classpath java-https Run[0m
+[0m[32m PASS[0m protect against Apple's TLS vulnerability CVE-2014-1266 [2m[reject www.ssllabs.com:10443][0m
+[0m[32m PASS[0m protect against the FREAK attack [2m[reject www.ssllabs.com:10444][0m
+[0m[32m PASS[0m protect against the Logjam attack [2m[reject www.ssllabs.com:10445][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 1) [2m[reject cve.freakattack.com:443][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 2) [2m[reject cve2.freakattack.com:443][0m
+[0m[31m FAIL[0m[31m protection against POODLE attack [2m[accept sslv3.dshield.org:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept badssl.com:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject self-signed.badssl.com:443][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badssl.com:443][0m
+[0m[32m PASS[0m wrong hostname in certificate [2m[reject wrong.host.badssl.com:443][0m
+[0m[32m PASS[0m SHA-256 signature [2m[accept sha256.badssl.com:443][0m
+[0m[32m PASS[0m 1000 subjectAltNames [2m[accept 1000-sans.badssl.com:443][0m
+[0m[32m PASS[0m incomplete chain of trust [2m[reject incomplete-chain.badssl.com:443][0m
+[0m[32m PASS[0m Superfish CA [2m[reject superfish.badssl.com:443][0m
+[0m[32m PASS[0m eDellRoot CA [2m[reject edellroot.badssl.com:443][0m
+[0m[32m PASS[0m DSDTestProvider CA [2m[reject dsdtestprovider.badssl.com:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept tlsfun.de:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject expired.tlsfun.de:443][0m
+[0m[32m PASS[0m eDellRoot CA #2 [2m[reject badcert-edell.tlsfun.de:443][0m
+[0m[2m SKIP[0m[2m valid certificate Common Name [2m[accept domain-match.badtls.io:10000][0m
+[0m[2m SKIP[0m[2m valid wildcard certificate Common Name [2m[accept wildcard-match.badtls.io:10001][0m
+[0m[2m SKIP[0m[2m support for Subject Alternative Name (SAN) [2m[accept san-match.badtls.io:10002][0m
+[0m[2m SKIP[0m[2m TLS handshake with 1024 bit Diffie-Hellman (DH) [2m[accept dh1024.badtls.io:10005][0m
+[0m[2m SKIP[0m[2m certificate expired in year 1963 [2m[reject expired-1963.badtls.io:11000][0m
+[0m[2m SKIP[0m[2m certificate validity starts in future [2m[reject future.badtls.io:11001][0m
+[0m[2m SKIP[0m[2m mismatch in certificate's Common Name [2m[reject domain-mismatch.badtls.io:11002][0m
+[0m[2m SKIP[0m[2m Subject Alternative Name (SAN) mismatch [2m[reject san-mismatch.badtls.io:11003][0m
+[0m[2m SKIP[0m[2m MD5 signature algorithm [2m[reject weak-sig.badtls.io:11004][0m
+[0m[2m SKIP[0m[2m certificate has invalid key usage for HTTPS connection [2m[reject bad-key-usage.badtls.io:11005][0m
+[0m[2m SKIP[0m[2m expired certificate [2m[reject expired.badtls.io:11006][0m
+[0m[2m SKIP[0m[2m invalid wildcard certificate Common Name [2m[reject wildcard.mismatch.badtls.io:11007][0m
+[0m[2m SKIP[0m[2m supports RC4 ciphers [2m[reject rc4.badtls.io:11008][0m
+[0m[2m SKIP[0m[2m supports RC4 with MD5 ciphers [2m[reject rc4-md5.badtls.io:11009][0m
+[0m[2m SKIP[0m[2m valid localhost certificate [2m[accept localhost:34829][0m
+[0m[2m SKIP[0m[2m invalid localhost certificate [2m[reject localhost:33216][0m
+[0m[2m SKIP[0m[2m use only the given CA bundle, not system's [2m[reject sha256.badssl.com:443][0m
+[0m[0m```
 
 ## java-net
 
@@ -293,58 +319,46 @@ OpenJDK 64-Bit Server VM (build 24.111-b01, mixed mode)
 
 ```console
 # trytls https java -classpath java-net Run
-platform: Linux (debian 8.5)
-runner: trytls 0.3.0 (CPython 2.7.9, OpenSSL 1.0.1t)
-stub: java -classpath java-net Run
- SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
- SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
- SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
- SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
- SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
- SKIP certificate validity starts in future [reject future.badtls.io:11001]
- SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
- SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
- SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
- SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
- SKIP expired certificate [reject expired.badtls.io:11006]
- SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
- SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS expired certificate [reject expired.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path validation failed: java.security.cert.CertPathValidatorException: timestamp check failed
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: java.security.cert.CertificateException: No subject alternative DNS name matching wrong.host.badssl.com found.
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS Superfish CA [reject superfish.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
-      output: javax.net.ssl.SSLException: Received fatal alert: protocol_version
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
-      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchangemessage for key exchange RSA
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
-      output: javax.net.ssl.SSLHandshakeException: DHPublicKey does not comply to algorithm constraints
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
-      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchangemessage for key exchange RSA
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
-      output: javax.net.ssl.SSLProtocolException: Protocol violation: server sent a server key exchangemessage for key exchange RSA
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
-      output: javax.net.ssl.SSLHandshakeException: Server chose SSLv3, but that protocol version is not enabled or not supported by the client.
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
-      output: javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
- SKIP valid localhost certificate [accept localhost:34145]
- SKIP invalid localhost certificate [reject localhost:36192]
- SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+[1mplatform:[0m Linux (debian 8.5)[0m
+[0m[1mrunner:[0m trytls 0.3.2 (CPython 2.7.9, OpenSSL 1.0.1t)[0m
+[0m[1mstub:[0m java -classpath java-net Run[0m
+[0m[32m PASS[0m protect against Apple's TLS vulnerability CVE-2014-1266 [2m[reject www.ssllabs.com:10443][0m
+[0m[32m PASS[0m protect against the FREAK attack [2m[reject www.ssllabs.com:10444][0m
+[0m[32m PASS[0m protect against the Logjam attack [2m[reject www.ssllabs.com:10445][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 1) [2m[reject cve.freakattack.com:443][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 2) [2m[reject cve2.freakattack.com:443][0m
+[0m[31m FAIL[0m[31m protection against POODLE attack [2m[accept sslv3.dshield.org:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept badssl.com:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject self-signed.badssl.com:443][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badssl.com:443][0m
+[0m[32m PASS[0m wrong hostname in certificate [2m[reject wrong.host.badssl.com:443][0m
+[0m[32m PASS[0m SHA-256 signature [2m[accept sha256.badssl.com:443][0m
+[0m[32m PASS[0m 1000 subjectAltNames [2m[accept 1000-sans.badssl.com:443][0m
+[0m[32m PASS[0m incomplete chain of trust [2m[reject incomplete-chain.badssl.com:443][0m
+[0m[32m PASS[0m Superfish CA [2m[reject superfish.badssl.com:443][0m
+[0m[32m PASS[0m eDellRoot CA [2m[reject edellroot.badssl.com:443][0m
+[0m[32m PASS[0m DSDTestProvider CA [2m[reject dsdtestprovider.badssl.com:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept tlsfun.de:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject expired.tlsfun.de:443][0m
+[0m[32m PASS[0m eDellRoot CA #2 [2m[reject badcert-edell.tlsfun.de:443][0m
+[0m[2m SKIP[0m[2m valid certificate Common Name [2m[accept domain-match.badtls.io:10000][0m
+[0m[2m SKIP[0m[2m valid wildcard certificate Common Name [2m[accept wildcard-match.badtls.io:10001][0m
+[0m[2m SKIP[0m[2m support for Subject Alternative Name (SAN) [2m[accept san-match.badtls.io:10002][0m
+[0m[2m SKIP[0m[2m TLS handshake with 1024 bit Diffie-Hellman (DH) [2m[accept dh1024.badtls.io:10005][0m
+[0m[2m SKIP[0m[2m certificate expired in year 1963 [2m[reject expired-1963.badtls.io:11000][0m
+[0m[2m SKIP[0m[2m certificate validity starts in future [2m[reject future.badtls.io:11001][0m
+[0m[2m SKIP[0m[2m mismatch in certificate's Common Name [2m[reject domain-mismatch.badtls.io:11002][0m
+[0m[2m SKIP[0m[2m Subject Alternative Name (SAN) mismatch [2m[reject san-mismatch.badtls.io:11003][0m
+[0m[2m SKIP[0m[2m MD5 signature algorithm [2m[reject weak-sig.badtls.io:11004][0m
+[0m[2m SKIP[0m[2m certificate has invalid key usage for HTTPS connection [2m[reject bad-key-usage.badtls.io:11005][0m
+[0m[2m SKIP[0m[2m expired certificate [2m[reject expired.badtls.io:11006][0m
+[0m[2m SKIP[0m[2m invalid wildcard certificate Common Name [2m[reject wildcard.mismatch.badtls.io:11007][0m
+[0m[2m SKIP[0m[2m supports RC4 ciphers [2m[reject rc4.badtls.io:11008][0m
+[0m[2m SKIP[0m[2m supports RC4 with MD5 ciphers [2m[reject rc4-md5.badtls.io:11009][0m
+[0m[2m SKIP[0m[2m valid localhost certificate [2m[accept localhost:37048][0m
+[0m[2m SKIP[0m[2m invalid localhost certificate [2m[reject localhost:40361][0m
+[0m[2m SKIP[0m[2m use only the given CA bundle, not system's [2m[reject sha256.badssl.com:443][0m
+[0m[0m```
 
 ## php-file-get-contents
 
@@ -358,43 +372,45 @@ Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
 
 ```console
 # trytls https php php-file-get-contents/run.php
-platform: Linux (debian 8.5)
-runner: trytls 0.3.0 (CPython 2.7.9, OpenSSL 1.0.1t)
-stub: php php-file-get-contents/run.php
- SKIP valid certificate Common Name [accept domain-match.badtls.io:10000]
- SKIP valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
- SKIP support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
- SKIP TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
- SKIP certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
- SKIP certificate validity starts in future [reject future.badtls.io:11001]
- SKIP mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
- SKIP Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
- SKIP MD5 signature algorithm [reject weak-sig.badtls.io:11004]
- SKIP certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
- SKIP expired certificate [reject expired.badtls.io:11006]
- SKIP invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
- SKIP supports RC4 ciphers [reject rc4.badtls.io:11008]
- SKIP supports RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS self-signed certificate [reject self-signed.badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
- PASS SHA-256 signature [accept sha256.badssl.com:443]
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
- PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
- PASS Superfish CA [reject superfish.badssl.com:443]
- PASS eDellRoot CA [reject edellroot.badssl.com:443]
- PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- PASS protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
- SKIP valid localhost certificate [accept localhost:38570]
- SKIP invalid localhost certificate [reject localhost:45575]
- SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-```
+[1mplatform:[0m Linux (debian 8.5)[0m
+[0m[1mrunner:[0m trytls 0.3.2 (CPython 2.7.9, OpenSSL 1.0.1t)[0m
+[0m[1mstub:[0m php php-file-get-contents/run.php[0m
+[0m[32m PASS[0m protect against Apple's TLS vulnerability CVE-2014-1266 [2m[reject www.ssllabs.com:10443][0m
+[0m[32m PASS[0m protect against the FREAK attack [2m[reject www.ssllabs.com:10444][0m
+[0m[32m PASS[0m protect against the Logjam attack [2m[reject www.ssllabs.com:10445][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 1) [2m[reject cve.freakattack.com:443][0m
+[0m[32m PASS[0m protect against FREAK attack (test server 2) [2m[reject cve2.freakattack.com:443][0m
+[0m[31m FAIL[0m[31m protection against POODLE attack [2m[accept sslv3.dshield.org:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept badssl.com:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject self-signed.badssl.com:443][0m
+[0m[32m PASS[0m expired certificate [2m[reject expired.badssl.com:443][0m
+[0m[32m PASS[0m wrong hostname in certificate [2m[reject wrong.host.badssl.com:443][0m
+[0m[32m PASS[0m SHA-256 signature [2m[accept sha256.badssl.com:443][0m
+[0m[32m PASS[0m 1000 subjectAltNames [2m[accept 1000-sans.badssl.com:443][0m
+[0m[32m PASS[0m incomplete chain of trust [2m[reject incomplete-chain.badssl.com:443][0m
+[0m[32m PASS[0m Superfish CA [2m[reject superfish.badssl.com:443][0m
+[0m[32m PASS[0m eDellRoot CA [2m[reject edellroot.badssl.com:443][0m
+[0m[32m PASS[0m DSDTestProvider CA [2m[reject dsdtestprovider.badssl.com:443][0m
+[0m[32m PASS[0m support for TLS server name indication (SNI) [2m[accept tlsfun.de:443][0m
+[0m[32m PASS[0m self-signed certificate [2m[reject expired.tlsfun.de:443][0m
+[0m[32m PASS[0m eDellRoot CA #2 [2m[reject badcert-edell.tlsfun.de:443][0m
+[0m[2m SKIP[0m[2m valid certificate Common Name [2m[accept domain-match.badtls.io:10000][0m
+[0m[2m SKIP[0m[2m valid wildcard certificate Common Name [2m[accept wildcard-match.badtls.io:10001][0m
+[0m[2m SKIP[0m[2m support for Subject Alternative Name (SAN) [2m[accept san-match.badtls.io:10002][0m
+[0m[2m SKIP[0m[2m TLS handshake with 1024 bit Diffie-Hellman (DH) [2m[accept dh1024.badtls.io:10005][0m
+[0m[2m SKIP[0m[2m certificate expired in year 1963 [2m[reject expired-1963.badtls.io:11000][0m
+[0m[2m SKIP[0m[2m certificate validity starts in future [2m[reject future.badtls.io:11001][0m
+[0m[2m SKIP[0m[2m mismatch in certificate's Common Name [2m[reject domain-mismatch.badtls.io:11002][0m
+[0m[2m SKIP[0m[2m Subject Alternative Name (SAN) mismatch [2m[reject san-mismatch.badtls.io:11003][0m
+[0m[2m SKIP[0m[2m MD5 signature algorithm [2m[reject weak-sig.badtls.io:11004][0m
+[0m[2m SKIP[0m[2m certificate has invalid key usage for HTTPS connection [2m[reject bad-key-usage.badtls.io:11005][0m
+[0m[2m SKIP[0m[2m expired certificate [2m[reject expired.badtls.io:11006][0m
+[0m[2m SKIP[0m[2m invalid wildcard certificate Common Name [2m[reject wildcard.mismatch.badtls.io:11007][0m
+[0m[2m SKIP[0m[2m supports RC4 ciphers [2m[reject rc4.badtls.io:11008][0m
+[0m[2m SKIP[0m[2m supports RC4 with MD5 ciphers [2m[reject rc4-md5.badtls.io:11009][0m
+[0m[2m SKIP[0m[2m valid localhost certificate [2m[accept localhost:37660][0m
+[0m[2m SKIP[0m[2m invalid localhost certificate [2m[reject localhost:41637][0m
+[0m[2m SKIP[0m[2m use only the given CA bundle, not system's [2m[reject sha256.badssl.com:443][0m
+[0m[0m```
 
 <!-- markdownlint-enable MD013 -->
