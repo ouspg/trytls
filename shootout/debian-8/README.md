@@ -11,9 +11,9 @@ docker run -ti --rm debian8
 
 <!-- markdownlint-disable MD013 -->
 
-OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Debian 8   | ?                | ?               | ?              | ?          | ?          | ?        | ?
+python2-requests | python2-urllib2 | python3-urllib            | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | --------------- | ------------------------- | ---------- | ---------- | -------- | ---------------------
+FAIL(MD5)        | FAIL(RC4,MD5)   | FAIL(self-signed,RC4,MD5) | PASS       | PASS       | PASS     | PASS
 
 ## python2-requests
 
