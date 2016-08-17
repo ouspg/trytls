@@ -11,14 +11,12 @@ python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https   
 ---------------- | --------------- | -------------- | ---------- | ------------- | ------------- | ---------------------
 FAIL(MD5)        | FAIL(MD5)       | N/A            | PASS       | PASS w/NO SNI | PASS w/NO SNI | PASS w/NO SNI
 
-## Python2
+## python2-requests
 
 ```console
 # python --version
 Python 2.7.12
 ```
-
-### python2-requests
 
 ```console
 # trytls https python run.py
@@ -71,7 +69,12 @@ stub: python run.py
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-### python2-urllib2
+## python2-urllib2
+
+```console
+# python --version
+Python 2.7.12
+```
 
 ```console
 # trytls https python run.py
@@ -116,14 +119,12 @@ stub: python run.py
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-## Python3
+## python3-urllib
 
 ```console
 # python3 --version
 loop: eval: line 1: python3: not found
 ```
-
-### python3-urllib
 
 ```console
 # trytls https python3 run.py
@@ -229,14 +230,12 @@ ERROR use only the given CA bundle, not system's [reject sha256.badssl.com:443]
       output: No such file or directory
 ```
 
-## Go
+## go-nethttp
 
 ```console
 # go version
 go version go1.3.3 linux/amd64
 ```
-
-### go-nethttp
 
 ```console
 # trytls https go run run.go
@@ -296,7 +295,7 @@ stub: go run run.go
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-## Java
+## java-https
 
 ```console
 # java -version
@@ -304,8 +303,6 @@ java version "1.7.0_75"
 OpenJDK Runtime Environment (IcedTea 2.5.4) (Alpine 7.75.2.5.4-r0)
 OpenJDK 64-Bit Server VM (build 24.75-b04, mixed mode)
 ```
-
-### java-https
 
 ```console
 # trytls https java Run
@@ -361,7 +358,14 @@ stub: java Run
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-### java-net
+## java-net
+
+```console
+# java -version
+java version "1.7.0_75"
+OpenJDK Runtime Environment (IcedTea 2.5.4) (Alpine 7.75.2.5.4-r0)
+OpenJDK 64-Bit Server VM (build 24.75-b04, mixed mode)
+```
 
 ```console
 # trytls https java Run
@@ -417,7 +421,7 @@ stub: java Run
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
-## PHP
+## php-file-get-contents
 
 ```console
 # php --version
@@ -425,8 +429,6 @@ PHP 5.6.24 (cli) (built: Jul 27 2016 07:30:07)
 Copyright (c) 1997-2016 The PHP Group
 Zend Engine v2.6.0, Copyright (c) 1998-2016 Zend Technologies
 ```
-
-### php-file-get-contents
 
 ```console
 # trytls https php run.php
