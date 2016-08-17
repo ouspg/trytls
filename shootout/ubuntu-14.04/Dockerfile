@@ -1,14 +1,15 @@
 FROM ubuntu:14.04
 
+ENV VERSION 0.3.4
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y install python-pip curl && \
-    pip install trytls==0.2.1
+    pip install trytls==${VERSION}
 
 # Stubs
 WORKDIR /root
-RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz | \
-  zcat | tar --strip-components=1 -xvf - trytls-0.2.1/stubs
+RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | \
+  zcat | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs
 
 # Go
 RUN apt-get -y install golang-go
@@ -31,5 +32,6 @@ RUN apt-get -y install python3
 # PHP
 RUN apt-get -y install php5
 
-# Default workdir for easier manual stub testing
+# Default workdir & script for easier manual stub testing
 WORKDIR /root/stubs/
+COPY shootout.sh /root/stubs/

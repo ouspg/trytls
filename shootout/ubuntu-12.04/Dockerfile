@@ -1,13 +1,14 @@
 FROM ubuntu:12.04
 
+ENV VERSION 0.3.4
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y install curl
 
 # Stubs
 WORKDIR /root
-RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz | \
-  zcat | tar --strip-components=1 -xvf - trytls-0.2.1/stubs
+RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | \
+  zcat | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs
 
 # Go
 RUN apt-get -y install golang-go
