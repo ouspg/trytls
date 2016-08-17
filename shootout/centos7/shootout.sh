@@ -26,9 +26,9 @@ myrun \# cat /etc/redhat-release | sed -e 's/ *$//'
 cat <<EOF
 <!-- markdownlint-disable MD013 -->
 
-OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-CentOS 7.2 | ?                | ?               | ?              | ?          | ?          | ?        | ?
+python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+?                | ?               | ?              | ?          | ?          | ?        | ?
 
 ## python-requests
 
