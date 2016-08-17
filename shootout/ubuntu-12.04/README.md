@@ -5,9 +5,9 @@ based on the [Ubuntu release end of life](http://www.ubuntu.com/info/release-end
 
 <!-- markdownlint-disable MD013 -->
 
-python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-ERROR            | ERROR           | FAIL           | ERROR      | N/A        | N/A      | PASS w/NO SNI
+python2-requests | python2-urllib2 | python3-urllib   | go-nethttp     | java-https | java-net | php-file-get-contents
+---------------- | --------------- | ---------------- | -------------- | ---------- | -------- | ---------------------
+ERROR            | ERROR           | FAIL(CHK,POODLE) | ERROR          | N/A        | N/A      | PASS w/NO SNI
 
 ## python2-requests
 
