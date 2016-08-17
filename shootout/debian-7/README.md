@@ -13,7 +13,7 @@ docker run -ti --rm debian7
 
 OS         | python2-requests       | python2-urllib2 | python3-urllib | go-nethttp   | java-https   | java-net | php-file-get-contents
 ---------- | ----------------       | --------------- | -------------- | ----------   | ----------   | -------- | ---------------------
-Debian 7   | FAIL(RC4,MD5) w/NO SNI | N/A             | FAIIL(MD5)     | PASS w/NO SNI| PASS         | PASS     | PASS w/NO SNI
+Debian 7   | FAIL(RC4,MD5) w/NO SNI | N/A             | FAIL(MD5)     | PASS w/NO SNI| PASS         | PASS     | PASS w/NO SNI
 
 ## python2-requests
 
