@@ -1,6 +1,6 @@
 FROM ubuntu:12.04
 
-ENV VERSION 0.3.0
+ENV VERSION 0.3.4
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y install curl

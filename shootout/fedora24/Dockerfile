@@ -1,6 +1,6 @@
 FROM fedora:24
 
-ENV VERSION 0.3.0
+ENV VERSION 0.3.4
 RUN dnf install tar openssl python-pip -y && \
   pip install trytls==${VERSION}
 
