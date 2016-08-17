@@ -1,5 +1,6 @@
 FROM centos:centos5
 
+ENV VERSION 0.3.4
 RUN yum -y update && \
     yum -y install epel-release && \
     yum -y install python-pip && \
@@ -11,8 +12,8 @@ RUN yum -y update && \
 
 # Stubs
 WORKDIR /root
-RUN curl -Lo- https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz | \
-  zcat | tar --strip-components=1 -xvf - trytls-0.2.1/stubs
+RUN curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz | \
+  zcat | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs
 
 # No Go in CentOS 5
 
