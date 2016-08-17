@@ -16,7 +16,7 @@ $ stack build
 and then run it with TryTLS runner:
 
 ```console
-$ trytls https -- stack exec test-http-client-tls
+$ trytls https stack exec test-http-client-tls
 ```
 
 
@@ -31,7 +31,7 @@ $ docker build -t test-http-client-tls --rm .
 and then run it with TryTLS runner:
 
 ```console
-$ trytls https -- docker run --rm test-http-client-tls
+$ trytls https docker run --rm test-http-client-tls
 ```
 
 *Notice!* Since trytls can't inject CA bundle inside container from

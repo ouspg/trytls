@@ -30,7 +30,7 @@ test-wreq <host> <port> [ca-bundle]
 run:
 
 ```console
-$ trytls https -- docker run --rm test-wreq
+$ trytls https docker run --rm test-wreq
 ```
 
 cleanup (destroys docker container image):
@@ -64,7 +64,7 @@ test-wreq <host> <port> [ca-bundle]
 run:
 
 ```console
-$ trytls https -- stack exec test-wreq
+$ trytls https stack exec test-wreq
 ```
 
 cleanup:
@@ -97,7 +97,7 @@ test-wreq <host> <port> [ca-bundle]
 run:
 
 ```
-$ trytls https -- ./dist/build/test-wreq/test-wreq
+$ trytls https ./dist/build/test-wreq/test-wreq
 ```
 
 cleanup:
