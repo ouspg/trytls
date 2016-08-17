@@ -1,6 +1,6 @@
 FROM debian:8
 WORKDIR /root
-ENV VERSION 0.2.1
+ENV VERSION 0.3.4
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y -o acquire::retries=10 install \
@@ -8,8 +8,12 @@ RUN apt-get -y update && \
         python3-requests python-requests php5 default-jdk golang-go && \
     pip install trytls==${VERSION} && \
     curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz \
-        | zcat - | tar xvf - trytls-${VERSION}/stubs/ && \
-    javac trytls-${VERSION}/stubs/java-https/Run.java  && \
-    javac trytls-${VERSION}/stubs/java-net/Run.java
+        | zcat - | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs &&\
+    cd /root/stubs/go-nethttp/ && \
+    go build run.go && \
+    javac /root/stubs/java-https/Run.java  && \
+    javac /root/stubs/java-net/Run.java
 
-COPY shootout.sh /root/
+
+WORKDIR /root/stubs
+COPY shootout.sh /root/stubs/
