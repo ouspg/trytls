@@ -5,12 +5,11 @@
 3.1.4
 ```
 
-
 <!-- markdownlint-disable MD013 -->
 
-OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-alpine 3.1 | FAIL             | FAIL            | N/A            | PASS       | NO SNI     | NO SNI   | NO SNI
+python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https    | java-net      | php-file-get-contents
+---------------- | --------------- | -------------- | ---------- | ------------- | ------------- | ---------------------
+FAIL(MD5)        | FAIL(MD5)       | N/A            | PASS       | PASS w/NO SNI | PASS w/NO SNI | PASS w/NO SNI
 
 ## Python2
 
