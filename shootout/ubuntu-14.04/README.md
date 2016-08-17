@@ -14,9 +14,9 @@ DISTRIB_DESCRIPTION="Ubuntu 14.04.5 LTS"
 
 <!-- markdownlint-disable MD013 -->
 
-python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-NO-SNI           | ERROR(all)      | FAIL(4)        | OTHER(?)   | PASS       | PASS     | NO-SNI
+python2-requests               | python2-urllib2 | python3-urllib    | go-nethttp    | java-https | java-net | php-file-get-contents
+------------------------------ | --------------- | ----------------- | ------------- | ---------- | -------- | ---------------------
+FAIL(RC4,MD5,RC4+MD5) w/NO-SNI | ERROR           | FAIL(CHK,RC4,MD5) | PASS w/SNI?   | PASS       | PASS     | PASS w/NO-SNI
 
 ## python2-requests
 

@@ -16,7 +16,7 @@ DISTRIB_DESCRIPTION="Ubuntu 16.04.1 LTS"
 
 python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
 ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-FAIL(1)          | FAIL(1)         | FAIL(1)        | PASS       | PASS       | PASS     | PASS
+FAIL(MD5)        | FAIL(MD5)       | FAIL(MD5)      | PASS       | PASS       | PASS     | PASS
 
 ## python2-requests
 

@@ -7,7 +7,7 @@ based on the [Ubuntu release end of life](http://www.ubuntu.com/info/release-end
 
 python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
 ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-ERROR            | ERROR           | ERROR          | ERROR      | N/A        | N/A      | ERROR
+ERROR            | ERROR           | FAIL           | ERROR      | N/A        | N/A      | PASS w/NO SNI
 
 ## python2-requests
 
@@ -414,134 +414,7 @@ ERROR valid certificate Common Name [accept domain-match.badtls.io:10000]
                 File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
                   context.load_verify_locations(cafile, capath)
               IOError: [Errno 2] No such file or directory
-ERROR valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR support for Subject Alternative Name (SAN) [accept san-match.badtls.io:10002]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR TLS handshake with 1024 bit Diffie-Hellman (DH) [accept dh1024.badtls.io:10005]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR certificate expired in year 1963 [reject expired-1963.badtls.io:11000]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR certificate validity starts in future [reject future.badtls.io:11001]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR mismatch in certificate's Common Name [reject domain-mismatch.badtls.io:11002]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR Subject Alternative Name (SAN) mismatch [reject san-mismatch.badtls.io:11003]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR certificate has invalid key usage for HTTPS connection [reject bad-key-usage.badtls.io:11005]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR expired certificate [reject expired.badtls.io:11006]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR valid localhost certificate [accept localhost:50026]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR invalid localhost certificate [reject localhost:50031]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
-ERROR use only the given CA bundle, not system's [reject sha256.badssl.com:443]
-      reason: stub exited with return code 1
-      output: Traceback (most recent call last):
-                File "/root/stubs/python3-urllib/run.py", line 14, in <module>
-                  urllib.request.urlopen("https://" + host + ":" + port, cafile=cafile)
-                File "/usr/lib/python3.2/urllib/request.py", line 128, in urlopen
-                  context.load_verify_locations(cafile, capath)
-              IOError: [Errno 2] No such file or directory
+...
 ```
 
 ## go-nethttp
