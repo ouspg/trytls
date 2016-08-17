@@ -274,7 +274,7 @@ local_tests = testgroup(
 
 dshield_tests = testgroup(
     Test(
-        accept="sslv3",
+        accept=False,
         description="protection against POODLE attack",
         host="sslv3.dshield.org",
         port=443
