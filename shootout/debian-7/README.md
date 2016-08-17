@@ -11,9 +11,9 @@ docker run -ti --rm debian7
 
 <!-- markdownlint-disable MD013 -->
 
-OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
----------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-Debian 7   | ?                | ?               | ?              | ?          | ?          | ?        | ?
+OS         | python2-requests       | python2-urllib2 | python3-urllib | go-nethttp   | java-https   | java-net | php-file-get-contents
+---------- | ----------------       | --------------- | -------------- | ----------   | ----------   | -------- | ---------------------
+Debian 7   | FAIL(RC4,MD5) w/NO SNI | N/A             | FAIIL(MD5)     | PASS w/NO SNI| PASS         | PASS     | PASS w/NO SNI
 
 ## python2-requests
 
@@ -71,8 +71,8 @@ stub: python python2-requests/run.py
  FAIL denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  FAIL denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS valid localhost certificate [accept localhost:35295]
- PASS invalid localhost certificate [reject localhost:44499]
+ PASS valid localhost certificate [accept localhost:46264]
+ PASS invalid localhost certificate [reject localhost:33017]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -242,13 +242,13 @@ ERROR denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
                 File "python2-urllib2/run.py", line 14, in <module>
                   except ssl.CertificateError:
               AttributeError: 'module' object has no attribute 'CertificateError'
-ERROR valid localhost certificate [accept localhost:44530]
+ERROR valid localhost certificate [accept localhost:46199]
       reason: stub exited with return code 1
       output: Traceback (most recent call last):
                 File "python2-urllib2/run.py", line 14, in <module>
                   except ssl.CertificateError:
               AttributeError: 'module' object has no attribute 'CertificateError'
-ERROR invalid localhost certificate [reject localhost:33592]
+ERROR invalid localhost certificate [reject localhost:46674]
       reason: stub exited with return code 1
       output: Traceback (most recent call last):
                 File "python2-urllib2/run.py", line 14, in <module>
@@ -265,8 +265,8 @@ ERROR use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ## python3-urllib
 
 ```console
-# python3 --version
-Python 3.5.2
+# python3.2 --version
+Python 3.2.3
 ```
 
 ```console
@@ -307,8 +307,8 @@ stub: python3 python3-urllib/run.py
  PASS denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  PASS denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- PASS valid localhost certificate [accept localhost:38796]
- PASS invalid localhost certificate [reject localhost:36589]
+ PASS valid localhost certificate [accept localhost:40003]
+ PASS invalid localhost certificate [reject localhost:45069]
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -376,8 +376,8 @@ stub: go run go-nethttp/run.go
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:38426]
- SKIP invalid localhost certificate [reject localhost:40026]
+ SKIP valid localhost certificate [accept localhost:45021]
+ SKIP invalid localhost certificate [reject localhost:43758]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -428,8 +428,8 @@ stub: java -classpath java-https Run
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:34757]
- SKIP invalid localhost certificate [reject localhost:36662]
+ SKIP valid localhost certificate [accept localhost:34884]
+ SKIP invalid localhost certificate [reject localhost:41741]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -480,8 +480,8 @@ stub: java -classpath java-net Run
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:34510]
- SKIP invalid localhost certificate [reject localhost:40258]
+ SKIP valid localhost certificate [accept localhost:34765]
+ SKIP invalid localhost certificate [reject localhost:42547]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
@@ -543,8 +543,8 @@ stub: php php-file-get-contents/run.php
  SKIP denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
  SKIP denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
  SKIP denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
- SKIP valid localhost certificate [accept localhost:43149]
- SKIP invalid localhost certificate [reject localhost:38888]
+ SKIP valid localhost certificate [accept localhost:36018]
+ SKIP invalid localhost certificate [reject localhost:38375]
  SKIP use only the given CA bundle, not system's [reject sha256.badssl.com:443]
 ```
 
