@@ -25,7 +25,7 @@ cat <<EOF
 
 OS         | python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
 ---------- | ---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
-CentOS 7.2 | ?                | ?               | ?              | ?          | ?          | ?        | ?
+Debian 7   | ?                | ?               | ?              | ?          | ?          | ?        | ?
 
 ## python2-requests
 
