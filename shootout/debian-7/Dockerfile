@@ -1,6 +1,6 @@
 FROM debian:7
 WORKDIR /root
-ENV VERSION 0.2.1
+ENV VERSION 0.3.4
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y -o acquire::retries=10 install \
@@ -16,11 +16,14 @@ RUN apt-get -y update && \
     make && \
     make install && \
     pip3.5 install --upgrade pip && \
-    pip3.5 install https://github.com/ouspg/trytls/archive/v0.2.1.tar.gz && \
+    pip3.5 install https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz && \
     cd /root && \
     curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz \
-        | zcat - | tar xvf - trytls-${VERSION}/stubs/ && \
-    javac trytls-${VERSION}/stubs/java-https/Run.java  && \
-    javac trytls-${VERSION}/stubs/java-net/Run.java
+        | zcat - | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs && \
+    cd /root/stubs/go-nethttp/ && \
+    go build run.go && \
+    javac /root/stubs/java-https/Run.java  && \
+    javac /root/stubs/java-net/Run.java
 
-COPY shootout.sh /root/
+WORKDIR /root/stubs
+COPY shootout.sh /root/stubs/

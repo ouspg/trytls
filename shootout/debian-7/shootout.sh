@@ -1,188 +1,87 @@
 #!/bin/sh
-VERSION=0.2.1
+
+myrun() {
+  echo '```console'
+  echo "$@"
+  shift 1
+  "$@"
+  echo '```'
+  echo
+}
 
 cat <<EOF
 # TryTLS testing with Debian 7
 
 \`\`\`console
-
-# cat /etc/debian_version
-EOF
-
-cat /etc/debian_version
-
-cat <<EOF
-
+docker run -ti --rm debian7
 \`\`\`
 
-## Python 2
-
-The stub will be executed with python2.7, as that launches the version provided
-by the distribution. python3.5 was manually installed for executing the
-TryTLS runner itself (not the stub).
-
-\`\`\`console
-# python --version
-EOF
-python --version
-
-cat <<EOF
-\`\`\`
-
-### python-requests
-
-\`\`\`console
-
-# trytls https python2.7 trytls-${VERSION}/stubs/python-requests/run.py
 EOF
 
-trytls https python2.7 trytls-${VERSION}/stubs/python-requests/run.py
+myrun \# cat /etc/debian_version | sed -e 's/ *$//'
 
 cat <<EOF
+<!-- markdownlint-disable MD013 -->
 
-\`\`\`
+python2-requests | python2-urllib2 | python3-urllib | go-nethttp | java-https | java-net | php-file-get-contents
+---------------- | --------------- | -------------- | ---------- | ---------- | -------- | ---------------------
+?                | ?               | ?              | ?          | ?          | ?        | ?
 
-### python-urllib2
+## python2-requests
 
-\`\`\`console
-
-# trytls https python2.7 trytls-${VERSION}/stubs/python-urllib2/run.py
 EOF
 
-trytls https python2.7 trytls-${VERSION}/stubs/python-urllib2/run.py
+myrun \# python --version
+myrun \# trytls https python python2-requests/run.py
 
 cat <<EOF
+## python2-urllib2
 
-\`\`\`
-
-## Python 3
-
-The stub will be executed with python3.2, as that launches the version provided
-by the distribution. python3.5 was manually installed for executing the
-TryTLS runner itself (not the stub).
-
-\`\`\`console
-
-# python3.2 --version
-EOF
-python3.2 --version
-
-cat <<EOF
-
-\`\`\`
-
-<!-- markdownlint-disable MD024 -->
-
-### python-requests
-
-<!-- markdownlint-enable MD024 -->
-
-\`\`\`console
-
-# trytls https python3.2 trytls-${VERSION}/stubs/python-requests/run.py
 EOF
 
-trytls https python3.2 trytls-${VERSION}/stubs/python-requests/run.py
+myrun \# python --version
+myrun \# trytls https python python2-urllib2/run.py
+
 cat <<EOF
+## python3-urllib
 
-\`\`\`
-
-### python3-urllib
-
-\`\`\`console
-
-# trytls https python3.2 trytls-${VERSION}/stubs/python3-urllib/run.py
 EOF
 
-trytls https python3.2 trytls-${VERSION}/stubs/python3-urllib/run.py
+myrun \# python3.2 --version
+myrun \# trytls https python3.2 python3-urllib/run.py
 
 cat <<EOF
+## go-nethttp
 
-\`\`\`
-
-## Java
-
-\`\`\`console
-java -version
-EOF
-java -version
-
-cat <<EOF
-
-\`\`\`
-
-### java-https
-
-\`\`\`console
-
-# trytls https java -classpath trytls-${VERSION}/stubs/java-https/ Run
 EOF
 
-trytls https java -classpath trytls-${VERSION}/stubs/java-https/ Run
+myrun \# go version
+myrun \# trytls https go run go-nethttp/run.go
 
 cat <<EOF
+## java-https
 
-\`\`\`
-
-### java-net
-
-\`\`\`console
-
-# trytls https java -classpath trytls-${VERSION}/stubs/java-net/ Run
 EOF
 
-trytls https java -classpath trytls-${VERSION}/stubs/java-net/ Run
+myrun \# java -version
+myrun \# trytls https java -classpath java-https Run
 
 cat <<EOF
+## java-net
 
-\`\`\`
-
-## Go
-
-\`\`\`console
-
-# go version
 EOF
 
-go version
+myrun \# java -version
+myrun \# trytls https java -classpath java-net Run
 
 cat <<EOF
+## php-file-get-contents
 
-\`\`\`
-
-### go-nethttp
-
-\`\`\`console
-
-# trytls https go run trytls-${VERSION}/stubs/go-nethttp/run.go
 EOF
 
-trytls https go run trytls-${VERSION}/stubs/go-nethttp/run.go
+myrun \# php --version | sed -e 's/ *$//'
+myrun \# trytls https php php-file-get-contents/run.php
 
 cat <<EOF
-
-\`\`\`
-
-## PHP
-
-\`\`\`console
-php -v
-EOF
-php -v
-
-cat <<EOF
-
-\`\`\`
-
-### php-file-get-contents
-
-\`\`\`console
-# trytls https php trytls-${VERSION}/stubs/php-file-get-contents/run.php
-EOF
-
-trytls https php trytls-${VERSION}/stubs/php-file-get-contents/run.php
-
-cat <<EOF
-
-\`\`\`
+<!-- markdownlint-enable MD013 -->
 EOF
