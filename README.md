@@ -94,6 +94,7 @@ Test runners allow user to test against all or any of these backends.
   * See also [Is Wreq suitable for HTTPS applications? · Issue #82 · bos/wreq · GitHub](https://github.com/bos/wreq/issues/82)
   * Related [http-client-tls connection to HTTPS site with invalid hostname · Issue #212 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/212)
 * [http-client-tls vulnerable to Logjam? · Issue #215 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/215)
+* [RFC7465: Prohibiting RC4 Cipher Suites · Issue #153 · vincenthz/hs-tls](https://github.com/vincenthz/hs-tls/issues/153)
 
 <!-- markdownlint-enable MD013 -->
 
