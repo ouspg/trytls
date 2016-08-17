@@ -1,6 +1,6 @@
 FROM debian:8
 WORKDIR /root
-ENV VERSION 0.3.2
+ENV VERSION 0.3.3
 RUN apt-get -y update && \
     apt-get -y upgrade && \
     apt-get -y -o acquire::retries=10 install \
