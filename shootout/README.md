@@ -1,6 +1,10 @@
 # TryTLS shootouts
 
-## 0.2 shootout results
+**goto** ([0.2](#shootout-02) | [**0.3**](#shootout-03))
+
+---
+
+## Shootout 0.2
 
 We ran TryTLS tests on major and still supported distributions.
 For this shootout we limited ourselves to the official Docker images
@@ -53,7 +57,9 @@ Legend:
 * N/A: test subject was not available in target distribution, or stub behavior
   requires investigation
 
-## 0.3 shootout results
+---
+
+## Shootout 0.3
 
 We ran TryTLS tests on the same images, but used newer versions of both the stubs and the runner.
 
