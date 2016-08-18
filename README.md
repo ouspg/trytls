@@ -112,7 +112,7 @@ Test runners allow user to test against all or any of these backends.
 * Timo Mattila ([@timattil](https://github.com/timattil))
 * Christian Wieser ([@](https://github.com/timattil))
 * Low Kian Seong ([@lowks](https://github.com/lowks))
-* Mikko Kenttälä ([@mikessu](https://github.com/mikessu))
+* Mikko Yliniemi ([@mikessu](https://github.com/mikessu))
 * Christian Wieser
 
 We invite people to [contribute](CONTRIBUTING.md).
