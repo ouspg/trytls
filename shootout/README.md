@@ -55,7 +55,7 @@ tables below. Detailed results are available in the subdirectories.
 |[Debian 7.11](debian-7)         | NO               | N/A             | YES            | NO           | YES        | YES      | NO                     |
 |[Debian 8.5](debian-8)          | YES              | YES             | YES            | YES          | YES        | YES      | YES                    |
 |[Fedora 24](fedora24)           | YES              | YES             | YES            | YES          | YES        | YES      | YES                    |
-|[Ubuntu 12.04.5](ubuntu-12.04)  | N/A              | N/A             | N/A            | N/A          | N/A        | N/A      | NO                     |
+|[Ubuntu 12.04.5](ubuntu-12.04)  | N/A              | N/A             | YES            | N/A          | N/A        | N/A      | NO                     |
 |[Ubuntu 14.04.5](ubuntu-14.04)  | NO               | N/A             | YES            | N/A          | YES        | YES      | NO                     |
 |[Ubuntu 16.04.1](ubuntu-16.04)  | YES              | YES             | YES            | YES          | YES        | YES      | YES                    |
 
