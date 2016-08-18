@@ -52,3 +52,46 @@ Legend:
 * NO SNI: SNI not supported
 * N/A: test subject was not available in target distribution, or stub behavior
   requires investigation
+
+## 0.3 shootout results
+
+We ran TryTLS tests on the same images, but used newer versions of both the stubs and the runner.
+
+### Main Observations
+
+* Support of RC4 and MD5 is the largest vulnerability in Python stubs.
+
+* The same Python code produced different results in different distributions again. Python3 is the most variable, as there are miscellaneous errors that change in each distribution.
+
+* Go stub accepts one SNI test but declines another in Ubuntu 14.04 (See [#239](https://github.com/ouspg/trytls/issues/239)). In fact, Go stub lacks SNI support in most distributions.
+
+### Results
+
+Detailed results are available in subdirectories. Summarised results are in the
+table below.
+
+<!-- markdownlint-disable MD013 -->
+
+| OS                             | python2-requests | python2-urllib2 | python3-urllib | go-nethttp   |java-https | java-net | php-file-get-contents  |
+|------------------------------- | ---------------- | --------------- | -------------- | ------------ | -------- | -------- | ---------------------- |
+|[Alpine 3.1](alpine-3.1)        | FAIL             | FAIL            | N/A            | PASS         |PASS, NO SNI|PASS, NO SNI|PASS, NO SNI|
+|[Alpine Edge](alpine-edge)      | FAIL             | FAIL            | FAIL           | PASS         | PASS       | PASS     |PASS, NO SNI|
+|[CentOS 5.11](centos5)          | ERROR            | ERROR           | N/A            | N/A          | N/A        | N/A      |PASS, NO SNI|
+|[CentOS 6.8](centos6)           | FAIL, NO SNI     | ERROR           | FAIL           | PASS         | PASS       | PASS     |PASS, NO SNI|
+|[CentOS 7.2](centos7)           | FAIL             | FAIL            | PASS           | PASS         | PASS       | PASS     |PASS, NO SNI|
+|[Debian 7.11](debian-7)         | FAIL, NO SNI     | ERROR           | FAIL           | PASS, NO SNI | PASS       | PASS     |PASS, NO SNI|
+|[Debian 8.5](debian-8)          | FAIL             | FAIL            | FAIL           | PASS         | PASS      | PASS     | PASS       |
+|[Fedora 24](fedora24)           | PASS             | PASS            | PASS           | PASS         | PASS       | PASS     | PASS       |
+|[Ubuntu 12.04.5](ubuntu-12.04)  | ERROR            | ERROR           | FAIL           | ERROR        | N/A        | N/A      |PASS, NO SNI|
+|[Ubuntu 14.04.5](ubuntu-14.04)  | FAIL, NO SNI     | ERROR           | FAIL           | FAIL?        | PASS       | PASS     |PASS, NO SNI|
+|[Ubuntu 16.04.1](ubuntu-16.04)  | FAIL             | FAIL            | FAIL           | PASS         | PASS       | PASS     | PASS       |
+
+Legend:
+
+* PASS: None of the verdicts belong to any of the other categories
+* FAIL: One or more tests failed, e.g. the implementation acted against
+expectation. For example the library establishes connection, even though
+ it should not.
+* NO SNI: SNI not supported
+* N/A: test subject was not available in target distribution, or stub behavior
+requires investigation
