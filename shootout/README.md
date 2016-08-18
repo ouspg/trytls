@@ -74,17 +74,17 @@ Legend:
 
 | OS                             | python2-requests | python2-urllib2 | python3-urllib | go-nethttp   | java-https | java-net | php-file-get-contents  |
 |------------------------------- | ---------------- | --------------- | -------------- | ------------ | ---------- | -------- | ---------------------- |
-|[Alpine 3.1](alpine-3.1)        | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Alpine Edge](alpine-edge)      | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[CentOS 5.11](centos5)          | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[CentOS 6.8](centos6)           | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[CentOS 7.2](centos7)           | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Debian 7.11](debian-7)         | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Debian 8.5](debian-8)          | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Fedora 24](fedora24)           | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Ubuntu 12.04.5](ubuntu-12.04)  | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Ubuntu 14.04.5](ubuntu-14.04)  | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Ubuntu 16.04.1](ubuntu-16.04)  | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
+|[Alpine 3.1](alpine-3.1)        | PASS             | PASS            | N/A            | PASS         | PASS       | PASS     | PASS                   |
+|[Alpine Edge](alpine-edge)      | PASS             | PASS            | PASS           | PASS         | PASS       | PASS     | PASS                   |
+|[CentOS 5.11](centos5)          | N/A              | N/A             | N/A            | N/A          | N/A        | N/A      | PASS                   |
+|[CentOS 6.8](centos6)           | PASS             | N/A             | PASS           | PASS         | PASS       | PASS     | PASS                   |
+|[CentOS 7.2](centos7)           | PASS             | FAIL            | PASS           | PASS         | PASS       | PASS     | PASS                   |
+|[Debian 7.11](debian-7)         | PASS             | N/A             | FAIL           | PASS         | PASS       | PASS     | PASS                   |
+|[Debian 8.5](debian-8)          | PASS             | PASS            | FAIL           | PASS         | PASS       | PASS     | PASS                   |
+|[Fedora 24](fedora24)           | PASS             | PASS            | PASS           | PASS         | PASS       | PASS     | PASS                   |
+|[Ubuntu 12.04.5](ubuntu-12.04)  | N/A              | N/A             | FAIL           | N/A          | N/A        | N/A      | PASS                   |
+|[Ubuntu 14.04.5](ubuntu-14.04)  | PASS             | N/A             | FAIL           | N/A          | PASS       | PASS     | PASS                   |
+|[Ubuntu 16.04.1](ubuntu-16.04)  | PASS             | PASS            | PASS           | PASS         | PASS       | PASS     | PASS                   |
 
 <!-- markdownlint-enable MD013 -->
 
