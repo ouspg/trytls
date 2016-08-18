@@ -36,7 +36,7 @@ Our main observations were:
   (see [#239](https://github.com/ouspg/trytls/issues/239)).
   In fact, Go stub lacks SNI support in most distributions.
 
-* After shootdown 0.2 Python developers ([python-dev link](https://mail.python.org/mailman/listinfo/python-dev)) have been contacted. The distribution depency of TLS certificate verification is known and the backward compatibility issues required not enabling this by default for older versions. Administrators have the possibility to add support per-case. More information can be found [here](https://github.com/ouspg/trytls/blob/master/doc/discussion-tracking.md#python-dev).
+* After shootout 0.2 Python developers ([python-dev link](https://mail.python.org/mailman/listinfo/python-dev)) have been contacted. The distribution depency of TLS certificate verification is known and the backward compatibility issues required not enabling this by default for older versions. Administrators have the possibility to add support per-case. More information can be found [here](https://github.com/ouspg/trytls/blob/master/doc/discussion-tracking.md#python-dev).
 
 We split up the results to study the state of Server Name indication
 (SNI) support, proper certificate checks and crypto weaknesses
