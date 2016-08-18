@@ -13,7 +13,7 @@ and ease of reproduction.
 
 Our main observations were:
 
-* OS distribution have issues with their Python version policies. Proper
+* OS distributions have issues with their Python version policies. Proper
   certificate checks are either not back ported from the fixed Python
   versions or changes have to be made either to the configuration or
   the code that works in safe manner in up to date environments. This
@@ -51,7 +51,7 @@ We split up the results to study the state of Server Name indication
 separately. Summarized results are in the
 tables below. Detailed results are available in the subdirectories.
 
-### Shootout v0.3 - SNI support results
+### Shootout 0.3 - SNI support results
 
 <!-- markdownlint-disable MD013 -->
 
@@ -78,7 +78,7 @@ Legend:
 * N/A: test subject was not available in target distribution, or stub behavior
   requires investigation
 
-## Shootout v0.3 - certificate check results
+## Shootout 0.3 - certificate check results
 
 Failures to check certificates are noted in the table.
 Considerably less tests were performed in cases where SNI support or
@@ -109,7 +109,7 @@ Legend:
 * N/A: test subject was not available in target distribution, or stub behavior
   requires investigation
 
-## Shootout v0.3 - crypto weakness results
+## Shootout 0.3 - crypto weakness results
 
 Potential crypto weakness identified by the tests are listed below. Abbreviations
 can be mapped to the original tests from the results in the subdirectories.
