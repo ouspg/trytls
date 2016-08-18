@@ -97,21 +97,26 @@ Legend:
 
 ## Shootout v0.3 - crypto weakness results
 
+Potential crypto weakness identified by the tests are listed below. Abbreviations
+can be mapped to the original tests from the results in the subdirectories.
+Considerably less tests were performed in cases where SNI support was not
+available.
+
 <!-- markdownlint-disable MD013 -->
 
-| OS                             | python2-requests | python2-urllib2 | python3-urllib | go-nethttp   | java-https | java-net | php-file-get-contents  |
-|------------------------------- | ---------------- | --------------- | -------------- | ------------ | ---------- | -------- | ---------------------- |
-|[Alpine 3.1](alpine-3.1)        | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Alpine Edge](alpine-edge)      | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[CentOS 5.11](centos5)          | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[CentOS 6.8](centos6)           | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[CentOS 7.2](centos7)           | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Debian 7.11](debian-7)         | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Debian 8.5](debian-8)          | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Fedora 24](fedora24)           | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Ubuntu 12.04.5](ubuntu-12.04)  | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Ubuntu 14.04.5](ubuntu-14.04)  | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
-|[Ubuntu 16.04.1](ubuntu-16.04)  | ?                | ?               | ?              | ?            | ?          | ?        | ?                      |
+| OS                             | python2-requests  | python2-urllib2 | python3-urllib            | go-nethttp   | java-https | java-net | php-file-get-contents  |
+|------------------------------- | ----------------- | --------------- | ------------------------- | ------------ | ---------- | -------- | ---------------------- |
+|[Alpine 3.1](alpine-3.1)        | MD5               | MD5             | N/A                       |              |            |          |                        |
+|[Alpine Edge](alpine-edge)      | MD5               | MD5             | MD5                       |              |            |          |                        |
+|[CentOS 5.11](centos5)          | N/A               | N/A             | N/A                       | N/A          | N/A        | N/A      |                        |
+|[CentOS 6.8](centos6)           | RC4, MD5, RC4+MD5 | N/A             | RC4, MD5                  |              |            |          |                        |
+|[CentOS 7.2](centos7)           | RC4               | POODLE, RC4     |                           |              |            |          |                        |
+|[Debian 7.11](debian-7)         | RC4, MD5, RC4+MD5 | N/A             | POODLE, RC4, MD5, RC4+MD5 |              |            |          |                        |
+|[Debian 8.5](debian-8)          | MD5               | RC4, MD5        | RC4, MD5                  |              |            |          |                        |
+|[Fedora 24](fedora24)           |                   |                 |                           |              |            |          |                        |
+|[Ubuntu 12.04.5](ubuntu-12.04)  | N/A               | N/A             | POODLE                    | N/A          | N/A        | N/A      |                        |
+|[Ubuntu 14.04.5](ubuntu-14.04)  | RC4, MD5, RC4+MD5 | N/A             | RC4, MD5                  |              |            |          |                        |
+|[Ubuntu 16.04.1](ubuntu-16.04)  | MD5               | MD5             | MD5                       |              |            |          |                        |
 
 <!-- markdownlint-enable MD013 -->
 
