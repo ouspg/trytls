@@ -6,7 +6,7 @@
 
 ## Shootout 0.3
 
-We ran the TryTLS tests against the same target IS distributions and
+We ran the TryTLS tests against the same target OS distributions and
 languages as in the previous shootout, but used newer versions of
 both the stubs and the runner. We used Docker for repeatibility
 and ease of reproduction.
@@ -36,7 +36,13 @@ Our main observations were:
   (see [#239](https://github.com/ouspg/trytls/issues/239)).
   In fact, Go stub lacks SNI support in most distributions.
 
-* After shootout 0.2 Python developers ([python-dev link](https://mail.python.org/mailman/listinfo/python-dev)) have been contacted. The distribution depency of TLS certificate verification is known and the backward compatibility issues required not enabling this by default for older versions. Administrators have the possibility to add support per-case. More information can be found [here](https://github.com/ouspg/trytls/blob/master/doc/discussion-tracking.md#python-dev).
+* After previous shootout we contacted Python developers ([python-dev link](https://mail.python.org/mailman/listinfo/python-dev)). TLS certificate
+verification failures in some OS distributions is a known problem to them. 
+Some distributions have chosen not to enable this by default for backward 
+compatibility. In some cases administrators have the possibility to add support
+per-case. More information can be found [here](https://github.com/ouspg/trytls/blob/master/doc/discussion-tracking.md#python-dev). 
+Next we will try to reach out to the OS distribution maintainers for clarifications
+and further pointers.
 
 We split up the results to study the state of Server Name indication
 (SNI) support, proper certificate checks and crypto weaknesses
