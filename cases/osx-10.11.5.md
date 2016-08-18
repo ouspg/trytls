@@ -68,26 +68,26 @@ OpenSSL 0.9.8zh 14 Jan 2016
 ## Tests
 
 
-## No CA cert bundle defined - succeeds as expected
+## No CA cert bundle defined - accepts certificate as expected
 
 ```
 $ /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443
 ACCEPT
 ```
 
-## CA cert bundle defined - succeeds unexpectedly
+## CA cert bundle defined - accepts certificate unexpectedly
 ```
 $ /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443 pki/certs/theonlycertitrust.crt
 ACCEPT
 ```
 
-## Apple's TEA-patch disabled - fails as expected
+## Apple's TEA-patch disabled - rejects certificate as expected
 
 ```
 $ env OPENSSL_X509_TEA_DISABLE=1 /System/Library/Frameworks/Python.framework/Versions/2.7/bin/python2.7 stubs/python-urllib2/run.py sha256.badssl.com 443
 REJECT
 ```
-## Running with brew-installed third party python interpreter - fails as expected
+## Running with brew-installed third party python interpreter - rejects certificate as expected
 
 ```
 $ /usr/local/bin/python stubs/python-urllib2/run.py sha256.ssllabs.com 443 pki/certs/theonlycertitrust.crt
