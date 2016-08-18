@@ -34,7 +34,6 @@ Our main observations were:
 * Conflicting results where go stub accepts one SNI test but declines
   another in Ubuntu 14.04 requires further investigation
   (see [#239](https://github.com/ouspg/trytls/issues/239)).
-  In fact, Go stub lacks SNI support in most distributions.
 
 * After previous shootout we
   [contacted Python developers](https://mail.python.org/pipermail/python-dev/2016-August/145815.html).
