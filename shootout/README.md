@@ -70,6 +70,10 @@ Legend:
 
 ## Shootout v0.3 - certificate check results
 
+Failures to check certificates are noted in the table.
+Considerably less tests were performed in cases where SNI support or
+CA support were not available.
+
 <!-- markdownlint-disable MD013 -->
 
 | OS                             | python2-requests | python2-urllib2 | python3-urllib | go-nethttp   | java-https | java-net | php-file-get-contents  |
@@ -99,8 +103,8 @@ Legend:
 
 Potential crypto weakness identified by the tests are listed below. Abbreviations
 can be mapped to the original tests from the results in the subdirectories.
-Considerably less tests were performed in cases where SNI support was not
-available.
+Considerably less tests were performed in cases where SNI support or
+CA support were not available.
 
 <!-- markdownlint-disable MD013 -->
 
