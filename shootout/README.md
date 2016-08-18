@@ -50,7 +50,7 @@ tables below. Detailed results are available in the subdirectories.
 |[Alpine 3.1](alpine-3.1)        | YES              | YES             | N/A            | YES          | NO         | NO       | NO                     |
 |[Alpine Edge](alpine-edge)      | YES              | YES             | YES            | YES          | YES        | YES      | NO                     |
 |[CentOS 5.11](centos5)          | N/A              | N/A             | N/A            | N/A          | N/A        | N/A      | NO                     |
-|[CentOS 6.8](centos6)           | N/A              | N/A             | YES            | YES          | YES        | YES      | NO                     |
+|[CentOS 6.8](centos6)           | NO               | N/A             | YES            | YES          | YES        | YES      | NO                     |
 |[CentOS 7.2](centos7)           | YES              | YES             | YES            | YES          | YES        | YES      | NO                     |
 |[Debian 7.11](debian-7)         | NO               | N/A             | YES            | NO           | YES        | YES      | NO                     |
 |[Debian 8.5](debian-8)          | YES              | YES             | YES            | YES          | YES        | YES      | YES                    |
