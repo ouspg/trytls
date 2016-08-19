@@ -128,7 +128,7 @@ CA support were not available.
 |[Debian 8.5](debian-8)          | MD5               | RC4, MD5        | RC4, MD5                  |              |            |          |                        |
 |[Fedora 24](fedora24)           |                   |                 |                           |              |            |          |                        |
 |[Ubuntu 12.04.5](ubuntu-12.04)  | N/A               | N/A             | POODLE                    | N/A          | N/A        | N/A      |                        |
-|[Ubuntu 14.04.5](ubuntu-14.04)  | RC4, MD5, RC4+MD5 | N/A             | RC4, MD5                  |              |            |          |                        |
+|[Ubuntu 14.04.5](ubuntu-14.04)  | RC4, MD5, RC4+MD5 | N/A             | RC4, MD5                  | N/A          |            |          |                        |
 |[Ubuntu 16.04.1](ubuntu-16.04)  | MD5               | MD5             | MD5                       |              |            |          |                        |
 
 <!-- markdownlint-enable MD013 -->
