@@ -90,11 +90,12 @@ Test runners allow user to test against all or any of these backends.
 
 <!-- markdownlint-disable MD013 -->
 
-* [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq GitHub](https://github.com/bos/wreq/issues/84)
-  * See also [Is Wreq suitable for HTTPS applications? · Issue #82 · bos/wreq · GitHub](https://github.com/bos/wreq/issues/82)
-  * Related [http-client-tls connection to HTTPS site with invalid hostname · Issue #212 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/212)
-* [http-client-tls vulnerable to Logjam? · Issue #215 · snoyberg/http-client · GitHub](https://github.com/snoyberg/http-client/issues/215)
+* [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq](https://github.com/bos/wreq/issues/84)
+  * See also [Is Wreq suitable for HTTPS applications? · Issue #82 · bos/wreq](https://github.com/bos/wreq/issues/82)
+  * Related [http-client-tls connection to HTTPS site with invalid hostname · Issue #212 · snoyberg/http-client](https://github.com/snoyberg/http-client/issues/212)
+* [http-client-tls vulnerable to Logjam? · Issue #215 · snoyberg/http-client](https://github.com/snoyberg/http-client/issues/215)
 * [RFC7465: Prohibiting RC4 Cipher Suites · Issue #153 · vincenthz/hs-tls](https://github.com/vincenthz/hs-tls/issues/153)
+* [Invoke-Webrequest accepts bad TLS certificates / crypto on MacOS · #1942 · PowerShell/PowerShell](https://github.com/PowerShell/PowerShell/issues/1942)
 
 <!-- markdownlint-enable MD013 -->
 
