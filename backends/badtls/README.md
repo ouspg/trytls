@@ -8,7 +8,7 @@ Tests suitable or unsuitable for the automation in this content are document bel
 with some reasoning for the selection.
 
 # Used
-<pre>
+```
 domain-match.badtls.io:10000      valid certificate Common Name, should pass
 wildcard-match.badtls.io:10001    valid certificate Common Name using wildcards, should pass
 san-match.badtls.io:10002         supprt for Subject Alternative Name (SAN), should pass
@@ -23,7 +23,7 @@ expired.badtls.io:11006           expired certificate, should fail
 wildcard.mismatch.badtls.io:11007 invalid wildcard certificate Common Name, should fail
 rc4.badtls.io:11008               supports RC4 ciphers, should fail
 rc4-md5.badtls.io:11009           supports RC4 with MD5 ciphers, should fail
-</pre>
+```
 
 # Unused
 
@@ -31,4 +31,3 @@ rc4-md5.badtls.io:11009           supports RC4 with MD5 ciphers, should fail
 required-auth.badtls.io:11009     Out of scope
 optional-auth.badtls.io:11009     Out of scope
 ```
-

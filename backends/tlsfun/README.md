@@ -1,14 +1,16 @@
 # tlsfun services and reasons for usage/ignore
 
 ## Used
-
-* `SNI support`: https://tlsfun.de
-* `eDellRoot certificate`: https://edell.tlsfun.de
+```
+https://tlsfun.de         SNI support
+https://edell.tlsfun.de   eDellRoot certificate
+```
 
 ## Unused
 
-* FIXME
+More test will arrive in the future.
 
 ### Not working at the moment:
-
-* `expired/self-signed certificate`: https://expired.tlsfun.de
+```
+https://expired.tlsfun.de expired/self-signed certificate
+```
