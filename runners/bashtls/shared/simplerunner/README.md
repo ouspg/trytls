@@ -81,7 +81,7 @@ $ bash run mono '../trytls/stubs/cSharp-Net/run.exe' 'conf/badssl-all' _ _ CShar
 [cSharp-Net][ OK?  ][REJECT][ dh1024                        ][dh1024.badssl.com]
 [cSharp-Net][ OK?  ][REJECT][ dh-small-subgroup             ][dh-small-subgroup.badssl.com]
 [cSharp-Net][ OK?  ][REJECT][ incomplete-chain              ][incomplete-chain.badssl.com]
-[cSharp-Net][ OK?  ][REJECT][ mozilla-intermediate          ][mozilla-intermidiate.badssl.com]
+[cSharp-Net][ OK?  ][REJECT][ mozilla-intermediate          ][mozilla-intermediate.badssl.com]
 [cSharp-Net][ OK?  ][REJECT][ mozilla-modern                ][mozilla-modern.badssl.com]
 [cSharp-Net][ OK?  ][REJECT][ subdomain.preloaded-hsts      ][subdomain.preloaded-hsts.badssl.com]
 [cSharp-Net][ OK?  ][ACCEPT][ cbc                           ][cbc.badssl.com]
