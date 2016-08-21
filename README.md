@@ -92,6 +92,8 @@ We have tested some of our releases against popular software.
 Results and repro instructions of these tests are collected
 in the [shootout documentation](shootout/).
 
+We have also collected links to other TryTLS inspired findings:
+
 <!-- markdownlint-disable MD013 -->
 
 * [Wreq connection to HTTPS site with invalid hostname · Issue #84 · bos/wreq](https://github.com/bos/wreq/issues/84)
