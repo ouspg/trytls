@@ -17,7 +17,7 @@
 443 & cbc                           & OK? & _ & cbc.badssl.com
 443 & rc4                           & OK? & _ & rc4.badssl.com
 443 & mozilla-old                   & OK? & _ & mozilla-old.badssl.com
-443 & mozilla-intermediate          & OK? & _ & mozilla-intermidiate.badssl.com
+443 & mozilla-intermediate          & OK? & _ & mozilla-intermediate.badssl.com
 443 & mozilla-modern                & OK? & _ & mozilla-modern.badssl.com
 443 & dh480                         & REJECT & _ & dh480.badssl.com
 443 & dh1024                        & OK? & _ & dh1024.badssl.com
