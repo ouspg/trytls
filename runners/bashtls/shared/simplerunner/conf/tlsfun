@@ -1,0 +1,4 @@
+443 & supports SNI                  & ACCEPT & _ & tlsfun.de & BREAK
+443 & expired                       & REJECT & _ & expired.tlsfun.de & BREAK
+443 & eDellRoot                     & REJECT & _ & badcert-edell.tlsfun.de
+443 & expired                       & REJECT & _ & superfish.tlsfun.de & CONTINUE

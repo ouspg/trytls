@@ -1,0 +1,14 @@
+10000 & valid certificate Common Name                           & ACCEPT & badtls.crt & domain-match.badtls.io
+10001 & valid wildcard certificate Common Name                  & ACCEPT & badtls.crt & wildcard-match.badtls.io
+10002 & support for Subject Alternative Name (SAN)              & ACCEPT & badtls.crt & san-match.badtls.io
+10005 & TLS handshake with 1024 bit Diffie-Hellman (DH)         & ACCEPT & badtls.crt & dh1024.badtls.io
+11000 & certificate expired in year 1963                        & REJECT & badtls.crt & expired-1963.badtls.io
+11001 & certificate validity starts in future                   & REJECT & badtls.crt & future.badtls.io
+11002 & mismatch in certificate's Common Name                   & REJECT & badtls.crt & domain-mismatch.badtls.io
+11003 & Subject Alternative Name (SAN) mismatch                 & REJECT & badtls.crt & san-mismatch.badtls.io
+11005 & certificate has invalid key usage for HTTPS connection  & REJECT & badtls.crt & bad-key-usage.badtls.io
+11006 & expired certificate                                     & REJECT & badtls.crt & expired.badtls.io
+11007 & invalid wildcard certificate Common Name"               & REJECT & badtls.crt & wildcard.mismatch.badtls.io
+11008 & denies use of RC4 ciphers (RFC7465)"                    & REJECT & badtls.crt & rc4.badtls.io
+11004 & denies use of MD5 signature algorithm (RFC6151)"        & REJECT & badtls.crt & weak-sig.badtls.io
+11009 & denies use of RC4 with MD5 ciphers"                     & REJECT & badtls.crt & rc4-md5.badtls.io
