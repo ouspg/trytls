@@ -66,7 +66,7 @@ checking enabled by default. Administrators can use configuration tools to mitig
 
 ---
 
-# Who gave we contacted?
+# Who have we contacted?
 
 * python-dev: Shootout 0.2 & 0.3 Python vulnerability reveal
 * oss-security: Shootout 0.3 Python vulnerability reveal
