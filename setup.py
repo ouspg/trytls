@@ -43,6 +43,7 @@ setup(
         ]
     },
     install_requires=[
-        "colorama"
+        "colorama",
+        "cryptography"
     ]
 )
