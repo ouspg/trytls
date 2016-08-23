@@ -159,6 +159,7 @@ In Ubuntu 16.04
 * bash-opensslSClient
 * haskell-http-client-tls
 * python2-idiokit
+* python3-aiohttp
 
 ### Acceptance process:
 
