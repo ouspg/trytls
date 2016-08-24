@@ -207,6 +207,13 @@ def badssl_tests():
         badssl(False, "superfish", "Superfish CA", forced_result),
         badssl(False, "edellroot", "eDellRoot CA", forced_result),
         badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result)
+        #10000-sans             add?
+        #untrusted-root         add?
+        #rc4-md5                add?
+        #rc4                    add?
+        #null                   add?
+        #dh?                    add?
+        #superfish, eDellRoot   add?
     )
 
 
