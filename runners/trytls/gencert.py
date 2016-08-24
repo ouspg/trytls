@@ -12,11 +12,11 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from .utils import memoized
 
 
-def _pem_cert(cert):
+def _dump_cert(cert):
     return cert.public_bytes(serialization.Encoding.PEM)
 
 
-def _pem_key(key):
+def _dump_private_key(key):
     return key.private_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PrivateFormat.TraditionalOpenSSL,
@@ -24,11 +24,21 @@ def _pem_key(key):
     )
 
 
-def _gen_key():
-    return rsa.generate_private_key(
-        public_exponent=65537,
-        key_size=4096,
-        backend=default_backend()
+def _load_private_key(data):
+    return serialization.load_pem_private_key(data, None, default_backend())
+
+
+def _gen_key(bits=4096):
+    # Return the private key as PEM data to work around an issue with Python 3.5
+    # and the "cryptography" package. Memoizing the private key objects causes
+    # messages to be written to STDERR during the interpreter shutdown.
+    # See https://github.com/pyca/cryptography/issues/2913.
+    return _dump_private_key(
+        rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=bits,
+            backend=default_backend()
+        )
     )
 _ca_key = memoized(_gen_key)
 _cert_key = memoized(_gen_key)
@@ -58,10 +68,10 @@ def _ca_cert(private_key):
 
 
 def gencert(cn):
-    ca_key = _ca_key()
+    ca_key = _load_private_key(_ca_key())
     ca_cert = _ca_cert(ca_key)
 
-    cert_key = _cert_key()
+    cert_key = _load_private_key(_cert_key())
     cert = x509.CertificateBuilder().subject_name(
         x509.Name([
             x509.NameAttribute(NameOID.COMMON_NAME, cn)
@@ -78,4 +88,4 @@ def gencert(cn):
         int(uuid.uuid4())
     ).sign(ca_key, hashes.SHA256(), default_backend())
 
-    return _pem_cert(cert), _pem_key(cert_key), _pem_cert(ca_cert)
+    return _dump_cert(cert), _dump_private_key(cert_key), _dump_cert(ca_cert)
