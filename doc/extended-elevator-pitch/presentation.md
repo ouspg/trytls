@@ -12,6 +12,7 @@ systematic and readily planned tests and try make integrating your
 favorite language and library easy.
 
 This is an open source project and anyone can contribute.
+https://github.com/ouspg/trytls
 
 ---
 
@@ -26,13 +27,11 @@ This is an open source project and anyone can contribute.
 
 # Architecture
 
-![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/architecture-scaled.jpg)
+![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/concept-pic.png)
 
 * **Backends (servers)** provide TLS/SSL tests for stubs (clients).
 * **Stubs** attempt to establish secure TLS/SSL connections to backends.
 * **Runners** run the stubs against backends and provide the results of the tests.
-
---simple explanation: Runner tells stub to connect to a backend, stub attempts connection to backend, if the stub connects returns accept, if it does not connect reject or error
 
 ---
 
@@ -44,7 +43,25 @@ and ease of reproduction.
 
 We have already had two shootouts, 0.2 and 0.3.
 Results and reproduction instructions of these tests are collected
-in the shootout documentation in our github repository.
+in the shootout documentation in our Github repository.
+
+---
+
+# Shootout example: SNI support
+
+| OS                             | python2-requests | python2-urllib2 | python3-urllib | go-nethttp   | java-https | java-net | php-file-get-contents  |
+|------------------------------- | ---------------- | --------------- | -------------- | ------------ | ---------- | -------- | ---------------------- |
+|[Alpine 3.1](alpine-3.1)        | YES              | YES             | N/A            | YES          | NO         | NO       | NO                     |
+|[Alpine Edge](alpine-edge)      | YES              | YES             | YES            | YES          | YES        | YES      | NO                     |
+|[CentOS 5.11](centos5)          | N/A              | N/A             | N/A            | N/A          | N/A        | N/A      | NO                     |
+|[CentOS 6.8](centos6)           | NO               | N/A             | YES            | YES          | YES        | YES      | NO                     |
+|[CentOS 7.2](centos7)           | YES              | YES             | YES            | YES          | YES        | YES      | NO                     |
+|[Debian 7.11](debian-7)         | NO               | N/A             | YES            | NO           | YES        | YES      | NO                     |
+|[Debian 8.5](debian-8)          | YES              | YES             | YES            | YES          | YES        | YES      | YES                    |
+|[Fedora 24](fedora24)           | YES              | YES             | YES            | YES          | YES        | YES      | YES                    |
+|[Ubuntu 12.04.5](ubuntu-12.04)  | N/A              | N/A             | YES            | N/A          | N/A        | N/A      | NO                     |
+|[Ubuntu 14.04.5](ubuntu-14.04)  | NO               | N/A             | YES            | N/A          | YES        | YES      | NO                     |
+|[Ubuntu 16.04.1](ubuntu-16.04)  | YES              | YES             | YES            | YES          | YES   
 
 ---
 
@@ -52,7 +69,7 @@ in the shootout documentation in our github repository.
 
 ## OS X OpenSSL verification surprises
 
-When using native python shipped with OS X, the system default bundle will be
+When using native Python shipped with OS X, the system default bundle will be
 trusted even if instructed otherwise. This is troubling, as some organizations
 do not want to trust the default bundles. Also, lately, the reputation of some
 CAs have been brought into question.
@@ -70,9 +87,9 @@ checking enabled by default. Administrators can use configuration tools to mitig
 
 * python-dev: Shootout 0.2 & 0.3 Python vulnerability reveal
 * oss-security: Shootout 0.3 Python vulnerability reveal
+* University of Michigan
+* Software Engineering Institute
 * Reddit: "Market speech"
  * Python
  * NetSec
  * Information_Security
-
----
