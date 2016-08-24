@@ -21,7 +21,7 @@ line arguments (`<host> <port> [ca-bundle]`):
    file to be used. The bundle file should consists of PEM encoded
    certificates concatenated together.
 
-Depending on the TLS library used in a stub, the library might use it's own
+Depending on the TLS library used in a stub, the library might use its own
 CA certificate bundle or one delivered by the operating system or one delivered
 by the stub.
 
@@ -53,7 +53,7 @@ The data printed should follow the following set of instructions or a similar on
           return zero
    4.2  else (the stub could not connect due to reasons unrelated to TLS/SSL (Name resolution, etc..))
           goto "fatal error" (5.0, see one line below for more info)
-5.0 else ("fatal error occured")
+5.0 else ("fatal error occurred")
       (optional error message)
       return value other than zero
 </pre>
@@ -110,13 +110,13 @@ A stub should be confined to a directory named in a way that describes the
 chosen target language and library or service, e.g. `<language>-<library>`.
 
 A stub should have a top level `README.md` which describes how to run the stub and
-how to install the potential dependancies needed.
+how to install the potential dependencies needed.
 
-The stubs should have a `run` command with optional and approriate file
+The stubs should have a `run` command with optional and appropriate file
 extension for the language in question.
 
 Optionally a stub can have a `Dockerfile` that encapsulates the environment
-and the dependancies needed to run the example.
+and the dependencies needed to run the example.
 
 Ideally, one should also include a `results.md` that contains the result of a test run as follows:
 

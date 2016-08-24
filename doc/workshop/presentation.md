@@ -110,5 +110,5 @@ chosen target language and library or service, e.g. `<language>-<library>`.
 
 A stub should have a top level `README.md` that describes how to run the stub.
 
-The stubs should have a `run` command with optional and approriate file
+The stubs should have a `run` command with optional and appropriate file
 extension for the language in question.

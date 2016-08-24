@@ -18,7 +18,7 @@ func main() {
 
 	url := "https://" + os.Args[1] + ":" + os.Args[2]
 
-	// Perform a HTTP(s) Request
+	// Perform an HTTP(S) Request
 	_, err := http.Get(url)
 	if err != nil {
 		fatalError := strings.Contains(err.Error(), "no such host")

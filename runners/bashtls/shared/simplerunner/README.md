@@ -1,7 +1,7 @@
 ##Info
 
 This is to be a part of the maybe to be runner.
-This can also be ran itself.
+This can also be run itself.
 
 #Get started
 
@@ -107,7 +107,7 @@ $ bash run mono '../trytls/stubs/cSharp-Net/run.exe' 'conf/badssl-all' _ _ CShar
 ...
 ```
 
-agains trytls backend
+against trytls backend
 ```console
 $ bash run python3 '../trytls/stubs/python3-urllib/run.py' '../trytls/backends/trytls/tmp/conf' ../trytls/backends/trytls/tmp/certs
 

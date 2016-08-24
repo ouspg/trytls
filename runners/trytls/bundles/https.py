@@ -231,7 +231,7 @@ def tlsfun_tests():
         forced_result=forced_result
     )
     if res.type != results.Pass and not forced_result:
-        forced_result = results.Skip("stub didn't reject a expired + self-signed certificate")
+        forced_result = results.Skip("stub didn't reject an expired + self-signed certificate")
 
     yield testgroup(
         tlsfun(False, "badcert-edell", "eDellRoot CA #2", forced_result),
