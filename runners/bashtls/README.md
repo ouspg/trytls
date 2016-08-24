@@ -8,8 +8,8 @@ $ bash init <stubspath> <"backend1 backed2 ... backend4"> \ 	#the spaces are of 
 	<language>[:stub1:stub2:...:stubN][&driver1&driver2&driver3]
 
  * language = used language when running stubs
- * stub1 .. stubN = optional arguments, if not given all stubs will be ran
- * driver1 .. driverN = optional arguments, if not gived all drivers will be used
+ * stub1 .. stubN = optional arguments; if not given, all stubs will be run
+ * driver1 .. driverN = optional arguments; if not given, all drivers will be used
 ```
 
 ## HOX
@@ -22,7 +22,7 @@ $ bash init <stubspath> <"backend1 backed2 ... backend4"> \ 	#the spaces are of 
 
 ```
 $ bash init ../../stubs "badssl-all" "python3"
-	* run all python3 drivers using all python3 stubs agains all(that are in conf-file) badssl servers
+	* run all python3 drivers using all python3 stubs against all (that are in conf-file) badssl servers
 
 $ bash init ../../stubs "badssl-all" "python3:python3-urllib&python3_1" "bash"
 	* run python3(language) python3-urllib(stub) using python3_1(driver) and all bash stubs using all bash drivers

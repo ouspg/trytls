@@ -25,7 +25,7 @@ Valid bundle options:
   https
 ```
 
-For example, when testing a HTTP(S) library you'd want to use the `https` bundle. That specific bundle knows to answer to the library's requests with proper HTTP responses, making testing easier.
+For example, when testing an HTTP(S) library you'd want to use the `https` bundle. That specific bundle knows to answer to the library's requests with proper HTTP responses, making testing easier.
 
 The parameters following the bundle are `COMMAND` and 0-n `ARG` arguments for the command. These describe how the *stub* - a piece of code for testing some library - should be launched. The [`stubs/`](../stubs) directory in this repository contains multiple example stubs. As an example the included stub for testing Python's `urllib2` library can be run with:
 
@@ -71,4 +71,4 @@ writefile("cert.pem", cert)
 writefile("cert.key", key)
 writefile("ca.pem", ca)
 ```
-Now launching a HTTP server on localhost with the `cert.pem` and `cert.key` files allows clients to create a verified connection to it using the `ca.pem` CA file.
+Now launching an HTTP server on localhost with the `cert.pem` and `cert.key` files allows clients to create a verified connection to it using the `ca.pem` CA file.

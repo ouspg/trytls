@@ -11,7 +11,7 @@ with some reasoning for the selection.
 ```
 domain-match.badtls.io:10000      valid certificate Common Name, should pass
 wildcard-match.badtls.io:10001    valid certificate Common Name using wildcards, should pass
-san-match.badtls.io:10002         supprt for Subject Alternative Name (SAN), should pass
+san-match.badtls.io:10002         support for Subject Alternative Name (SAN), should pass
 dh1024.badtls.io:10005            TLS handshake with 1024 bit Diffie-Hellman (DH), should pass
 expired-1963.badtls.io:11000      certificate expired in year 1963, should fail
 future.badtls.io:11001            certificate validity starts in future, should fail
