@@ -136,7 +136,9 @@ def collect(test, args):
     try:
         accept, details = run_stub(list(args), test.host, test.port, test.cafile)
     except Unsupported as us:
-        return results.Skip(details=us.args[0])
+        return results.Skip(
+            reason="the stub couldn't implement the requested behaviour (e.g. setting CA certificate bundle)",
+            details=us.args[0])
     except UnexpectedOutput as uo:
         output = uo.args[0].strip()
         if output:
