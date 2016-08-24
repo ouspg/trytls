@@ -46,7 +46,7 @@ _cert_key = memoized(_gen_key)
 
 def _ca_cert(private_key):
     subject = issuer = x509.Name([
-        x509.NameAttribute(NameOID.ORGANIZATION_NAME, "My Company")
+        x509.NameAttribute(NameOID.ORGANIZATION_NAME, "Fake Certificate Authority")
     ])
 
     return x509.CertificateBuilder().subject_name(
