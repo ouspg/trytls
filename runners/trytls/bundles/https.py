@@ -150,6 +150,8 @@ def http_server(ssl_context, host="localhost", port=0):
 
     server = Server((host, port), Handler)
     try:
+        server.timeout = 0.1
+
         done = threading.Event()
         thread = threading.Thread(target=serve, args=[server, done])
         thread.start()
