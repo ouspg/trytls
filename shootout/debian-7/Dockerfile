@@ -16,7 +16,7 @@ RUN apt-get -y update && \
     make && \
     make install && \
     pip3.5 install --upgrade pip && \
-    pip3.5 install https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz && \
+    pip3.5 install trytls==v${VERSION} && \
     cd /root && \
     curl -Lo- https://github.com/ouspg/trytls/archive/v${VERSION}.tar.gz \
         | zcat - | tar --strip-components=1 -xvf - trytls-${VERSION}/stubs && \
