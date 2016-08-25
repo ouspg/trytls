@@ -1,19 +1,19 @@
-from __future__ import print_function, unicode_literals
+from __future__ import absolute_import, unicode_literals
 
 import ssl
 import sys
 import socket
+import threading
 import contextlib
-import multiprocessing
-from .. import results
-from ..utils import tmpfiles
-from ..gencert import gencert
-from ..testenv import testenv, testgroup, Test
-
 try:
     from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
 except ImportError:
     from http.server import HTTPServer, BaseHTTPRequestHandler
+
+from .. import results
+from ..utils import tmpfiles
+from ..gencert import gencert
+from ..testenv import testenv, testgroup, Test
 
 
 BADTLS_CA_DATA = b"""
@@ -110,9 +110,16 @@ def tlsfun(accept, name, description, forced_result):
     )
 
 
-def _serve(connection, certdata, keydata, host, port):
+@contextlib.contextmanager
+def http_server(ssl_context, host="localhost", port=0):
+    class Timeout(Exception):
+        pass
+
     class Server(HTTPServer):
         ALLOWED_EXCEPTIONS = (socket.error,)
+
+        def handle_timeout(self):
+            raise Timeout()
 
         def handle_error(self, request, client_address):
             exc_type, _, _ = sys.exc_info()
@@ -122,13 +129,7 @@ def _serve(connection, certdata, keydata, host, port):
 
     class Handler(BaseHTTPRequestHandler):
         def setup(self):
-            with tmpfiles(certdata, keydata) as (certfile, keyfile):
-                self.request = ssl.wrap_socket(
-                    self.request,
-                    server_side=True,
-                    certfile=certfile,
-                    keyfile=keyfile
-                )
+            self.request = ssl_context.wrap_socket(self.request, server_side=True)
             return BaseHTTPRequestHandler.setup(self)
 
         def do_GET(self):
@@ -139,33 +140,39 @@ def _serve(connection, certdata, keydata, host, port):
         def log_message(self, format, *args):
             pass
 
+    def serve(server, done):
+        while not done.is_set():
+            try:
+                server.handle_request()
+            except Timeout:
+                continue
+            break
+
     server = Server((host, port), Handler)
-    connection.send((host, server.server_port))
-    server.handle_request()
-
-
-@contextlib.contextmanager
-def http_server(certdata, keydata, host="localhost", port=0):
-    reader, writer = multiprocessing.Pipe(duplex=False)
-    process = multiprocessing.Process(
-        target=_serve,
-        args=[writer, certdata, keydata, host, port]
-    )
-    process.start()
     try:
-        host, port = reader.recv()
-        yield host, port
+        server.timeout = 0.1
+
+        done = threading.Event()
+        thread = threading.Thread(target=serve, args=[server, done])
+        thread.start()
+        try:
+            yield host, server.server_port
+        finally:
+            done.set()
+            thread.join()
     finally:
-        process.terminate()
-        process.join()
+        server.server_close()
 
 
 @testenv
 def local(accept, cn, description):
     certdata, keydata, cadata = gencert(cn)
 
-    with http_server(certdata, keydata) as (host, port):
-        with tmpfiles(cadata) as cafile:
+    with tmpfiles(certdata, keydata, cadata) as (certfile, keyfile, cafile):
+        context = ssl.SSLContext(ssl.PROTOCOL_SSLv23)
+        context.load_cert_chain(certfile, keyfile)
+
+        with http_server(context) as (host, port):
             yield Test(
                 accept=accept,
                 description=description,
