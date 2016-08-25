@@ -7,7 +7,7 @@ import string
 import argparse
 import subprocess
 
-from . import __version__, gencert, utils, results, bundles, testenv, formatters
+from . import __version__, utils, results, bundles, testenv, formatters
 
 
 class Unsupported(Exception):
@@ -22,13 +22,12 @@ class UnexpectedOutput(Exception):
     pass
 
 
-def output_info(formatter, args, openssl_version, runner_name="trytls"):
+def output_info(formatter, args, runner_name="trytls"):
     formatter.write_platform(utils.platform_info())
-    formatter.write_runner("{runner} {version} ({python}, {openssl})".format(
+    formatter.write_runner("{runner} {version} ({python})".format(
         runner=runner_name,
         version=__version__,
-        python=utils.python_info(),
-        openssl=openssl_version
+        python=utils.python_info()
     ))
     formatter.write_stub(args)
 
@@ -136,12 +135,6 @@ def run(formatter, args, tests):
 
 
 def main():
-    try:
-        openssl_version = gencert.openssl_version()
-    except gencert.OpenSSLNotFound as err:
-        print("ERROR: {}".format(err), file=sys.stderr)
-        return 1
-
     parser = argparse.ArgumentParser(
         usage="%(prog)s bundle command [arg ...]"
     )
@@ -189,7 +182,7 @@ def main():
         parser.error("too few arguments, missing command")
 
     with create_formatter(sys.stdout) as formatter:
-        output_info(formatter, command, openssl_version=openssl_version)
+        output_info(formatter, command)
         if not run(formatter, command, bundle):
             # Return with a non-zero exit code if all tests were not successful. The
             # CPython interpreter exits with 1 when an unhandled exception occurs,

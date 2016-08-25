@@ -1,69 +1,76 @@
-import errno
-import subprocess
-from .utils import tmpfiles, memoized
+from __future__ import absolute_import, unicode_literals
+
+from oscrypto import asymmetric
+from certbuilder import CertificateBuilder, pem_armor_certificate
+
+from .utils import memoized
 
 
-class OpenSSLNotFound(Exception):
-    pass
+def _dump_cert(cert):
+    return pem_armor_certificate(cert)
 
 
-def openssl(args, input=None):
-    try:
-        process = subprocess.Popen(
-            ["openssl"] + list(args),
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-    except OSError as ose:
-        if ose.errno == errno.ENOENT:
-            raise OpenSSLNotFound("openssl command not found in the search path")
-        raise
-
-    stdout, _ = process.communicate(input)
-    if process.returncode != 0:
-        raise RuntimeError()
-    return stdout
+def _dump_private(key):
+    return asymmetric.dump_private_key(key, None)
 
 
-@memoized
-def _ca_key():
-    return openssl(["genrsa", "4096"])
+def _dump_public(key):
+    return asymmetric.dump_public_key(key)
+
+
+def _load_cert(data):
+    return asymmetric.load_certificate(data)
+
+
+def _load_public(data):
+    return asymmetric.load_public_key(data)
+
+
+def _load_private(data):
+    return asymmetric.load_private_key(data)
+
+
+def _gen_key(bits=4096):
+    return asymmetric.generate_pair("rsa", bits)
 
 
 @memoized
 def _cert_key():
-    return openssl(["genrsa", "4096"])
+    public, private = _gen_key()
+    return _dump_public(public), _dump_private(private)
 
 
-_EXT_FILE_DATA = b"""
-basicConstraints = CA:FALSE
-"""
+@memoized
+def _gen_ca():
+    public, private = _gen_key()
+    builder = CertificateBuilder(
+        {
+            "organization_name": "Fake Certificate Authority"
+        },
+        public
+    )
+    builder.self_signed = True
+    builder.ca = True
+    return (
+        _dump_cert(builder.build(private)),
+        _dump_private(private)
+    )
 
 
 def gencert(cn):
-    subj = "/CN=" + cn
-    ca_key = _ca_key()
-    cert_key = _cert_key()
+    ca_cert_data, ca_private_data = _gen_ca()
+    public_data, private_data = _cert_key()
 
-    # Generate the CA
-    with tmpfiles(ca_key) as ca_keyfile:
-        ca_data = openssl(["req", "-new", "-key", ca_keyfile, "-x509", "-subj", "/O=Fake Certificate Authority"])
-
-    # Generate a certificate signing request
-    with tmpfiles(cert_key) as cert_keyfile:
-        cert_csr = openssl(["req", "-new", "-subj", subj, "-key", cert_keyfile])
-
-    # Sign the certificate with the CA
-    with tmpfiles(ca_key, ca_data, _EXT_FILE_DATA) as (ca_keyfile, ca_file, ext_file):
-        cert_data = openssl(
-            ["x509", "-req", "-extfile", ext_file, "-CA", ca_file, "-CAkey", ca_keyfile, "-set_serial", "01"],
-            input=cert_csr
-        )
-
-    return cert_data, cert_key, ca_data
-
-
-def openssl_version():
-    ver = openssl(["version", "-v"]).strip().decode("ascii", "replace")
-    return " ".join(ver.split()[:2])
+    builder = CertificateBuilder(
+        {
+            "common_name": cn
+        },
+        _load_public(public_data)
+    )
+    builder.issuer = _load_cert(ca_cert_data)
+    cert = builder.build(_load_private(ca_private_data))
+    return (
+        _dump_cert(cert),
+        private_data,
+        ca_cert_data
+    )

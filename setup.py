@@ -43,6 +43,8 @@ setup(
         ]
     },
     install_requires=[
-        "colorama"
+        "colorama",
+        "oscrypto",
+        "certbuilder"
     ]
 )
