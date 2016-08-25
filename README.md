@@ -102,6 +102,9 @@ We have also collected links to other TryTLS inspired findings:
 * [http-client-tls vulnerable to Logjam? · Issue #215 · snoyberg/http-client](https://github.com/snoyberg/http-client/issues/215)
 * [RFC7465: Prohibiting RC4 Cipher Suites · Issue #153 · vincenthz/hs-tls](https://github.com/vincenthz/hs-tls/issues/153)
 * [Invoke-Webrequest accepts bad TLS certificates / crypto on MacOS · #1942 · PowerShell/PowerShell](https://github.com/PowerShell/PowerShell/issues/1942)
+* [badtls.io certificates created with an old version of asn1crypto? · #1 · wbond/badtls.io](https://github.com/wbond/badtls.io/issues/1)
+* [crypto/x509: bad error message  · #16834 · golang/go](https://github.com/golang/go/issues/16834)
+* [crypto/x509: Certs with odd RDN layouts not handled, cause confusing errors · #16836 · golang/go](https://github.com/golang/go/issues/16836)
 
 <!-- markdownlint-enable MD013 -->
 
