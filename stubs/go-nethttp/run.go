@@ -18,10 +18,10 @@ func main() {
 
 	url := "https://" + os.Args[1] + ":" + os.Args[2]
 
-	// Perform an HTTP(S) Request
+	// Perform an HTTPS Request
 	_, err := http.Get(url)
 	if err != nil {
-		fatalError := strings.Contains(err.Error(), "no such host")
+		fatalError := strings.Contains(err.Error(), "dial tcp")
 		fmt.Println(err.Error())
 		if fatalError {
 			os.Exit(1)
