@@ -26,3 +26,9 @@
 ## OSS-Security
 
 * [Original mail](http://www.openwall.com/lists/oss-security/2016/08/20/4)
+
+## Spontaneous
+
+Cases not initiated by us:
+
+* [TryTLS in Debian wishlist](https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=835333)
