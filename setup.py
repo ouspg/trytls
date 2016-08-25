@@ -32,7 +32,7 @@ setup(
     packages=find_packages("./runners"),
     entry_points={
         "console_scripts": [
-            "trytls=trytls.runner:main"
+            "trytls=trytls.main:main"
         ],
         "trytls.bundles": [
             "https=trytls.bundles.https:all_tests"
