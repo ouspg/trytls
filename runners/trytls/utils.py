@@ -41,7 +41,7 @@ def platform_info():
     Return a human-readable name for the currently used platform.
     """
 
-    if sys.platform == "linux2":
+    if sys.platform.startswith("linux"):
         distname, version, _ = platform.linux_distribution()
         if not distname:
             return "Linux"

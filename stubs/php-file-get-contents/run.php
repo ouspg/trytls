@@ -9,12 +9,6 @@ if ($argc < 3 || $argc > 4 || in_array($argv[1], array('--help', '-h'))) {
 $host = $argv[1];
 $port = $argv[2];
 
-if ($argc > 3) {
-  $cabundle = $argv[3];
-  echo "UNSUPPORTED" . "\n";
-  exit(0);
-}
-
 if( !ini_get('allow_url_fopen') ) {
   // echo "Error: " . "allow_url_fopen not set " . "cannot fetch remote urls" . "\n";
   echo "UNSUPPORTED" . "\n";
@@ -22,7 +16,14 @@ if( !ini_get('allow_url_fopen') ) {
 }
 
 $arrContextOptions = array(
-  "ssl" => array(
+  "ssl" => ($argc > 3) ?
+  array(
+    "verify_peer" => true,
+    "verify_peer_name" => true,
+    "cafile" => $argv[3],
+  )
+  :
+  array(
     "verify_peer" => true,
     "verify_peer_name" => true,
   ),

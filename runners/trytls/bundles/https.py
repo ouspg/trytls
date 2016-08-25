@@ -216,7 +216,7 @@ def tlsfun_tests():
 
     res = yield Test(
         accept=True,
-        description="support for TLS server name indication (SNI)",
+        description="support for TLS server name indication (SNI) #2",
         host="tlsfun.de",
         port=443
     )
@@ -225,16 +225,17 @@ def tlsfun_tests():
 
     res = yield Test(
         accept=False,
-        description="self-signed certificate (temporarily using badssl.com)",
-        host="self-signed.badssl.com",
+        description="expired + self-signed certificate",
+        host="expired.tlsfun.de",
         port=443,
         forced_result=forced_result
     )
     if res.type != results.Pass and not forced_result:
-        forced_result = results.Skip("stub didn't reject a self-signed certificate")
+        forced_result = results.Skip("stub didn't reject an expired + self-signed certificate")
 
     yield testgroup(
-        tlsfun(False, "badcert-edell", "eDellRoot CA #2", forced_result)
+        tlsfun(False, "badcert-edell", "eDellRoot CA #2", forced_result),
+        tlsfun(False, "superfish", "Superfish CA #2", forced_result)
     )
 
 

@@ -120,6 +120,7 @@ We have also collected links to other TryTLS inspired findings:
 * Low Kian Seong ([@lowks](https://github.com/lowks))
 * Mikko Yliniemi ([@mikessu](https://github.com/mikessu))
 * Christian Wieser
+* Jakub Wilk ([@jwilk](https://github.com/jwilk))
 
 We invite people to [contribute](CONTRIBUTING.md).
 

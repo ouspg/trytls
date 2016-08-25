@@ -3,7 +3,7 @@ import imp
 import sys
 from setuptools import setup, find_packages
 
-# Check the the Python version
+# Check the Python version
 if sys.version_info < (3,):
     py_required = (2, 7, 9)
 else:
