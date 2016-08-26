@@ -3,7 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 import json
 import contextlib
 
-from . import _indent
+from ._utils import indent
 
 
 @contextlib.contextmanager
@@ -54,6 +54,6 @@ class JSONFormatter(object):
             "description": test.description,
             "target": "{} {}".format("accept" if test.accept else "reject", test.name),
         }
-        self._stream.write(_indent(json.dumps(obj, indent=4), 8))
+        self._stream.write(indent(json.dumps(obj, indent=4), 8))
         self._stream.flush()
         self._open = True

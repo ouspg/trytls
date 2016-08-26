@@ -5,7 +5,7 @@ import contextlib
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
 from .. import utils, results
-from . import _indent
+from ._utils import indent
 
 
 @contextlib.contextmanager
@@ -73,14 +73,14 @@ class Format(object):
         reason = res.reason.rstrip()
         if reason:
             result += self._colorize("{RESET}{Formatter.base}\n")
-            result += _indent("reason: ", by=6)
-            result += _indent(self._colorize("{Formatter.reason}{}", reason), by=14, first_line=False)
+            result += indent("reason: ", by=6)
+            result += indent(self._colorize("{Formatter.reason}{}", reason), by=14, first_line=False)
 
         details = res.details.rstrip()
         if details:
             result += self._colorize("{RESET}{Formatter.base}\n")
-            result += _indent("output: ", by=6)
-            result += _indent(self._colorize("{Formatter.details}{}", details), by=14, first_line=False)
+            result += indent("output: ", by=6)
+            result += indent(self._colorize("{Formatter.details}{}", details), by=14, first_line=False)
 
         return result
 
