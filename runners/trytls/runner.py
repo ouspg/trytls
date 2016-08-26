@@ -7,8 +7,7 @@ import string
 import argparse
 import subprocess
 
-from .formatters.default import formatter as default_formatter
-from . import __version__, gencert, utils, results, bundles, testenv
+from . import __version__, gencert, utils, results, bundles, testenv, formatters
 
 
 class Unsupported(Exception):
@@ -157,15 +156,30 @@ def main():
         args.remainder.pop(0)
     bundle_name = args.remainder[0] if args.remainder else None
 
+    parser.add_argument(
+        "--formatter",
+        help="formatter",
+        default="default"
+    )
     args = parser.parse_args(args.remainder[1:], args)
     if args.remainder and args.remainder[0] == "--":
         args.remainder.pop(0)
     command = args.remainder
 
+    create_formatter = formatters.load_formatter(args.formatter)
+    if create_formatter is None:
+        formatter_list = ["  " + x for x in sorted(formatters.iter_formatters())]
+        parser.error(
+            "unknown formatter '{}'\n\n".format(args.formatter) +
+            "Valid formatter options:\n" + "\n".join(formatter_list)
+        )
+
     if bundle_name is None:
-        bundle_list = sorted(bundles.iter_bundles())
-        bundle_lines = ["  " + x for x in bundle_list]
-        parser.error("missing the bundle argument\n\nValid bundle options:\n" + "\n".join(bundle_lines))
+        bundle_list = ["  " + x for x in sorted(bundles.iter_bundles())]
+        parser.error(
+            "missing the bundle argument\n\n" +
+            "Valid bundle options:\n" + "\n".join(bundle_list)
+        )
 
     bundle = bundles.load_bundle(bundle_name)
     if bundle is None:
@@ -174,7 +188,7 @@ def main():
     if not command:
         parser.error("too few arguments, missing command")
 
-    with default_formatter(sys.stdout) as formatter:
+    with create_formatter(sys.stdout) as formatter:
         output_info(formatter, command, openssl_version=openssl_version)
         if not run(formatter, command, bundle):
             # Return with a non-zero exit code if all tests were not successful. The

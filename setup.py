@@ -36,6 +36,9 @@ setup(
         ],
         "trytls.bundles": [
             "https=trytls.bundles.https:all_tests"
+        ],
+        "trytls.formatters": [
+            "default=trytls.formatters.default:formatter"
         ]
     },
     install_requires=[
