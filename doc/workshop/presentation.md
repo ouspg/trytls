@@ -37,7 +37,7 @@ In case you don't have `pip` (https://pip.pypa.io/) installed, please refer to t
 Run a stub yourself:
 
 ```
-$ trytls https -- python stubs/python-urllib2/run.py
+$ trytls https python stubs/python-urllib2/run.py
   PASS badssl(False, 'expired')
   PASS badssl(False, 'wrong.host')
   PASS badssl(False, 'self-signed')
@@ -99,7 +99,7 @@ Unless a fatal error occurs, examples should always return with process exit val
 If you need a quick recap of the calling convention,
 go to `stubs/` folder in our GitHub repo https://github.com/ouspg/trytls.git
 
-$ trytls https -- python stubs/python-urllib2/run.py
+$ trytls https python stubs/python-urllib2/run.py
 
 ---
 
