@@ -6,25 +6,8 @@ import sys
 import string
 import argparse
 import subprocess
-from colorama import Fore, Back, Style, init, AnsiToWin32
 
-from . import __version__, gencert, utils, results, bundles, testenv
-
-
-# Initialize colorama without wrapping sys.stdout globally
-init(wrap=False)
-wrapped_stdout = AnsiToWin32(sys.stdout, autoreset=True).stream
-
-
-def colorize(format_string, *args, **kwargs):
-    keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
-    keys.update(kwargs)
-    return format_string.format(*args, **keys)
-
-
-def write(*strings):
-    for s in strings:
-        print(s, file=wrapped_stdout)
+from . import __version__, gencert, utils, results, bundles, testenv, formatters
 
 
 class Unsupported(Exception):
@@ -39,36 +22,15 @@ class UnexpectedOutput(Exception):
     pass
 
 
-def indent(text, by=4, first_line=True):
-    r"""
-    >>> indent("a\nb\nc", by=1) == ' a\n b\n c'
-    True
-    """
-
-    spaces = " " * by
-    lines = text.splitlines(True)
-    prefix = lines.pop(0) if (lines and not first_line) else ""
-    return prefix + "".join(spaces + line for line in lines)
-
-
-def output_info(args, openssl_version, runner_name="trytls"):
-    write(
-        colorize(
-            "{Style.BRIGHT}platform:{RESET} {platform}",
-            platform=utils.platform_info()
-        ),
-        colorize(
-            "{Style.BRIGHT}runner:{RESET} {runner} {version} ({python}, {openssl})",
-            runner=runner_name,
-            version=__version__,
-            python=utils.python_info(),
-            openssl=openssl_version
-        ),
-        colorize(
-            "{Style.BRIGHT}stub:{RESET} {command}",
-            command=utils.format_command(args)
-        )
-    )
+def output_info(formatter, args, openssl_version, runner_name="trytls"):
+    formatter.write_platform(utils.platform_info())
+    formatter.write_runner("{runner} {version} ({python}, {openssl})".format(
+        runner=runner_name,
+        version=__version__,
+        python=utils.python_info(),
+        openssl=openssl_version
+    ))
+    formatter.write_stub(args)
 
 
 # A regex that matches to any byte that is not a 7-bit ASCII printable.
@@ -157,81 +119,18 @@ def collect(test, args):
         return results.Fail(details=details)
 
 
-class Formatter(object):
-    def __init__(self, base="", type="", reason="", details=""):
-        self.base = base
-        self.type = type
-        self.reason = reason
-        self.details = details
-
-    def _colorize(self, format_string, *args, **kwargs):
-        keys = dict(Formatter=self)
-        keys.update(**kwargs)
-        return colorize(format_string, *args, **keys)
-
-    def format(self, test, res):
-        result = self._colorize(
-            "{Formatter.base}{Formatter.type}{result:>5}{RESET}{Formatter.base} {description} {Style.DIM}[{accept} {name}]",
-            result=res.name,
-            description=test.description,
-            accept="accept" if test.accept else "reject",
-            name=test.name
-        )
-
-        reason = res.reason.rstrip()
-        if reason:
-            result += self._colorize("{RESET}{Formatter.base}\n")
-            result += indent("reason: ", by=6)
-            result += indent(self._colorize("{Formatter.reason}{}", reason), by=14, first_line=False)
-
-        details = res.details.rstrip()
-        if details:
-            result += self._colorize("{RESET}{Formatter.base}\n")
-            result += indent("output: ", by=6)
-            result += indent(self._colorize("{Formatter.details}{}", details), by=14, first_line=False)
-
-        return result
-
-
-formats = {
-    results.Skip: Formatter(
-        base=Style.DIM
-    ),
-    results.Error: Formatter(
-        base=Fore.RED,
-        type=Back.RED + Fore.WHITE,
-        details=Style.DIM
-    ),
-    results.Fail: Formatter(
-        base=Fore.RED,
-        reason=Fore.RED + Style.DIM
-    ),
-    results.Pass: Formatter(
-        type=Fore.GREEN,
-        reason=Style.DIM,
-        details=Style.DIM
-    )
-}
-
-
-def format_result(test, res):
-    formatter = formats.get(res.type)
-    if formatter is None:
-        raise RuntimeError("unknown result type")
-    return formatter.format(test, res)
-
-
-def run(args, tests):
+def run(formatter, args, tests):
     fail_count = 0
     error_count = 0
 
-    for test, res in testenv.run(tests, collect, args):
-        write(format_result(test, res))
+    with formatter.tests() as writer:
+        for test, result in testenv.run(tests, collect, args):
+            writer.write_test(test, result)
 
-        if res.type == results.Fail:
-            fail_count += 1
-        elif res.type == results.Error:
-            error_count += 1
+            if result.type == results.Fail:
+                fail_count += 1
+            elif result.type == results.Error:
+                error_count += 1
 
     return fail_count == 0 and error_count == 0
 
@@ -240,7 +139,7 @@ def main():
     try:
         openssl_version = gencert.openssl_version()
     except gencert.OpenSSLNotFound as err:
-        write(colorize("{Back.RED}{Fore.WHITE}ERROR:{RESET} {}", err))
+        print("ERROR: {}".format(err), file=sys.stderr)
         return 1
 
     parser = argparse.ArgumentParser(
@@ -257,14 +156,30 @@ def main():
         args.remainder.pop(0)
     bundle_name = args.remainder[0] if args.remainder else None
 
+    parser.add_argument(
+        "--formatter",
+        help="formatter",
+        default="default"
+    )
     args = parser.parse_args(args.remainder[1:], args)
     if args.remainder and args.remainder[0] == "--":
         args.remainder.pop(0)
     command = args.remainder
 
+    create_formatter = formatters.load_formatter(args.formatter)
+    if create_formatter is None:
+        formatter_list = ["  " + x for x in sorted(formatters.iter_formatters())]
+        parser.error(
+            "unknown formatter '{}'\n\n".format(args.formatter) +
+            "Valid formatter options:\n" + "\n".join(formatter_list)
+        )
+
     if bundle_name is None:
-        bundle_list = sorted(bundles.iter_bundles())
-        parser.error("missing the bundle argument\n\nValid bundle options:\n" + indent("\n".join(bundle_list), 2))
+        bundle_list = ["  " + x for x in sorted(bundles.iter_bundles())]
+        parser.error(
+            "missing the bundle argument\n\n" +
+            "Valid bundle options:\n" + "\n".join(bundle_list)
+        )
 
     bundle = bundles.load_bundle(bundle_name)
     if bundle is None:
@@ -273,14 +188,15 @@ def main():
     if not command:
         parser.error("too few arguments, missing command")
 
-    output_info(command, openssl_version=openssl_version)
-    if not run(command, bundle):
-        # Return with a non-zero exit code if all tests were not successful. The
-        # CPython interpreter exits with 1 when an unhandled exception occurs,
-        # and with 2 when there is a problem with a command line parameter. The
-        # argparse module also uses the code 2 for the same purpose. Therefore
-        # the chosen return value here is 3.
-        return 3
+    with create_formatter(sys.stdout) as formatter:
+        output_info(formatter, command, openssl_version=openssl_version)
+        if not run(formatter, command, bundle):
+            # Return with a non-zero exit code if all tests were not successful. The
+            # CPython interpreter exits with 1 when an unhandled exception occurs,
+            # and with 2 when there is a problem with a command line parameter. The
+            # argparse module also uses the code 2 for the same purpose. Therefore
+            # the chosen return value here is 3.
+            return 3
     return 0
 
 
