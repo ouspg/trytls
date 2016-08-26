@@ -49,11 +49,19 @@ class JSONFormatter(object):
         if self._open:
             self._stream.write(",\n")
             self._stream.flush()
+
         obj = {
             "result": result.name,
             "description": test.description,
             "target": "{} {}".format("accept" if test.accept else "reject", test.name),
         }
+        reason = result.reason.rstrip()
+        if reason:
+            obj["reason"] = reason
+        details = result.details.rstrip()
+        if details:
+            obj["details"] = details
+
         self._stream.write(indent(json.dumps(obj, indent=4), 8))
         self._stream.flush()
         self._open = True
