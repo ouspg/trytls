@@ -5,6 +5,7 @@ import contextlib
 from colorama import Fore, Back, Style, init, AnsiToWin32
 
 from .. import utils, results
+from . import _indent
 
 
 @contextlib.contextmanager
@@ -42,18 +43,6 @@ class DefaultFormatter(object):
         self._write(formatter.format(test, result))
 
 
-def indent(text, by=4, first_line=True):
-    r"""
-    >>> indent("a\nb\nc", by=1) == ' a\n b\n c'
-    True
-    """
-
-    spaces = " " * by
-    lines = text.splitlines(True)
-    prefix = lines.pop(0) if (lines and not first_line) else ""
-    return prefix + "".join(spaces + line for line in lines)
-
-
 def colorize(format_string, *args, **kwargs):
     keys = dict(Fore=Fore, Back=Back, Style=Style, RESET=Style.RESET_ALL)
     keys.update(kwargs)
@@ -84,14 +73,14 @@ class Format(object):
         reason = res.reason.rstrip()
         if reason:
             result += self._colorize("{RESET}{Formatter.base}\n")
-            result += indent("reason: ", by=6)
-            result += indent(self._colorize("{Formatter.reason}{}", reason), by=14, first_line=False)
+            result += _indent("reason: ", by=6)
+            result += _indent(self._colorize("{Formatter.reason}{}", reason), by=14, first_line=False)
 
         details = res.details.rstrip()
         if details:
             result += self._colorize("{RESET}{Formatter.base}\n")
-            result += indent("output: ", by=6)
-            result += indent(self._colorize("{Formatter.details}{}", details), by=14, first_line=False)
+            result += _indent("output: ", by=6)
+            result += _indent(self._colorize("{Formatter.details}{}", details), by=14, first_line=False)
 
         return result
 
