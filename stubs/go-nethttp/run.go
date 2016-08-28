@@ -3,51 +3,75 @@ package main
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
+	"net/url"
 	"os"
-	"strings"
+	"time"
 )
 
 func main() {
-	if len(os.Args) < 3 || len(os.Args) > 4 {
+	var host, port, caFileName string
+	switch len(os.Args) {
+	case 4:
+		caFileName = os.Args[3]
+		fallthrough
+	case 3:
+		host = os.Args[1]
+		port = os.Args[2]
+	default:
 		fmt.Printf("usage: %v <host> <port> [cafile]\n", os.Args[0])
 		os.Exit(1)
 	}
 
-	client := http.DefaultClient
-	if len(os.Args) == 4 {
-		cadata, err := ioutil.ReadFile(os.Args[3])
+	if err := checkTLS(host, port, caFileName); err != nil {
+		fmt.Println("FATAL:", err)
+		os.Exit(1)
+	}
+}
+
+func checkTLS(host, port, caFileName string) error {
+	client := &http.Client{
+		Timeout: 5 * time.Second,
+	}
+
+	if caFileName != "" {
+		roots, err := loadRootCA(caFileName)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			return err
 		}
-
-		pool := x509.NewCertPool()
-		if !pool.AppendCertsFromPEM(cadata) {
-			fmt.Println("Couldn't append certs")
-			os.Exit(1)
-		}
-
-		client = &http.Client{
-			Transport: &http.Transport{
-				TLSClientConfig: &tls.Config{RootCAs: pool},
-			},
+		client.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{RootCAs: roots},
 		}
 	}
 
-	// Perform an HTTPS Request
-	_, err := client.Get("https://" + os.Args[1] + ":" + os.Args[2])
-	if err != nil {
-		fatalError := strings.Contains(err.Error(), "no such host")
+	uri := "https://" + net.JoinHostPort(host, port)
+	if _, err := client.Get(uri); err != nil {
+		if urlerr, ok := err.(*url.Error); ok {
+			if _, ok := urlerr.Err.(*net.OpError); ok {
+				// Connection errors are fatal without verdict
+				return err
+			}
+		}
 		fmt.Println(err.Error())
-		if fatalError {
-			os.Exit(1)
-		}
 		fmt.Println("REJECT")
-	} else {
-		fmt.Println("ACCEPT")
+		return nil
 	}
-	os.Exit(0)
+	fmt.Println("ACCEPT")
+	return nil
+}
+
+func loadRootCA(fileName string) (roots *x509.CertPool, err error) {
+	cadata, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		return
+	}
+	roots = x509.NewCertPool()
+	if ok := roots.AppendCertsFromPEM(cadata); !ok {
+		return nil, errors.New("failed to parse CA file")
+	}
+	return roots, nil
 }
