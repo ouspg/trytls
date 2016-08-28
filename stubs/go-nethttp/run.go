@@ -50,20 +50,31 @@ func checkTLS(host, port, caFileName string) error {
 
 	uri := "https://" + net.JoinHostPort(host, port)
 	if _, err := client.Get(uri); err != nil {
+		// Timeouts are fatal without verdict
+		if timeouterr, ok := err.(timeouter); ok {
+			if timeouterr.Timeout() {
+				return err
+			}
+		}
+		// Connection errors from dialer are fatal without verdict
 		if urlerr, ok := err.(*url.Error); ok {
 			if operr, ok := urlerr.Err.(*net.OpError); ok {
 				if operr.Op == "dial" {
-					// Connection errors are fatal without verdict
 					return err
 				}
 			}
 		}
+
 		fmt.Println(err.Error())
 		fmt.Println("REJECT")
 		return nil
 	}
 	fmt.Println("ACCEPT")
 	return nil
+}
+
+type timeouter interface {
+	Timeout() bool
 }
 
 func loadRootCA(fileName string) (roots *x509.CertPool, err error) {
