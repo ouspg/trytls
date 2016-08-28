@@ -1,4 +1,3 @@
-
 # Go stub for TryTLS project
 
 ## How to run
@@ -26,16 +25,13 @@ More information about error may be available on standard output.
 
 ## Alternative: local development
 
-Simply call `go run run.go https://www.example.com/` to compile and run this
-stub in one go. For performance you will want to `go build` a binary first
-though.
-
-Example:
+Usage:
 
 ```shell
-$ go run run.go badssl.com 443
+$ go build
+$ ./go-nethttp badssl.com 443
 ACCEPT
-$ go run run.go untrusted-root.badssl.com 443
+$ ./go-nethttp untrusted-root.badssl.com 443
 REJECT
 ```
 
