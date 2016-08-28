@@ -51,9 +51,11 @@ func checkTLS(host, port, caFileName string) error {
 	uri := "https://" + net.JoinHostPort(host, port)
 	if _, err := client.Get(uri); err != nil {
 		if urlerr, ok := err.(*url.Error); ok {
-			if _, ok := urlerr.Err.(*net.OpError); ok {
-				// Connection errors are fatal without verdict
-				return err
+			if operr, ok := urlerr.Err.(*net.OpError); ok {
+				if operr.Op == "dial" {
+					// Connection errors are fatal without verdict
+					return err
+				}
 			}
 		}
 		fmt.Println(err.Error())
