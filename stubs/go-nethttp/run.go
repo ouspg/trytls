@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"errors"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"net"
@@ -13,15 +14,18 @@ import (
 	"time"
 )
 
+var timeout = flag.Duration("timeout", 5*time.Second, "HTTP request timeout (ms)")
+
 func main() {
+	flag.Parse()
 	var host, port, caFileName string
-	switch len(os.Args) {
-	case 4:
-		caFileName = os.Args[3]
-		fallthrough
+	switch len(flag.Args()) {
 	case 3:
-		host = os.Args[1]
-		port = os.Args[2]
+		caFileName = flag.Arg(2)
+		fallthrough
+	case 2:
+		host = flag.Arg(0)
+		port = flag.Arg(1)
 	default:
 		fmt.Printf("usage: %v <host> <port> [cafile]\n", os.Args[0])
 		os.Exit(1)
@@ -35,7 +39,7 @@ func main() {
 
 func checkTLS(host, port, caFileName string) error {
 	client := &http.Client{
-		Timeout: 5 * time.Second,
+		Timeout: *timeout,
 	}
 
 	if caFileName != "" {
