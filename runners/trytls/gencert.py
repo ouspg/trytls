@@ -1,69 +1,91 @@
-import errno
-import subprocess
-from .utils import tmpfiles, memoized
+from __future__ import absolute_import, unicode_literals
+
+import uuid
+import datetime
+
+from cryptography import x509
+from cryptography.x509.oid import NameOID
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import rsa
+
+from .utils import memoized
 
 
-class OpenSSLNotFound(Exception):
-    pass
+def _dump_cert(cert):
+    return cert.public_bytes(serialization.Encoding.PEM)
 
 
-def openssl(args, input=None):
-    try:
-        process = subprocess.Popen(
-            ["openssl"] + list(args),
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE
+def _dump_private_key(key):
+    return key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.TraditionalOpenSSL,
+        encryption_algorithm=serialization.NoEncryption()
+    )
+
+
+def _load_private_key(data):
+    return serialization.load_pem_private_key(data, None, default_backend())
+
+
+def _gen_key(bits=4096):
+    # Return the private key as PEM data to work around an issue with Python 3.5
+    # and the "cryptography" package. Memoizing the private key objects causes
+    # messages to be written to STDERR during the interpreter shutdown.
+    # See https://github.com/pyca/cryptography/issues/2913.
+    return _dump_private_key(
+        rsa.generate_private_key(
+            public_exponent=65537,
+            key_size=bits,
+            backend=default_backend()
         )
-    except OSError as ose:
-        if ose.errno == errno.ENOENT:
-            raise OpenSSLNotFound("openssl command not found in the search path")
-        raise
-
-    stdout, _ = process.communicate(input)
-    if process.returncode != 0:
-        raise RuntimeError()
-    return stdout
+    )
+_ca_key = memoized(_gen_key)
+_cert_key = memoized(_gen_key)
 
 
-@memoized
-def _ca_key():
-    return openssl(["genrsa", "4096"])
+def _ca_cert(private_key):
+    subject = issuer = x509.Name([
+        x509.NameAttribute(NameOID.ORGANIZATION_NAME, "Fake Certificate Authority")
+    ])
 
-
-@memoized
-def _cert_key():
-    return openssl(["genrsa", "4096"])
-
-
-_EXT_FILE_DATA = b"""
-basicConstraints = CA:FALSE
-"""
+    return x509.CertificateBuilder().subject_name(
+        subject
+    ).issuer_name(
+        issuer
+    ).public_key(
+        private_key.public_key()
+    ).not_valid_before(
+        datetime.datetime.utcnow() - datetime.timedelta(days=356)
+    ).not_valid_after(
+        datetime.datetime.utcnow() + datetime.timedelta(days=356)
+    ).serial_number(
+        int(uuid.uuid4())
+    ).add_extension(
+        x509.BasicConstraints(True, None),
+        critical=True
+    ).sign(private_key, hashes.SHA256(), default_backend())
 
 
 def gencert(cn):
-    subj = "/CN=" + cn
-    ca_key = _ca_key()
-    cert_key = _cert_key()
+    ca_key = _load_private_key(_ca_key())
+    ca_cert = _ca_cert(ca_key)
 
-    # Generate the CA
-    with tmpfiles(ca_key) as ca_keyfile:
-        ca_data = openssl(["req", "-new", "-key", ca_keyfile, "-x509", "-subj", "/O=Fake Certificate Authority"])
+    cert_key = _load_private_key(_cert_key())
+    cert = x509.CertificateBuilder().subject_name(
+        x509.Name([
+            x509.NameAttribute(NameOID.COMMON_NAME, cn)
+        ])
+    ).issuer_name(
+        ca_cert.subject
+    ).public_key(
+        cert_key.public_key()
+    ).not_valid_before(
+        datetime.datetime.utcnow() - datetime.timedelta(days=356)
+    ).not_valid_after(
+        datetime.datetime.utcnow() + datetime.timedelta(days=356)
+    ).serial_number(
+        int(uuid.uuid4())
+    ).sign(ca_key, hashes.SHA256(), default_backend())
 
-    # Generate a certificate signing request
-    with tmpfiles(cert_key) as cert_keyfile:
-        cert_csr = openssl(["req", "-new", "-subj", subj, "-key", cert_keyfile])
-
-    # Sign the certificate with the CA
-    with tmpfiles(ca_key, ca_data, _EXT_FILE_DATA) as (ca_keyfile, ca_file, ext_file):
-        cert_data = openssl(
-            ["x509", "-req", "-extfile", ext_file, "-CA", ca_file, "-CAkey", ca_keyfile, "-set_serial", "01"],
-            input=cert_csr
-        )
-
-    return cert_data, cert_key, ca_data
-
-
-def openssl_version():
-    ver = openssl(["version", "-v"]).strip().decode("ascii", "replace")
-    return " ".join(ver.split()[:2])
+    return _dump_cert(cert), _dump_private_key(cert_key), _dump_cert(ca_cert)
