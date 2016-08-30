@@ -2,7 +2,7 @@ build: off
 deploy: off
 
 install:
-  - pip install tox
+  - python -m pip install tox
 
 test_script:
   - python -m tox
