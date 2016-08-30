@@ -1,0 +1,8 @@
+build: off
+deploy: off
+
+install:
+  - pip install tox
+
+test_script:
+  - python -m tox
