@@ -105,6 +105,7 @@ We have also collected links to other TryTLS inspired findings:
 * [badtls.io certificates created with an old version of asn1crypto? · #1 · wbond/badtls.io](https://github.com/wbond/badtls.io/issues/1)
 * [crypto/x509: bad error message  · #16834 · golang/go](https://github.com/golang/go/issues/16834)
 * [crypto/x509: Certs with odd RDN layouts not handled, cause confusing errors · #16836 · golang/go](https://github.com/golang/go/issues/16836)
+* [httpc:request("https://ssllabs:com:10444") not working correctly · #ERL-232 · Erlang/OTP 19](https://bugs.erlang.org/browse/ERL-232)
 
 <!-- markdownlint-enable MD013 -->
 
