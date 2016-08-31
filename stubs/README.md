@@ -13,7 +13,6 @@ library's own repository and integrate TryTLS into any testing
 framework in place. This way TryTLS gives best results in the long
 run!
 
----
 
 ## Calling convention
 
@@ -30,7 +29,6 @@ Depending on the TLS library used in a stub, the library might use its own
 CA certificate bundle or one delivered by the operating system or one delivered
 by the stub.
 
----
 
 ## Return values
 
@@ -67,7 +65,6 @@ similar one.
       return value other than zero
 </pre>
 
----
 
 ## Testing the stub
 
@@ -114,7 +111,6 @@ $ run.test google.com 443 ca-bundle.pem
 ACCEPT
 ```
 
----
 
 ## Packaging
 
@@ -144,7 +140,6 @@ stub: python 'stubs/python-urllib2/run.py'
  ...
 ```
 
----
 
 ## Stubs tested in each release
 
