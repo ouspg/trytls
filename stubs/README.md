@@ -1,12 +1,17 @@
 ## Stubs
 
-Stubs in different languages and libraries live in here.
-You can contribute your stub here or just BYOR (Bring Your Own Repository).
+This README.md documents how stub should be written to work with the
+current version of TryTLS. Feel free to look the example stubs for
+reference also.
 
-The stubs should attempt to use the chosen language and library
-properly to establish a secure TLS connection to the given destination.
+Stubs in this directory are example implementations for various
+languages. TryTLS maintainers try to do their best to keep stubs up to
+date.
 
-"Have you heard of the TryTLS tester who lost his hands? He only had stubs left."
+However, TryTLS stub for specific library is best to be placed in
+library's own repository and integrate TryTLS into any testing
+framework in place. This way TryTLS gives best results in the long
+run!
 
 ---
 
