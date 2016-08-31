@@ -160,6 +160,7 @@ In Ubuntu 16.04
 * haskell-http-client-tls
 * python2-idiokit
 * python3-aiohttp
+* perl-lwp
 
 ### Acceptance process:
 
