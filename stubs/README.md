@@ -1,4 +1,4 @@
-## Stubs
+# Stubs
 
 This README.md documents how stub should be written to work with the
 current version of TryTLS. Feel free to look the example stubs for
@@ -15,7 +15,7 @@ run!
 
 ---
 
-### Calling convention
+## Calling convention
 
 All the stubs should have a standalone program that takes up to three command
 line arguments (`<host> <port> [ca-bundle]`):
@@ -30,17 +30,21 @@ Depending on the TLS library used in a stub, the library might use its own
 CA certificate bundle or one delivered by the operating system or one delivered
 by the stub.
 
-
 ---
 
-### Return values
+## Return values
 
 Stubs should attempt to establish a **secure** connection to the given
-service(host + port) and catch possible errors and exceptions to determine if the connection was successful.
+service(host + port) and catch possible errors and exceptions to
+determine if the connection was successful.
 
-The last string the stub should print is the verdict (UNSUPPORTED, ACCEPT etc.). If you want the stub to print additional context such as the reason to accept/reject connection or an error message, the stub should print them before the verdict.
+The last string the stub should print is the verdict (UNSUPPORTED,
+ACCEPT etc.). If you want the stub to print additional context such as
+the reason to accept/reject connection or an error message, the stub
+should print them before the verdict.
 
-The data printed should follow the following set of instructions or a similar one.
+The data printed should follow the following set of instructions or a
+similar one.
 
 <pre>
 1.0 print (optional context)
@@ -62,31 +66,35 @@ The data printed should follow the following set of instructions or a similar on
       (optional error message)
       return value other than zero
 </pre>
+
 ---
 
-### Testing the stub
+## Testing the stub
 
 To test that the stub works as it should you can perform couple of
-easy tests by running it on command line (stub is named `run.test`
-in these examples).
+easy tests by running it on command line (stub is named `run.test` in
+these examples).
 
-Running the program without any arguments should give error message and exit with value other than zero:
+Running the program without any arguments should give error message
+and exit with value other than zero:
 
-```sh
+```console
 $ run.test
 <This should print some kind of (helpful) error message>
 ```
 
-Connecting to `google.com` on HTTPS port should be success and exit with value zero:
+Connecting to `google.com` on HTTPS port should be success and exit
+with value zero:
 
-```sh
+```console
 $ run.test google.com 443
 ACCEPT
 ```
 
-Connecting to `badssl.com`'s `untrusted-root` should be failure and exit with value zero:
+Connecting to `badssl.com`'s `untrusted-root` should be failure and
+exit with value zero:
 
-```sh
+```console
 $ run.test untrusted-root.badssl.com 443
 REJECT
 ```
@@ -95,35 +103,36 @@ If these simple tests work, your stub is ready to be tested with
 TryTLS runner.
 
 If you want to test the CA bundle argument, then you need valid CA
-bundle file for example from
-[certifi.io](https://certifi.io/en/latest/).
+bundle file for example from [certifi.io](https://certifi.io/en/latest/).
 
 Download the certifi.io CA bundle to file named `ca-bundle.pem` (with
 for example curl: `curl -L -o ca-bundle.pem
 https://mkcert.org/generate/`) and then test:
 
-```sh
+```console
 $ run.test google.com 443 ca-bundle.pem
 ACCEPT
 ```
 
 ---
 
-### Packaging
+## Packaging
 
-A stub should be confined to a directory named in a way that describes the
-chosen target language and library or service, e.g. `<language>-<library>`.
+A stub should be confined to a directory named in a way that describes
+the chosen target language and library or service,
+e.g. `<language>-<library>`.
 
-A stub should have a top level `README.md` which describes how to run the stub and
-how to install the potential dependencies needed.
+A stub should have a top level `README.md` which describes how to run
+the stub and how to install the potential dependencies needed.
 
-The stubs should have a `run` command with optional and appropriate file
-extension for the language in question.
+The stubs should have a `run` command with optional and appropriate
+file extension for the language in question.
 
-Optionally a stub can have a `Dockerfile` that encapsulates the environment
-and the dependencies needed to run the example.
+Optionally a stub can have a `Dockerfile` that encapsulates the
+environment and the dependencies needed to run the example.
 
-Ideally, one should also include a `results.md` that contains the result of a test run as follows:
+Ideally, one should also include a `results.txt` that contains the
+result of a test run as follows (`trytls https ./run >results.txt`):
 
 ```
 platform: Linux (Ubuntu 16.04)
@@ -137,7 +146,7 @@ stub: python 'stubs/python-urllib2/run.py'
 
 ---
 
-### Stubs tested in each release
+## Stubs tested in each release
 
 In Ubuntu 16.04
 
@@ -147,43 +156,3 @@ In Ubuntu 16.04
 * go-nethttp
 * java-https
 * java-net
-
-### Other stubs
-
-* CSharp-Net
-* c-libressl
-* haskell-wreq
-* FSharp-Net
-* c-openssl
-* dotnet-https
-* 3VB-Net
-* erlang-httpc
-* lua5.1-luasec
-* bash-curl
-* php-file-get-contents
-* bash-opensslSClient
-* haskell-http-client-tls
-* python2-idiokit
-* python3-aiohttp
-
-### Acceptance process:
-
-1. Author:
-   * Contact the author
-* License:
-   * Author agrees with the license?
-* Contribution list:
-   * Author's name on the contributions list
-* Specs:
-   * Calling convention
-* Stub works:
-   * Does it?
-* Docs + dependencies:
-   * Deps documented?
-   * **Run** + **Install**
-*  Results:
-   * results.txt
-* Findings + What to do?
-   * Pass/ fail ->
-      * Ignore?, Writeup?, Upstream?
-
