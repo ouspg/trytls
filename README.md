@@ -1,4 +1,4 @@
-# TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls) [![Build status](https://ci.appveyor.com/api/projects/status/91p39fn87pbiy1gs?svg=true)](https://ci.appveyor.com/project/jviide/trytls)
+# TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls) [![Build status](https://ci.appveyor.com/api/projects/status/91p39fn87pbiy1gs?svg=true)](https://ci.appveyor.com/project/jviide/trytls) [![Build Status](https://travis-ci.org/ouspg/trytls.svg)](https://travis-ci.org/ouspg/trytls)
 
 Does *your* TLS/SSL library check
 [certificates](https://tools.ietf.org/html/rfc5280) properly?
