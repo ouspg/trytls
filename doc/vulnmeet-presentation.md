@@ -1,3 +1,4 @@
+
 # TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls) [![Build status](https://ci.appveyor.com/api/projects/status/91p39fn87pbiy1gs?svg=true)](https://ci.appveyor.com/project/jviide/trytls)
 
 Does *your* TLS/SSL library check certificates properly?
@@ -9,22 +10,22 @@ researchers, and end-users, who want to use TLS safely.
 
 We hope to help you to test certificate handling easily. We support
 systematic and readily planned tests and try make integrating your
-favorite language and library easy.
+favourite language and library easy.
 
 We are completely open source, feel free to contribute!
 
-----
+---
 
-## What TryTLS Is Not
+# What TryTLS Is Not
 
 * We do not address possible client certificate check problems in server code
 * We do not do or require a man-in-the-middle tools
 * We do not support smart TVs, IoT toasters and other such devices that
   can't run any of the runners
 
-----
+---
 
-## How Does It Work
+# How Does It Work
 
 ![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/concept-pic.png)
 
@@ -32,20 +33,20 @@ We are completely open source, feel free to contribute!
 * **Stubs** attempt to establish secure TLS/SSL connections to backends.
 * **Runners** run the stubs against backends and provide the results of the tests.
 
-----
+---
 
-## Runners
+# Runners
 
 * trytls (official)
 * bashtls + simplerunner (unofficial)
 
-### Installation
+Installation
 
 ```sh
 pip install trytls
 ```
 
-### Usage
+Usage
 
 ```sh
 $ git clone https://github.com/ouspg/trytls.git
@@ -59,9 +60,9 @@ stub: python 'run.py'
   ...
 ```
 
-----
+---
 
-## Stubs
+# Stubs
 
 Stubs attempt to establish a **secure** connection to the given
 service(host + port) and catch possible errors and exceptions to
@@ -81,9 +82,9 @@ library's own repository and integrate TryTLS into any testing
 framework in place. This way TryTLS gives best results in the long
 run!
 
-----
+---
 
-### Calling convention
+# Calling convention
 
 All the stubs have a standalone program that takes up to three command
 line arguments (`<host> <port> [ca-bundle]`):
@@ -98,9 +99,9 @@ Depending on the TLS library used in a stub, the library might use its own
 CA certificate bundle or one delivered by the operating system or one delivered
 by the stub.
 
-----
+---
 
-## Backends
+# Backends
 
 We currently support the following backends:
 
@@ -113,9 +114,9 @@ We currently support the following backends:
 
 Test runners allow user to test against all or any of these backends.
 
-----
+---
 
-## Shootouts
+# Shootouts
 
 We have tested some of our releases against popular software.
 Results and repro instructions of these tests are collected
@@ -123,7 +124,7 @@ in the shootout documentation.
 
 ---
 
-## Shootout 0.2
+# Shootout 0.2
 
 We ran TryTLS tests on major and still supported distributions.
 For this shootout we limited ourselves to the official Docker images
@@ -147,7 +148,7 @@ Our main observations were:
   
 ---
 
-## Shootout 0.2
+# Shootout 0.2
 
 After previous shootout we contacted Python developers.
   TLS certificate verification failures in some OS distributions is a known
@@ -159,11 +160,11 @@ After previous shootout we contacted Python developers.
 
 ---
 
-## Shootout 0.3
+# Shootout 0.3
 
 We ran the TryTLS tests against the same target OS distributions and
 languages as in the previous shootout, but used newer versions of
-both the stubs and the runner. We used Docker for repeatibility
+both the stubs and the runner. We used Docker for repeatability
 and ease of reproduction.
 
 Our main observations were:
@@ -187,7 +188,7 @@ Our main observations were:
 
 ---
 
-### OS X OpenSSL verification surprises
+# OS X OpenSSL verification surprises
 
 When using native python shipped with OS X, the system default bundle will be
 trusted even if instructed otherwise. This is troubling, as some organizations
@@ -197,15 +198,15 @@ CAs have been brought into question.
 This issue has been reported already 2014-03-03 by Hynek Schlawack.
 CVE-2014-2234 describes the vulnerability exists on *A certain Apple patch for OpenSSL in
 Apple OS X 10.9.2*. However, we have reproduced it in OS X 10.11.5 (15F34)
-2016-06-12. The same behavior was observed with other python libraries
+2016-06-12. The same behaviour was observed with other python libraries
 (e.g. urllib3 and requests) - as long as the
 python shipped with OS X was used.
-
+    
 ---
+    
+# How we found it
 
-### How we found it
-
-While developing the tool, we found an unexpected behavior. Apple's patch to their OpenSSL, apparently
+While developing the tool, we found an unexpected behaviour. Apple's patch to their OpenSSL, apparently
 made back in 2011, gives the user of OpenSSL more CAs than she bargained for. If the certificate check
 fails with  user provided CA, Apple's OpenSSL *gives failed verifications a
 second chance using the system keyring as trust store.*
@@ -215,7 +216,9 @@ Suggested workarounds
  * Developer: consider warning users if OS X native python is used
     and non-ca-bundle is set by the user.
 
-## Other found issues
+---
+    
+# Other found issues
 
 We have also collected links to other unofficial TryTLS *inspired* findings:
 
@@ -230,9 +233,9 @@ We have also collected links to other unofficial TryTLS *inspired* findings:
 * [crypto/x509: Certs with odd RDN layouts not handled, cause confusing errors · #16836 · golang/go](https://github.com/golang/go/issues/16836)
 * [httpc:request("https://ssllabs:com:10444") not working correctly · #ERL-232 · Erlang/OTP 19](https://bugs.erlang.org/browse/ERL-232)
 
-----
+---
 
-## Contact us
+# Contact us
 
 * Preferred: public tweet
   * Use #trytls and point it to @oupsg
