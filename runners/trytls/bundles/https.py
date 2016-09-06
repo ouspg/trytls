@@ -208,18 +208,18 @@ def badssl_tests():
     yield testgroup(
         badssl(False, "expired", "expired certificate", forced_result),
         badssl(False, "wrong.host", "wrong hostname in certificate", forced_result),
-        badssl(True, "sha256", "SHA-256 signature", forced_result),
-        badssl(True, "1000-sans", "1000 subjectAltNames", forced_result),
+        badssl(True, "sha256", "SHA256 signature algorithm", forced_result),
+        badssl(True, "1000-sans", "certificate with 1000 different Subject Alternative Names", forced_result),
         badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
         badssl(False, "superfish", "Superfish CA", forced_result),
         badssl(False, "edellroot", "eDellRoot CA", forced_result),
         badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result),
-        badssl(False, "untrusted-root", "Untrusted root certificate", forced_result),
-        badssl(False, "rc4-md5", "denies use of RC4 with MD5", forced_result),
-        badssl(False, "rc4", "denies use of RC4", forced_result),
+        badssl(False, "untrusted-root", "untrusted root certificate", forced_result),
+        badssl(False, "rc4", "denies use of RC4 ciphers (RFC7465)", forced_result),
+        badssl(False, "rc4-md5", "denies use of RC4 with MD5 ciphers", forced_result),
         badssl(False, "null", "denies use of null cipher", forced_result),
-        badssl(False, "dh480", "denies use of dh480", forced_result),
-        badssl(False, "dh512", "denies use of dh512", forced_result)
+        badssl(False, "dh480", "denies use of 480 bit Diffie-Hellman (DH)", forced_result),
+        badssl(False, "dh512", "denies use of 512 bit Diffie-Hellman (DH)", forced_result)
     )
 
 
