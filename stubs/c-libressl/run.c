@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include <tls.h>
 #include <err.h>
 
@@ -87,7 +88,7 @@ int main(int argc, char **argv) {
                 }
 
                 /* Filter away non-ASCII charaters */
-                if (read_buf[i] < 0x20 || read_buf[i] > 0x7f) {
+                if (isprint(read_buf[i]) == 0) {
                         read_buf[i] = '?';
                 }
         }
