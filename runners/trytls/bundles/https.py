@@ -213,7 +213,13 @@ def badssl_tests():
         badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
         badssl(False, "superfish", "Superfish CA", forced_result),
         badssl(False, "edellroot", "eDellRoot CA", forced_result),
-        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result)
+        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result),
+        badssl(False, "untrusted-root", "Untrusted root certificate", forced_result),
+        badssl(False, "rc4-md5", "denies use of RC4 with MD5", forced_result),
+        badssl(False, "rc4", "denies use of RC4", forced_result),
+        badssl(False, "null", "denies use of null cipher", forced_result),
+        badssl(False, "dh480", "denies use of dh480", forced_result),
+        badssl(False, "dh512", "denies use of dh512", forced_result)
     )
 
 
