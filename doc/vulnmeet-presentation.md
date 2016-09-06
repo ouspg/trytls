@@ -1,7 +1,7 @@
 
 # TryTLS [![CircleCI](https://circleci.com/gh/ouspg/trytls.svg?style=shield)](https://circleci.com/gh/ouspg/trytls) [![Build status](https://ci.appveyor.com/api/projects/status/91p39fn87pbiy1gs?svg=true)](https://ci.appveyor.com/project/jviide/trytls)
 
-Does *your* TLS/SSL library check certificates properly?
+Does *your* TLS library check certificates properly?
 Broken certificate checks seems to be an overlooked issue.
 Handling certificates is surprisingly complex, and calls for extra attention.
 
@@ -50,13 +50,17 @@ Usage
 
 ```sh
 $ git clone https://github.com/ouspg/trytls.git
-$ trytls https python trytls/stubs/python-urllib2/run.py
-platform: OS X 10.11.5
-runner: trytls 0.2.0 (CPython 2.7.10, OpenSSL 0.9.8zh)
-stub: python 'run.py'
+$ trytls https python3 trytls/stubs/python3-urllib/run.py
+platform: Windows
+runner: trytls 0.3.5 (CPython 3.4.3)
+stub: python run.py
+ PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+ FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
+ PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+ PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- PASS expired certificate [reject expired.badssl.com:443]
- PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
   ...
 ```
 
@@ -68,8 +72,8 @@ Stubs attempt to establish a **secure** connection to the given
 service(host + port) and catch possible errors and exceptions to
 determine if the connection was successful.
 
-The last string the stub prints is the verdict (UNSUPPORTED,
-ACCEPT etc.). If the stub provides additional context such as
+The last string the stub prints is the verdict (ACCEPT, REJECT 
+or UNSUPPORTED). If the stub provides additional context such as
 the reason to accept/reject connection or an error message, the stub
 prints them before the verdict.
 
