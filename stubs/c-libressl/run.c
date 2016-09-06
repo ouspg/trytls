@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
                         break;
                 }
 
-                /* Filter away non-ASCII charaters */
+                /* Filter away non-printable characters */
                 if (isprint(read_buf[i]) == 0) {
                         read_buf[i] = '?';
                 }
