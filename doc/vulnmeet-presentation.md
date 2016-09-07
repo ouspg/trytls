@@ -273,8 +273,8 @@ Stubs attempt to establish a **secure** connection to the given
 service(host + port) and catch possible errors and exceptions to
 determine if the connection was successful.
 
-The last string the stub prints is the verdict (UNSUPPORTED,
-ACCEPT etc.). If the stub provides additional context such as
+The last string the stub prints is the verdict (REJECT, ACCEPT,
+UNSUPPORTED). If the stub provides additional context such as
 the reason to accept/reject connection or an error message, the stub
 prints them before the verdict.
 
