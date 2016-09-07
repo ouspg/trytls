@@ -25,101 +25,6 @@ We are completely open source, feel free to contribute!
 
 ---
 
-# How Does It Work
-
-![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/concept-pic.png)
-
-* **Backends (servers)** provide TLS/SSL tests for stubs (clients).
-* **Stubs** attempt to establish secure TLS/SSL connections to backends.
-* **Runners** run the stubs against backends and provide the results of the tests.
-
----
-
-# Runners
-
-* trytls (official)
-* bashtls + simplerunner (unofficial)
-
-Installation
-
-```sh
-pip install trytls
-```
-
-Usage
-
-```sh
-$ git clone https://github.com/ouspg/trytls.git
-$ trytls https python3 trytls/stubs/python3-urllib/run.py
-platform: Windows
-runner: trytls 0.3.5 (CPython 3.4.3)
-stub: python run.py
- PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
- PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
- PASS support for TLS server name indication (SNI) [accept badssl.com:443]
-  ...
-```
-
----
-
-# Stubs
-
-Stubs attempt to establish a **secure** connection to the given
-service(host + port) and catch possible errors and exceptions to
-determine if the connection was successful.
-
-The last string the stub prints is the verdict (ACCEPT, REJECT 
-or UNSUPPORTED). If the stub provides additional context such as
-the reason to accept/reject connection or an error message, the stub
-prints them before the verdict.
-
-Stubs in our directory are example TLS implementations for various
-languages. TryTLS maintainers try to do their best to keep stubs up to
-date.
-
-However, TryTLS stub for specific library is best to be placed in
-library's own repository and integrate TryTLS into any testing
-framework in place. This way TryTLS gives best results in the long
-run!
-
----
-
-# Calling convention
-
-All the stubs have a standalone program that takes up to three command
-line arguments (`<host> <port> [ca-bundle]`):
-
- * `<host>` is the DNS name or IP-address of the service to connect to
- * `<port>` is the port to connect to
- * `[ca-bundle]` is optional location of the CA certificate bundle
-   file to be used. The bundle file consists of PEM encoded
-   certificates concatenated together.
-
-Depending on the TLS library used in a stub, the library might use its own
-CA certificate bundle or one delivered by the operating system or one delivered
-by the stub.
-
----
-
-# Backends
-
-We currently support the following backends:
-
-* BadSSL - we have cherry picked the relevant tests
-* Local backend in the test runner itself (aka `localhost` backend)
-* SSLLabs - protection against certain attacks
-* freakattack.com - protection againstFREAK
-* badtls.io
-* tlsfun.de
-
-Test runners allow user to test against all or any of these backends.
-
----
-
 # Shootouts
 
 We have tested some of our releases against popular software.
@@ -236,6 +141,101 @@ We have also collected links to other unofficial TryTLS *inspired* findings:
 * [crypto/x509: bad error message  · #16834 · golang/go](https://github.com/golang/go/issues/16834)
 * [crypto/x509: Certs with odd RDN layouts not handled, cause confusing errors · #16836 · golang/go](https://github.com/golang/go/issues/16836)
 * [httpc:request("https://ssllabs:com:10444") not working correctly · #ERL-232 · Erlang/OTP 19](https://bugs.erlang.org/browse/ERL-232)
+
+---
+
+# How Does It Work
+
+![Architecture](https://raw.githubusercontent.com/ouspg/trytls/master/doc/concept-pic.png)
+
+* **Backends (servers)** provide TLS/SSL tests for stubs (clients).
+* **Stubs** attempt to establish secure TLS/SSL connections to backends.
+* **Runners** run the stubs against backends and provide the results of the tests.
+
+---
+
+# Runners
+
+* trytls (official)
+* bashtls + simplerunner (unofficial)
+
+Installation
+
+```sh
+pip install trytls
+```
+
+Usage
+
+```sh
+$ git clone https://github.com/ouspg/trytls.git
+$ trytls https python3 trytls/stubs/python3-urllib/run.py
+platform: Windows
+runner: trytls 0.3.5 (CPython 3.4.3)
+stub: python run.py
+ PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+ PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+ FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
+ PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+ PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+ PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+ PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+  ...
+```
+
+---
+
+# Stubs
+
+Stubs attempt to establish a **secure** connection to the given
+service(host + port) and catch possible errors and exceptions to
+determine if the connection was successful.
+
+The last string the stub prints is the verdict (ACCEPT, REJECT 
+or UNSUPPORTED). If the stub provides additional context such as
+the reason to accept/reject connection or an error message, the stub
+prints them before the verdict.
+
+Stubs in our directory are example TLS implementations for various
+languages. TryTLS maintainers try to do their best to keep stubs up to
+date.
+
+However, TryTLS stub for specific library is best to be placed in
+library's own repository and integrate TryTLS into any testing
+framework in place. This way TryTLS gives best results in the long
+run!
+
+---
+
+# Calling convention
+
+All the stubs have a standalone program that takes up to three command
+line arguments (`<host> <port> [ca-bundle]`):
+
+ * `<host>` is the DNS name or IP-address of the service to connect to
+ * `<port>` is the port to connect to
+ * `[ca-bundle]` is optional location of the CA certificate bundle
+   file to be used. The bundle file consists of PEM encoded
+   certificates concatenated together.
+
+Depending on the TLS library used in a stub, the library might use its own
+CA certificate bundle or one delivered by the operating system or one delivered
+by the stub.
+
+---
+
+# Backends
+
+We currently support the following backends:
+
+* BadSSL - we have cherry picked the relevant tests
+* Local backend in the test runner itself (aka `localhost` backend)
+* SSLLabs - protection against certain attacks
+* freakattack.com - protection againstFREAK
+* badtls.io
+* tlsfun.de
+
+Test runners allow user to test against all or any of these backends.
 
 ---
 
