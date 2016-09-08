@@ -121,10 +121,6 @@ Legend:
 
 # Shootout 0.3 - certificate check results
 
-Failures to check certificates are noted in the table.
-Considerably less tests were performed in cases where SNI support or
-CA support were not available.
-
 <!-- markdownlint-disable MD013 -->
 
 | OS                             | python2-requests | python2-urllib2 | python3-urllib | go-nethttp   | java-https | java-net | php-file-get-contents  |
@@ -249,21 +245,21 @@ pip install trytls
 
 Usage
 
-+```sh
- +$ git clone https://github.com/ouspg/trytls.git
- +$ trytls https python3 trytls/stubs/python3-urllib/run.py
- +platform: Windows
- +runner: trytls 0.3.5 (CPython 3.4.3)
- +stub: python run.py
- + PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
- + PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
- + FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
- + PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
- + PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
- + PASS protection against POODLE attack [reject sslv3.dshield.org:443]
- + PASS support for TLS server name indication (SNI) [accept badssl.com:443]
- +  ...
- +```
+```sh
+ $ git clone https://github.com/ouspg/trytls.git
+ $ trytls https python3 trytls/stubs/python3-urllib/run.py
+ platform: Windows
+ runner: trytls 0.3.5 (CPython 3.4.3)
+ stub: python run.py
+  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
+  PASS protect against the FREAK attack [reject www.ssllabs.com:10444]
+  FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
+  PASS protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
+  PASS protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
+  PASS protection against POODLE attack [reject sslv3.dshield.org:443]
+  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
+   ...
+ ```
 
 ---
 
