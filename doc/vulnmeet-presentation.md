@@ -30,8 +30,7 @@ We are completely open source, feel free to contribute!
 We ran TryTLS tests on major and still supported distributions.
 For this shootout we limited ourselves to the official Docker images
 of the distributions. Our objective was to check that the bundled
-languages and libraries are safe to use with TLS. TryTLS focuses
-on making sure that the certificates are checked properly.
+languages and libraries are safe to use.
 
 Our main observations were:
 
@@ -68,14 +67,7 @@ and ease of reproduction.
 
 Our main observations were:
 
-* OS distributions have issues with their Python version policies. Proper
-  certificate checks are either not back ported from the fixed Python
-  versions or changes have to be made either to the configuration or
-  the code that works in safe manner in up to date environments. This
-  is a hazard where neither software developers or users
-  realize that code that works well for the developer may be
-  unsafe for the user using different OS distribution than
-  the developer. In a nutshell, there are many cases where the
+* There are many cases where the
   python based software may fail to check certificates in
   OS distributions currently still in wide use.
   
@@ -109,13 +101,6 @@ clarifications and further pointers.
 |[Ubuntu 16.04.1](ubuntu-16.04)  | YES              | YES             | YES            | YES          | YES        | YES      | YES                    |
 
 <!-- markdownlint-enable MD013 -->
-
-Legend:
-
-* YES: SNI supported
-* NO: SNI not supported
-* N/A: test subject was not available in target distribution, or stub behavior
-  requires investigation
   
 ---
 
@@ -139,21 +124,9 @@ Legend:
 
 <!-- markdownlint-enable MD013 -->
 
-Legend:
-
-* PASS: Certificates are checked properly, this is safe
-* FAIL: Certificates are NOT checked properly, this is NOT safe
-* N/A: test subject was not available in target distribution, or stub behaviour
-  requires investigation
-
 ---
   
 # Shootout 0.3 - crypto weakness results
-
-Potential crypto weakness identified by the tests are listed below. Abbreviations
-can be mapped to the original tests from the results in the subdirectories.
-Considerably less tests were performed in cases where SNI support or
-CA support were not available.
 
 <!-- markdownlint-disable MD013 -->
 
