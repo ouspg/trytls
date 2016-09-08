@@ -35,17 +35,11 @@ languages and libraries are safe to use.
 
 Our main observations were:
 
-* The same Python code produced different results in different distributions.
-  Due to this, we should reach out Python gurus, are we doing something wrong
-  or is running apparently correct Python code in some major distributions
-  actually dangerous.
+* The same Python code produced different results in different distributions
 
-* Java stubs had issues we need to investigate and possibly fix before next
-  shootout. Due to this, some Java results are not available.
+* Java stubs had issues we need to investigate and possibly fix.
 
-* We were surprised to see the lack of SNI support in many of the still
-  supported distributions. In next study we might investigate SNI support
-  separately to get more directly security related results.
+* We were surprised to see the lack of SNI support in many of the distributions.
   
 ---
 
@@ -153,8 +147,7 @@ clarifications and further pointers.
 
 When using native python shipped with OS X, the system default bundle will be
 trusted even if instructed otherwise. This is troubling, as some organizations
-do not want to trust the default bundles. Also, lately, the reputation of some
-CAs have been brought into question.
+do not want to trust the default bundles.
 
 This issue has been reported already 2014-03-03 by Hynek Schlawack.
 CVE-2014-2234 describes the vulnerability exists on *A certain Apple patch for OpenSSL in
