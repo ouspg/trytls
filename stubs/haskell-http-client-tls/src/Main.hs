@@ -53,10 +53,14 @@ main = do
   request <- parseRequest url
 
   _ <- catch (doGet request manager)
-             (\(TlsExceptionHostPort e _ _) -> do
+             (\exp' -> case exp' of
+               TlsExceptionHostPort e _ _ -> do
                  print e
                  putStrLn "REJECT"
                  exitSuccess
+               e -> do
+                 print e
+                 exitFailure
              )
   return ()
   where
