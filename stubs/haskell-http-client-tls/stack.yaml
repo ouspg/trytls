@@ -1,11 +1,12 @@
-resolver: lts-6.14
+resolver: lts-7.2
 packages:
   - '.'
   - location:
-      git: https://github.com/oherrala/hs-certificate
-      commit: fccd483710e5a4f37368f03d839eca120523e324
+      git: https://github.com/vincenthz/hs-certificate
+      commit: 207d9fef631234df4303c9acb1519a2e4241b26f
     subdirs:
       - x509-store
+      - x509-validation
 extra-deps: []
 flags: {}
 extra-package-dbs: []
