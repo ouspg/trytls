@@ -57,17 +57,18 @@ def _gen_ca():
     )
 
 
-def gencert(cn):
+def gencert(name):
     ca_cert_data, ca_private_data = _gen_ca()
     public_data, private_data = _cert_key()
 
     builder = CertificateBuilder(
         {
-            "common_name": cn
+            "common_name": name
         },
         _load_public(public_data)
     )
     builder.issuer = _load_cert(ca_cert_data)
+    builder.subject_alt_domains = [name]
     cert = builder.build(_load_private(ca_private_data))
     return (
         _dump_cert(cert),
