@@ -90,16 +90,6 @@ def ssllabs(accept, port, description):
 
 
 @testenv
-def freakattack(host, description):
-    yield Test(
-        accept=False,
-        description=description,
-        host=host,
-        port=443
-    )
-
-
-@testenv
 def tlsfun(accept, name, description, forced_result):
     yield Test(
         accept=accept,
@@ -209,12 +199,18 @@ def badssl_tests():
     yield testgroup(
         badssl(False, "expired", "expired certificate", forced_result),
         badssl(False, "wrong.host", "wrong hostname in certificate", forced_result),
-        badssl(True, "sha256", "SHA-256 signature", forced_result),
-        badssl(True, "1000-sans", "1000 subjectAltNames", forced_result),
+        badssl(True, "sha256", "SHA-256 signature algorithm", forced_result),
+        badssl(True, "1000-sans", "certificate with 1000 different Subject Alternative Names", forced_result),
         badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
         badssl(False, "superfish", "Superfish CA", forced_result),
         badssl(False, "edellroot", "eDellRoot CA", forced_result),
-        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result)
+        badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result),
+        badssl(False, "untrusted-root", "untrusted root certificate", forced_result),
+        badssl(False, "rc4", "denies use of RC4 ciphers (RFC 7465)", forced_result),
+        badssl(False, "rc4-md5", "denies use of RC4 with MD5 ciphers", forced_result),
+        badssl(False, "null", "denies use of null cipher", forced_result),
+        badssl(False, "dh480", "denies use of 480 bit Diffie-Hellman (DH)", forced_result),
+        badssl(False, "dh512", "denies use of 512 bit Diffie-Hellman (DH)", forced_result)
     )
 
 
@@ -253,11 +249,6 @@ ssllabs_tests = testgroup(
     ssllabs(False, 10445, "protect against the Logjam attack")
 )
 
-freakattack_tests = testgroup(
-    freakattack("cve.freakattack.com", "protect against FREAK attack (test server 1)"),
-    freakattack("cve2.freakattack.com", "protect against FREAK attack (test server 2)"),
-)
-
 badtls_tests = testgroup(
     badtls(True, "domain-match.badtls.io", 10000, "valid certificate Common Name"),
     badtls(True, "wildcard-match.badtls.io", 10001, "valid wildcard certificate Common Name"),
@@ -270,8 +261,8 @@ badtls_tests = testgroup(
     badtls(False, "bad-key-usage.badtls.io", 11005, "certificate has invalid key usage for HTTPS connection"),
     badtls(False, "expired.badtls.io", 11006, "expired certificate"),
     badtls(False, "wildcard.mismatch.badtls.io", 11007, "invalid wildcard certificate Common Name"),
-    badtls(False, "rc4.badtls.io", 11008, "denies use of RC4 ciphers (RFC7465)"),
-    badtls(False, "weak-sig.badtls.io", 11004, "denies use of MD5 signature algorithm (RFC6151)"),
+    badtls(False, "rc4.badtls.io", 11008, "denies use of RC4 ciphers (RFC 7465)"),
+    badtls(False, "weak-sig.badtls.io", 11004, "denies use of MD5 signature algorithm (RFC 6151)"),
     badtls(False, "rc4-md5.badtls.io", 11009, "denies use of RC4 with MD5 ciphers")
 )
 
@@ -292,7 +283,6 @@ dshield_tests = testgroup(
 
 all_tests = testgroup(
     ssllabs_tests,
-    freakattack_tests,
     dshield_tests,
     badssl_tests,
     tlsfun_tests,
