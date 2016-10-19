@@ -90,16 +90,6 @@ def ssllabs(accept, port, description):
 
 
 @testenv
-def freakattack(host, description):
-    yield Test(
-        accept=False,
-        description=description,
-        host=host,
-        port=443
-    )
-
-
-@testenv
 def tlsfun(accept, name, description, forced_result):
     yield Test(
         accept=accept,
@@ -253,11 +243,6 @@ ssllabs_tests = testgroup(
     ssllabs(False, 10445, "protect against the Logjam attack")
 )
 
-freakattack_tests = testgroup(
-    freakattack("cve.freakattack.com", "protect against FREAK attack (test server 1)"),
-    freakattack("cve2.freakattack.com", "protect against FREAK attack (test server 2)"),
-)
-
 badtls_tests = testgroup(
     badtls(True, "domain-match.badtls.io", 10000, "valid certificate Common Name"),
     badtls(True, "wildcard-match.badtls.io", 10001, "valid wildcard certificate Common Name"),
@@ -292,7 +277,6 @@ dshield_tests = testgroup(
 
 all_tests = testgroup(
     ssllabs_tests,
-    freakattack_tests,
     dshield_tests,
     badssl_tests,
     tlsfun_tests,
