@@ -208,14 +208,14 @@ def badssl_tests():
     yield testgroup(
         badssl(False, "expired", "expired certificate", forced_result),
         badssl(False, "wrong.host", "wrong hostname in certificate", forced_result),
-        badssl(True, "sha256", "SHA256 signature algorithm", forced_result),
+        badssl(True, "sha256", "SHA-256 signature algorithm", forced_result),
         badssl(True, "1000-sans", "certificate with 1000 different Subject Alternative Names", forced_result),
         badssl(False, "incomplete-chain", "incomplete chain of trust", forced_result),
         badssl(False, "superfish", "Superfish CA", forced_result),
         badssl(False, "edellroot", "eDellRoot CA", forced_result),
         badssl(False, "dsdtestprovider", "DSDTestProvider CA", forced_result),
         badssl(False, "untrusted-root", "untrusted root certificate", forced_result),
-        badssl(False, "rc4", "denies use of RC4 ciphers (RFC7465)", forced_result),
+        badssl(False, "rc4", "denies use of RC4 ciphers (RFC 7465)", forced_result),
         badssl(False, "rc4-md5", "denies use of RC4 with MD5 ciphers", forced_result),
         badssl(False, "null", "denies use of null cipher", forced_result),
         badssl(False, "dh480", "denies use of 480 bit Diffie-Hellman (DH)", forced_result),
@@ -275,8 +275,8 @@ badtls_tests = testgroup(
     badtls(False, "bad-key-usage.badtls.io", 11005, "certificate has invalid key usage for HTTPS connection"),
     badtls(False, "expired.badtls.io", 11006, "expired certificate"),
     badtls(False, "wildcard.mismatch.badtls.io", 11007, "invalid wildcard certificate Common Name"),
-    badtls(False, "rc4.badtls.io", 11008, "denies use of RC4 ciphers (RFC7465)"),
-    badtls(False, "weak-sig.badtls.io", 11004, "denies use of MD5 signature algorithm (RFC6151)"),
+    badtls(False, "rc4.badtls.io", 11008, "denies use of RC4 ciphers (RFC 7465)"),
+    badtls(False, "weak-sig.badtls.io", 11004, "denies use of MD5 signature algorithm (RFC 6151)"),
     badtls(False, "rc4-md5.badtls.io", 11009, "denies use of RC4 with MD5 ciphers")
 )
 
