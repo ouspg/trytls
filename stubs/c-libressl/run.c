@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
                 }
 
                 /* Filter away non-printable characters */
-                if (isprint(read_buf[i]) == 0) {
+                if (isprint((unsigned char)read_buf[i]) == 0) {
                         read_buf[i] = '?';
                 }
         }
