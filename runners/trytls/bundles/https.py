@@ -89,17 +89,6 @@ def ssllabs(accept, port, description):
     )
 
 
-@testenv
-def tlsfun(accept, name, description, forced_result):
-    yield Test(
-        accept=accept,
-        description=description,
-        host=name + ".tlsfun.de",
-        port=443,
-        forced_result=forced_result
-    )
-
-
 @contextlib.contextmanager
 def http_server(ssl_context, host="localhost", port=0):
     class Timeout(Exception):
@@ -213,36 +202,6 @@ def badssl_tests():
         badssl(False, "dh512", "denies use of 512 bit Diffie-Hellman (DH)", forced_result)
     )
 
-
-@testgroup
-def tlsfun_tests():
-    forced_result = None
-
-    res = yield Test(
-        accept=True,
-        description="support for TLS server name indication (SNI) #2",
-        host="tlsfun.de",
-        port=443
-    )
-    if res.type != results.Pass:
-        forced_result = results.Skip("could not detect SNI support")
-
-    res = yield Test(
-        accept=False,
-        description="expired + self-signed certificate",
-        host="expired.tlsfun.de",
-        port=443,
-        forced_result=forced_result
-    )
-    if res.type != results.Pass and not forced_result:
-        forced_result = results.Skip("stub didn't reject an expired + self-signed certificate")
-
-    yield testgroup(
-        tlsfun(False, "badcert-edell", "eDellRoot CA #2", forced_result),
-        tlsfun(False, "superfish", "Superfish CA #2", forced_result)
-    )
-
-
 ssllabs_tests = testgroup(
     ssllabs(False, 10443, "protect against Apple's TLS vulnerability CVE-2014-1266"),
     ssllabs(False, 10444, "protect against the FREAK attack"),
@@ -272,20 +231,9 @@ local_tests = testgroup(
     badssl_onlymyca("use only the given CA bundle, not system's")
 )
 
-dshield_tests = testgroup(
-    Test(
-        accept=False,
-        description="protection against POODLE attack",
-        host="sslv3.dshield.org",
-        port=443
-    )
-)
-
 all_tests = testgroup(
     ssllabs_tests,
-    dshield_tests,
     badssl_tests,
-    tlsfun_tests,
     badtls_tests,
     local_tests
 )
