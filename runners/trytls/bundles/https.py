@@ -272,18 +272,8 @@ local_tests = testgroup(
     badssl_onlymyca("use only the given CA bundle, not system's")
 )
 
-dshield_tests = testgroup(
-    Test(
-        accept=False,
-        description="protection against POODLE attack",
-        host="sslv3.dshield.org",
-        port=443
-    )
-)
-
 all_tests = testgroup(
     ssllabs_tests,
-    dshield_tests,
     badssl_tests,
     tlsfun_tests,
     badtls_tests,
