@@ -72,8 +72,6 @@ We are currently working to support the following [backends](backends/):
 * Local backend in the test runner itself (aka `localhost` backend)
 * [SSLLabs](https://ssllabs.com) - protection against
   [certain attacks](backends/ssllabs/README.md)
-* [freakattack.com](https://freakattack.com/) - protection against
-  [FREAK](https://mitls.org/pages/attacks/SMACK#freak)
 * [Trytls backend](backends/trytls) both as docker based
   "run-it-yourself" packaging and as a hosted service provided by us [WIP]
 
