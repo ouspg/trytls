@@ -202,6 +202,7 @@ def badssl_tests():
         badssl(False, "dh512", "denies use of 512 bit Diffie-Hellman (DH)", forced_result)
     )
 
+
 ssllabs_tests = testgroup(
     ssllabs(False, 10443, "protect against Apple's TLS vulnerability CVE-2014-1266"),
     ssllabs(False, 10444, "protect against the FREAK attack"),
