@@ -187,6 +187,7 @@ def badssl_tests():
 
     yield testgroup(
         badssl(False, "expired", "expired certificate", forced_result),
+        badssl(False, "revoked", "revoked certificate", forced_result),
         badssl(False, "wrong.host", "wrong hostname in certificate", forced_result),
         badssl(True, "sha256", "SHA-256 signature algorithm", forced_result),
         badssl(True, "1000-sans", "certificate with 1000 different Subject Alternative Names", forced_result),
@@ -197,9 +198,11 @@ def badssl_tests():
         badssl(False, "untrusted-root", "untrusted root certificate", forced_result),
         badssl(False, "rc4", "denies use of RC4 ciphers (RFC 7465)", forced_result),
         badssl(False, "rc4-md5", "denies use of RC4 with MD5 ciphers", forced_result),
+        badssl(False, "3des", "denies use of 3DES ciphers", forced_result),
         badssl(False, "null", "denies use of null cipher", forced_result),
         badssl(False, "dh480", "denies use of 480 bit Diffie-Hellman (DH)", forced_result),
-        badssl(False, "dh512", "denies use of 512 bit Diffie-Hellman (DH)", forced_result)
+        badssl(False, "dh512", "denies use of 512 bit Diffie-Hellman (DH)", forced_result),
+        badssl(False, "static-rsa", "denies use of static RSA key exchange", forced_result)
     )
 
 ssllabs_tests = testgroup(
