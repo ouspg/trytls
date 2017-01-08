@@ -1,5 +1,5 @@
-platform: OS X 10.11.6
-runner: trytls 0.3.6 (CPython 2.7.12)
+platform: OS X 10.12.2
+runner: trytls 0.3.7 (CPython 3.6.0)
 stub: ./run.sh
  PASS protect against Apple's TLS vulnerability CVE-2014-1266 [reject www.ssllabs.com:10443]
       output: HandshakeFailed (Error_Protocol ("bad SignatureRSA for ecdhparams",True,HandshakeFailure))
@@ -7,14 +7,6 @@ stub: ./run.sh
       output: HandshakeFailed (Error_Packet_Parsing "handshake[HandshakeType_ServerKeyXchg]: parsing error: remaining bytes")
  FAIL protect against the Logjam attack [reject www.ssllabs.com:10445]
       output: 200 OK
-ERROR protect against FREAK attack (test server 1) [reject cve.freakattack.com:443]
-      reason: stub exited with return code 1
-      output: test-http-client-tls: src/Main.hs:(56,15)-(59,28): Non-exhaustive patterns in lambda
-ERROR protect against FREAK attack (test server 2) [reject cve2.freakattack.com:443]
-      reason: stub exited with return code 1
-      output: test-http-client-tls: src/Main.hs:(56,15)-(59,28): Non-exhaustive patterns in lambda
- PASS protection against POODLE attack [reject sslv3.dshield.org:443]
-      output: HandshakeFailed (Error_Protocol ("server version SSL3 is not supported",True,ProtocolVersion))
  PASS support for TLS server name indication (SNI) [accept badssl.com:443]
       output: 200 OK
  PASS self-signed certificate [reject self-signed.badssl.com:443]
@@ -23,9 +15,9 @@ ERROR protect against FREAK attack (test server 2) [reject cve2.freakattack.com:
       output: HandshakeFailed (Error_Protocol ("certificate has expired",True,CertificateExpired))
  PASS wrong hostname in certificate [reject wrong.host.badssl.com:443]
       output: HandshakeFailed (Error_Protocol ("certificate rejected: [NameMismatch \"wrong.host.badssl.com\"]",True,CertificateUnknown))
- PASS SHA-256 signature [accept sha256.badssl.com:443]
+ PASS SHA-256 signature algorithm [accept sha256.badssl.com:443]
       output: 200 OK
- PASS 1000 subjectAltNames [accept 1000-sans.badssl.com:443]
+ PASS certificate with 1000 different Subject Alternative Names [accept 1000-sans.badssl.com:443]
       output: 200 OK
  PASS incomplete chain of trust [reject incomplete-chain.badssl.com:443]
       output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
@@ -35,14 +27,18 @@ ERROR protect against FREAK attack (test server 2) [reject cve2.freakattack.com:
       output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
  PASS DSDTestProvider CA [reject dsdtestprovider.badssl.com:443]
       output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
- PASS support for TLS server name indication (SNI) #2 [accept tlsfun.de:443]
+ PASS untrusted root certificate [reject untrusted-root.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
+ FAIL denies use of RC4 ciphers (RFC 7465) [reject rc4.badssl.com:443]
       output: 200 OK
- PASS expired + self-signed certificate [reject expired.tlsfun.de:443]
-      output: HandshakeFailed (Error_Protocol ("certificate has expired",True,CertificateExpired))
- PASS eDellRoot CA #2 [reject badcert-edell.tlsfun.de:443]
-      output: HandshakeFailed (Error_Protocol ("certificate rejected: [LeafNotV3]",True,CertificateUnknown))
- PASS Superfish CA #2 [reject superfish.tlsfun.de:443]
-      output: HandshakeFailed (Error_Protocol ("certificate rejected: [NameMismatch \"superfish.tlsfun.de\"]",True,CertificateUnknown))
+ FAIL denies use of RC4 with MD5 ciphers [reject rc4-md5.badssl.com:443]
+      output: 200 OK
+ PASS denies use of null cipher [reject null.badssl.com:443]
+      output: HandshakeFailed (Error_Protocol ("expecting server hello, got alert : [(AlertLevel_Fatal,HandshakeFailure)]",True,HandshakeFailure))
+ FAIL denies use of 480 bit Diffie-Hellman (DH) [reject dh480.badssl.com:443]
+      output: 200 OK
+ FAIL denies use of 512 bit Diffie-Hellman (DH) [reject dh512.badssl.com:443]
+      output: 200 OK
  PASS valid certificate Common Name [accept domain-match.badtls.io:10000]
       output: 200 OK
  PASS valid wildcard certificate Common Name [accept wildcard-match.badtls.io:10001]
@@ -65,15 +61,15 @@ ERROR protect against FREAK attack (test server 2) [reject cve2.freakattack.com:
       output: HandshakeFailed (Error_Protocol ("certificate has expired",True,CertificateExpired))
  PASS invalid wildcard certificate Common Name [reject wildcard.mismatch.badtls.io:11007]
       output: HandshakeFailed (Error_Protocol ("certificate rejected: [NameMismatch \"wildcard.mismatch.badtls.io\"]",True,CertificateUnknown))
- FAIL denies use of RC4 ciphers (RFC7465) [reject rc4.badtls.io:11008]
+ FAIL denies use of RC4 ciphers (RFC 7465) [reject rc4.badtls.io:11008]
       output: 200 OK
- FAIL denies use of MD5 signature algorithm (RFC6151) [reject weak-sig.badtls.io:11004]
+ FAIL denies use of MD5 signature algorithm (RFC 6151) [reject weak-sig.badtls.io:11004]
       output: 200 OK
  FAIL denies use of RC4 with MD5 ciphers [reject rc4-md5.badtls.io:11009]
       output: 200 OK
- PASS valid localhost certificate [accept localhost:54997]
+ PASS valid localhost certificate [accept localhost:<temp port>]
       output: 200 OK
- PASS invalid localhost certificate [reject localhost:55000]
+ PASS invalid localhost certificate [reject localhost:<temp port>]
       output: HandshakeFailed (Error_Protocol ("certificate rejected: [NameMismatch \"localhost\"]",True,CertificateUnknown))
  PASS use only the given CA bundle, not system's [reject sha256.badssl.com:443]
       output: HandshakeFailed (Error_Protocol ("certificate has unknown CA",True,UnknownCa))
