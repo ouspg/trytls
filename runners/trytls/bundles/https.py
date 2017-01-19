@@ -214,6 +214,7 @@ badtls_tests = testgroup(
     badtls(True, "wildcard-match.badtls.io", 10001, "valid wildcard certificate Common Name"),
     badtls(True, "san-match.badtls.io", 10002, "support for Subject Alternative Name (SAN)"),
     badtls(True, "dh1024.badtls.io", 10005, "TLS handshake with 1024 bit Diffie-Hellman (DH)"),
+    badtls(True, "no-san.badtls.io", 10005, "Certificate with no Subject Alternative Name (SAN)"),
     badtls(False, "expired-1963.badtls.io", 11000, "certificate expired in year 1963"),
     badtls(False, "future.badtls.io", 11001, "certificate validity starts in future"),
     badtls(False, "domain-mismatch.badtls.io", 11002, "mismatch in certificate's Common Name"),
