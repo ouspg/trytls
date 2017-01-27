@@ -1,0 +1,8 @@
+os: osx
+osx_image: xcode8
+language: generic
+python: "2.7"
+install:
+  - brew install python3 pypy
+  - sudo pip install tox
+script: tox
