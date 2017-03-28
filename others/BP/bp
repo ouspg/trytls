@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [[ ! $1 ]]; then
+  echo "Usage: trytls https bp <command file> <ca-bundle>"
+  exit 1
+fi
+
+cmdf=$1     #for example: "python3 run.py"
+ca=$2       #ca, from command line, for example: "/etc/ssl/certs/ca-certificates.crt"
+host=$3
+port=$4
+tca=$5      #ca, by trytls-runner
+if [[ $tca ]]; then
+  ca=$tca
+fi
+
+eval $cmdf $host $port $ca
+exit $?
