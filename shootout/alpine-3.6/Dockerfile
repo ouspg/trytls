@@ -1,4 +1,4 @@
-FROM alpine:3.1
+FROM alpine:3.6
 
 RUN apk -U upgrade && \
     apk add \
@@ -31,7 +31,7 @@ RUN /usr/lib/jvm/java-1.7-openjdk/bin/javac Run.java
 RUN pip install requests
 
 # PHP 5
-RUN apk add php
+RUN apk add php5
 
 # Default workdir for easier manual stub testing
 WORKDIR /root/trytls/stubs/
