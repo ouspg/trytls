@@ -30,8 +30,13 @@ RUN /usr/lib/jvm/java-1.7-openjdk/bin/javac Run.java
 # Python 2
 RUN pip install requests
 
+# Python 3
+
+RUN apk add python3
+
 # PHP 5
 RUN apk add php5
 
 # Default workdir for easier manual stub testing
+COPY shootout.sh /root/trytls/stubs/
 WORKDIR /root/trytls/stubs/
