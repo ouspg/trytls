@@ -4,7 +4,7 @@ RUN apt-get -y update && \
   apt-get -y install \
   software-properties-common
 
-RUN add-apt-repository ppa:fkrull/deadsnakes
+RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get -y update && \
   apt-get -y install \
   python3.5 \
