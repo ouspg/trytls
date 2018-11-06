@@ -20,7 +20,7 @@ executable test-http-client-tls
   build-depends:       base >= 4.7 && < 5
                      , bytestring
                      , connection
-                     , http-client
+                     , http-client >= 0.5
                      , http-client-tls
                      , http-types
                      , tls
