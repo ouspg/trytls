@@ -25,7 +25,7 @@ import           Network.TLS                (ClientParams, clientShared,
                                              clientSupported,
                                              defaultParamsClient, sharedCAStore,
                                              supportedCiphers)
-import           Network.TLS.Extra.Cipher   (ciphersuite_strong)
+import           Network.TLS.Extra.Cipher   (ciphersuite_default)
 
 main :: IO ()
 main = do
@@ -86,6 +86,6 @@ injectCA caBundle p =
 
 injectCiphers :: ClientParams -> ClientParams
 injectCiphers p =
-  p { clientSupported = supported { supportedCiphers = ciphersuite_strong } }
+  p { clientSupported = supported { supportedCiphers = ciphersuite_default } }
   where
     supported = clientSupported p
