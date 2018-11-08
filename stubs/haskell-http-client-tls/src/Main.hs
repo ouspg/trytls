@@ -8,7 +8,9 @@ import           Data.ByteString.Char8      (unpack)
 import           System.Environment         (getArgs, getProgName)
 import           System.Exit                (exitFailure, exitSuccess)
 
-import           Network.HTTP.Client        (HttpException (..), httpLbs,
+import           Network.HTTP.Client        (HttpException (..),
+                                             HttpExceptionContent(..),
+                                             httpLbs,
                                              newManager, parseRequest,
                                              responseStatus)
 import           Network.HTTP.Client.TLS    (mkManagerSettings)
@@ -23,7 +25,7 @@ import           Network.TLS                (ClientParams, clientShared,
                                              clientSupported,
                                              defaultParamsClient, sharedCAStore,
                                              supportedCiphers)
-import           Network.TLS.Extra.Cipher   (ciphersuite_all)
+import           Network.TLS.Extra.Cipher   (ciphersuite_default)
 
 main :: IO ()
 main = do
@@ -54,7 +56,7 @@ main = do
 
   _ <- catch (doGet request manager)
              (\exp' -> case exp' of
-               TlsExceptionHostPort e _ _ -> do
+               HttpExceptionRequest _req (InternalException e) -> do
                  print e
                  putStrLn "REJECT"
                  exitSuccess
@@ -84,6 +86,6 @@ injectCA caBundle p =
 
 injectCiphers :: ClientParams -> ClientParams
 injectCiphers p =
-  p { clientSupported = supported { supportedCiphers = ciphersuite_all } }
+  p { clientSupported = supported { supportedCiphers = ciphersuite_default } }
   where
     supported = clientSupported p
