@@ -18,6 +18,18 @@ if sys.version_info < py_required:
         format_version(sys.version_info)
     ))
 
+
+install_requires=[
+    "colorama",
+    "oscrypto",
+    "certbuilder"
+]
+
+# Python 3.8 removed the deprecated `platform.linux_distribution` function,
+# recommending use of the 'distro' module for this purpose.
+if sys.version_info > (3, 8, 0):
+    install_requires.extend(["distro"])
+
 # Import the local version of the package
 found = imp.find_module("trytls", [os.path.join(os.path.dirname(__file__), "runners")])
 trytls = imp.load_module("trytls", *found)
@@ -42,9 +54,5 @@ setup(
             "json=trytls.formatters.json:formatter"
         ]
     },
-    install_requires=[
-        "colorama",
-        "oscrypto",
-        "certbuilder"
-    ]
+    install_requires=install_requires
 )

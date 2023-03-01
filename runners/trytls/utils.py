@@ -3,7 +3,6 @@ from __future__ import print_function, unicode_literals
 import os
 import sys
 import shutil
-import platform
 import tempfile
 import functools
 import contextlib
@@ -15,6 +14,17 @@ except ImportError:
     # for Python 2.7.
     from pipes import quote as _quote
 
+# Python 3.8+ removed platform.linux_distribution(). The 'distro' module
+# can be used as a replacement, but only on Linux, so we catch ImportError
+# and act accordingly.
+# See https://stackoverflow.com/a/64106589/715524
+import platform
+using_distro = False
+try:
+    import distro
+    using_distro = True
+except ImportError:
+    pass
 
 def format_command(args):
     r"""
@@ -42,12 +52,17 @@ def platform_info():
     """
 
     if sys.platform.startswith("linux"):
-        distname, version, _ = platform.linux_distribution()
-        if not distname:
-            return "Linux"
-        if not version:
-            return "Linux ({})".format(distname)
-        return "Linux ({} {})".format(distname, version)
+        if not using_distro:
+            distname, version, _ = platform.linux_distribution()
+            if not distname:
+                return "Linux"
+            if not version:
+                return "Linux ({})".format(distname)
+            return "Linux ({} {})".format(distname, version)
+        else:
+            distname = distro.name()
+            version = distro.version()
+            return "Linux ({} {})".format(distname, version)
     elif sys.platform == "darwin":
         version, _, _ = platform.mac_ver()
         if version.startswith("10."):
