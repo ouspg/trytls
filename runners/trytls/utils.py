@@ -4,6 +4,7 @@ import os
 import sys
 import shutil
 import platform
+import distro
 import tempfile
 import functools
 import contextlib
@@ -42,7 +43,7 @@ def platform_info():
     """
 
     if sys.platform.startswith("linux"):
-        distname, version, _ = platform.linux_distribution()
+        distname, version, _ = distro.name(), distro.version(), distro.id()
         if not distname:
             return "Linux"
         if not version:
